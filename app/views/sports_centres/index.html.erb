@@ -1,0 +1,36 @@
+<section class="container-fluid">
+  <div class="container">
+      <div class="row h-100">
+        <div class="col-4 overflow-y">
+            <div class="card-columns">
+                <% @sports_centres.each do |sports_centre| %>
+                    <div class="card">
+                      <div class="card-body">
+                        <h4 class="card-title"><%= sports_centre.title %></h4>
+                        <p class="card-text"><i class="fa fa-map-marker-alt"></i><%= sports_centre.description %></p>
+                        <p class="card-text"><%= sports_centre.address.full_address %></p>
+                      </div>
+                      <div class="card-footer">
+                        <small class="text-muted"><%= sports_centre.phone %></small>
+                      </div>
+                    </div>
+                <% end %>
+              </div>
+        </div>
+        <div class="col-8 overflow-y">
+          <div class="container">
+            <div class="row">
+              <div class="col-12">
+                <img class="card-img-top" src="..." alt="Card image cap">
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12">
+              </div>
+            </div>
+          </div>
+          <!-- Basic form, address is just a virtual field used for searching the address on Google Maps API -->
+        </div>
+      </div>
+  </div>
+</section>

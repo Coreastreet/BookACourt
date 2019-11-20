@@ -1,0 +1,51 @@
+
+// if the session of bookin exist?
+<% if session[:bookings] %>
+var bookings = <%= raw session[:bookings] %>;
+
+// newly selected date value
+var newDate = document.querySelector('#my_hidden_input').value;
+var arr = newDate.split('/');
+var formattedDate = `${arr[2]}-${arr[0]}-${arr[1]}`
+// reverse format
+var i = 0;
+var j = 0;
+var booking_start;
+var booking_end;
+var columnArray;
+var booked = false;
+var columnNumber;
+var table = document.querySelector('table.table-sm');
+clearTable(table);
+while (i < bookings.length) {
+  if (bookings[i].startDate === formattedDate) {
+    j = 0;
+    booking_start = bookings[i].startTime.substr(11,5);
+    booking_end = bookings[i].endTime.substr(11,5);
+    columnArray = document.querySelectorAll(`[data-court="${bookings[i].court_no}"]`);
+    while (j < columnArray.length) {
+      if (columnArray[j].dataset.time == booking_start) {
+        booked = true;
+      }
+      if (columnArray[j].dataset.time == booking_end) {
+        booked = false;
+      }
+      if (booked) {
+        columnArray[j].classList.add("table-active");
+      }
+      j++;
+    }
+  }
+  i++;
+}
+<% end %>
+//var bookings = JSON.parse(bookings_json);
+
+function clearTable(table) {
+  var bookedTimes = table.querySelectorAll('.table-active');
+  var i = 0;
+  while (i < bookedTimes.length) {
+    bookedTimes[i].classList.remove('table-active');
+    i++;
+  }
+}

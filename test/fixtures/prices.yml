@@ -1,0 +1,19 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  booking: one
+  facility: one
+  type: 1
+  casual: false
+  purpose: 1
+  description: MyString
+  hourlyCost: 9.99
+
+two:
+  booking: two
+  facility: two
+  type: 1
+  casual: false
+  purpose: 1
+  description: MyString
+  hourlyCost: 9.99

@@ -1,0 +1,110 @@
+// home#index page
+.bg-home-image-1 {
+  background-image: url(asset-path('emptyCourt2.jpg'));
+  background-size: 100% 25rem;
+}
+
+.min-height {
+  height: 25rem;
+}
+
+.home-text {
+  color: white;
+}
+
+.fit-content {
+  height: auto;
+}
+
+.padding-top {
+  padding-top: 6rem;
+}
+
+.top-section-margin {
+  margin-top: 2rem;
+}
+
+// search-bar
+
+.form-control:focus {
+  box-shadow: none;
+}
+
+.form-control-underlined {
+  border-width: 0;
+  border-bottom-width: 1px;
+  border-radius: 0;
+  padding-left: 0;
+}
+
+#popularInput, #popularInput::placeholder {
+  font-size: 2rem;
+  margin: .75rem 0;
+  color: #3d64ff;
+  font-weight: 700;
+}
+
+#popularInput:focus::placeholder {
+  color: #aaa;
+}
+
+.full-width {
+  width: 100%;
+}
+
+// menu bar of home
+
+.menu > .nav-item > a {
+  color: #6f7287;
+  border: 0px;
+}
+
+.menu > .nav-item > a:hover {
+  color: #39364f; // dark blue
+  border-bottom: 2px solid #39364f;
+}
+
+.menu > .nav-item > a.active:hover {
+  color: #3d64ff;
+  border-bottom: 2px solid #3d64ff;
+}
+
+.nav-tabs {
+  border-bottom: 0px;
+}
+
+.nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link {
+  color: #3d64ff;
+  border-bottom: 2px solid #3d64ff;
+}
+
+.tab-content {
+
+}
+
+li.btn-custom {
+  border: 1px solid #867b89;
+  border-radius: 4px;
+}
+
+li.btn-custom {
+  color: rgba(0, 0, 0, 0.5);
+}
+
+li.btn-custom:hover {
+  color: rgba(0, 0, 0, 0.7);
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.hoverBlack {
+  all: unset;
+}
+
+.dropdown-item{
+  width: max-content;
+  white-space: normal;
+}
+
+.dropdown-margin-top {
+  margin-top: 2.5rem;
+}

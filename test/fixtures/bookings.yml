@@ -1,0 +1,29 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  guest: one
+  startTime: 2019-10-30 08:48:36
+  endTime: 2019-10-30 08:48:36
+  startDate: 2019-10-30
+  endDate: 2019-10-30
+  court: one
+  type: 1
+  purpose: 1
+  interval: 1
+  court: one
+  user: one
+  cost: 9.99
+
+two:
+  guest: two
+  startTime: 2019-10-30 08:48:36
+  endTime: 2019-10-30 08:48:36
+  startDate: 2019-10-30
+  endDate: 2019-10-30
+  court: two
+  type: 1
+  purpose: 1
+  interval: 1
+  court: two
+  user: two
+  cost: 9.99

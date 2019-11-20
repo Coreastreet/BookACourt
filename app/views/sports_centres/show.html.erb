@@ -1,0 +1,65 @@
+<section class="container-fluid">
+  <div class="container">
+      <div class="row">
+        <div class="col-12">
+            <%= @sports_centre.title %>
+        </div>
+      </div>
+  </div>
+</section>
+<section class="container-fluid">
+  <div class="container">
+      <div class="row h-100">
+        <div class="col-3">
+            <div class="row">
+              <div class="col">
+                <div id="datepicker"></div>
+                <input type="hidden" id="my_hidden_input">
+              </div>
+            </div>
+        </div>
+        <div class="col-9 overflow-y">
+          <!-- timetable for sports_centre -->
+          <table class="table table-sm table-bordered parentWidth">
+            <thead>
+              <tr>
+                <th scope="col" class="moreEqualTH">#</th>
+                <% [*1..@sports_centre.numberOfCourts].each do |number| %>
+                  <th scope="col" class="equalTH">Court no.<%= number %></th>
+                <% end %>
+              </tr>
+            </thead>
+            <tbody>
+              <% (6.hours..23.5.hours).step(30.minutes).each do |hour| %>
+                <tr>
+                  <th scope="row" class="p-0"><sup><%= Time.at(hour).gmtime.strftime('%H:%M') %></sup></th>
+                  <% [*1..@sports_centre.numberOfCourts].each do |i| %>
+                      <td data-time=<%= Time.at(hour).gmtime.strftime('%H:%M') %> data-court = <%= i %>>&nbsp;</td>
+                  <% end %>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+          <div class='row'>
+            <div class="col-12" id="opening_hours">
+              Opening hours:
+            </div>
+            <div class="col-12 times" id="Sun">
+            </div>
+            <div class="col-12 times" id="Mon">
+            </div>
+            <div class="col-12 times" id="Tue">
+            </div>
+            <div class="col-12 times" id="Wed">
+            </div>
+            <div class="col-12 times" id="Thu">
+            </div>
+            <div class="col-12 times" id="Fri">
+            </div>
+            <div class="col-12 times" id="Sat">
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+</section>

@@ -1,0 +1,48 @@
+<div class="container-fluid">
+  <nav class="pl-md-0 navbar container navbar-light navbar-expand-lg shadow-sm bg-white m-0"><a href="index.html" class="navbar-brand">BookACourt</a>
+      <button type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler"><span class="navbar-toggler-icon"></span></button>
+        <div id="navbarSupportedContent" class="collapse navbar-collapse pr-0">
+          <ul class="navbar-nav ml-auto float-none justify-content-end">
+              <li class="nav-item nav-grey"><%= link_to '(New Sports Centres)', new_sports_centre_path, class: "nav-link" %></li>
+              <li class="nav-item nav-grey"><%= link_to '(Browse Sports Centres)', sports_centres_path, class: "nav-link" %></li>
+              <% if !current_user %>
+                <li class="nav-item nav-grey"><%= link_to 'Log In', login_path, class: "nav-link" %></li>
+                <li class="nav-item mr-md-2 nav-grey"><a href="#" class="nav-link">Register</a></li>
+             <% else %>
+              <li class="dropdown d-flex">
+                <a href="#" class="nav-link" data-toggle="dropdown"><i class="fa fa-user-circle mr-md-2"></i>My Playground</a>
+                <div class="dropdown-menu dropdown-menu-right container">
+                  <div class="row mx-0 my-3">
+                    <%= image_tag("cameraIcon.png", size: "72x72", class: "col-4") %>
+                    <div class="col-8 pl-0">
+                      <div class="row align-self-center mx-0">
+                        <h5 class="col font-weight-bold px-0 mb-0 dropdown-margin-top" href="#">
+                          <%= current_user.email %>
+                        </h5>
+                      </div>
+                      <div class="row align-self-bottom mx-0">
+                        <a class="col px-0" href="#">
+                          Add a profile picture
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="dropdown-divider row"></div>
+                  <div class="row mx-0 dropdown-item">
+                    <% if @sports_centre.id %>
+                    <%= link_to "Manage Bookings", sports_centre_path(@sports_centre), class: "dropdown-item" %>
+                    <% end %>
+                  </div>
+                  <div class="row mx-0 dropdown-item">
+                    <a class="dropdown-item" href="#">Messages</a>
+                  </div>
+                  <div class="row mx-0 dropdown-item">
+                    <%= link_to "Sign out", logout_path, method: "delete", class: "dropdown-item" %>
+                  </div>
+                </div>
+              </li>
+              <% end %>
+          </ul>
+        </div>
+  </nav>
+</div>
