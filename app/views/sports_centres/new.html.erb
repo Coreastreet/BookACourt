@@ -11,12 +11,21 @@
                       <div class="form-row nested mt-3">
                         <div class="col-md-8">
                           <div class="row">
+                            <%= f.label :email, class: 'col-12' %>
                             <%= f.email_field :email, class: 'col-12 form-control mandatory', required: true, html: { autocomplete: "username" } %>
                           </div>
+                        </div>
+                      </div>
+                      <div class="form-row nested mt-3">
+                        <div class="col-md-8">
                           <div class="row">
                             <%= f.label :password, class: 'col-12' %>
                             <%= f.password_field :password, class: 'col-12 form-control mandatory', required: true, html: { autocomplete: "new-password" } %>
                           </div>
+                        </div>
+                      </div>
+                      <div class="form-row nested mt-3">
+                        <div class="col-md-8">
                           <div class="row">
                             <%= f.label :password, class: 'col-12' %>
                             <%= f.password_field :password_confirmation, class: 'col-12 form-control mandatory', required: true, html: { autocomplete: "new-password" } %>
@@ -24,7 +33,6 @@
                         </div>
                       </div>
                     <div class="form-row btn-toolbar p-0 mt-4">
-                      <%= f.label :email, class: 'col-12' %>
                         <button type="button" class="btn btn-light previous"><i class="fa fa-angle-left mr-2"></i>Previous</button>
                         <button type="button" class="btn btn-light ml-auto next">Next<i class="fa fa-angle-right ml-2"></i></button>
                     </div>

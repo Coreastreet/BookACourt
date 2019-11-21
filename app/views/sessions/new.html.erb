@@ -1,7 +1,23 @@
 <section class="container-fluid">
   <div class="container py-3">
     <h1>Log In</h1>
-    <%= form_with scope: :login, url: login_path do |f| %>
+    <%= form_with scope: :user, url: login_path do |f| %>
+      <div>
+        <%= f.label :email %>
+        <%= f.text_field :email, html: {autocomplete: "username"} %>
+      </div>
+
+      <div>
+        <%= f.label :password %>
+        <%= f.password_field :password, html: {autocomplete: "current-password"} %>
+      </div>
+      <div>
+        <%= f.submit "Log In" %>
+      </div>
+    <% end %>
+
+    <h1>Admin Log In</h1>
+  <%= form_with scope: :sports_centre, url: login_path, local: true do |f| %>
       <div>
         <%= f.label :email %>
         <%= f.text_field :email, html: {autocomplete: "username"} %>

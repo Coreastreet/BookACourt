@@ -9,7 +9,7 @@ class SportsCentresController < ApplicationController
     new_address = Address.create(address_params[:address])
     new_sports_centre = SportsCentre.create(sports_centre_params)
 
-    new_sports_centre.email.downcase! 
+    new_sports_centre.email.downcase!
 
     new_sports_centre.update(address: new_address)
     new_sports_centre.images.attach(sports_centre_params[:images])
@@ -20,7 +20,7 @@ class SportsCentresController < ApplicationController
     # format the full_address from street_address, suburb, state and postcode
     if new_address.full_address.blank?
       full_address = "#{new_address.street_address}, #{new_address.suburb} #{new_address.state} #{new_address.postcode}"
-      new_address.update(full_address: full_address);
+      new_address.full_address = full_address;
     end
     # new_sports_centre.images.attach(params[:sports_centre][:images])
     if new_sports_centre.save! && new_address.save!
@@ -28,8 +28,6 @@ class SportsCentresController < ApplicationController
     else
       render :new
     end
-
-    redirect_to sports_centre_path(new_sports_centre.id)
   end
 
   def delete
