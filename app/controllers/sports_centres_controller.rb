@@ -12,11 +12,11 @@ class SportsCentresController < ApplicationController
     new_sports_centre.email.downcase!
 
     new_sports_centre.update(address: new_address)
-    new_sports_centre.images.attach(sports_centre_params[:images])
+    new_sports_centre.images.attach(params[:sports_centre][:images])
     # convert the string of opening hours to json before assignment
     jsonAddress = JSON.parse(opening_hour_params[:opening_hours])
     new_sports_centre.update(opening_hours: jsonAddress)
-
+    new_sports_centre.update(numberOfCourts: 6)
     # format the full_address from street_address, suburb, state and postcode
     if new_address.full_address.blank?
       full_address = "#{new_address.street_address}, #{new_address.suburb} #{new_address.state} #{new_address.postcode}"
@@ -24,7 +24,7 @@ class SportsCentresController < ApplicationController
     end
     # new_sports_centre.images.attach(params[:sports_centre][:images])
     if new_sports_centre.save! && new_address.save!
-      redirect_to sports_centre_path(new_sports_centre)# show for sports_centre
+      redirect_to admin_sports_centre_path(new_sports_centre)# show for sports_centre
     else
       render :new
     end
@@ -34,8 +34,9 @@ class SportsCentresController < ApplicationController
   end
 
   def index
-    console
+    # console
     @sports_centres = SportsCentre.all
+    @arr = ["Half-Court", "Full-Court"]
   end
 
   def show
@@ -58,6 +59,25 @@ class SportsCentresController < ApplicationController
     end
   end
 
+  def user_show
+    console
+    @arr = []
+    @sports_centre = SportsCentre.find(params[:id])
+    @bookings = @sports_centre.bookings
+    (1..2).each do |number|
+      arr2 = []
+      @bookings.where(court_no: number).each do |booking|
+        arr2 += calculateTimes(booking)
+      end
+      @arr.push(arr2)
+    end
+    @arr = @arr.to_json.html_safe
+    respond_to do |format|
+      format.js
+      # format.html
+    end
+  end
+
   def edit
   end
 
@@ -73,4 +93,21 @@ class SportsCentresController < ApplicationController
     def opening_hour_params
         params.require(:sports_centre).permit(:opening_hours)
     end
+
+    def id_params
+        params.permit(:id)
+    end
+
+    def calculateTimes(booking)
+      arrayOfTime = []
+      start = booking.startTime
+      finish = booking.endTime
+      while (!start.eql?(finish)) do
+        time = start.strftime("%R")
+        arrayOfTime.push(time)
+        start += 30.minutes
+      end
+      arrayOfTime
+    end
+
 end

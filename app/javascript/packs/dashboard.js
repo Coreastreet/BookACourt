@@ -30,19 +30,3 @@ $(document).ready( function () {
         $('.dropdown-toggle').dropdown()
       });
 });
-
-
-/**
-$.ajax({
-   type: "GET",
-   url: "/sports_centres/19",
-   data: {
-       info: info, // < note use of 'this' here
-   },
-   success: function(result) {
-       alert('ok');
-   },
-   error: function(result) {
-       alert('error');
-   }
- }); */

@@ -15,6 +15,10 @@ require("packs/autocomplete")
 require("packs/select_table")
 require("packs/multiform")
 require("packs/dashboard")
+require("packs/clock")
+require("packs/map")
+//require("leaflet-geosearch")
+import { OpenStreetMapProvider } from 'leaflet-geosearch';
 import "bootstrap"
 import "./custom"
 import "./styles"

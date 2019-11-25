@@ -1,10 +1,10 @@
 <section class="container-fluid">
   <div class="container">
-      <div class="row h-100">
-        <div class="col-4 overflow-y">
+      <div class="row vh-100">
+          <div class="col-4 overflow-y">
             <div class="card-columns">
                 <% @sports_centres.each do |sports_centre| %>
-                    <div class="card">
+                    <div class="card" data-id=<%= sports_centre.id %>>
                       <div class="card-body">
                         <h4 class="card-title"><%= sports_centre.title %></h4>
                         <p class="card-text"><i class="fa fa-map-marker-alt"></i><%= sports_centre.description %></p>
@@ -16,20 +16,95 @@
                     </div>
                 <% end %>
               </div>
-        </div>
-        <div class="col-8 overflow-y">
-          <div class="container">
+          </div>
+          <div class="col-8 overflow-y px-0">
+            <div id="mapid"></div>
+          </div>
+          <div class="col-8 overflow-y px-0 d-none">
             <div class="row">
               <div class="col-12">
-                <img class="card-img-top" src="..." alt="Card image cap">
+                    <div class="row">
+                        <div class="col-7">
+                            <div class="row">
+                               <div class="col-12 title pr-0">
+                                  <h3></h3>
+                                  <hr>
+                               </div>
+                            </div>
+                            <div class="row mx-0">
+                              <div class="col-1 mb-3 pr-0">
+                                <i class="fa fa-map-marker fa-2x"></i>
+                              </div>
+                              <div class="col-11 pr-0">
+                                <p class="address"></p>
+                              </div>
+                            </div>
+                           <div class="row mx-0">
+                             <div class="col-1 mb-3 pr-0">
+                               <i class="fa fa-clock-o fa-2x"></i>
+                             </div>
+                           </div>
+                           <div class="row mx-0">
+                             <div class="col-1 mb-3 pr-0">
+                               <i class="fa fa-usd fa-2x"></i>
+                             </div>
+                           </div>
+                        </div>
+                        <div class="col-5 px-0">
+                          <div class="card">
+                            <div class="input-group date card-title" data-provide="datepicker">
+                                <input type="text" class="form-control">
+                                <div class="input-group-addon">
+                                  <i class="fa fa-calendar" aria-hidden="true"></i>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                              <canvas id="canvas" width="400" height="400" style="background-color:lightgrey">
+                              </canvas>
+                              <hr class = "my-2">
+                              <button type="button" class="btn btn-success btn-block below-clock mt-3">Book now</button>
+                            </div>
+                          </div>
+                        </div>
+                    </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12 table-responsive-md">
+                  <table class="table table-sm table-bordered parentWidth">
+                    <thead>
+                      <tr>
+                        <th scope="col" class="moreEqualTH">#</th>
+                        <th scope="col" class="equalTH"><%= @arr[0] %></th>
+                        <th scope="col" class="equalTH"><%= @arr[1] %></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <% (6.hours..23.5.hours).step(30.minutes).each do |hour| %>
+                        <tr>
+                          <th scope="row" class="p-0"><sup><%= Time.at(hour).gmtime.strftime('%H:%M') %></sup></th>
+                          <% (0..1).each do |i| %>
+                              <td data-time=<%= Time.at(hour).gmtime.strftime('%H:%M') %> data-court-type = <%= @arr[i] %>>&nbsp;</td>
+                          <% end %>
+                        </tr>
+                      <% end %>
+                    </tbody>
+                  </table>
               </div>
             </div>
             <div class="row">
               <div class="col-12">
+                <p class="card-title">Half court:</p>
+                <h3 class="card-text font-weight-bold text-center"></h3>
+                <hr>
+                <p class="card-title">Full court:</p>
+                <h3 class="card-text font-weight-bold text-center"></h3>
+              </div>
+              <div class="col-12">
+                <img src="#", class="resize"/>
               </div>
             </div>
           </div>
-          <!-- Basic form, address is just a virtual field used for searching the address on Google Maps API -->
         </div>
       </div>
   </div>

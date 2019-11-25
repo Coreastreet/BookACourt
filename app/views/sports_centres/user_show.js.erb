@@ -1,0 +1,251 @@
+
+var image_url = "<%= url_for(@sports_centre.images[0]) %>";
+var prices = document.querySelectorAll("h3.card-text");
+var title = document.querySelector(".title h3");
+var image = document.querySelector("img.resize");
+var address = document.querySelector(".address");
+
+address.innerText = "<%= @sports_centre.address.full_address %>"
+
+<% if @sports_centre.images.attached? %>
+  image.src = image_url;
+  title.innerText = "<%= @sports_centre.title.html_safe %>";
+  prices[0].innerText = "<%= @sports_centre.opening_hours["Sun"]["openingHour"] %>";
+  prices[1].innerText = "<%= @sports_centre.opening_hours["Sun"]["closingHour"] %>";
+<% else %>
+  var image = document.querySelector("img.resize").src = "";
+<% end %>
+
+// creating the array of times
+var halfCourtsBooked = new Object();
+var availability = document.querySelectorAll('sup');
+var counter = 0;
+while (counter < availability.length) {
+  halfCourtsBooked[availability[counter].innerText] = true;
+  counter++;
+}
+
+/*
+   iterate through all bookings belonging to the same court (can't overlap)
+   set time to true i.e. booked, if the time property is within the start and end time of booking
+   iterate over another court's bookings
+   if another booking is over another time period already set to false, leave it as false
+   meaning (at least one court is available for booking).
+   Otherwise, leave it as true if the time is within the booking start and endTime.
+*/
+counter = 0;
+var counter2;
+var arrayBooked = <%= @arr %>;
+var counter3;
+
+// console.log(arrayBooked);
+
+// use sets to tell the difference
+var set1 = new Set(Object.keys(halfCourtsBooked));
+var set2;
+var difference;
+
+while (counter < arrayBooked.length) {
+  counter2 = 0;
+  set2 = new Set(arrayBooked[counter]); // counter
+  difference = ([...set1].filter(x => !set2.has(x)));
+  // console.log(difference);
+  while (counter2 < difference.length) { //counter
+    //console.log(arrayBooked[counter]);
+      // counter3 = 0;
+    halfCourtsBooked[difference[counter2]] = false;
+    counter2++;
+  }
+  counter++;
+}
+
+//console.log(halfCourtsBooked);
+
+// on click of new sports_centre, create a new clock
+
+var canvas = document.querySelector("#canvas");
+var ctx = canvas.getContext("2d");
+var radius = canvas.height / 2;
+var now = new Date();
+//ctx.translate(radius, radius);
+radius = radius * 0.80;
+//setInterval(drawClock, 1000);
+//ctx.moveTo(0, 0);
+drawClock();
+
+if (now.getHours() < 12) {
+    drawBookedTimes(ctx, radius, halfCourtsBooked, 'AM');
+} else {
+    drawBookedTimes(ctx, radius, halfCourtsBooked, 'PM');
+};
+
+//console.log(hello);
+
+// set click listener on the canvas for the buttons.
+canvas.onclick = function (event)
+{
+  if (event.region == "AM") {
+      // alert('You clicked ' + event.region);
+      drawBookedTimes(ctx, radius, halfCourtsBooked, 'AM');
+  } else if (event.region == "PM") {
+    //  alert('You clicked ' + event.region);
+      drawBookedTimes(ctx, radius, halfCourtsBooked, 'PM');
+  }
+}
+
+
+function drawBookedTimes(ctx, radius, bookingSchedule, meridiem) {
+  var now = new Date();
+  var transparentRed = "rgba(255,0,0,1)";
+  var transparentGreen = "rgba(0,128,0,1)";
+
+  var days = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+  var currentDay = days[now.getDay()];
+  var sports_centre = JSON.parse('<%= @sports_centre.to_json.html_safe %>');
+  var openingHour = sports_centre["opening_hours"][currentDay]["openingHour"];
+  var closingHour = sports_centre["opening_hours"][currentDay]["closingHour"];
+  var currentTime = now.toTimeString().substring(0,5);
+  if (now.getMinutes() >= 30) {
+    currentTime = currentTime.replace(currentTime.substr(2), ":30");
+    // console.log(now.getMinutes());
+  } else {
+    currentTime = currentTime.replace(currentTime.substr(2), ":00");
+  }
+  //console.log(currentTime);
+  if (meridiem == 'AM') {
+  // iterate over times; if book shade in red an half-hour arc
+    drawClock();
+    for (const time in bookingSchedule) {
+      if ((time < "12:00") && (time > openingHour) && (time >= currentTime)) {
+        //console.log(time, openingHour);
+        if (halfCourtsBooked[time] == true) {
+          drawHalfHourBooking(ctx, radius, time, transparentRed);
+        } else {
+          drawHalfHourBooking(ctx, radius, time, transparentGreen);
+        }
+        //console.log(time);
+      }
+    }
+  } else {
+    drawClock();
+    for (const time in bookingSchedule) {
+      if (time >= "12:00" && (time < closingHour) && (time >= currentTime)) {
+        if (halfCourtsBooked[time] == true) {
+          drawHalfHourBooking(ctx, radius, time, transparentRed);
+        } else {
+          drawHalfHourBooking(ctx, radius, time, transparentGreen);
+        }
+      }
+    }
+  }
+}
+// draw a red arc for an half-hour booking
+function drawHalfHourBooking(ctx, radius, startTime, colour) {
+    // if '30' exists in time, replace with five, otherwise leave as is
+    // then parse string into a decimal to be divided by 0.5 intervals
+    var newTime = startTime.replace(':3', ':5').replace(':', '.');
+    var intervals = parseFloat(newTime);
+    var counter = (intervals/0.5) - 6;
+    //console.log(counter);
+    ctx.beginPath();
+    ctx.arc(0, 0, radius-5, ((2*Math.PI*counter)+0.2)/24, ((2*Math.PI*(counter+1))-0.2)/24);
+    ctx.strokeStyle = colour;
+    ctx.lineWidth = 8;
+    ctx.stroke();
+}
+
+function drawClock() {
+  drawFace(ctx, radius);
+  drawNumbers(ctx, radius);
+  drawBottomButtons(ctx, radius);
+  drawTime(ctx, radius, now);
+  //drawTime(ctx, radius);
+}
+
+function drawFace(ctx, radius) {
+  //var grad;
+  ctx.beginPath();
+  ctx.arc(0, 0, radius, 0, 2*Math.PI);
+  ctx.strokeStyle = "black";
+  ctx.fillStyle = 'white';
+  ctx.fill();
+  ctx.lineWidth = 2;
+  ctx.stroke();
+  ctx.beginPath();
+  ctx.arc(0, 0, radius*0.025, 0, 2*Math.PI);
+  ctx.fillStyle = 'black';
+  ctx.fill();
+}
+
+function drawNumbers(ctx, radius) {
+  var ang;
+  var num;
+  ctx.font = radius*0.15 + "px arial";
+  ctx.textBaseline="middle";
+  ctx.textAlign="center";
+  ctx.fillStyle = 'black';
+  for(num = 1; num < 13; num++){
+    ang = num * Math.PI / 6;
+    ctx.rotate(ang);
+    ctx.translate(0, -radius*0.80);
+    ctx.rotate(-ang);
+    ctx.fillText(num.toString(), 0, 0);
+    ctx.rotate(ang);
+    ctx.translate(0, radius*0.80);
+    ctx.rotate(-ang);
+  }
+}
+
+function drawHand(ctx, pos, length, width) {
+    ctx.beginPath();
+    ctx.lineWidth = width;
+    ctx.lineCap = "round";
+    ctx.moveTo(0,0);
+    ctx.rotate(pos);
+    ctx.lineTo(0, -length);
+    ctx.strokeStyle = "black";
+    ctx.stroke();
+    ctx.rotate(-pos);
+}
+
+function drawTime(ctx, radius, now) {
+  var hour = now.getHours();
+  var minute = now.getMinutes();
+
+  hour = hour%12;
+  hour = (hour*Math.PI/6)+(minute*Math.PI/(6*60));
+  drawHand(ctx, hour, radius*0.65, radius*0.03);
+  ctx.lineCap = "butt";
+}
+
+function drawBottomButtons(ctx, radius) {
+  //ctx.moveTo(-radius, radius);
+  // draw circle of left side;
+  ctx.beginPath();
+  ctx.arc(-radius*0.8, radius*1.05, radius * 0.2, 0, 2*Math.PI);
+  ctx.strokeStyle = "white";
+  ctx.fillStyle = "white";
+  ctx.fill();
+  ctx.addHitRegion({id: "AM"});
+  ctx.lineWidth = 2;
+  ctx.stroke();
+  //ctx.strokeStyle = "black";
+  ctx.fillStyle = "black";
+  //ctx.moveTo(0,0);
+  ctx.fillText("AM", -radius*0.8, radius*1.05);
+
+  // draw circle of the right side;
+  ctx.beginPath();
+  ctx.arc(radius*0.8, radius*1.05, radius * 0.2, 0, 2*Math.PI);
+  ctx.strokeStyle = "white";
+  ctx.fillStyle = "white";
+  ctx.fill();
+  ctx.addHitRegion({id: "PM"});
+  ctx.lineWidth = 2;
+  ctx.stroke();
+  //ctx.strokeStyle = "black";
+  ctx.fillStyle = "black";
+  //ctx.moveTo(0,0);
+  ctx.fillText("PM", radius*0.8, radius*1.05);
+
+}

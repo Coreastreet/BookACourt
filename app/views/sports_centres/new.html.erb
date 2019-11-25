@@ -1,6 +1,6 @@
 <section class="container-fluid">
   <div class="container py-3">
-    <%= form_with(model: @sports_centre, local: true, html: { novalidate: true, class: 'needs-validation' }) do |f| %>
+    <%= form_with(model: @sports_centre, local: true, html: { novalidate: true, class: 'needs-validation', multipart: true }) do |f| %>
         <div class="row">
             <div class="mx-auto col-md-6">
               <fieldset class="card">
@@ -109,6 +109,10 @@
                         </div>
                     </div>
                       <% end %>
+                      <div class="form-row mt-3">
+                          <%= f.label :images, class: 'col-12' %>
+                          <%= f.file_field :images, multiple: true, class: 'col-12 form-control', required: false%>
+                      </div>
                       <div class="form-row mt-3">
                           <%= f.label :description, class: 'col-12' %>
                           <%= f.text_area :description, class: 'col-12 form-control', required: false%>

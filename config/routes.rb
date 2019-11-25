@@ -10,8 +10,16 @@ Rails.application.routes.draw do
   post '/login', to: 'sessions#create'
   delete '/logout', to: 'sessions#destroy'
 
-  resources :sports_centres, only: [:new, :create, :index, :show] do
+  resources :sports_centres, only: [:new, :create, :index] do
   end
+
+  # move to new admin controller later
+  get "/sports_centres/:id", to: "sports_centres#user_show", as: "sports_centre_user"
+
+  scope :admin, as: 'admin' do
+    resources :sports_centres, only: [:show] do
+    end
+ end
 
   get 'sports_centres/:id/date/:date_id', to: "sports_centres#show_again", as: 'sports_centre_again'
   # get 'home/index'

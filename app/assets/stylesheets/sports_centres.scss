@@ -1,6 +1,11 @@
 // Place all the styles related to the SportsCentres controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+* {
+  margin: 0;
+  padding: 0;
+}
+
 .card-columns {
   column-count: 1;
 }
@@ -107,3 +112,22 @@ input::-webkit-calendar-picker-indicator {
     width: 80vw;
   }
 }
+
+.resize {
+  width: 100%;
+  height: 100%;
+}
+
+// calender
+.datepicker {
+  width: 280px;
+  height: 280px;
+}
+
+.table-condensed {
+  width: 270px;
+  height:270px;
+}
+
+// map
+#mapid { height: 90vh; }

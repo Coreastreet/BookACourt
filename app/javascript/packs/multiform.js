@@ -25,7 +25,7 @@ $(document).ready( function () {
     if (n == 1 && !is_valid()) {
       return false;
     }
-    if (n == 1 && (currentCard == 1)) {
+    if (n == 1 && (currentCard == 2)) {
       saveOpeningHours();
     }
     var cards = $('.card');
@@ -62,7 +62,7 @@ $(document).ready( function () {
           var dayID = $(this).attr("id");
           var openingHour = splitArray[0];
           var closingHour = splitArray[1];
-          jsonString  = `\"${dayID}\":{ \"openingHour\":\"${openingHour}\", \"closingHours\":\"${closingHour}\"}`;
+          jsonString  = `\"${dayID}\":{ \"openingHour\":\"${openingHour}\", \"closingHour\":\"${closingHour}\"}`;
           arr.push(jsonString);
           counter++;
       }

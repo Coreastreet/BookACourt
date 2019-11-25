@@ -7,4 +7,8 @@ class BookingsController < ApplicationController
 
   def calculateRate
   end
+
+  private
+
+
 end
