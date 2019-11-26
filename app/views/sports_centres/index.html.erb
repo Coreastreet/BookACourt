@@ -1,14 +1,14 @@
 <section class="container-fluid">
   <div class="container">
-      <div class="row vh-100">
-          <div class="col-4 overflow-y">
+      <div class="row vh-80">
+          <div class="col-4 scroll pl-0">
             <div class="card-columns">
                 <% @sports_centres.each do |sports_centre| %>
                     <div class="card" data-id=<%= sports_centre.id %>>
                       <div class="card-body">
                         <h4 class="card-title"><%= sports_centre.title %></h4>
                         <p class="card-text"><i class="fa fa-map-marker-alt"></i><%= sports_centre.description %></p>
-                        <p class="card-text"><%= sports_centre.address.full_address %></p>
+                        <p class="card-text card-address"><%= sports_centre.address.full_address %></p>
                       </div>
                       <div class="card-footer">
                         <small class="text-muted"><%= sports_centre.phone %></small>
@@ -17,10 +17,10 @@
                 <% end %>
               </div>
           </div>
-          <div class="col-8 overflow-y px-0">
+          <div class="col-8 px-0 mapCol d-none">
             <div id="mapid"></div>
           </div>
-          <div class="col-8 overflow-y px-0 d-none">
+          <div class="col-8 overflow-y px-0 detailCol">
             <div class="row">
               <div class="col-12">
                     <div class="row">
