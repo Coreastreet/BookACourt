@@ -18,90 +18,165 @@
               </div>
           </div>
           <div class="col-8 px-0 mapCol d-none">
-            <div id="mapid"></div>
+
           </div>
-          <div class="col-8 overflow-y px-0 detailCol">
-            <div class="row">
-              <div class="col-12">
-                    <div class="row">
-                        <div class="col-7">
-                            <div class="row">
-                               <div class="col-12 title pr-0">
-                                  <h3></h3>
-                                  <hr>
-                               </div>
-                            </div>
-                            <div class="row mx-0">
-                              <div class="col-1 mb-3 pr-0">
-                                <i class="fa fa-map-marker fa-2x"></i>
+          <div class="col-8 px-0 position-relative detailCol">
+            <div class="underneath position-absolute">
+              <div id="mapid"></div>
+            </div>
+            <div class="slideHolder position-absolute" data-centre = "">
+              <div class="row">
+                <div class="col-12">
+                      <div class="row">
+                          <div class="col-7">
+                              <div class="row">
+                                 <div class="col-12 title pr-0">
+                                    <h3></h3>
+                                    <hr>
+                                 </div>
                               </div>
-                              <div class="col-11 pr-0">
-                                <p class="address"></p>
-                              </div>
-                            </div>
-                           <div class="row mx-0">
-                             <div class="col-1 mb-3 pr-0">
-                               <i class="fa fa-clock-o fa-2x"></i>
-                             </div>
-                           </div>
-                           <div class="row mx-0">
-                             <div class="col-1 mb-3 pr-0">
-                               <i class="fa fa-usd fa-2x"></i>
-                             </div>
-                           </div>
-                        </div>
-                        <div class="col-5 px-0">
-                          <div class="card">
-                            <div class="input-group date card-title" data-provide="datepicker">
-                                <input type="text" class="form-control">
-                                <div class="input-group-addon">
-                                  <i class="fa fa-calendar" aria-hidden="true"></i>
+                              <div class="row mx-0">
+                                <div class="col-1 mb-3 pr-0">
+                                  <i class="fa fa-map-marker fa-2x"></i>
                                 </div>
-                            </div>
-                            <div class="card-body">
-                              <canvas id="canvas" width="400" height="400" style="background-color:lightgrey">
-                              </canvas>
-                              <hr class = "my-2">
-                              <button type="button" class="btn btn-success btn-block below-clock mt-3">Book now</button>
+                                <div class="col-11 pr-0">
+                                  <p class="address"></p>
+                                </div>
+                              </div>
+                             <div class="row mx-0">
+                               <div class="col-1 mb-3 pr-0">
+                                 <i class="fa fa-clock-o fa-2x"></i>
+                               </div>
+                             </div>
+                             <div class="row mx-0">
+                               <div class="col-1 mb-3 pr-0">
+                                 <i class="fa fa-usd fa-2x"></i>
+                               </div>
+                             </div>
+                             <div class="row mx-0">
+                               <div class="col-12">
+                                   <div class="row">
+                                     <div class="col-12 mb-3">
+                                        <nav>
+                                          <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                                            <a class="nav-item nav-link active casual" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Casual</a>
+                                            <a class="nav-item nav-link regular" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Regular</a>
+                                          </div>
+                                        </nav>
+                                     </div>
+                                   </div>
+                                   <div class="row off_peak">
+                                     <div class="col-6 half_court">
+                                       <h6 class="text-center text-muted">Half Court:</h6>
+                                       <h6 class="text-muted mb-1">Off Peak:</h6>
+                                       <div class="align-center"><h2 class="font-weight-bold d-inline-block priceHolder" data-casual-price="" data-regular-price=""></h2><h6 class="d-inline-block">/hr</h6></div>
+                                     </div>
+                                     <div class="col-6 full_court">
+                                       <h6 class="text-center text-muted">Full Court:</h6>
+                                       <h6 class="text-muted mb-1">Off Peak:</h6>
+                                       <div class="align-center"><h2 class="font-weight-bold d-inline-block priceHolder" data-casual-price="" data-regular-price=""></h2><h6 class="d-inline-block">/hr</h6></div>
+                                     </div>
+                                   </div>
+                                   <div class="row off_peak">
+                                      <div class="col-6 d-flex justify-content-between half_court">
+                                        <p class="text-muted d-inline-block mb-0">Peak Hour:</p>
+                                        <div>
+                                          <h6 class="d-inline-block mb-0 priceHolder" data-casual-price="" data-regular-price=""></h6><p class="text-muted d-inline-block mb-0">/hr</p>
+                                        </div>
+                                      </div>
+                                      <div class="col-6 d-flex justify-content-between full_court">
+                                        <p class="text-muted d-inline-block mb-0">Peak Hour:</p>
+                                        <div>
+                                          <h6 class="d-inline-block mb-0 priceHolder" data-casual-price="" data-regular-price=""></h6><p class="text-muted d-inline-block mb-0">/hr</p>
+                                        </div>
+                                      </div>
+                                   </div>
+                                   <div class="row school_holidays">
+                                      <div class="col-6 d-flex justify-content-between half_court">
+                                        <p class="text-muted d-inline-block">School Holidays:</p>
+                                        <div>
+                                          <h6 class="d-inline-block priceHolder" data-casual-price="" data-regular-price=""></h6><p class="text-muted d-inline-block">/hr</p>
+                                        </div>
+                                      </div>
+                                      <div class="col-6 d-flex justify-content-between full_court">
+                                        <p class="text-muted d-inline-block">School Holidays:</p>
+                                        <div>
+                                          <h6 class="d-inline-block priceHolder" data-casual-price="" data-regular-price=""></h6><p class="text-muted d-inline-block">/hr</p>
+                                        </div>
+                                      </div>
+                                   </div>
+                               </div>
+                             </div>
+                          </div>
+                          <div class="col-5 px-0">
+                            <div class="card">
+                              <div class="input-group date card-title" data-provide="datepicker">
+                                  <input type="text" class="form-control dateHolder" data-date="">
+                                  <div class="input-group-append">
+                                    <span class="input-group-text" id="basic-addon2"><i class="fa fa-calendar"></i></span>
+                                  </div>
+                              </div>
+                              <div class="card-body pt-0">
+                                <nav>
+                                  <div class="nav nav-tabs court-types" id="nav-tab" role="tablist">
+                                    <a class="nav-item nav-link active" id="nav-halfCourt-tab" data-toggle="tab" href="#nav-fullCourt" role="tab"
+                                    aria-controls="nav-halfCourt" aria-selected="true" data-courtType="half_court">Half-Court</a>
+                                    <a class="nav-item nav-link" id="nav-fullCourt-tab" data-toggle="tab" href="#nav-fullCourt" role="tab"
+                                    aria-controls="nav-fullCourt" aria-selected="false" data-courtType="full_court">Full-Court</a>
+                                  </div>
+                                </nav>
+                                <canvas id="canvas" width="400" height="400" style="background-color:lightgrey">
+                                </canvas>
+                                  <div class="input-group">
+                                    <input type="time" class="form-control startTime" data-counter="" data-interval="">
+                                    <input type="time" class="form-control endTime" data-counter="" data-interval="">
+                                    <div class="input-group-append">
+                                      <span class="input-group-text" id=""><i class="fa fa-clock-o"></i></span>
+                                    </div>
+                                  </div>
+                                  <button type="button" class="btn btn-secondary btn-block clearTime">Clear Time</button>
+                                <hr class = "my-2">
+                                <button type="button" class="btn btn-success btn-block below-clock book-now mt-2">Book now</button>
+                              </div>
                             </div>
                           </div>
-                        </div>
-                    </div>
+                      </div>
+                </div>
               </div>
-            </div>
-            <div class="row">
-              <div class="col-12 table-responsive-md">
-                  <table class="table table-sm table-bordered parentWidth">
-                    <thead>
-                      <tr>
-                        <th scope="col" class="moreEqualTH">#</th>
-                        <th scope="col" class="equalTH"><%= @arr[0] %></th>
-                        <th scope="col" class="equalTH"><%= @arr[1] %></th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <% (6.hours..23.5.hours).step(30.minutes).each do |hour| %>
+              <div class="row">
+                <div class="col-12 table-responsive-md">
+                    <table class="table table-sm table-bordered parentWidth">
+                      <thead>
                         <tr>
-                          <th scope="row" class="p-0"><sup><%= Time.at(hour).gmtime.strftime('%H:%M') %></sup></th>
-                          <% (0..1).each do |i| %>
-                              <td data-time=<%= Time.at(hour).gmtime.strftime('%H:%M') %> data-court-type = <%= @arr[i] %>>&nbsp;</td>
-                          <% end %>
+                          <th scope="col" class="moreEqualTH">#</th>
+                          <th scope="col" class="equalTH"><%= @arr[0] %></th>
+                          <th scope="col" class="equalTH"><%= @arr[1] %></th>
                         </tr>
-                      <% end %>
-                    </tbody>
-                  </table>
+                      </thead>
+                      <tbody>
+                        <% (6.hours..23.5.hours).step(30.minutes).each do |hour| %>
+                          <tr>
+                            <th scope="row" class="p-0"><sup><%= Time.at(hour).gmtime.strftime('%H:%M') %></sup></th>
+                            <% (0..1).each do |i| %>
+                                <td data-time=<%= Time.at(hour).gmtime.strftime('%H:%M') %> data-court-type = <%= @arr[i] %>>&nbsp;</td>
+                            <% end %>
+                          </tr>
+                        <% end %>
+                      </tbody>
+                    </table>
+                </div>
               </div>
-            </div>
-            <div class="row">
-              <div class="col-12">
-                <p class="card-title">Half court:</p>
-                <h3 class="card-text font-weight-bold text-center"></h3>
-                <hr>
-                <p class="card-title">Full court:</p>
-                <h3 class="card-text font-weight-bold text-center"></h3>
-              </div>
-              <div class="col-12">
-                <img src="#", class="resize"/>
+              <div class="row">
+                <div class="col-12">
+                  <p class="card-title">Half court:</p>
+                  <h3 class="card-text font-weight-bold text-center"></h3>
+                  <hr>
+                  <p class="card-title">Full court:</p>
+                  <h3 class="card-text font-weight-bold text-center"></h3>
+                </div>
+                <div class="col-12">
+                  <img src="#", class="resize"/>
+                </div>
               </div>
             </div>
           </div>

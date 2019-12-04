@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'admin/createPeakHours'
+  get 'admin/editPeakHours'
   # home page
   root to: 'home#index'
 
@@ -15,13 +17,18 @@ Rails.application.routes.draw do
 
   # move to new admin controller later
   get "/sports_centres/:id", to: "sports_centres#user_show", as: "sports_centre_user"
+  get "/sports_centres/:id/:date", to: "sports_centres#user_show", as: "sports_centre_user_date"
 
   scope :admin, as: 'admin' do
     resources :sports_centres, only: [:show] do
     end
- end
+  end
 
-  get 'sports_centres/:id/date/:date_id', to: "sports_centres#show_again", as: 'sports_centre_again'
+  get "admin/sports_centre/:id/newPeakHour", to: "admin#newPeakHour", as: "new_peak_hour"
+
+  get 'admin/sports_centres/:id/date/:date_id', to: "admin#show_again", as: 'admin_show_again'
+
+  post "admin/sports_centres/:id/peak_hours", to: "admin#updatePeakHours", as: "admin_update_peak"
   # get 'home/index'
   # get 'home/about'
   # get 'courts/create'

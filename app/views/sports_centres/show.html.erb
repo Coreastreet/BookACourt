@@ -2,7 +2,8 @@
   <div class="container">
       <div class="row">
         <div class="col-12">
-            <%= @sports_centre.title %>
+            <h3 class="sports_centre_holder" data-sports-centre-id=<%= @sports_centre.id %>
+              data-number-of-courts=<%= @sports_centre.numberOfCourts %>><%= @sports_centre.title %></h3>
         </div>
       </div>
   </div>
@@ -12,18 +13,40 @@
       <div class="row h-100">
         <div class="col-3">
             <div class="row">
-              <div class="col">
+              <div class="col pl-0">
                 <div id="datepicker"></div>
                 <input type="hidden" id="my_hidden_input">
+              </div>
+              <div class="col">
+                <div class="row">
+                  <div class="col border admin-menu manage_bookings p-3">
+                    <%= link_to "Manage Bookings", "#" %> <!-- admin_sports_centre_path(@sports_centre) -->
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col border admin-menu manage_peak_hours p-3">
+                    Manage Peak Hours
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col border admin-menu p-3">
+                    Something
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col border admin-menu p-3">
+                    Something
+                  </div>
+                </div>
               </div>
             </div>
         </div>
         <div class="col-9 overflow-y">
           <!-- timetable for sports_centre -->
-          <table class="table table-sm table-bordered parentWidth">
+          <table class="table table-sm table-bordered courts-table parentWidth">
             <thead>
               <tr>
-                <th scope="col" class="moreEqualTH">#</th>
+                <th scope="col" class="moreEqualTH"></th>
                 <% [*1..@sports_centre.numberOfCourts].each do |number| %>
                   <th scope="col" class="equalTH">Court no.<%= number %></th>
                 <% end %>
@@ -41,9 +64,15 @@
             </tbody>
           </table>
           <div class='row'>
-            <div class="col-12" id="opening_hours">
-              Opening hours:
+            <div class="col-8" id="opening_hours">
+              Bookings
             </div>
+            <div class="col-4 d-none peak_hour_buttons justify-content-between">
+              <button type="button" class="btn btn-primary confirm">Confirm peak hours</button>
+              <button type="button" class="btn btn-secondary">Clear</button>
+            </div>
+          </div>
+          <div class="row peak-times d-none">
             <div class="col-12 times" id="Sun">
             </div>
             <div class="col-12 times" id="Mon">
@@ -58,6 +87,12 @@
             </div>
             <div class="col-12 times" id="Sat">
             </div>
+          </div>
+          <div class="row court-times">
+            <% [*1..@sports_centre.numberOfCourts].each do |n| %>
+              <div class="col-12 times" id="court-no-<%= n %>">
+              </div>
+            <% end %>
           </div>
         </div>
       </div>

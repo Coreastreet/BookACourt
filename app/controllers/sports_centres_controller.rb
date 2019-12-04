@@ -48,30 +48,21 @@ class SportsCentresController < ApplicationController
       array_booking << booking.to_json
     end
     session[:bookings] = bookings.to_json
+    #respond_to do |format|
+    #  format.js
+      # format.html
+    # end
   end
 
   # same code as above but will load js.erb file instead of html
-  def show_again
-    console
-    respond_to do |format|
-      format.js
-      # format.html
-    end
-  end
-
   def user_show
     console
     @arr = []
     @sports_centre = SportsCentre.find(params[:id])
-    @bookings = @sports_centre.bookings
-    (1..2).each do |number|
-      arr2 = []
-      @bookings.where(court_no: number).each do |booking|
-        arr2 += calculateTimes(booking)
-      end
-      @arr.push(arr2)
-    end
-    @arr = @arr.to_json.html_safe
+    @bookings = @sports_centre.bookings.to_json.html_safe
+    # date = !params[:date].nil? ? date_params : "no date provided"
+    @date = date_params.to_json.html_safe
+    # debugger
     respond_to do |format|
       format.js
       # format.html
@@ -98,16 +89,9 @@ class SportsCentresController < ApplicationController
         params.permit(:id)
     end
 
-    def calculateTimes(booking)
-      arrayOfTime = []
-      start = booking.startTime
-      finish = booking.endTime
-      while (!start.eql?(finish)) do
-        time = start.strftime("%R")
-        arrayOfTime.push(time)
-        start += 30.minutes
-      end
-      arrayOfTime
+    def date_params
+        params.require(:date) #.require(:)
     end
+
 
 end

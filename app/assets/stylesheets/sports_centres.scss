@@ -36,19 +36,19 @@ fieldset.card {
   margin: 0 0;
   display: none;
 }
-
+/*
 .table {
-  width: 20rem;
+  //width: 20rem;
 }
 
 .moreEqualTH {
-  width: 16%;
+  //width: 16%;
 }
 
 .equalTH {
-  width: 12%;
+  //width: 12%;
 }
-
+*/
 .parentWidth {
   width: 100%;
 }
@@ -131,3 +131,7 @@ input::-webkit-calendar-picker-indicator {
 
 // map
 #mapid { height: 90vh; }
+
+.align-center {
+  text-align: center;
+}

@@ -4,11 +4,17 @@ document.addEventListener('DOMContentLoaded', function(){
         document.querySelectorAll(".card-columns div.card");
         $('body').on('click', ".card-columns div.card", function(e) {
             var sports_centre_id = $(this).data('id');
+            $('.slideHolder').addClass('show');
+            document.querySelector('.slideHolder').setAttribute("data-centre", sports_centre_id);
+            //console.log(sports_centre_id);
+            var dateSplitArray = now.toLocaleDateString().split('/');
+            var dateFormatted = `${dateSplitArray[2]}-${dateSplitArray[1]}-${dateSplitArray[0]}`;
+            //console.log(dateFormatted);
           //$('.mapCol').addClass("d-none");
         //$('.detailCol').removeClass("d-none");
             $.ajax({
                type: "GET",
-               url: `/sports_centres/${sports_centre_id}`,
+               url: `/sports_centres/${sports_centre_id}/${dateFormatted}`,
                data: {
                   // info: info, // < note use of 'this' here
                   //sports_centre_id: $(this).data('id');
@@ -20,6 +26,7 @@ document.addEventListener('DOMContentLoaded', function(){
                   var todayDate = `${wDay}, ${now.getDate()} ${month} ${now.getFullYear()}`;
                   //console.log(todayDate);
                   document.querySelector("input.form-control").value = todayDate;
+                  //alert()
                },
                error: function(result) {
                    alert();

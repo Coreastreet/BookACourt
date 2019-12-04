@@ -51,6 +51,7 @@ $(document).ready( function () {
     return valid;
   }
 
+  // refactor later possibly
   function saveOpeningHours() {
     var finalJson = "";
     var jsonString = "";

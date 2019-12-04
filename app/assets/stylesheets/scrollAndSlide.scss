@@ -1,0 +1,68 @@
+// Place all the styles related to the SportsCentres controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+.scroll {
+  overflow-y: scroll;
+  height: 90vh;
+}
+
+.underneath {
+  z-index: 1;
+  width: 50vw;
+}
+
+.slideHolder {
+  margin-left: 100%;
+  transition: all 1s;
+  min-width: 100%;
+  z-index: 99;
+  top: 0px;
+  background-color: white;
+}
+
+.slideHolder.show {
+  display: block;
+  margin-left: 0%;
+}
+
+#AM {
+  color: black;
+  background-color: black;
+}
+
+// allow scroll and sliding for table-sm
+.courts-table, .days-table {
+  //display: table;
+  table-layout: fixed;
+  width: 100%;
+  border-collapse: collapse;
+  thead {
+      display: table;
+      width: 100%;
+      tr{
+        display: table;
+        //position: relative;
+        width: 100%;
+        th {
+            border-bottom-width: 0px;
+        }
+        th.moreEqualTH {
+          width: 3rem;
+        }
+     }
+  }
+  tbody {
+    display: block;
+    overflow-y: overlay;
+    height: 70vh;
+    //width: 68vw;
+    tr {
+      display: table;
+      width: 100%;
+      th {
+        width: 3rem;
+      }
+    }
+  }
+}

@@ -6,7 +6,7 @@ $(document).ready( function () {
   }; */
   //var script = document.createElement('script');script.src = "https://code.jquery.com/jquery-3.4.1.min.js";document.getElementsByTagName('head')[0].appendChild(script);
   //console.log($('td'));
-  $(document).on("click", ".days-table td", function() {
+  $(document).on("click", ".courts-table td", function() {
     if ($(this).hasClass("table-active")) {
       disableSelection($(this));
     } else {
@@ -18,8 +18,8 @@ $(document).ready( function () {
   function enableSelection(selectedCell) {
     selectedCell.addClass('table-active');
     var holder = selectedCell;
-    var day = selectedCell.data('day');
-    var column = ("td[data-day=" + day + "]");
+    var court = selectedCell.data('court');
+    var column = ("td[data-court=" + court + "]");
     var counter = 0;
     var opening_index = 0;
     $(column).each( function(index) {
@@ -37,9 +37,9 @@ $(document).ready( function () {
         var starting_time = $(column).eq(opening_index).data('time');
         //console.log(opening_index);
         var ending_time = $(column).eq(end_index+1).data('time');
-        var dayHolder = '#' + day;
-        //console.log(dayHolder);
-        $(dayHolder).text( day + ": " + starting_time + "-" + ending_time);
+        var courtHolder = '#court-no-' + court;
+        console.log(courtHolder);
+        $(courtHolder).text( "Court_no." + court + ": " + starting_time + "-" + ending_time);
 
         while (end_index > start_index) {
           $(column).eq(start_index).addClass("table-active");
@@ -51,8 +51,8 @@ $(document).ready( function () {
 
   function disableSelection(selectedCell) {
       var holder = selectedCell;
-      var day = selectedCell.data('day');
-      var column = ("[data-day=" + day + "]");
+      var court = selectedCell.data('court');
+      var column = ("[data-court=" + court + "]");
       var selectedColumn = ('.table-active' + column);
       var selectedColumnFirstIndex = $(column).index($(selectedColumn).eq(0));
       var selectedColumnLastIndex = $(column).index($(selectedColumn).eq(-1));
@@ -77,9 +77,9 @@ $(document).ready( function () {
       var last_cell = $(new_column).eq(-1);
       var position_of_last_cell = $(column).index(last_cell);
       var ending_time = $(column).eq(position_of_last_cell + 1).data('time');
-      var dayHolder = '#' + day;
+      var courtHolder = '#court-no-' + court;
       //console.log($(dayHolder));
-      $(dayHolder).text( day + ": " + starting_time + "-" + ending_time);
+      $(courtHolder).text( "Court no." + court + ": " + starting_time + "-" + ending_time);
     //selectedCell.removeClass('table-active');
   };
 });

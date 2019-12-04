@@ -5,19 +5,19 @@ $(document).ready( function () {
       $('#datepicker').datepicker("setDate", today);
       $('#datepicker').on('changeDate', function(e) {
           //$('#my_hidden_input').val(
+          //alert($('#datepicker').datepicker('getFormattedDate'));
           $('#my_hidden_input').val(
               $('#datepicker').datepicker('getFormattedDate')
           );
           // $('#datepicker').datepicker("setDate", info);
-          // console.log(info);
           $.ajax({
              type: "GET",
-             url: "/sports_centres/19/date/13",
+             url: "19/date/13",
              data: {
                 // info: info, // < note use of 'this' here
              },
              success: function(result) {
-                 // alert('ok');
+                 //alert('ok, what the hell');
              },
              error: function(result) {
                  alert('error');
@@ -25,8 +25,13 @@ $(document).ready( function () {
            });
       });
       $( "td.active.day"  ).trigger( "click" );
-
+      // alert("Hey!");
       $('body').on('click', '[data-toggle="dropdown"]', function() {
         $('.dropdown-toggle').dropdown()
       });
+
+      //$('.courts-table tbody').width($('.courts-table thead').width());
 });
+/*
+
+*/
