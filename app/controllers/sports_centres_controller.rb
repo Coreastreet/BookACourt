@@ -2,6 +2,10 @@ class SportsCentresController < ApplicationController
   def new
     @sports_centre = SportsCentre.new
     @new_address = Address.new
+    @representative = Representative.new
+    @new_representative_address = Address.new
+    @new_contact = Contact.new
+    #debugger
   end
 
   def create
@@ -62,6 +66,10 @@ class SportsCentresController < ApplicationController
     @bookings = @sports_centre.bookings.to_json.html_safe
     # date = !params[:date].nil? ? date_params : "no date provided"
     @date = date_params.to_json.html_safe
+
+    @peak_hours = @sports_centre.peak_hours.to_json.html_safe
+    @real_prices = @sports_centre.prices.to_json.html_safe
+
     # debugger
     respond_to do |format|
       format.js
@@ -74,7 +82,7 @@ class SportsCentresController < ApplicationController
 
   private
     def sports_centre_params
-        params.require(:sports_centre).permit(:title, :email, :password, :password_confirmation, :phone, :description, images:[])
+        params.require(:sports_centre).permit(:title, :email, :password, :password_confirmation, :ABN, :phone, :description, images:[])
     end
 
     def address_params

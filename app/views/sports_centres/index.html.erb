@@ -128,10 +128,14 @@
                                 <canvas id="canvas" width="400" height="400" style="background-color:lightgrey">
                                 </canvas>
                                   <div class="input-group">
-                                    <input type="time" class="form-control startTime" data-counter="" data-interval="">
-                                    <input type="time" class="form-control endTime" data-counter="" data-interval="">
+                                    <input type="time" class="form-control startTime" data-counter="" data-interval="" required/>
+                                    <input type="time" class="form-control endTime" data-counter="" data-interval="" required/>
                                     <div class="input-group-append">
                                       <span class="input-group-text" id=""><i class="fa fa-clock-o"></i></span>
+                                    </div>
+                                    <div class="d-none peak-hour-holder">
+                                    </div>
+                                    <div class="d-none real-price-holder">
                                     </div>
                                   </div>
                                   <button type="button" class="btn btn-secondary btn-block clearTime">Clear Time</button>

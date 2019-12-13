@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function(){
 
-  if ($(".book_now").length > 0) {
+  if ($(".book-now").length > 0) {
     var casualButton = document.querySelector(".casual");
     var regularButton = document.querySelector(".regular");
     var priceHolder;
@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', function(){
       var prices = document.querySelectorAll(".priceHolder");
       var dataString = `data-${user_type}-price`;
       //if button.classList.contains("casual")
-      console.log(prices);
+      //console.log(prices);
       while (counter < prices.length) {
         priceHolder = prices[counter].getAttribute(dataString);
         prices[counter].innerHTML = priceHolder;

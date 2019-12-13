@@ -1,36 +1,26 @@
 <section class="container-fluid">
   <div class="container py-3">
-    <%= form_with(model: @sports_centre, local: true, html: {novalidate: true, class: 'needs-validation', multipart: true }) do |f| %>
+    <%= form_with(model: @sports_centre, local: true, html: {novalidate: true, class: 'needs-validation business-registration', multipart: true }) do |f| %>
         <div class="row">
-            <div class="mx-auto col-md-6">
+            <div class="mx-auto col-md-8">
               <fieldset class="card">
                 <div class="card-header">
-                  <h4 class="mb-0">Business Email and Password</h4>
+                  <h4 class="mb-0">Register your business</h4>
                 </div>
                 <div class="card-body">
-                      <div class="form-row nested mt-3">
-                        <div class="col-md-8">
-                          <div class="row">
-                            <%= f.label :email, class: 'col-12' %>
-                            <%= f.email_field :email, class: 'col-12 form-control mandatory', required: true, autocomplete: "username" %>
-                          </div>
-                        </div>
+                      <div class= "form-row">
+                        <p class="bold heading">COMPANY INFORMATION</p>
                       </div>
-                      <div class="form-row nested mt-3">
-                        <div class="col-md-8">
-                          <div class="row">
-                            <%= f.label :password, class: 'col-12' %>
-                            <%= f.password_field :password, class: 'col-12 form-control mandatory', required: true, autocomplete: "new-password" %>
-                          </div>
-                        </div>
+                      <%= f.fields_for(@new_address) do |new_address| %>
+                      <div class="form-row white-box rounded-top">
+                        <%= new_address.label :full_address, "Company Name", class: 'col-4' %>
+                        <%= new_address.text_field :full_address, class: 'col-8 form-control', placeholder: "Morris Iemma Sports Centre", id: "autocomplete" %>
                       </div>
-                      <div class="form-row nested mt-3">
-                        <div class="col-md-8">
-                          <div class="row">
-                            <%= f.label :password, class: 'col-12' %>
-                            <%= f.password_field :password_confirmation, class: 'col-12 form-control mandatory', required: true, autocomplete: "new-password" %>
-                          </div>
-                        </div>
+                      <div class="form-row nested white-box d-none">
+                            <%= f.label :title, "Company Name", class: 'col-4' %>
+                            <%= f.text_field :title, placeHolder: "Morris Iemma Sports Centre", id: "title", class: 'col-8 form-control mandatory border-0', required: true %>
+                            <div class="valid-feedback">Looks good!</div>
+                            <div class="invalid-feedback">Example invalid custom select feedback</div>
                       </div>
                     <div class="form-row btn-toolbar p-0 mt-4">
                         <button type="button" class="btn btn-light previous"><i class="fa fa-angle-left mr-2"></i>Previous</button>
@@ -41,55 +31,38 @@
             </div>
         </div>
         <div class="row">
-            <div class="mx-auto col-md-6">
+            <div class="mx-auto col-md-8">
               <fieldset class="card">
                 <div class="card-header">
                   <h4 class="mb-0">General information</h4>
                 </div>
                 <div class="card-body">
-                        <%= f.fields_for(@new_address) do |new_address| %>
-                        <div class="form-row">
-                            <%= new_address.label :full_address, class: 'col-12' %>
-                            <%= new_address.text_field :full_address, class: 'col-12 form-control', id: "autocomplete" %>
-                        </div>
-                        <div class="row mt-3">
-                            <div class="col"><hr></div>
-                            <div class="col-auto">OR</div>
-                            <div class="col"><hr></div>
-                        </div>
-                    <div class="form-row">
-                        <%= f.label :title, class: 'col-12' %>
-                        <%= f.text_field :title, id: "title", class: 'col-12 form-control mandatory', required: true %>
-                        <div class="valid-feedback">Looks good!</div>
-                        <div class="invalid-feedback">Example invalid custom select feedback</div>
-                     </div>
-                    <div class="form-row nested mt-3">
-                      <div class="col-md-8">
-                        <div class="row">
-                          <%= new_address.label :street_address, class: 'col-12' %>
-                          <%= new_address.text_field :street_address, class: 'col-12 form-control mandatory', id: "street_address", required: true %>
+                    <div class= "form-row">
+                      <p class="heading font-weight-normal">Company address</p>
+                    </div>
+                    <div class="form-row nested border-top">
+                      <div class="col-md-9">
+                        <div class="row white-box pr-2 rounded-top">
+                          <%= new_address.label :street_address, class: 'min-label' %>
+                          <%= new_address.text_field :street_address, class: 'col form-control mandatory', id: "street_address", required: true %>
                           <div class="valid-feedback">Looks good!</div>
                           <div class="invalid-feedback">Example invalid custom select feedback</div>
                         </div>
                       </div>
-                      <div class="col-md-4">
-                          <div class="row">
-                              <%= f.label :phone, class: 'col-12' %>
-                              <%= f.telephone_field :phone, class: 'col-12 form-control', required: false%>
-                          </div>
-                      </div>
                     </div>
-                    <div class="form-row nested mt-3">
-                       <div class="col-md-6">
-                            <div class="row">
-                                <%= new_address.label :suburb, class: "col-12" %>
-                                <%= new_address.text_field :suburb, class: "col-12 form-control mandatory", id: 'locality', required: true %>
+                    <div class="form-row nested">
+                       <div class="col-md-8 border-top">
+                            <div class="row white-box pr-2">
+                                <%= new_address.label :suburb, class: "min-label" %>
+                                <%= new_address.text_field :suburb, class: "col form-control mandatory", id: 'locality', required: true %>
                             </div>
                         </div>
-                        <div class="col-md-3">
-                            <div class="row">
-                                <%= new_address.label :state, class: "col-12" %>
-                                <%= new_address.text_field :state, list: 'states', id: 'administrative_area_level_1', class: "col-12 form-control mandatory", required: true %>
+                    </div>
+                    <div class="form-row nested">
+                        <div class="col-md-6 border-top">
+                            <div class="row white-box pr-2">
+                                <%= new_address.label :state, class: "min-label" %>
+                                <%= new_address.text_field :state, list: 'states', id: 'administrative_area_level_1', class: "col form-control mandatory", required: true %>
                                 <datalist id="states">
                                   <option value="NSW"></option>
                                   <option value="VIC"></option>
@@ -101,26 +74,287 @@
                                 </datalist>
                             </div>
                         </div>
-                        <div class="col-md-3">
-                          <div class="row">
-                              <%= new_address.label :postcode, class: "col-12" %>
-                              <%= new_address.text_field :postcode, class: "col-12 form-control mandatory", id: 'postal_code', required: true %>
+                     </div>
+                     <div class="form-row nested rounded-bottom">
+                        <div class="col-md-6 border-top">
+                          <div class="row white-box pr-2">
+                              <%= new_address.label :postcode, class: "min-label" %>
+                              <%= new_address.text_field :postcode, class: "col form-control mandatory", id: 'postal_code', required: true %>
                           </div>
                         </div>
                     </div>
                       <% end %>
-                      <div class="form-row mt-3">
-                          <%= f.label :images, class: 'col-12' %>
-                          <%= f.file_field :images, multiple: true, class: 'col-12 form-control', required: false%>
+                      <div class= "form-row mt-3">
+                        <p class="heading font-weight-normal">Company profile</p>
                       </div>
-                      <div class="form-row mt-3">
-                          <%= f.label :description, class: 'col-12' %>
-                          <%= f.text_area :description, class: 'col-12 form-control', required: false%>
+                    <div class="form-row nested">
+                       <div class="col-md-12">
+                         <div class="row white-box pr-2">
+                           <%= f.label :URL, "Website URL", class: 'min-label' %>
+                           <%= f.text_field :URL, class: 'col form-control mandatory', required: true%>
+                         </div>
+                       </div>
+                     </div>
+                    <div class="form-row nested">
+                       <div class="col-md-8 border-top">
+                         <div class="row white-box pr-2">
+                           <%= f.label :phone, class: 'min-label' %>
+                           <%= f.telephone_field :phone, class: 'col form-control mandatory', required: true%>
+                         </div>
+                       </div>
+                     </div>
+                      <div class="form-row nested">
+                         <div class="col-md-8 border-top">
+                           <div class="row white-box pr-2">
+                             <%= f.label :ABN, "ACN/ABN", class: 'min-label' %>
+                             <%= f.number_field :ABN, class: 'col form-control mandatory', required: true%>
+                           </div>
+                         </div>
+                       </div>
+                      <div class="form-row btn-toolbar p-0 mt-4">
+                          <button type="button" class="btn btn-light previous"><i class="fa fa-angle-left mr-2"></i>Previous</button>
+                          <button type="button" class="btn btn-light ml-auto next">Next<i class="fa fa-angle-right ml-2"></i></button>
                       </div>
-                    <div class="form-row btn-toolbar p-0 mt-4">
-                        <button type="button" class="btn btn-light previous"><i class="fa fa-angle-left mr-2"></i>Previous</button>
-                        <button type="button" class="btn btn-light ml-auto next">Next<i class="fa fa-angle-right ml-2"></i></button>
+                </div>
+              </fieldset>
+            </div>
+        </div>
+        <div class="row">
+            <div class="mx-auto col-md-8">
+              <fieldset class="card">
+                <div class="card-header">
+                  <h4 class="mb-0">Business Representative</h4>
+                </div>
+                <div class="card-body">
+                    <div class= "form-row">
+                      <p class="heading bold mb-1">Representative Information</p>
+                      <p>This account must be activated by an executive, senior manager or someone
+                         who otherwise has significant responsibility for the control and management of your business.
+                         If that’s not you, please ask the right person to fill out this form.</p>
                     </div>
+                    <%= f.fields_for(@representative) do |rep| %>
+                    <div class="form-row nested border-top">
+                      <div class="col-md-10">
+                        <div class="row white-box pr-2 rounded-top">
+                          <%= rep.label :name,"Full name", class: 'min-label' %>
+                          <%= rep.text_field :name, class: 'col form-control mandatory', required: true %>
+                          <div class="valid-feedback">Looks good!</div>
+                          <div class="invalid-feedback">Example invalid custom select feedback</div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class= "form-row">
+                      <p class="heading font-weight-normal mt-3">Representative Address</p>
+                    </div>
+                    <%= rep.fields_for(@new_representative_address) do |rep_address| %>
+                    <div class="form-row nested border-top">
+                      <div class="col-md-9">
+                        <div class="row white-box pr-2 rounded-top">
+                          <%= rep_address.label :street_address, class: 'min-label' %>
+                          <%= rep_address.text_field :street_address, class: 'col form-control mandatory', id: "street_address", required: true %>
+                          <div class="valid-feedback">Looks good!</div>
+                          <div class="invalid-feedback">Example invalid custom select feedback</div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-row nested">
+                       <div class="col-md-8 border-top">
+                            <div class="row white-box pr-2">
+                                <%= rep_address.label :suburb, class: "min-label" %>
+                                <%= rep_address.text_field :suburb, class: "col form-control mandatory", id: 'locality', required: true %>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row nested">
+                        <div class="col-md-6 border-top">
+                            <div class="row white-box pr-2">
+                                <%= rep_address.label :state, class: "min-label" %>
+                                <%= rep_address.text_field :state, list: 'states', id: 'administrative_area_level_1', class: "col form-control mandatory", required: true %>
+                                <datalist id="states">
+                                  <option value="NSW"></option>
+                                  <option value="VIC"></option>
+                                  <option value="QLD"></option>
+                                  <option value="ACT"></option>
+                                  <option value="SA"></option>
+                                  <option value="WA"></option>
+                                  <option value="NT"></option>
+                                </datalist>
+                            </div>
+                        </div>
+                     </div>
+                     <div class="form-row nested rounded-bottom">
+                        <div class="col-md-6 border-top">
+                          <div class="row white-box pr-2">
+                              <%= rep_address.label :postcode, class: "min-label" %>
+                              <%= rep_address.text_field :postcode, class: "col form-control mandatory", id: 'postal_code', required: true %>
+                          </div>
+                        </div>
+                    </div>
+                      <% end %>
+                    <div class= "form-row">
+                      <p class="heading font-weight-normal mt-3">Representative Profile</p>
+                    </div>
+                    <div class="form-row nested">
+                       <div class="col-md-12 border-top">
+                            <div class="row white-box pr-2">
+                                <%= rep.label :email, class: "min-label" %>
+                                <%= rep.email_field :email, class: "col form-control mandatory", required: true %>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row nested">
+                        <div class="col-md-10 border-top">
+                            <div class="row white-box pr-2">
+                                <%= rep.label :title, "Job title", class: "min-label" %>
+                                <%= rep.text_field :title, class: "col form-control mandatory", required: true %>
+                            </div>
+                        </div>
+                     </div>
+                     <div class="form-row nested">
+                        <div class="col-md-8 border-top">
+                          <div class="row white-box pr-2">
+                              <%= rep.label :dob, "Date of birth", class: "min-label" %>
+                              <%= rep.date_field :dob, class: "col form-control mandatory width-fit-content", required: true %>
+                          </div>
+                        </div>
+                    </div>
+                    <div class="form-row nested rounded-bottom">
+                       <div class="col-md-8 border-top">
+                         <div class="row white-box pr-2">
+                           <%= rep.label :phone, class: 'min-label' %>
+                           <%= rep.telephone_field :phone, class: 'col form-control mandatory', required: true%>
+                         </div>
+                       </div>
+                     </div>
+                   <% end %>
+                   <div class= "form-row">
+                     <p class="heading font-weight-normal mt-3">Representative Identity</p>
+                   </div>
+                   <div class="form-check">
+                      <input class="form-check-input rep-checkbox" type="checkbox" name="postion" value="owner" id="defaultCheck1">
+                      <label class="form-check-label" for="defaultCheck1">
+                        This person owns 25% or more of the company.
+                        <i class="fa fa-info-circle pl-1" data-toggle="tooltip"
+                        title="Everyone who owns 25% or more of this company is required to provide additional information" aria-hidden="true"></i>
+                      </label>
+                    </div>
+                    <div class = "form-row d-none my-4 mx-0">
+                      <p class="mb-2">Are you the only person who owns 25% or more of the company?</p>
+                      <div class="form-check form-check-inline mr-4">
+                         <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
+                         <label class="form-check-label" for="inlineRadio1">Yes</label>
+                       </div>
+                       <div class="form-check form-check-inline">
+                         <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
+                         <label class="form-check-label" for="inlineRadio2">No</label>
+                       </div>
+                    </div>
+                    <div class="form-check mt-3">
+                       <input class="form-check-input rep-checkbox" type="checkbox" name="position" value="director" id="defaultCheck2">
+                       <label class="form-check-label" for="defaultCheck2">
+                         This person is a member of the governing board of the company.
+                         <i class="fa fa-info-circle pl-1" data-toggle="tooltip" title="Everyone who is on the governing board is required to provide additional information" aria-hidden="true"></i>
+                       </label>
+                     </div>
+                     <div class= "form-row d-none my-4 mx-0">
+                         <p class="mb-2">Are you the only person on the governing board of the company?</p>
+                         <div class="form-check form-check-inline mr-4">
+                            <input class="form-check-input" type="radio" name="inlineRadioOptions2" id="inlineRadio3" value="option1">
+                            <label class="form-check-label" for="inlineRadio3">Yes</label>
+                          </div>
+                          <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="inlineRadioOptions2" id="inlineRadio4" value="option2">
+                            <label class="form-check-label" for="inlineRadio4">No</label>
+                          </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                  <p class="mb-2">By clicking next, you agree to our <%= link_to "Services Agreement", "#" %>
+                    and the <%= link_to "Stripe Connected Account Agreement", "https://stripe.com/connect-account/legal"%></p>
+                  <div class="form-row btn-toolbar p-0 mt-4">
+                      <button type="button" class="btn btn-light previous"><i class="fa fa-angle-left mr-2"></i>Previous</button>
+                      <button type="button" class="btn btn-light ml-auto next">Next<i class="fa fa-angle-right ml-2"></i></button>
+                  </div>
+                </div>
+              </fieldset>
+            </div>
+        </div>
+        <div class="row">
+            <div class="mx-auto col-md-8">
+              <fieldset class="card contact" data-owner-form="true" data-executive-form="true">
+                <div class="card-header">
+                  <h4 class="mb-0">Register your business</h4>
+                </div>
+                <div class="card-body">
+                      <div class= "form-row contact-heading">
+                        <p class="bold heading mb-1">Business Ownership</p>
+                        <p>Due to regulatory guidelines, companies need to list everyone who owns a large portion of the business.</p>
+                      </div>
+                      <div class= "form-row contact-sub-heading">
+                        <p class="heading font-weight-normal mt-3">Add any individual who owns 25% or more of <span class="companyName"></span></p>
+                      </div>
+                      <hr>
+                      <div class="form-row new-contact-details d-none">
+                        <div class="col-1 d-flex">
+                          <i class="fa fa-user fa-lg align-self-center" aria-hidden="true"></i>
+                        </div>
+                        <div class="col-9">
+                          <div class="row">
+                            <div class="col-12 owner-name">
+                                jj
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-12 owner-email">
+                                jj@hot.com
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-2 d-flex">
+                            <p class="align-self-center mb-0 remove-contact btn btn-link">Remove</a></p>
+                        </div>
+                      </div>
+                      <div class="form-row">
+                        <button type="button" class="btn btn-default add-contact" data-form="owner"><i class="fa fa-plus mr-2" aria-hidden="true"></i><span>Add another owner</span></button>
+                      </div>
+                </div>
+                <div class="card-body d-none new-contact">
+                  <div class= "form-row new-contact-heading">
+                    <p class="bold heading mb-1">Add an owner</p>
+                    <p>It’s required to add any individual who owns 25% or more of the company.</p>
+                  </div>
+                  <div class= "form-row new-contact-subheading">
+                    <p class="heading font-weight-normal text-uppercase mt-3">Owner Information</p>
+                  </div>
+                  <%= f.fields_for(@new_contact) do |new_contact| %>
+                  <div class="form-row nested">
+                     <div class="col-md-12 border-top">
+                          <div class="row white-box pr-2">
+                              <%= new_contact.label :name, class: "min-label" %>
+                              <%= new_contact.text_field :name, class: "col form-control mandatory new-owner-name", required: true %>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="form-row nested">
+                     <div class="col-md-12 border-bottom">
+                          <div class="row white-box pr-2">
+                              <%= new_contact.label :email, class: "min-label" %>
+                              <%= new_contact.email_field :email, class: "col form-control mandatory new-owner-email", required: true %>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="form-row d-flex justify-content-end mt-3">
+                    <button type="button" class="btn btn-default return-previous-card">Cancel</button>
+                    <button type="button" class="btn btn-primary ml-2 confirm-new-contact">Add</button>
+                  </div>
+                </div>
+                <% end %>
+                   <div class="card-footer">
+                      <div class="form-row btn-toolbar p-0 mt-4">
+                          <button type="button" class="btn btn-light previous"><i class="fa fa-angle-left mr-2"></i>Previous</button>
+                          <button type="button" class="btn btn-light ml-auto next">Next<i class="fa fa-angle-right ml-2"></i></button>
+                      </div>
+                   </div>
                 </div>
               </fieldset>
             </div>
@@ -181,7 +415,7 @@
           </div>
         </div>
         <div class="row">
-          <div class="mx-auto col-md-6">
+          <div class="mx-auto col-md-8">
               <fieldset class="card">
                 <div class="card-header d-flex">
                   <h4 class="mb-0">Bank Account Details <small class="text-muted">(optional)</small></h4>

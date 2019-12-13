@@ -117,7 +117,7 @@ while (counter < arrayBooked.length) {
   counter2 = 0;
   set2 = new Set(arrayBooked[counter]); // counter
   difference = ([...set1].filter(x => !set2.has(x)));
-  // console.log(difference);
+  //console.log("this is difference:", difference);
   while (counter2 < difference.length) { //counter
     //console.log(arrayBooked[counter]);
       // counter3 = 0;
@@ -129,24 +129,33 @@ while (counter < arrayBooked.length) {
 
 console.log(halfCourtsBooked);
 
+// store the peak hour times in a div above book-now for reference.
+var peak_hour_holder = document.querySelector(".peak-hour-holder");
+peak_hour_holder.innerHTML = JSON.stringify(<%= @peak_hours %>);
+// store the prices in a div for reference in the widget sinces its easier.
+var real_price_holder = document.querySelector(".real-price-holder");
+real_price_holder.innerHTML = JSON.stringify(<%= @real_prices %>);
+
+//console.log("This is peak-hours", <%= @peak_hours %> );
+
 // on click of new sports_centre, create a new clock
 
 var canvas = document.querySelector("#canvas");
 var ctx = canvas.getContext("2d");
 var radius = canvas.height / 2;
 var now = new Date();
-//now.setHours(now.getHours() - 10);
+now.setHours(now.getHours() - 10);
 //ctx.translate(radius, radius);
 radius = radius * 0.80;
 //setInterval(drawClock, 1000);
 //ctx.moveTo(0, 0);
-drawClock();
-
+//drawClock();
+/*
 if (now.getHours() < 12) {
     drawBookedTimes(ctx, radius, halfCourtsBooked, 'AM');
 } else {
     drawBookedTimes(ctx, radius, halfCourtsBooked, 'PM');
-};
+}; */
 
 var clearTimeButton = document.querySelector(".clearTime");
 clearTimeButton.addEventListener("click", function(event) {
@@ -166,22 +175,23 @@ clearTimeButton.addEventListener("click", function(event) {
 //console.log(hello);
 
 // set click listener on the canvas for the buttons.
-canvas.onclick = function (event)
-{
+// check which tab has been selected; i.e. half-court or full-court
+
+function attachButtonFunctions(event, bookingSchedule) {
   if (event.region == "AM") {
       // alert('You clicked ' + event.region);
-      drawBookedTimes(ctx, radius, halfCourtsBooked, 'AM');
+      drawBookedTimes(ctx, radius, bookingSchedule, 'AM');
   } else if (event.region == "PM") {
     //  alert('You clicked ' + event.region);
-      drawBookedTimes(ctx, radius, halfCourtsBooked, 'PM');
+      drawBookedTimes(ctx, radius, bookingSchedule, 'PM');
   }
 }
 
 function drawBookedTimes(ctx, radius, bookingSchedule, meridiem) {
   var now = new Date();
+  now.setHours(now.getHours() - 10);
   var dateSelectedFormatted = new Date(dateSelected) //.toLocaleDateString();
   var nowDate = now.toLocaleDateString();
-  //now.setHours(now.getHours() - 10);
   var transparentRed = "rgba(255,0,0,1)";
   var transparentGreen = "rgba(0,128,0,1)";
 
@@ -215,7 +225,7 @@ function drawBookedTimes(ctx, radius, bookingSchedule, meridiem) {
     for (const time in bookingSchedule) {
       if ((time < "12:00") && (time > openingHour) && (time >= currentTime)) {
         //console.log(time, openingHour);
-        if (halfCourtsBooked[time] == true) {
+        if (bookingSchedule[time] == true) {
           drawHalfHourBooking(ctx, radius, time, transparentRed, bookingSchedule);
         } else {
           drawHalfHourBooking(ctx, radius, time, transparentGreen, bookingSchedule);
@@ -227,7 +237,7 @@ function drawBookedTimes(ctx, radius, bookingSchedule, meridiem) {
     drawClock();
     for (const time in bookingSchedule) {
       if (time >= "12:00" && (time < closingHour) && (time >= currentTime)) {
-        if (halfCourtsBooked[time] == true) {
+        if (bookingSchedule[time] == true) {
           drawHalfHourBooking(ctx, radius, time, transparentRed, bookingSchedule);
           //console.log("Booked");
         } else {
@@ -453,16 +463,142 @@ function drawBottomButtons(ctx, radius) {
 var prices = <%= @sports_centre.prices.to_json.html_safe %>
 setPrices(prices, "half_court");
 setPrices(prices, "full_court");
+document.querySelector('.casual').click();
 
 function setPrices(prices, court_type) {
   var casual_prices = Object.values(prices["casual"][court_type]);
   var elements = document.querySelectorAll(`.${court_type} .priceHolder`);
   var regular_prices = Object.values(prices["regular"][court_type]);
   var counter = 0;
-  console.log(`.${court_type} .priceHolder`);
+  // console.log(`.${court_type} .priceHolder`);
+  console.log(prices);
   while (counter < 3) {
     elements[counter].setAttribute("data-casual-price", casual_prices[counter]);
     elements[counter].setAttribute("data-regular-price", regular_prices[counter]);
     counter++;
   }
 }
+
+// all the code for the full courts; only needed to generate a boolean array, which will be fed into the same
+// drawClock functions defined above.
+/*
+var fullOuterArray = [];
+var fullSubArray;
+var fullCounter4;
+var fullCourtCounter = 1;
+var fullBookingsByDateAndCourt;
+
+while (fullCourtCounter <= numberOfCourts) {
+  //subArray = [];
+  counter4 = 0;
+  bookingsByDateAndCourt = bookingsByDate.filter(function(element) {return element.court_no == courtCounter});
+  subArray = [];
+  while (counter4 < bookingsByDateAndCourt.length) {
+    subArray.push(calculateTimes(bookingsByDateAndCourt[counter4]));
+    counter4++;
+  }
+  courtCounter++;
+  outerArray.push(subArray.flat());
+} */
+console.log("This is the outerArray", outerArray);
+
+//var arrayBooked = outerArray;
+/*
+function calculateTimes(booking) {
+  var arrayOfTimes = []
+  //var time;
+  var start = new Date(booking.startTime.slice(0,-1));
+  //var time = start;
+  var finish = new Date(booking.endTime.slice(0,-1));
+  // var count = 10
+  while (start.getTime() != finish.getTime()) {
+    //time = start.strftime("%R")
+    // time = ;
+    //console.log(start);
+    // console.log( start, finish);
+    arrayOfTimes.push(start.toLocaleTimeString().slice(0,5));
+    //return arrayOfTimes
+    start = new Date(start.setMinutes( start.getMinutes() + 30 ));
+  //  count--;
+  }
+  return arrayOfTimes;
+}
+
+var counter3;
+*/
+//console.log(arrayBooked);
+
+// use sets to tell the difference
+/* var set1 = new Set(Object.keys(halfCourtsBooked));
+var set2;
+var difference; */
+var fullCourtCounter = 0;
+var fullCourtCounter2;
+var fullCourtDifference1;
+var fullCourtDifference2;
+var fullCourtsFree;
+var set3;
+var fullCourtsBooked = Object.assign({}, halfCourtsBooked);
+for (var key in fullCourtsBooked) {
+  fullCourtsBooked[key] = true;
+}
+
+while (fullCourtCounter < arrayBooked.length) {
+  fullCourtCounter2 = 0;
+  set2 = new Set(arrayBooked[fullCourtCounter]); // counter
+  fullCourtDifference1 = new Set([...set1].filter(x => !set2.has(x))); // difference is an object containing all the unbookedTimes of one court
+
+  set3 = new Set(arrayBooked[fullCourtCounter+1]); // counter
+  fullCourtDifference2 = new Set([...set1].filter(x => !set3.has(x))); // all the unbookedTimes of the second half (of the full court)
+
+  fullCourtsFree = ([...fullCourtDifference1].filter(x => fullCourtDifference2.has(x))); // array of times when adjacent half courts are both free; i.e. full court free.
+
+  //console.log("here are when the full courts are free: ", fullCourtsFree);
+  while (fullCourtCounter2 < fullCourtsFree.length) { //counter
+    //console.log(arrayBooked[counter]);
+      // counter3 = 0;
+    fullCourtsBooked[fullCourtsFree[fullCourtCounter2]] = false; // set all free times to false; i.e. not booked
+    fullCourtCounter2++;
+  }
+  fullCourtCounter = fullCourtCounter + 2;
+}
+//console.log("here are all the full court times", fullCourtsBooked);
+
+// set an on click listener on the fullCourt tab in the widget.
+
+var fullCourtTab = document.querySelector("#nav-fullCourt-tab");
+fullCourtTab.addEventListener( "click", function() {
+  //alert("hello!");
+  //drawClock();
+  if (now.getHours() < 12) {
+      drawBookedTimes(ctx, radius, fullCourtsBooked, 'AM');
+      //alert("clicked");
+  } else {
+      drawBookedTimes(ctx, radius, fullCourtsBooked, 'PM');
+      //alert("clicked");
+  };
+  canvas.addEventListener("click", function(event) {
+    attachButtonFunctions(event, fullCourtsBooked);
+  });
+
+  //console.log("full court times", fullCourtsBooked);
+});
+
+var halfCourtTab = document.querySelector("#nav-halfCourt-tab");
+halfCourtTab.addEventListener( "click", function() {
+  //alert("hello!");
+  //drawClock();
+  if (now.getHours() < 12) {
+      drawBookedTimes(ctx, radius, halfCourtsBooked, 'AM');
+      //alert("clicked");
+  } else {
+      drawBookedTimes(ctx, radius, halfCourtsBooked, 'PM');
+      //alert("clicked");
+  };
+  canvas.addEventListener("click", function(event) {
+    attachButtonFunctions(event, halfCourtsBooked);
+  });
+  //console.log("full court times", fullCourtsBooked);
+});
+
+halfCourtTab.click(); // the default tab open, showing booking times, will be for half courts.

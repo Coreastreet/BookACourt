@@ -3,6 +3,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '2.6.5'
 
+gem 'dotenv-rails', :groups => [:development, :test]
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 6.0.0'
 # Use postgresql as the database for Active Record
@@ -24,8 +25,9 @@ gem 'bcrypt', '~> 3.1.7'
 
 # add gem 'bootstrap' for css framework
 # gem 'bootstrap',  '~>4.3.1
-
+gem 'stripe'
 # gem 'devise' for authentication
+# gem 'dotenv-rails'
 
 # adding fount awesome icons
 gem 'font-awesome-rails'

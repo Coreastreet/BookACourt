@@ -1,0 +1,50 @@
+<!-- cut from new line:18 -->
+<%= f.label :email, class: 'col-12' %>
+<%= f.email_field :email, class: 'col-12 form-control mandatory', required: true, autocomplete: "username" %>
+<div class="form-row nested mt-3">
+  <div class="col-md-8">
+    <div class="row">
+      <%= f.label :password, class: 'col-12' %>
+      <%= f.password_field :password, class: 'col-12 form-control mandatory', required: true, autocomplete: "new-password" %>
+    </div>
+  </div>
+</div>
+<div class="form-row nested mt-3">
+  <div class="col-md-8">
+    <div class="row">
+      <%= f.label :password, class: 'col-12' %>
+      <%= f.password_field :password_confirmation, class: 'col-12 form-control mandatory', required: true, autocomplete: "new-password" %>
+    </div>
+  </div>
+</div>
+
+<!-- cut from new line horizontal divider -->
+<div class="row mt-3">
+    <div class="col"><hr></div>
+    <div class="col-auto">OR</div>
+    <div class="col"><hr></div>
+</div>
+
+<div class="form-row">
+    <%= f.label :title, "Legal Business Name", class: 'col-12' %>
+    <%= f.text_field :title, id: "title", class: 'col-12 form-control mandatory', required: true %>
+    <div class="valid-feedback">Looks good!</div>
+    <div class="invalid-feedback">Example invalid custom select feedback</div>
+ </div>
+
+ <%= f.label :images, class: 'col-12' %>
+ <%= f.file_field :images, multiple: true, class: 'col-12 form-control', required: false%>
+ </div>
+ <div class="form-row mt-3">
+ <%= f.label :description, class: 'col-12' %>
+ <%= f.text_area :description, class: 'col-12 form-control', required: false%>
+
+ <div class="col-md-4">
+     <div class="row">
+         <%= f.label :phone, class: 'col-12' %>
+         <%= f.telephone_field :phone, class: 'col-12 form-control', required: false%>
+     </div>
+ </div>
+
+ <!--
+ -->
