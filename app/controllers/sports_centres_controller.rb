@@ -13,21 +13,29 @@ class SportsCentresController < ApplicationController
     new_address = Address.create(address_params[:address])
     new_sports_centre = SportsCentre.create(sports_centre_params)
 
-    new_sports_centre.email.downcase!
+    #puts(token_params)
+    #new_sports_centre.email.downcase!
 
     new_sports_centre.update(address: new_address)
-    new_sports_centre.images.attach(params[:sports_centre][:images])
+    new_sports_centre.update(email: "blah4@gmail.com")
+    new_sports_centre.update(password: "Soba3724")
+    # move opening hours and images to dashboard
+
+    #new_sports_centre.images.attach(params[:sports_centre][:images])
     # convert the string of opening hours to json before assignment
-    jsonAddress = JSON.parse(opening_hour_params[:opening_hours])
-    new_sports_centre.update(opening_hours: jsonAddress)
+    #jsonAddress = JSON.parse(opening_hour_params[:opening_hours])
+    # new_sports_centre.update(opening_hours: jsonAddress)
     new_sports_centre.update(numberOfCourts: 6)
     # format the full_address from street_address, suburb, state and postcode
+    new_rep = Representative.create!(rep_params)
+    new_contact = Contact.create!(contact_params)
     if new_address.full_address.blank?
       full_address = "#{new_address.street_address}, #{new_address.suburb} #{new_address.state} #{new_address.postcode}"
       new_address.full_address = full_address;
     end
     # new_sports_centre.images.attach(params[:sports_centre][:images])
     if new_sports_centre.save! && new_address.save!
+      debugger
       redirect_to admin_sports_centre_path(new_sports_centre)# show for sports_centre
     else
       render :new
@@ -101,5 +109,15 @@ class SportsCentresController < ApplicationController
         params.require(:date) #.require(:)
     end
 
+    def rep_params
+        params.require(:sports_centre).require(:representative).permit(:name, :address, :email, :title, :dob, :phone)
+    end
 
+    def contact_params
+        params.require(:sports_centre).require(:contact).permit(:name, :email)
+    end
+
+    def token_params
+        params.require(:sports_centre).permit(:token_account, :token_person)
+    end
 end

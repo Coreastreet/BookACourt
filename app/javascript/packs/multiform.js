@@ -1,11 +1,11 @@
 $(document).ready( function () {
 
-  var owner_name = document.querySelector(".owner-name");
-  var owner_email = document.querySelector(".owner-email");
+  var owner_name = document.querySelector(".contact-name");
+  var owner_email = document.querySelector(".contact-email");
   // var script = document.createElement('script');script.src = "https://code.jquery.com/jquery-3.4.1.min.js";document.getElementsByTagName('head')[0].appendChild(script);
-  var companyName = document.querySelector("span.companyName");
-  var ownerName = document.querySelector(".owner-name");
-  var ownerEmail = document.querySelector(".owner-email");
+  var companyName = document.querySelector("p.companyName");
+  var ownerName = document.querySelector(".contact-name");
+  var ownerEmail = document.querySelector(".contact-email");
 
   var currentCard = 0;
   showCard(currentCard);
@@ -13,18 +13,35 @@ $(document).ready( function () {
   $('.card').eq(-1).find('button.next').css('display', 'none');
   $('.card').eq(-1).find('button[type="submit"]').text('Submit');
 
+
   $('body').on('click', 'button.next', function() {
     // if current card is a contact card that requires both owner and executive details, do not move to next card.
-    if (this.closest(".card").matches('.contact')) {
+    var outerCard = this.closest(".card");
+    if (outerCard.matches('.contact.owner')) {
       // do not move to next card
       //alert("next disabled!");
-      fillInExecutiveCard(this.closest(".card")); // using the same card, switch from owner to executive form.
+      fillInCard(this.closest(".card"), "director"); // using the same card, switch from owner to executive form.
+      outerCard.classList.remove('owner');
+      outerCard.classList.add('director');
     } else {
       nextPrev(1);
     }
   });
   $('body').on('click', 'button.previous', function() {
+    var outerCard = this.closest(".card");
+    var contact_details = document.querySelectorAll(".new-contact-details");
+    var counter = 1;
+    var holder;
+    if (outerCard.matches('.contact.director')) {
+      // do not move to next card
+      //alert("next disabled!");
+      fillInCard(this.closest(".card"), "owner"); // using the same card, switch from owner to executive form.
+      outerCard.classList.remove('director');
+      outerCard.classList.add('owner');
+
+    } else {
       nextPrev(-1);
+    }
   });
 
 
@@ -44,6 +61,15 @@ $(document).ready( function () {
 
     cards.eq(currentCard).css('display', 'none');
     currentCard += n;
+    //console.log(currentCard);
+    if (cards.eq(currentCard).hasClass("contact")) {
+      var inputs = document.querySelectorAll("input.rep-checkbox");
+      //alert("found!" + currentCard);
+      checkCheckboxes(inputs);
+    }
+    if (currentCard == 3) {
+      cards.eq(currentCard).addClass('owner');
+    }
     if (currentCard >= cards.length) {
       //alert($('form#new_sports_centre'));
       //$('form#new_sports_centre').submit();
@@ -52,9 +78,40 @@ $(document).ready( function () {
     }
     showCard(currentCard);
     // check if card shown contains the element for displaying owners; if yes, then fill the element with the owners info.
-    if (document.querySelectorAll('.card')[currentCard].contains(companyName)) {
+
+    // prevent computer from re-adding same entries when clicking back and then returning to summary
+    if (document.querySelectorAll('.card')[currentCard].classList.contains("summary") &&
+    (document.querySelectorAll(".new-contact-summary").length != document.querySelectorAll(".new-contact-details").length - 1)) {
+       var contactsClone;
+       var final_add_contact = document.querySelector(".final-add-contact");
+       var summaryCard = final_add_contact.parentNode;
+       var hr;
        companyName.innerHTML = document.querySelector("input#title").value;
+       $(".new-contact-details").each( function(index) {
+         if (index >= 1) {
+            contactsClone = this.cloneNode(true);
+            //console.log(contactsClone);
+            contactsClone.classList.remove("d-none");
+            summaryCard.insertBefore(contactsClone, final_add_contact);
+            contactsClone.classList.remove("new-contact-details");
+            contactsClone.setAttribute("data-contact-email", this.querySelector(".contact-email").innerText);
+            contactsClone.classList.add("new-contact-summary");
+            contactsClone.classList.add("bg-white");
+            contactsClone.classList.add("py-2");
+            // add an update button
+            var newEl = document.createElement('div');
+            newEl.innerHTML = '<button type="button" class="btn bg-white border button-style">Update</button>'
+            contactsClone.querySelector(".remove-contact").replaceWith(newEl);
+            // update contact with info about whether the contact is rep, owner or director
+            contactsClone.querySelector(".contact-email").innerHTML = contactsClone.getAttribute("data-contact-type");
+
+            hr = document.createElement('hr');
+            hr.classList.add("my-0");
+            summaryCard.insertBefore(hr, final_add_contact);
+         }
+       });
     }
+    // if the card is the last one, then set the company name and contacts for summary.
   }
 
   // check all mandatory fields have been filled in
@@ -68,6 +125,25 @@ $(document).ready( function () {
     });
 
     return valid;
+  }
+
+  function checkCheckboxes(inputs) {
+    var repContact = document.querySelector('.rep-contact');
+    if (document.querySelector('.rep-contact')) {
+      if ((inputs[0].checked && inputs[1].checked) == true) {
+        repContact.setAttribute("data-contact-type", "Account Representative, Owner, Director");
+      } else if ((inputs[0].checked || inputs[1].checked) == false) {
+        repContact.setAttribute("data-contact-type", "Account Representative");
+      } else {
+        if (inputs[0].checked == true) {
+          repContact.setAttribute("data-contact-type", "Account Representative, Owner");
+        } else if (inputs[1].checked == true) {
+          repContact.setAttribute("data-contact-type", "Account Representative, Director");
+        } else {
+          //
+        }
+      }
+    }
   }
 
   // refactor later possibly
@@ -102,30 +178,26 @@ $(document).ready( function () {
 
   // for checkbox if owner or director; as well as if more than one
   $("body").on("click", ".rep-checkbox", function() {
-    if (this.checked == true) {
+    var first_owner = document.querySelector(".new-contact-details");
+    var detailsClone = first_owner.cloneNode(true);
+    if (this.checked == true && (document.querySelectorAll('.new-contact-details').length == 1)) {
       this.parentElement.nextElementSibling.classList.remove("d-none");
-      if (this.value == "owner" && (document.querySelectorAll('.new-contact-details').length == 1)) {
-        // auto enter the rep details into the owners card
-        //console.log();
-        var first_owner = document.querySelector(".new-contact-details");
-        var detailsClone = first_owner.cloneNode(true);
-        detailsClone.classList.remove('d-none');
-        var buttonRow = document.querySelector('.add-contact').parentNode;
-        var cardBodyNode = buttonRow.parentNode;
-        cardBodyNode.insertBefore(detailsClone, buttonRow);
+      var buttonRow = document.querySelector('.add-contact').parentNode;
+      var cardBodyNode = buttonRow.parentNode;
+      var hr = document.createElement('hr');
+      detailsClone.classList.remove('d-none');
+      cardBodyNode.insertBefore(detailsClone, buttonRow);
+      cardBodyNode.insertBefore(hr, buttonRow);
 
-        var hr = document.createElement('hr');
-        cardBodyNode.insertBefore(hr, buttonRow);
+      detailsClone.querySelector('.contact-name').innerHTML = document.querySelector("#sports_centre_representative_name").value;
+      detailsClone.querySelector('.contact-email').innerHTML = document.querySelector("#sports_centre_representative_email").value;
+      detailsClone.classList.add("rep-contact");
 
-        detailsClone.querySelector('.owner-name').innerHTML = document.querySelector("#sports_centre_representative_name").value;
-        detailsClone.querySelector('.owner-email').innerHTML = document.querySelector("#sports_centre_representative_email").value;
-      } else { // if director only selected
-        var hrS = document.querySelectorAll("hr.new-class-details");
-        //hrS[hrS.length - 1].remove();
-      }
     } else {
+      //detailsClone.setAttribute("data-contact-type", "Account Representative");
       //console.log(this.next());
-      this.parentElement.nextElementSibling.classList.add("d-none");
+      this.parentElement.nextElementSibling.classList.remove("d-none");
+      //alert("blah -neither");
     }
   });
 
@@ -134,12 +206,16 @@ $(document).ready( function () {
   $("body").on("click", ".add-contact", function() {
     owner_card.classList.add("d-none");
     add_contact_card.classList.remove("d-none");
-    if (this.getAttribute("data-form") == "executive") {
-        var heading = add_contact_card.querySelector('.new-contact-heading');
-        var subheading = add_contact_card.querySelector('.new-contact-subheading');
+    var heading = add_contact_card.querySelector('.new-contact-heading');
+    var subheading = add_contact_card.querySelector('.new-contact-subheading');
+    if (this.getAttribute("data-form") == "director") {
         heading.children[0].innerHTML = "Add a director";
         heading.children[1].innerHTML = "It’s required to add any individual who is on the governing board of the company."
         subheading.children[0].innerHTML = "Director Information";
+    } else if (this.getAttribute("data-form") == "owner") {
+        heading.children[0].innerHTML = "Add an owner";
+        heading.children[1].innerHTML = "It’s required to add any individual who owns 25% or more of the company."
+        subheading.children[0].innerHTML = "Owner Information";
     }
     //parentCardNode.insertBefore(detailsClone, ownerButtonNode);
     //parentCardNode.insertBefore(hrTag, ownerButtonNode);
@@ -158,20 +234,33 @@ $(document).ready( function () {
     var details = document.querySelector(".new-contact-details");
     var detailsClone = details.cloneNode(true);
     detailsClone.classList.remove('d-none');
+
+    //detailsClone.setAttribute("data-form", "");
+
     var ownerButtonNode = document.querySelector('button.add-contact').parentNode;
     var parentCardNode = ownerButtonNode.parentNode;
     var hrTag = document.createElement('hr');
 
-    var new_owner_name = document.querySelector(".new-owner-name").value;
-    var new_owner_email = document.querySelector(".new-owner-email").value;
+    var new_owner_name = document.querySelector(".new-contact-name").value;
+    var new_owner_email = document.querySelector(".new-contact-email").value;
     add_contact_card.classList.add("d-none");
     owner_card.classList.remove("d-none");
 
     parentCardNode.insertBefore(detailsClone, ownerButtonNode);
     parentCardNode.insertBefore(hrTag, ownerButtonNode);
 
-    detailsClone.querySelector('.owner-name').innerHTML = new_owner_name;
-    detailsClone.querySelector('.owner-email').innerHTML = new_owner_email;
+    detailsClone.querySelector('.contact-name').innerHTML = new_owner_name;
+    detailsClone.querySelector('.contact-email').innerHTML = new_owner_email;
+    //console.log(parentCardNode.parentNode);
+    if (parentCardNode.parentNode.classList.contains("owner")) {
+      detailsClone.setAttribute("data-contact-type", "Owner");
+      //alert("owner");
+    } else if (parentCardNode.parentNode.classList.contains("director")) {
+      detailsClone.setAttribute("data-contact-type", "Director");
+      //alert("director");
+    } else {
+      // do nothing
+    }
   });
 
   // remove parent when remove link clicked.
@@ -182,26 +271,72 @@ $(document).ready( function () {
       hr_below.remove();
   });
 
-  function fillInExecutiveCard(card) {
+  function fillInCard(card, contactType) {
     var contact_heading = card.querySelector('.contact-heading');
-    contact_heading.children[0].innerHTML = "Business Management";
-    contact_heading.children[1].innerHTML = "Due to regulations, we’re required to collect information about a company’s directors.";
-
     var contact_sub_heading = card.querySelector('.contact-sub-heading');
-
     var companyName = document.querySelector("input#title").value;
-    contact_sub_heading.children[0].innerHTML = "Please list all individuals who are members of the governing board of " + companyName;
-
     var add_contact_button = card.querySelector('button.add-contact');
-    add_contact_button.children[1].innerHTML = "Add another director";
-    add_contact_button.setAttribute("data-form", "executive");
-
-    // hide the existing owner details if they exist.
     var owner_list = $(".new-contact-details");
-    owner_list.each( function() {
-      $(this).next().addClass('d-none');
-      $(this).addClass('d-none');
-    });
+
+    if (contactType == "director") {
+
+        contact_heading.children[0].innerHTML = "Business Management";
+        contact_heading.children[1].innerHTML = "Due to regulations, we’re required to collect information about a company’s directors.";
+
+
+        contact_sub_heading.children[0].innerHTML = "Please list all individuals who are members of the governing board of " + companyName;
+
+        add_contact_button.children[1].innerHTML = "Add another director";
+        add_contact_button.setAttribute("data-form", "director");
+
+        owner_list.each( function(index) {
+        // hide the existing owner details if they exist.
+          //$(this).next().addClass('d-none');
+          if (index >= 1) {
+            //console.log(holder);
+            if (this.classList.contains("d-none")) {
+              this.classList.remove("d-none");
+              if ($(this).next().is('hr')) {
+                $(this).next().removeClass("d-none");
+              }
+              //alert(counter, "removed");
+            } else {
+              this.classList.add("d-none");
+              if ($(this).next().is('hr')) {
+                $(this).next().addClass("d-none");
+              }
+              //alert(counter);
+            }
+          }
+        });
+    } else if (contactType == "owner") {
+        contact_heading.children[0].innerHTML = "Business Ownership";
+        contact_heading.children[1].innerHTML = "Due to regulatory guidelines, companies need to list everyone who owns a large portion of the business.";
+
+        contact_sub_heading.children[0].innerHTML = "Add any individual who owns 25% or more of" + companyName;
+        add_contact_button.children[1].innerHTML = "Add another owner";
+        add_contact_button.setAttribute("data-form", "owner");
+        owner_list.each( function(index) {
+          //console.log(contact_details);
+          if (index >= 1) {
+            //console.log(holder);
+            if (this.classList.contains("d-none")) {
+              this.classList.remove("d-none");
+              if ($(this).next().is('hr')) {
+                $(this).next().removeClass("d-none");
+              }
+              //alert(counter, "removed");
+            } else {
+              this.classList.add("d-none");
+              if ($(this).next().is('hr')) {
+                $(this).next().addClass("d-none");
+              }
+              //alert(counter);
+            }
+          }
+          //$(this).removeClass('d-none');
+        });
+    }
 
   }
 

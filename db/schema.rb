@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_10_041856) do
+ActiveRecord::Schema.define(version: 2019_12_16_064150) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -70,7 +70,7 @@ ActiveRecord::Schema.define(version: 2019_12_10_041856) do
     t.string "name"
     t.string "email"
     t.integer "relationship"
-    t.bigint "sports_centre_id", null: false
+    t.bigint "sports_centre_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["sports_centre_id"], name: "index_contacts_on_sports_centre_id"
@@ -101,9 +101,9 @@ ActiveRecord::Schema.define(version: 2019_12_10_041856) do
     t.date "dob"
     t.string "title"
     t.string "email"
-    t.integer "phone"
+    t.bigint "phone"
     t.string "password_digest"
-    t.bigint "sports_centres_id", null: false
+    t.bigint "sports_centres_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["sports_centres_id"], name: "index_representatives_on_sports_centres_id"

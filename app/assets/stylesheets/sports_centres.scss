@@ -188,3 +188,12 @@ input[type=date]::-webkit-inner-spin-button, input[type=number]::-webkit-inner-s
     -webkit-appearance: none;
     display: none;
 }
+
+.button-style {
+  box-shadow: 0 0.125rem 0.25rem rgba(0,0,0,.075);
+  border-color: rgb(60,66,87) !important;
+}
+
+.button-style:hover {
+  box-shadow: 0 0.25rem 0.5rem rgba(0,0,0,.075);
+}
