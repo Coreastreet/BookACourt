@@ -29,24 +29,14 @@ Rails.application.routes.draw do
   get 'admin/sports_centres/:id/date/:date_id', to: "admin#show_again", as: 'admin_show_again'
 
   post "admin/sports_centres/:id/peak_hours", to: "admin#updatePeakHours", as: "admin_update_peak"
-  # get 'home/index'
-  # get 'home/about'
-  # get 'courts/create'
-  # get 'courts/delete'
-  # get 'courts/index'
-  # get 'sports_centres/create'
-  # get 'sports_centres/delete'
-  # get 'sports_centres/index'
-  # get 'sports_centres/read'
-  # get 'sports_centres/edit'
-  # get 'prices/index'
-  # get 'prices/create'
-  # get 'prices/delete'
-  # get 'prices/edit'
-  # get 'bookings/create'
-  # get 'bookings/read'
-  # get 'bookings/calculateRate'
-  # get 'guests/create'
-  # get 'guests/delete'
+
+  # api versioning
+  namespace :api do
+    namespace :v1, defaults: {format: 'json'} do
+        resources :sports_centres, only: [:show] do
+          resource :bookings, shallow: true, only: [:show]
+        end
+    end
+  end
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end

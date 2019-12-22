@@ -22,11 +22,13 @@
                             <div class="valid-feedback">Looks good!</div>
                             <div class="invalid-feedback">Example invalid custom select feedback</div>
                       </div>
-                    <div class="form-row btn-toolbar p-0 mt-4">
+                    </div>
+                  <div class="card-footer">
+                    <div class="form-row btn-toolbar p-0">
                         <button type="button" class="btn btn-light previous"><i class="fa fa-angle-left mr-2"></i>Previous</button>
                         <button type="button" class="btn btn-light ml-auto next">Next<i class="fa fa-angle-right ml-2"></i></button>
                     </div>
-                </div>
+                  </div>
               </fieldset>
             </div>
         </div>
@@ -111,11 +113,26 @@
                            </div>
                          </div>
                        </div>
-                      <div class="form-row btn-toolbar p-0 mt-4">
+                       <div class= "form-row">
+                         <p class="heading font-weight-normal mt-3">Industry type</p>
+                       </div>
+                        <div class = "form-row mb-4 mx-0">
+                          <div class="form-check form-check-inline mr-4">
+                             <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="For-profit">
+                             <label class="form-check-label" for="inlineRadio1">For-Profit</label>
+                           </div>
+                           <div class="form-check form-check-inline">
+                             <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="Not-for-Profit">
+                             <label class="form-check-label" for="inlineRadio2">Not-for-Profit</label>
+                           </div>
+                        </div>
+                      </div>
+                    <div class="card-footer">
+                      <div class="form-row btn-toolbar p-0">
                           <button type="button" class="btn btn-light previous"><i class="fa fa-angle-left mr-2"></i>Previous</button>
                           <button type="button" class="btn btn-light ml-auto next">Next<i class="fa fa-angle-right ml-2"></i></button>
                       </div>
-                </div>
+                    </div>
               </fieldset>
             </div>
         </div>
@@ -269,8 +286,7 @@
                     </div>
                 </div>
                 <div class="card-footer">
-                  <p class="mb-2">By clicking next, you agree to our <%= link_to "Services Agreement", "#" %>
-                    and the <%= link_to "Stripe Connected Account Agreement", "https://stripe.com/connect-account/legal"%></p>
+                  <p class="mb-2">By clicking next, you agree to our <%= link_to "Services Agreement", "#" %></p>
                   <div class="form-row btn-toolbar p-0 mt-4">
                       <button type="button" class="btn btn-light previous"><i class="fa fa-angle-left mr-2"></i>Previous</button>
                       <button type="button" class="btn btn-light ml-auto next">Next<i class="fa fa-angle-right ml-2"></i></button>
@@ -366,33 +382,13 @@
                 </div>
                 <div class="card-body">
                       <div class= "form-row contact-heading">
-                        <p class="bold heading mb-1">Verification summary</p>
-                        <p>You’re almost done—please provide a few more details about your business to start working with Rocket Deliveries.</p>
+                        <p class="bold heading mb-1">Payment details</p>
+                        <p>In order to receive online payments from your customers, BookACourt requires that you
+                          <%= link_to "sign up with Polipay", "https://signup.apac.paywithpoli.com/" %>
+                          and provide us with the Merchant Code and Authentication Code associated with your new account</p>
                       </div>
                       <hr class="my-0">
-                      <div class= "form-row contact-sub-heading">
-                        <p class="heading font-weight-normal mt-3">Business Details</p>
-                      </div>
-                      <hr class="mb-0">
-                      <div class="form-row business-name bg-white py-2">
-                        <div class="col-1 d-flex">
-                          <i class="fas fa-store align-self-center"></i>
-                        </div>
-                        <div class="col-9 d-flex align-items-center">
-                          <p class="companyName mb-0"></p>
-                        </div>
-                        <div class="col-2 d-flex justify-content-end">
-                          <button type="button" class="btn bg-white border button-style"><i class="fas fa-edit" aria-hidden="true"></i></button>
-                        </div>
-                      </div>
-                      <hr class="mt-0">
-                      <div class= "form-row contact-sub-heading">
-                        <p class="heading font-weight-normal mt-3">Management and ownership</p>
-                      </div>
-                      <hr class="mb-0">
-                      <div class="form-row final-add-contact mt-3">
-                        <button type="button" class="btn btn-default border button-style bg-white" data-form="owner"><i class="fa fa-plus mr-2" aria-hidden="true"></i><span>Add an owner or director</span></button>
-                      </div>
+                      <iframe src="https://signup.apac.paywithpoli.com/"></iframe>
                       <%= f.text_field :token_account, class: "d-none", id: "token-account" %>
                       <%= f.text_field :token_person, class: "d-none", id: "token-person" %>
                 </div>
@@ -401,7 +397,6 @@
                       <div class="form-row btn-toolbar p-0 mt-4">
                           <button type="button" class="btn btn-light previous"><i class="fa fa-angle-left mr-2"></i>Previous</button>
                           <button type="button" class="btn btn-light ml-auto next">Next<i class="fa fa-angle-right ml-2"></i></button>
-                          <%= f.button :submit, class: 'btn btn-light ml-auto' %>
                       </div>
                    </div>
               </fieldset>

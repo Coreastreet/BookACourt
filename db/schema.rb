@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_16_064150) do
+ActiveRecord::Schema.define(version: 2019_12_19_234347) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -103,10 +103,10 @@ ActiveRecord::Schema.define(version: 2019_12_16_064150) do
     t.string "email"
     t.bigint "phone"
     t.string "password_digest"
-    t.bigint "sports_centres_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["sports_centres_id"], name: "index_representatives_on_sports_centres_id"
+    t.bigint "sports_centre_id"
+    t.index ["sports_centre_id"], name: "index_representatives_on_sports_centre_id"
   end
 
   create_table "sessions", force: :cascade do |t|
@@ -152,5 +152,5 @@ ActiveRecord::Schema.define(version: 2019_12_16_064150) do
   add_foreign_key "contacts", "sports_centres"
   add_foreign_key "prices", "bookings"
   add_foreign_key "prices", "sports_centres", column: "sports_centres_id"
-  add_foreign_key "representatives", "sports_centres", column: "sports_centres_id"
+  add_foreign_key "representatives", "sports_centres"
 end

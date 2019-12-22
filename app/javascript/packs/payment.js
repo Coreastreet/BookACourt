@@ -1,8 +1,5 @@
 document.addEventListener('DOMContentLoaded', function(){
 
-  var stripe = Stripe('pk_test_N75DfmVdVk3b8FE5JMbkrgfY00sngv9GrB');
-
-  if ($(".book-now").length > 0) {
     const payButton = document.querySelector(".book-now");
     var court_type = document.querySelector(".court-types > a.active").getAttribute("data-courtType");
 
@@ -17,29 +14,25 @@ document.addEventListener('DOMContentLoaded', function(){
     var time_type = "off_peak";
 
     //payButton.setAttribute('style', 'display: none;');
-    if (window.PaymentRequest) {
-      let request = initPaymentRequest();
       //payButton.setAttribute('style', 'display: inline;');
-      payButton.addEventListener('click', function() {
-        //alert("working");
-        // check that the startTime and the endTime has both been selected.
-        // fix later
-        var start = document.querySelector("input.startTime");
-        var end = document.querySelector("input.endTime");
-        if ((start.value == "") || (end.value == "")) {
-          start.classList.add("is-invalid");
-          end.classList.add("is-invalid");
-          return;
-        }
+    payButton.addEventListener('click', function() {
+      //alert("working");
+      // check that the startTime and the endTime has both been selected.
+      // fix later
+      var start = document.querySelector("input.startTime");
+      var end = document.querySelector("input.endTime");
 
-        var total_cost = calculateTotalPrice();
-        //alert(total_cost);
-        request = initPaymentRequest(total_cost);
-        onBuyClicked(request);
-      });
-    } else {
-      console.log('This browser does not support web payments');
-    }
+      // missing either the start or end time
+      if ((start.value == "") || (end.value == "")) {
+        start.classList.add("is-invalid");
+        end.classList.add("is-invalid");
+        return;
+      }
+
+      var total_cost = calculateTotalPrice();
+      //alert(total_cost);
+      request = initPaymentRequest(total_cost);
+    });
 
       // build and return a paymentRequest Object that contains order details and customer info.
 
@@ -92,13 +85,6 @@ document.addEventListener('DOMContentLoaded', function(){
             //booking_off_peak =  `Booking ( off-peak hour ) ${convertTimeIntoString(start_of_off_peak_booking)} - ${convertTimeIntoString(start_of_off_peak_booking)}`
             //console.log(convertTimeIntoString(start_of_off_peak_booking), convertTimeIntoString(end_of_off_peak_booking));
             //alert(total);
-            let networks = ['amex', 'diners', 'discover', 'jcb', 'mastercard', 'unionpay',
-                'visa', 'mir'];
-            let types = ['debit', 'credit', 'prepaid'];
-            let supportedInstruments = [{
-              supportedMethods: 'basic-card',
-              data: {supportedNetworks: networks, supportedTypes: types},
-            }];
 
             let details = {
               total: {label: 'Total cost', amount: {currency: 'AUD', value: total}},
@@ -110,19 +96,7 @@ document.addEventListener('DOMContentLoaded', function(){
               requestPayerPhone: true,
               requestPayerEmail: true,
             };
-
-            return new PaymentRequest(supportedInstruments, details, options);
           }
-      }
-
-      // display the paymentRequest object.
-      function onBuyClicked(request) {
-        request.show().then(function(paymentResponse) {
-          sendPaymentToServer(paymentResponse);
-        })
-        .catch(function(err) {
-          console.log(err);
-        });
       }
 
       // convert a decimal into a string time
@@ -203,21 +177,15 @@ document.addEventListener('DOMContentLoaded', function(){
         //console.log(time_period_peak, time_period_off_peak);
         return [totalCost, time_period_off_peak, time_period_peak];
       }
-
       //
-      function sendPaymentToServer(paymentResponse) {
-
-          window.setTimeout(function() {
-            paymentResponse.complete('success')
-                .then(function() {
-                  //document.getElementById('result').innerHTML =
-                      //paymentToJsonString(paymentResponse);
-                      console.log(paymentResponse);
-                })
-                .catch(function(err) {
-                  console.log(err);
-                });
-          }, 2000);
-        }
-    }
+      // slide in a modal from right to left upon clicking an right arrow in the first modal
+      var firstModal = $(".modal-content.firstModal");
+      var hiddenModal = $(".modal-content.slideHolderModal");
+      $("body").on("click", ".modal-body .caret", function() {
+        hiddenModal.addClass('show');
+        hiddenModal.find(".modal-body").height(firstModal.find(".modal-body").height()+16);
+      });
+      $("body").on("click", ".back-arrow", function() {
+        $(this).closest(".modal-content").removeClass("show");
+      });
 });

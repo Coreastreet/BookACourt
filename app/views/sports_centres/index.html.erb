@@ -15,10 +15,9 @@
                       </div>
                     </div>
                 <% end %>
-              </div>
+            </div>
           </div>
           <div class="col-8 px-0 mapCol d-none">
-
           </div>
           <div class="col-8 px-0 position-relative detailCol">
             <div class="underneath position-absolute">
@@ -140,7 +139,9 @@
                                   </div>
                                   <button type="button" class="btn btn-secondary btn-block clearTime">Clear Time</button>
                                 <hr class = "my-2">
-                                <button type="button" class="btn btn-success btn-block below-clock book-now mt-2">Book now</button>
+                                <button type="button" class="btn btn-success btn-block below-clock book-now mt-2" data-toggle="modal" data-target="#payment-confirmation">
+                                  Book now
+                                </button>
                               </div>
                             </div>
                           </div>
@@ -184,6 +185,127 @@
               </div>
             </div>
           </div>
+      </div>
+      <!-- Modal content-->
+      <div class="modal fade" id="payment-confirmation" role="dialog">
+        <div class="modal-dialog hidden">
+          <div class="modal-content firstModal">
+            <div class="modal-header">
+              <h6 class="modal-title">Orders Summary</h6>
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body px-0">
+              <div class="container-fluid">
+                <div class="row px-3">
+                  <p class="font-weight-light">Morris Iemma Indoor Sports Centre</p>
+                </div>
+              </div>
+              <hr class="my-0">
+              <div class="container-fluid">
+                <div class="row d-flex justify-content-between caret px-3">
+                  <p class="my-2">Saturday, 3 March 2019</p>
+                  <p class="my-2"><i class="fas fa-caret-right"></i></p>
+                </div>
+                <div class="row px-0">
+                  <div class="col-3 pr-0">
+                    <%= image_tag('miisc_logo.jpeg', class: "img-fluid") %>
+                  </div>
+                  <div class="col-9">
+                    <div class="row">
+                      <div class="col-12 d-flex justify-content-between">
+                        <h5 class="font-weight-bold">BasketBall Half-Court</h5>
+                        <h5 class="mb-0">$25.99</h5>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-12 d-flex justify-content-between caret">
+                        <div>11:30AM-2PM</div>
+                        <div><i class="fas fa-caret-right"></i></div>
+                      </div>
+                    </div>
+                  <!--
+                    <div class="row">
+                      <div class="col-7">
+                        <div>Peak Hour</div>
+                      </div>
+                      <div class="col-2">
+                        <div>1</div>
+                      </div>
+                      <div class="col-3">
+                        <div>$6.99</div>
+                      </div>
+                    </div>
+                    <div class="row mb-2">
+                      <div class="col-7">
+                        <div>Off-Peak Hour</div>
+                      </div>
+                      <div class="col-2">
+                        <div>1</div>
+                      </div>
+                      <div class="col-3">
+                        <div>$4.99</div>
+                      </div>
+                    </div> -->
+                    <!--
+                    <div class="row">
+                      <div class="col-5 offset-7">
+                        <button type="button" class="btn btn-light d-inline-block"><i class="fas fa-minus fa-xs"></i></button>
+                        <div class="endTime d-inline-block" data-counter="" data-interval="">8.00</div>
+                        <button type="button" class="btn btn-light d-inline-block"><i class="fas fa-plus fa-xs"></i></button>
+                      </div>
+                    </div> -->
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+            <div class="modal-content slideHolderModal position-fixed">
+              <div class="modal-header d-flex py-2 pl-2">
+                <i class="fas fa-arrow-left back-arrow hover-grey mr-2 my-1 p-2 align-self-center rounded"></i>
+                <h6 class="modal-title align-self-center">Dates</h6>
+                <button type="button" class="close align-self-center" data-dismiss="modal">&times;</button>
+              </div>
+              <div class="modal-body px-0 overflow-auto pb-0">
+                <div class="container-fluid">
+                  <div class="row px-3">
+                    <p class="font-weight-light">Basketball Half-Court: 11:30AM-2PM</p>
+                  </div>
+                </div>
+                <hr class="my-0">
+                <div class="container-fluid">
+                  <div class="row d-flex justify-content-between caret px-3">
+                    <p class="my-2">Saturday, 3 March 2019</p>
+                  </div>
+                  <hr class="my-0">
+                  <div class="row d-flex justify-content-between caret px-3">
+                    <p class="my-2">Saturday, 10 March 2019</p>
+                  </div>
+                  <hr class="my-0">
+                  <div class="row d-flex justify-content-between caret px-3">
+                    <p class="my-2">Saturday, 17 March 2019</p>
+                  </div>
+                  <hr class="my-0">
+                  <div class="row d-flex justify-content-between caret px-3">
+                    <p class="my-2">Saturday, 24 March 2019</p>
+                  </div>
+                  <hr class="my-0">
+                  <div class="row d-flex justify-content-between caret px-3">
+                    <p class="my-2">Saturday, 31 March 2019</p>
+                  </div>
+                  <hr class="my-0">
+                  <div class="row d-flex justify-content-between caret px-3">
+                    <p class="my-2">Saturday, 7 April 2019</p>
+                  </div>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+
         </div>
       </div>
   </div>

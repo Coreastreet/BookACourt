@@ -26,6 +26,37 @@
   margin-left: 0%;
 }
 
+// for the modal version of sliding in
+.slideHolderModal {
+  margin-left: 100%;
+  transition: all 1s;
+  min-width: 100%;
+  z-index: 99;
+  top: 0px;
+  background-color: white;
+}
+
+.slideHolderModal.show {
+  display: block;
+  margin-left: 0%;
+}
+
+.hidden {
+  overflow: hidden;
+}
+
+.overflow-auto {
+  overflow: auto;
+}
+
+.hover-grey {
+  background-color: white;
+}
+
+.hover-grey:hover {
+  background-color: gainsboro;
+}
+
 #AM {
   color: black;
   background-color: black;
