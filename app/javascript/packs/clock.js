@@ -1,18 +1,19 @@
 document.addEventListener('DOMContentLoaded', function(){
     // your code goes here
    if (document.querySelector("canvas") != null) {
-        document.querySelectorAll(".card-columns div.card");
+        //document.querySelectorAll(".card-columns div.card");
         $('body').on('click', ".card-columns div.card", function(e) {
             var sports_centre_id = $(this).data('id');
             $('.slideHolder').addClass('show');
-            document.querySelector('.slideHolder').setAttribute("data-centre", sports_centre_id);
+            $('.slideHolder').attr("data-centre", sports_centre_id);
+            //document.querySelector('.slideHolder').setAttribute("data-centre", sports_centre_id);
             //console.log(sports_centre_id);
             var dateSplitArray = now.toLocaleDateString().split('/');
             var dateFormatted = `${dateSplitArray[2]}-${dateSplitArray[1]}-${dateSplitArray[0]}`;
             //console.log(dateFormatted);
           //$('.mapCol').addClass("d-none");
         //$('.detailCol').removeClass("d-none");
-            $.ajax({
+           $.ajax({
                type: "GET",
                url: `/sports_centres/${sports_centre_id}/${dateFormatted}`,
                data: {
@@ -45,6 +46,15 @@ document.addEventListener('DOMContentLoaded', function(){
 
         var now = new Date();
 
+        var dateString;
+        var lastIndex;
+
+        // set initial date of regular booking
+        dateString = now.toLocaleDateString('en-GB', {weekday: 'long', day: 'numeric', month: 'long'});
+        //lastIndex = dateString.lastIndexOf(" ");
+        $(".startDate").val(dateString);
+        console.log(dateString);
+
         $('[data-provide="datepicker"]').datepicker({
            format: "DD, d MM yyyy",
            todayHighlight: true,
@@ -52,9 +62,14 @@ document.addEventListener('DOMContentLoaded', function(){
            clearBtn: true,
            startDate: now.toLocaleDateString(),
            maxViewMode: "years"
+        }).on('changeDate', function(e) {
+           //$(".startDate").val(($(this).datepicker('getFormattedDate')));
+           dateString = $(this).datepicker('getFormattedDate');
+           lastIndex = dateString.lastIndexOf(" ");
+           dateString = dateString.substring(0, lastIndex);
+           $(".startDate").val(dateString);
         });
     }
     //var calendarButton = document.querySelector("");
-
 
 }, false);

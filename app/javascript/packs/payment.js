@@ -29,13 +29,13 @@ document.addEventListener('DOMContentLoaded', function(){
         return;
       }
 
-      var total_cost = calculateTotalPrice();
+      fillInPaymentModal();
+      //var total_cost = calculateTotalPrice();
       //alert(total_cost);
-      request = initPaymentRequest(total_cost);
+      //request = initPaymentRequest(total_cost);
     });
 
       // build and return a paymentRequest Object that contains order details and customer info.
-
       function initPaymentRequest(costAndTimes) {
         var total;
         var booking_array;
@@ -188,4 +188,178 @@ document.addEventListener('DOMContentLoaded', function(){
       $("body").on("click", ".back-arrow", function() {
         $(this).closest(".modal-content").removeClass("show");
       });
+
+      // select the value for the confirm payment modal
+      $('body').on("click", ".polipay", function() {
+        var sports_centre_id = $('.slideHolder').attr("data-centre");
+        var modal_content = $(this).closest('.modal-content');
+        var customer_email = modal_content.find('input[type="email"]').val();
+        var total_amount = modal_content.find(".totalAmount").text();
+        var total_amount_float = total_amount.substr(1);
+        var modal_body = modal_content.find(".modal-body");
+        // assuming only one booking is made
+        var booking_type = modal_body.attr("data-booking-type");
+        // set the value of the court-type
+        var court_type = modal_body.attr("data-court-type");
+
+        var startTime = modal_body.attr("data-booking-startTime");
+        var endTime = modal_body.attr("data-booking-endTime");
+
+        var booking_rate = modal_body.attr("data-booking-rate");
+        var all_dates = [];
+        var new_text;
+        modal_content.find('.modal-content .booking-dates p').each( function() {
+          new_text = $(this).text().split(", ")[1];
+          all_dates.push(new_text);
+        });
+
+        var daysInBetween = modal_body.attr("data-booking-interval");
+        //var daysInBetween = modal_body.attr("data-booking-interval");
+        //console.log(total_amount);
+        //console.log(customer_email);
+        //console.log(total_amount);
+        // passing info about the order for reference when transaction completed successfully to later create booking
+        $.ajax({
+           type: "POST",
+           url: `/api/v1/sports_centres/${sports_centre_id}/bookings/initiate`,
+           data: {
+             // all info specific to the overall order
+             order: {
+               totalAmount: total_amount_float,
+               customerEmail: customer_email,
+               bookingType: booking_type,
+               allDates: all_dates,
+               daysInBetween: daysInBetween
+             }, // all info specific to a booking
+             // decide how to assign the court number later on
+             booking: {
+               courtType: court_type,
+               startTime: startTime,
+               endTime: endTime
+             }
+              // info: info, // < note use of 'this' here
+           },
+           success: function(result) {
+               alert('ok, what the hell');
+           },
+           error: function(result) {
+               alert('error');
+           }
+         });
+      });
+
+      function convertToAMPM(timeString) {
+        var hours_and_minutes = timeString.split(":");
+        var parsed_int = parseInt(hours_and_minutes[0]);
+        var int = (parsed_int % 12 == 0) ? 12 : parsed_int % 12;
+        var am_or_pm = (hours_and_minutes[0] >= 12) ? "PM" : "AM";
+        return `${int}:${hours_and_minutes[1]}${am_or_pm}`
+      }
+
+    function fillInPaymentModal() {
+      // fill in the court type i.e. half-court // full-court
+      var courtType;
+      var modal_body = $("#payment-summary");
+      var court_type_holder = modal_body.find(".courtType");
+      if ($('#nav-halfCourt-tab').hasClass("active")) {
+        courtType = "half_court";
+        court_type_holder.text("Half Court");
+      }
+      if ($('#nav-fullCourt-tab').hasClass("active")) {
+        courtType = "full_court";
+        court_type_holder.text("Full Court");
+      }
+      modal_body.attr("data-court-type", court_type);
+
+      // fill the startTime and endTimes.
+      var startTime = $("input.startTime").val();
+      var endTime = $("input.endTime").val();
+
+      modal_body.attr("data-booking-startTime", startTime);
+      modal_body.attr("data-booking-endTime", endTime);
+      var bookingPeriod = modal_body.find("span.bookingPeriod");
+      bookingPeriod.text(`${convertToAMPM(startTime)}-${convertToAMPM(endTime)}`);
+
+      // if the number of bookings under repeat booking is more than one
+      // then create the regular booking format, otherwise leave casual as default.
+      var repeat_card = $("#repeat-card");
+      var number_of_bookings = parseInt(repeat_card.find(".number-of-bookings").text());
+
+      var startDate = $("input.dateHolder").val();
+      var weekday = startDate.split(" ")[0];
+      // set the day for the first booking
+      modal_body.find('#weekday').text(weekday);
+      var startDateObject = new Date(startDate);
+      // in either cases we must fill in the date for the first booking-row
+      var booking_start_row = modal_body.find(".booking-row-start");
+      var booking_end_row = modal_body.find(".booking-row-end");
+      //console.log(booking_start_row);
+      //console.log(startDateObject);
+      assignDateToBox(booking_start_row, startDateObject); // assigned the start date to the first box/row
+      // if a regular booking is selected
+      if (number_of_bookings > 1) {
+        // fill in the booking-number holder
+        modal_body.find(".booking-number").text(number_of_bookings);
+        modal_body.next().find(".booking-number").text(number_of_bookings); // for the subtotal
+
+        var frequencyNode = repeat_card.find(".frequency input");
+        modal_body.find(".frequencyHolder").text(frequencyNode.val());
+        // calculate the ending date.
+        // remove the d-none, reveal the second row
+        var frequency = parseInt(repeat_card.find(".frequency-in-days").text());
+        //var frequencyType = repeat_card.find(".days_and_weeks").children();
+        var frequencyType = frequencyNode.attr("data-frequency-type");
+        frequency = (frequencyType == "Days") ? frequency : frequency * 7; // frequency in days
+        var total_days_in_period = (number_of_bookings - 1) * frequency; // taking account of number of bookings
+        // copy the startDateObject
+        var endDateObject = new Date(startDate);
+        endDateObject.setDate(endDateObject.getDate()+total_days_in_period);
+
+        // create an array of dates which track the intervals between the start and endDate
+        var intervalDateObject = new Date(startDate);
+        var i = 0;
+        var allDateHolder = [];
+        var dateTextHolder;
+        while (i < number_of_bookings) {
+          dateTextHolder = intervalDateObject.toLocaleDateString('en-GB', { weekday: 'long', day:'numeric', month: 'long', year:'numeric'});
+          //alert(dateTextHolder);
+          allDateHolder.push(dateTextHolder);
+          intervalDateObject.setDate(intervalDateObject.getDate()+frequency);
+          i++;
+        }
+
+        modal_body.find(".range-divider").removeClass("d-none");
+        booking_end_row.removeClass("d-none");
+
+        assignDateToBox(booking_end_row, endDateObject);
+
+        // fill in the dates for the regular bookings
+        var booking_dates_modal = $("#allDatesModal").find(".booking-dates");
+        booking_dates_modal.empty();
+        var dateHolder = $("#allDatesModal").find(".template");
+        var divider = dateHolder.next();
+        // create a deep copy of both
+        var copiedDivider;
+        var copiedDateHolder;
+        i = 0
+        while (i < allDateHolder.length) {
+          //alert(allDateHolder[i]);
+          copiedDivider = divider.clone();
+          copiedDivider.removeClass("d-none");
+          copiedDateHolder = dateHolder.clone();
+          copiedDateHolder.removeClass("d-none").addClass("d-flex");
+          copiedDateHolder.find("p").text(allDateHolder[i]); // insert the calculated Date
+          booking_dates_modal.append(copiedDateHolder);
+          booking_dates_modal.append(copiedDivider);
+          i++;
+        }
+      }
+    }
+
+    function assignDateToBox(booking_row, date) {
+      var monthLong = date.toLocaleDateString('en-US', {month: 'long'});
+      var numberDay = date.toLocaleDateString('en-US', {day: 'numeric'});
+      booking_row.find(".monthHolder").text(monthLong);
+      booking_row.find(".dayHolder").text(numberDay);
+    }
 });

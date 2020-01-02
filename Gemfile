@@ -28,6 +28,14 @@ gem 'bcrypt', '~> 3.1.7'
 gem 'stripe'
 # gem 'devise' for authentication
 # gem 'dotenv-rails'
+gem 'bootstrap-email'
+# for generating barcodes
+gem 'barby', '~> 0.6.8'
+# for writing to image files
+gem 'chunky_png', '~> 1.3', '>= 1.3.5'
+
+# edit and transform images
+gem 'mini_magick', '~> 4.5', '>= 4.5.1'
 
 # adding fount awesome icons
 gem 'font-awesome-rails'
@@ -36,6 +44,8 @@ gem 'simple_form'
 
 gem "geocoder"
 gem "figaro"
+
+gem 'pry', '~> 0.10.3'
 
 gem 'activerecord-session_store'
 

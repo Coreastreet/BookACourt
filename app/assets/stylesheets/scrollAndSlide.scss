@@ -3,7 +3,7 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
 .scroll {
-  overflow-y: scroll;
+  overflow: auto;
   height: 90vh;
 }
 
@@ -45,6 +45,18 @@
   overflow: hidden;
 }
 
+.slateGrey {
+  color: slateGrey;
+}
+
+.box-shadow-none {
+  box-shadow: none !important;
+}
+
+.whiteSmokeBG {
+  background-color: whiteSmoke;
+}
+
 .overflow-auto {
   overflow: auto;
 }
@@ -55,6 +67,27 @@
 
 .hover-grey:hover {
   background-color: gainsboro;
+}
+
+.back-arrow-booking {
+  margin-top: -0.5rem;
+  background-color: transparent;
+}
+
+.days-and-weeks {
+  .btn:focus, .btn:active {
+    background-color: royalBlue;
+    color: white;
+    outline: none;
+    box-shadow: none;
+  }
+}
+
+button.btn-selected {
+  background-color: royalBlue;
+  color: white;
+  outline: none !important;
+  box-shadow: none;
 }
 
 #AM {

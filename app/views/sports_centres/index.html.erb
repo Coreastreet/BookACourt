@@ -107,15 +107,15 @@
                                </div>
                              </div>
                           </div>
-                          <div class="col-5 px-0">
-                            <div class="card">
-                              <div class="input-group date card-title" data-provide="datepicker">
+                          <div class="col-5 hidden px-0">
+                            <div class="card main">
+                              <div class="input-group date card-title mb-0" data-provide="datepicker">
                                   <input type="text" class="form-control dateHolder" data-date="">
                                   <div class="input-group-append">
                                     <span class="input-group-text" id="basic-addon2"><i class="fa fa-calendar"></i></span>
                                   </div>
                               </div>
-                              <div class="card-body pt-0">
+                              <div class="card-body py-1">
                                 <nav>
                                   <div class="nav nav-tabs court-types" id="nav-tab" role="tablist">
                                     <a class="nav-item nav-link active" id="nav-halfCourt-tab" data-toggle="tab" href="#nav-fullCourt" role="tab"
@@ -126,49 +126,67 @@
                                 </nav>
                                 <canvas id="canvas" width="400" height="400" style="background-color:lightgrey">
                                 </canvas>
-                                  <div class="input-group">
-                                    <input type="time" class="form-control startTime" data-counter="" data-interval="" required/>
-                                    <input type="time" class="form-control endTime" data-counter="" data-interval="" required/>
-                                    <div class="input-group-append">
-                                      <span class="input-group-text" id=""><i class="fa fa-clock-o"></i></span>
-                                    </div>
-                                    <div class="d-none peak-hour-holder">
-                                    </div>
-                                    <div class="d-none real-price-holder">
-                                    </div>
+                                <div class="input-group">
+                                  <input type="time" class="form-control startTime" data-counter="" data-interval="" required/>
+                                  <input type="time" class="form-control endTime" data-counter="" data-interval="" required/>
+                                  <div class="input-group-append">
+                                    <span class="input-group-text" id=""><i class="fa fa-clock-o"></i></span>
                                   </div>
-                                  <button type="button" class="btn btn-secondary btn-block clearTime">Clear Time</button>
+                                  <div class="d-none peak-hour-holder">
+                                  </div>
+                                  <div class="d-none real-price-holder">
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="card-footer pt-0">
+                                <div class="row mt-2 mx-0">
+                                    <button type="button" class="btn btn-primary btn-sm col-6 repeat">Repeat booking</button>
+                                    <button type="button" class="btn btn-secondary btn-block btn-sm col-6 clearTime">Clear Time</button>
+                                </div>
                                 <hr class = "my-2">
-                                <button type="button" class="btn btn-success btn-block below-clock book-now mt-2" data-toggle="modal" data-target="#payment-confirmation">
+                                <button type="button" class="btn btn-success btn-block book-now mt-2 below-clock" data-toggle="modal" data-target="#payment-confirmation">
                                   Book now
                                 </button>
                               </div>
                             </div>
+                            <div class="card repeat-card-body border-bottom-0 slideHolderModal w-100" id="repeat-card">
+                              <div class="card-body py-1">
+                                <div class= "form-row mt-2">
+                                  <i class="fas fa-arrow-left back-arrow hover-grey mr-2 p-2 align-self-center back-arrow-booking rounded"></i>
+                                  <p class="bold heading mb-2">Regular Booking</p>
+                                </div>
+                                <div class="form-row white-box rounded">
+                                  <label class="col-4 text-left font-weight-normal">Start Date</label>
+                                  <input class="col-auto form-control startDate" placeHolder = "Wednesday, 18 December"></input>
+                                </div>
+                                <div class="form-row white-box rounded mt-2 frequency">
+                                  <div class="d-flex col-4">
+                                    <label class="text-left font-weight-normal mb-2">Frequency</label>
+                                  </div>
+                                  <div class="btn-group btn-group-sm days-and-weeks col-6 offset-2 mb-1 d-flex justify-content-end" role="group">
+                                    <button type="button" class="btn btn-outline-secondary daysWeeks" data-frequency-type="Days">Days</button>
+                                    <button type="button" class="btn btn-outline-secondary daysWeeks" data-frequency-type="Weeks">Weeks</button>
+                                  </div>
+                                  <input class="col-7 form-control" placeHolder = "Every Week" data-frequency-type="Weeks"></input>
+                                  <div class="col-5 d-flex justify-content-between add-and-minus">
+                                    <button type="button" class="btn btn-light btn-sm rounded-circle d-inline-block minus-button"><i class="fas fa-minus fa-xs"></i></button>
+                                    <div class="frequency-in-days d-inline-block my-auto" data-counter="" data-interval="">0</div>
+                                    <button type="button" class="btn btn-primary btn-sm rounded-circle d-inline-block plus-button"><i class="fas fa-plus fa-xs"></i></button>
+                                  </div>
+                                </div>
+                                <div class="form-row white-box rounded mt-2 endDate">
+                                  <label class="col-4 text-left font-weight-normal">End Date</label>
+                                  <input class="col-7 form-control" placeHolder = "After 1 booking"></input>
+                                  <div class="col-5 d-flex justify-content-between add-and-minus">
+                                    <button type="button" class="btn btn-light btn-sm rounded-circle d-inline-block minus-button"><i class="fas fa-minus fa-xs"></i></button>
+                                    <div class="number-of-bookings d-inline-block my-auto" data-counter="" data-interval="">1</div>
+                                    <button type="button" class="btn btn-primary btn-sm rounded-circle d-inline-block plus-button"><i class="fas fa-plus fa-xs"></i></button>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
                           </div>
                       </div>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-12 table-responsive-md">
-                    <table class="table table-sm table-bordered parentWidth">
-                      <thead>
-                        <tr>
-                          <th scope="col" class="moreEqualTH">#</th>
-                          <th scope="col" class="equalTH"><%= @arr[0] %></th>
-                          <th scope="col" class="equalTH"><%= @arr[1] %></th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <% (6.hours..23.5.hours).step(30.minutes).each do |hour| %>
-                          <tr>
-                            <th scope="row" class="p-0"><sup><%= Time.at(hour).gmtime.strftime('%H:%M') %></sup></th>
-                            <% (0..1).each do |i| %>
-                                <td data-time=<%= Time.at(hour).gmtime.strftime('%H:%M') %> data-court-type = <%= @arr[i] %>>&nbsp;</td>
-                            <% end %>
-                          </tr>
-                        <% end %>
-                      </tbody>
-                    </table>
                 </div>
               </div>
               <div class="row">
@@ -191,77 +209,136 @@
         <div class="modal-dialog hidden">
           <div class="modal-content firstModal">
             <div class="modal-header">
-              <h6 class="modal-title">Orders Summary</h6>
+              <h6 class="modal-title">Review Bookings</h6>
               <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
-            <div class="modal-body px-0">
-              <div class="container-fluid">
-                <div class="row px-3">
-                  <p class="font-weight-light">Morris Iemma Indoor Sports Centre</p>
-                </div>
-              </div>
-              <hr class="my-0">
-              <div class="container-fluid">
-                <div class="row d-flex justify-content-between caret px-3">
-                  <p class="my-2">Saturday, 3 March 2019</p>
-                  <p class="my-2"><i class="fas fa-caret-right"></i></p>
-                </div>
+            <div class="modal-body pt-0 booking px-0" data-booking-type="regular" data-court-type="half_court"
+              data-booking-interval="14" data-booking-startTime="11:30" data-booking-endTime="14:00" data-booking-rate="peak_hour"
+              data-number-of-bookings="10" id="payment-summary">
+              <div class="container-fluid mt-3 booking-row-start">
                 <div class="row px-0">
                   <div class="col-3 pr-0">
-                    <%= image_tag('miisc_logo.jpeg', class: "img-fluid") %>
+                    <div class="row mx-0 pt-2 border-dark border">
+                      <div class="col-12 d-flex justify-content-center">
+                        <h6 class="monthHolder">March</h6>
+                      </div>
+                    </div>
+                    <div class="row mx-0 border border-dark border-top-0">
+                      <div class="col-12 d-flex justify-content-center">
+                        <h2 class="mt-2 dayHolder">30</h2>
+                      </div>
+                    </div>
                   </div>
                   <div class="col-9">
-                    <div class="row">
+                    <div class="row booking-time">
                       <div class="col-12 d-flex justify-content-between">
-                        <h5 class="font-weight-bold">BasketBall Half-Court</h5>
+                        <div class="font-weight-light slateGrey"><span id="weekday">Wednesday, </span>
+                          <span class="bookingPeriod">11:30AM-2PM</span></div>
+                      </div>
+                    </div>
+                    <div class="row mt-1">
+                      <div class="col-12 d-flex justify-content-between court-type">
+                        <h5 class="font-weight-bold">BasketBall <span class="courtType">Half-Court</span></h5>
                         <h5 class="mb-0">$25.99</h5>
                       </div>
                     </div>
                     <div class="row">
-                      <div class="col-12 d-flex justify-content-between caret">
-                        <div>11:30AM-2PM</div>
+                      <div class="col-12 d-flex">
+                        <div><i class="fas fa-map-marker-alt"></i></div>
+                        <div class="font-weight-light ml-2">Morris Iemma Indoor Sports Centre</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row mx-0 range-divider d-none">
+                <div class="col-3 pr-0">
+                  <div class="d-flex justify-content-center mt-2"><i class="fas fa-angle-down fa-lg" aria-hidden="true"></i></div>
+                </div>
+              </div>
+              <div class="container-fluid mt-1 booking-row-end d-none">
+                <div class="row px-0">
+                  <div class="col-3 pr-0">
+                    <div class="row mx-0 pt-2 border-dark border">
+                      <div class="col-12 d-flex justify-content-center">
+                        <h6 class="monthHolder">June</h6>
+                      </div>
+                    </div>
+                    <div class="row mx-0 border border-dark border-top-0">
+                      <div class="col-12 d-flex justify-content-center">
+                        <h2 class="dayHolder mt-2">22</h2>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-9">
+                    <div class="row">
+                      <div class="col-12 d-flex justify-content-between">
+                        <div class="font-light-weight slateGrey frequencyHolder">Every 2 weeks</div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-12 d-flex justify-content-between booking-type">
+                        <h5>Regular Booking</h5>
+                        <div>
+                          <i class="fas fa-sm fa-times d-inline-block"></i>
+                          <h5 class="d-inline-block booking-number">10</h5>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-12 d-flex justify-content-between caret py-2">
+                        <div>Review all bookings</div>
                         <div><i class="fas fa-caret-right"></i></div>
                       </div>
                     </div>
-                  <!--
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="modal-body p-0">
+              <hr class="my-0">
+              <div class="container-fluid whiteSmokeBG pt-2 pb-4">
+                <div class="row rounded border p-2 mx-0 bg-white mb-3">
+                    <p class="col-5 mb-0">Email Receipt to:</p>
+                    <input type="email" class="form-control col-7 p-0 border-top-0 border-left-0 border-right-0 box-shadow-none"
+                    placeholder="john-citizen@hotmail.com" value="hi_justin@hotmail.com">
+                </div>
+                <div class="row px-0">
+                  <div class="col-9 offset-3 text-right">
                     <div class="row">
-                      <div class="col-7">
-                        <div>Peak Hour</div>
+                      <div class="col-8">
+                        <p class="mb-1">Subtotal (<span class="booking-number">10</span> bookings)</p>
                       </div>
-                      <div class="col-2">
-                        <div>1</div>
-                      </div>
-                      <div class="col-3">
-                        <div>$6.99</div>
+                      <div class="col-4">
+                        <p class="mb-1">$100.00</p>
                       </div>
                     </div>
-                    <div class="row mb-2">
-                      <div class="col-7">
-                        <div>Off-Peak Hour</div>
-                      </div>
-                      <div class="col-2">
-                        <div>1</div>
-                      </div>
-                      <div class="col-3">
-                        <div>$4.99</div>
-                      </div>
-                    </div> -->
-                    <!--
                     <div class="row">
-                      <div class="col-5 offset-7">
-                        <button type="button" class="btn btn-light d-inline-block"><i class="fas fa-minus fa-xs"></i></button>
-                        <div class="endTime d-inline-block" data-counter="" data-interval="">8.00</div>
-                        <button type="button" class="btn btn-light d-inline-block"><i class="fas fa-plus fa-xs"></i></button>
+                      <div class="col-8">
+                        <p class="mb-1">Discount</p>
                       </div>
-                    </div> -->
+                      <div class="col-4">
+                        <p class="mb-1">-$10.00</p>
+                      </div>
+                    </div>
+                    <hr class="my-2">
+                    <div class="row">
+                      <div class="col-8">
+                        <h5 class="font-weight-bold mb-0">Order Total</h5>
+                      </div>
+                      <div class="col-4">
+                        <h5 class="font-weight-bold mb-0 totalAmount">$90.00</h5>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
             <div class="modal-footer">
+              <button type="button" class="btn btn-primary polipay" data-dismiss="modal">Pay</button>
               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
             </div>
-            <div class="modal-content slideHolderModal position-fixed">
+            <div class="modal-content slideHolderModal position-fixed" id="allDatesModal">
               <div class="modal-header d-flex py-2 pl-2">
                 <i class="fas fa-arrow-left back-arrow hover-grey mr-2 my-1 p-2 align-self-center rounded"></i>
                 <h6 class="modal-title align-self-center">Dates</h6>
@@ -273,31 +350,12 @@
                     <p class="font-weight-light">Basketball Half-Court: 11:30AM-2PM</p>
                   </div>
                 </div>
+                <hr class="my-0 d-none">
+                <div class="row justify-content-between template px-3 d-none">
+                  <p class="my-2">Saturday, 3 March 2019</p>
+                </div>
                 <hr class="my-0">
-                <div class="container-fluid">
-                  <div class="row d-flex justify-content-between caret px-3">
-                    <p class="my-2">Saturday, 3 March 2019</p>
-                  </div>
-                  <hr class="my-0">
-                  <div class="row d-flex justify-content-between caret px-3">
-                    <p class="my-2">Saturday, 10 March 2019</p>
-                  </div>
-                  <hr class="my-0">
-                  <div class="row d-flex justify-content-between caret px-3">
-                    <p class="my-2">Saturday, 17 March 2019</p>
-                  </div>
-                  <hr class="my-0">
-                  <div class="row d-flex justify-content-between caret px-3">
-                    <p class="my-2">Saturday, 24 March 2019</p>
-                  </div>
-                  <hr class="my-0">
-                  <div class="row d-flex justify-content-between caret px-3">
-                    <p class="my-2">Saturday, 31 March 2019</p>
-                  </div>
-                  <hr class="my-0">
-                  <div class="row d-flex justify-content-between caret px-3">
-                    <p class="my-2">Saturday, 7 April 2019</p>
-                  </div>
+                <div class="container-fluid booking-dates">
                 </div>
               </div>
               <div class="modal-footer">

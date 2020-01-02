@@ -85,7 +85,14 @@ class SportsCentresController < ApplicationController
     end
   end
 
-  def edit
+  def booking_success
+    @sports_centre = SportsCentre.find(params[:sports_centre_id])
+  end
+
+  def booking_cancelled
+  end
+
+  def booking_failure
   end
 
   private

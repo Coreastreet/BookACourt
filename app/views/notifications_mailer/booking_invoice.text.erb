@@ -1,0 +1,22 @@
+
+Booking Confirmation
+============================================================================================================================
+Dear <%= @order.fullName %>,
+  You have successfully made a booking with <%= @sports_centre.title %>.
+  Here below are the details of your order -
+
+    *Use the following barcode if necessary to verify your purchase at the reception
+
+    - Transaction Reference: <%= @order.transactionRefNo %>
+
+    - Customer Reference: <%= @order.customerRef %>
+    - Total Amount Paid: <%= @order.totalCost %>
+    - Transaction completed time and date: <%= @order.created_at %>
+
+  Here below are the details of your bookings:
+
+  <% @bookings.each do |booking| %>
+    - Date: <%= booking.date %>
+    - Time: <%= "#{booking.startTime}-#{booking.endTime}" %>
+    - Court Type: <%= booking.courtType %>
+  <% end %>

@@ -17,7 +17,15 @@ Rails.application.routes.draw do
 
   # move to new admin controller later
   get "/sports_centres/:id", to: "sports_centres#user_show", as: "sports_centre_user"
+
+  get "/sports_centres/:sports_centre_id/booking_success", to: "sports_centres#booking_success", as: "sports_centre_booking_success"
+  get "/sports_centres/booking_failure", to: "sports_centres#booking_failure", as: "sports_centre_booking_failure"
+  get "/sports_centres/booking_cancelled", to: "sports_centres#booking_cancelled", as: "sports_centre_booking_cancelled"
+  # above route overlaps with the one below, should try to simplify routes later on
   get "/sports_centres/:id/:date", to: "sports_centres#user_show", as: "sports_centre_user_date"
+
+  # after a transaction successfully completes
+
 
   scope :admin, as: 'admin' do
     resources :sports_centres, only: [:show] do
@@ -34,7 +42,9 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1, defaults: {format: 'json'} do
         resources :sports_centres, only: [:show] do
-          resource :bookings, shallow: true, only: [:show]
+          resource :bookings, shallow: true, only: [:create] do
+            post "initiate", on: :collection
+          end
         end
     end
   end

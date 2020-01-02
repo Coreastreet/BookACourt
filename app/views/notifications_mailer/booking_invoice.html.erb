@@ -1,0 +1,64 @@
+<div class="container">
+  <div class="card">
+    <div class="card-body container">
+      <div class="row">
+        <h3>Thanks for your booking, <%= @order.fullName.split(" ")[0] %>. Your Booking is confirmed.</h3>
+      </div>
+      <div class="row">
+        <img src="#" alt="#">
+        <h5>Please scan this barcode when you arrive at the sports centre to claim your booking</h5>
+      </div>
+      <div class="row">
+        <h3>Order Summary:</h3>
+        <div class="col-6">
+          <div class="row">
+              <div class="col-12">
+                <p>icon</p>
+                <p>Date:</p>
+                <p><% @order.startDate %>-<%= @order.endDate %></p>
+              </div>
+          </div>
+          <div class="row">
+            <div class="col-12">
+              <p>icon</p>
+              <p>Sports Centre Location:</p>
+              <p><%= @sports_centre.location %></p>
+            </div>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="row">
+            <div class="col-12">
+              <p>icon</p>
+              <p>Sports Centre:</p>
+              <p><%= @sports_centre.title %></p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12">
+              <p>icon</p>
+              <p>Order Reference Number:</p>
+              <p><%= @order.customerRef %></p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <p>icon</p>
+          <p>Total Cost:</p>
+          <p><%= @order.totalCost %></p>
+        </div>
+      </div>
+      <% @bookings.each do |booking| %>
+      <div class="row">
+        <div class="col-12">
+          <p>- Date: <%= booking.date %></p>
+          <p>- Time: <%= "#{booking.startTime}-#{booking.endTime}" %></p>
+          <p>- Court Type: <%= booking.courtType %></p>
+        </div>
+      </div>
+      <% end %>
+    </div>
+  </div>
+</div>

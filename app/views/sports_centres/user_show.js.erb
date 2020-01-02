@@ -1,5 +1,5 @@
 
-var image_url = "<%= url_for(@sports_centre.images[0]) %>";
+//var image_url = "<%= url_for(@sports_centre.images[0]) %>";
 var prices = document.querySelectorAll("h3.card-text");
 var title = document.querySelector(".title h3");
 var image = document.querySelector("img.resize");
@@ -8,7 +8,7 @@ var address = document.querySelector(".address");
 address.innerText = "<%= @sports_centre.address.full_address %>"
 
 <% if @sports_centre.images.attached? %>
-  image.src = image_url;
+  //image.src = image_url;
   title.innerText = "<%= @sports_centre.title.html_safe %>";
   prices[0].innerText = "<%= @sports_centre.opening_hours["Sun"]["openingHour"] %>";
   prices[1].innerText = "<%= @sports_centre.opening_hours["Sun"]["closingHour"] %>";
@@ -18,10 +18,13 @@ address.innerText = "<%= @sports_centre.address.full_address %>"
 
 // creating the array of times
 var halfCourtsBooked = new Object();
-var availability = document.querySelectorAll('sup');
+var availability = [];
+<% (6.hours..23.5.hours).step(30.minutes).each do |hour| %>
+  availability.push('<%= Time.at(hour).gmtime.strftime("%H:%M") %>');
+<% end %>
 var counter = 0;
 while (counter < availability.length) {
-  halfCourtsBooked[availability[counter].innerText] = true;
+  halfCourtsBooked[availability[counter]] = true;
   counter++;
 }
 
@@ -57,7 +60,7 @@ console.log(dateSelected);
 
 //console.log(document.querySelector("[data-provide='datepicker'] > input"));
 
-var bookingsByDate = bookings.filter( function(element) { return element.startDate == dateSelected });
+var bookingsByDate = bookings.filter( function(element) { return element.date == dateSelected });
 console.log(bookingsByDate);
 //console.log(numberOfCourts);
 
@@ -128,6 +131,7 @@ while (counter < arrayBooked.length) {
 }
 
 console.log(halfCourtsBooked);
+
 
 // store the peak hour times in a div above book-now for reference.
 var peak_hour_holder = document.querySelector(".peak-hour-holder");
@@ -602,3 +606,5 @@ halfCourtTab.addEventListener( "click", function() {
 });
 
 halfCourtTab.click(); // the default tab open, showing booking times, will be for half courts.
+//
+//fix frozen scroll

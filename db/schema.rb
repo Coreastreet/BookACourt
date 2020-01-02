@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_19_234347) do
+ActiveRecord::Schema.define(version: 2020_01_02_015305) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -49,21 +49,17 @@ ActiveRecord::Schema.define(version: 2019_12_19_234347) do
   end
 
   create_table "bookings", force: :cascade do |t|
-    t.integer "guest_id"
     t.time "startTime"
     t.time "endTime"
-    t.date "startDate"
-    t.date "endDate"
-    t.integer "interval"
-    t.integer "users_id"
-    t.decimal "cost"
+    t.date "date"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "sports_centre_id", null: false
     t.integer "court_no"
-    t.index ["guest_id"], name: "index_bookings_on_guest_id"
+    t.integer "courtType"
+    t.bigint "order_id"
+    t.index ["order_id"], name: "index_bookings_on_order_id"
     t.index ["sports_centre_id"], name: "index_bookings_on_sports_centre_id"
-    t.index ["users_id"], name: "index_bookings_on_users_id"
   end
 
   create_table "contacts", force: :cascade do |t|
@@ -76,10 +72,21 @@ ActiveRecord::Schema.define(version: 2019_12_19_234347) do
     t.index ["sports_centre_id"], name: "index_contacts_on_sports_centre_id"
   end
 
-  create_table "guests", force: :cascade do |t|
+  create_table "orders", force: :cascade do |t|
     t.string "email_address"
+    t.integer "bookingType"
+    t.decimal "totalCost"
+    t.date "startDate"
+    t.date "endDate"
+    t.integer "daysInBetween"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "user_id"
+    t.string "fullName"
+    t.bigint "transactionRefNo"
+    t.string "merchantRef"
+    t.string "customerRef"
+    t.index ["user_id"], name: "index_orders_on_user_id"
   end
 
   create_table "prices", force: :cascade do |t|
@@ -136,6 +143,7 @@ ActiveRecord::Schema.define(version: 2019_12_19_234347) do
     t.text "peak_hours"
     t.integer "ABN"
     t.string "URL"
+    t.integer "attemptedBookings", default: 0
   end
 
   create_table "users", force: :cascade do |t|
@@ -147,9 +155,10 @@ ActiveRecord::Schema.define(version: 2019_12_19_234347) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "addresses", "sports_centres"
-  add_foreign_key "bookings", "guests"
+  add_foreign_key "bookings", "orders"
   add_foreign_key "bookings", "sports_centres"
   add_foreign_key "contacts", "sports_centres"
+  add_foreign_key "orders", "users"
   add_foreign_key "prices", "bookings"
   add_foreign_key "prices", "sports_centres", column: "sports_centres_id"
   add_foreign_key "representatives", "sports_centres"

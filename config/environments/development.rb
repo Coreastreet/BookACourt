@@ -13,6 +13,24 @@ Rails.application.configure do
   # Show full error reports.
   config.consider_all_requests_local = true
 
+  # config for sending mail via gmail
+  config.action_mailer.default_url_options = { :host => 'localhost:3000' }
+  config.file_watcher = ActiveSupport::EventedFileUpdateChecker
+  config.exceptions_app = self.routes
+  
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+    :address              => "smtp.gmail.com",
+    :port                 => 587,
+    :domain               => 'gmail.com',
+    :user_name            => 'coreastreet50',
+    :password             => 'tomitbvvuyymlnqi',
+    :authentication       => 'plain',
+    :enable_starttls_auto => true  }
+
+  config.action_mailer.perform_deliveries = true
+  config.action_mailer.raise_delivery_errors = true
+
   # Enable/disable caching. By default caching is disabled.
   # Run rails dev:cache to toggle caching.
   if Rails.root.join('tmp', 'caching-dev.txt').exist?

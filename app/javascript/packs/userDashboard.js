@@ -40,4 +40,5 @@ document.addEventListener('DOMContentLoaded', function(){
       $('body').on('click', '[data-toggle="dropdown"]', function() {
         $('.dropdown-toggle').dropdown()
       });
+
 });

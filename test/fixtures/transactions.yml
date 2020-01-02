@@ -2,6 +2,14 @@
 
 one:
   email_address: MyString
+  bookingType: 1
+  date: 2019-12-27
+  totalCost: 9.99
+  users: one
 
 two:
   email_address: MyString
+  bookingType: 1
+  date: 2019-12-27
+  totalCost: 9.99
+  users: two
