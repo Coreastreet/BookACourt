@@ -42,15 +42,22 @@ class NotificationsMailer < ApplicationMailer
     require 'barby/barcode/ean_13'
     require 'barby/outputter/png_outputter'
     barcode = Barby::EAN13.new(@order.transactionRefNo.to_s)
-    File.open('barcode.png', 'wb'){|f|
+    File.open('app/assets/images/barcode.png', 'wb'){|f|
         f.write barcode.to_png(:height => 80, :margin => 20)
     }
-    image = MiniMagick::Image.new('barcode.png')
-    image.resize "300%"
+    image = MiniMagick::Image.new('app/assets/images/barcode.png')
+    image.resize "150%"
+    image.crop "100%x72%+0+25"
     # send an email to the booker with details of the booking and the barcode.
-    attachments.inline['barcode.png'] = File.read('barcode.png')
+    attachments.inline['barcode.png'] = File.read('app/assets/images/barcode.png')
+    attachments.inline['hurstvilleAquatic.png'] = File.read('app/assets/images/hurstvilleAquatic.png')
+    attachments.inline['calendar-icon.png'] = File.read('app/assets/images/calendar-icon.png')
+    attachments.inline['location-icon.png'] = File.read('app/assets/images/location-icon.png')
+    attachments.inline['card-icon.png'] = File.read('app/assets/images/card-icon.png')
+    attachments.inline['teaGreenIcon.png'] = File.read('app/assets/images/teaGreenIcon.png')
+    attachments.inline['greyBlueIcon.png'] = File.read('app/assets/images/greyBlueIcon.png')
 
-    mail(to: @order.email_address, subject: "BookACourt Booking Invoice")
+    make_bootstrap_mail(to: @order.email_address, subject: "BookACourt Booking Invoice")
   end
 
 end

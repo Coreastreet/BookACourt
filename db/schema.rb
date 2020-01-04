@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_01_02_015305) do
+ActiveRecord::Schema.define(version: 2020_01_04_014934) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -58,6 +58,8 @@ ActiveRecord::Schema.define(version: 2020_01_02_015305) do
     t.integer "court_no"
     t.integer "courtType"
     t.bigint "order_id"
+    t.integer "bookingType"
+    t.boolean "claimed", default: false
     t.index ["order_id"], name: "index_bookings_on_order_id"
     t.index ["sports_centre_id"], name: "index_bookings_on_sports_centre_id"
   end
@@ -74,7 +76,6 @@ ActiveRecord::Schema.define(version: 2020_01_02_015305) do
 
   create_table "orders", force: :cascade do |t|
     t.string "email_address"
-    t.integer "bookingType"
     t.decimal "totalCost"
     t.date "startDate"
     t.date "endDate"

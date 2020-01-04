@@ -1,0 +1,128 @@
+<container>
+      <spacer size="20"></spacer>
+      <row>
+        <columns small="9" class="first">
+        <%= image_tag(attachments["hurstvilleAquatic.png"].url, size: "72x72", class: "") %>
+        </columns>
+      </row>
+      <row>
+        <columns class="first last">
+          <h3 class="email-padding-md email-bold">Thanks for your booking, <%= @order.fullName.split(" ")[0] %>. Your Booking is confirmed.</h3>
+        </columns>
+      </row>
+      <row>
+        <columns class="first last">
+          <center>
+            <%= image_tag(attachments['barcode.png'].url) %>
+          </center>
+        </columns>
+      </row>
+      <row>
+        <columns class="first last">
+          <h6 class="email-padding-md">Please scan the barcode above when you arrive at the sports centre to claim your booking.</h6>
+        </columns>
+      </row>
+      <row>
+        <columns class="first last">
+          <h4 class="email-padding-md email-bold">Order Summary:</h4>
+        </columns>
+      </row>
+      <row>
+        <columns small="6" class="first">
+          <row>
+            <columns small="3">
+              <p class="email-padding-md"><%= image_tag(attachments["calendar-icon.png"].url)%></p>
+            </columns>
+            <columns small="9">
+              <row>
+                <p class="email-bold">Booking period:</p>
+              </row>
+              <row>
+                <p><%= @order.startDate.strftime("%a, %d %b") %> - <%= @order.endDate.strftime("%a, %d %b") %></p>
+              </row>
+            </columns>
+          </row>
+        </columns>
+        <columns small="6" class="last">
+          <row>
+            <columns small="2">
+              <p><%= image_tag(attachments["location-icon.png"].url)%></p>
+            </columns>
+            <columns small="9">
+              <row>
+                <p class="email-bold">Sports Centre Location:</p>
+              </row>
+              <row>
+                <p><%= @sports_centre.location %></p>
+              </row>
+            </columns>
+          </row>
+        </columns>
+      </row>
+      <row>
+        <columns small="2" class="first">
+          <p class="email-padding-md"><%= image_tag(attachments["card-icon.png"].url)%></p>
+        </columns>
+        <columns small="10" class="last">
+          <row>
+            <p class="email-bold">Order total:</p>
+          </row>
+          <row>
+            <columns small="3">
+              <p class="email">Price</p>
+              <p class="email">Discount</p>
+              <p class="border-top">Total Charged</p>
+            </columns>
+            <columns small="8">
+              <p class="text-right email">AU $100.00</p>
+              <p class="text-right email">$100.00</p>
+              <p class="text-right border-top">AU $100.00</p>
+            </columns>
+            <columns small="1">
+              <p></p>
+            </columns>
+          </row>
+        </columns>
+      </row>
+      <row>
+        <columns class="first last">
+          <h4 class="email-padding-md email-bold">Order Details:</h4>
+        </columns>
+      </row>
+      <row>
+        <columns class="first last">
+          <row>
+            <columns small="3" class="first">
+              <p class="email email-padding-md border-bottom">Date:</p>
+              <% @bookings.each do |booking| %>
+                <% if (booking.bookingType == "regular") %>
+                  <p class="email-padding-md no-border-top padding-top background-light-blue"><%= booking.date.strftime("%a, %d %b") %></p>
+                <% else %>
+                  <p class="email-padding-md no-border-top padding-top background-tea-green"><%= booking.date.strftime("%a, %d %b") %></p>
+                <% end %>
+              <% end %>
+            </columns>
+            <columns small="5">
+              <p class="email email-padding-md border-bottom">Booking:</p>
+              <% @bookings.each do |booking| %>
+              <p class="email-padding-md no-border-top padding-top"><%= "#{booking.courtType} basketball" %></p>
+              <% end %>
+            </columns>
+            <columns small="4">
+              <p class="email email-padding-md border-bottom">Time:</p>
+              <% @bookings.each do |booking| %>
+              <p class="email-padding-md no-border-top padding-top"><%= "#{booking.startTime.strftime("%I:%M%p")}-#{booking.endTime.strftime("%I:%M%p")}" %></p>
+              <% end %>
+            </columns>
+          </row>
+        </columns>
+      </row>
+      <row>
+        <columns small="8" class="large-offset-4 last">
+          <%= image_tag(attachments["teaGreenIcon.png"].url, class: "email-display-inline")%>
+          <p class="text-right email-display-inline email-margin-left email-margin-right">Regular Booking</p>
+          <%= image_tag(attachments["greyBlueIcon.png"].url, class: "email-display-inline")%>
+          <p class="text-right email-display-inline email-margin-left">Casual Booking</p>
+        </columns>
+      </row>
+</container>

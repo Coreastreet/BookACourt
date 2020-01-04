@@ -1,0 +1,84 @@
+.email-padding-md {
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.email-bold {
+  font-weight: bold;
+}
+
+.email-padding-icon {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+p.email {
+  margin: 0.35rem 0 0 0;
+}
+
+p.border-top {
+  margin-top: 0.35rem;
+  padding-top: 0.35rem;
+  border-top: 1px solid slateGrey;
+}
+
+p.no-border-top {
+  margin-bottom: 0;
+}
+
+p.padding-top {
+  padding-top: 0.35rem;
+}
+
+img.padding-top {
+  padding-top: 0.35rem;
+}
+
+p.margin-buttom {
+  margin-bottom: 0.35rem;
+}
+
+p.margin-buttom-none {
+  margin-bottom: 0;
+}
+
+p.no-margin-top {
+  margin-top: 0;
+}
+
+p.email-max-width {
+  max-width: 10px;
+}
+
+p.padding-buttom {
+  padding-bottom: 0.35rem;
+}
+
+p.background-light-blue {
+    background-color: #e5ecfc;
+}
+
+p.background-tea-green {
+  background-color: #d0f0c0;
+}
+
+p.email-margin-left {
+  margin-left: 0.35rem;
+}
+
+p.email-margin-right {
+  margin-right: 1.75rem;
+}
+
+p.border-bottom {
+  border-bottom: 1px solid slateGrey;
+  padding-bottom: 0.35rem
+}
+
+.margin-top {
+  margin-top: 0.35rem;
+}
+
+.email-display-inline {
+  display: inline;
+}

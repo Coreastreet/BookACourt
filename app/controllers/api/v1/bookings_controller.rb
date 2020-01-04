@@ -17,8 +17,8 @@ class Api::V1::BookingsController < Api::V1::ApiController
 
       data = JSON.parse(parsed_response["MerchantData"])
       new_order = Order.create!(fullName: "#{payerFirstName} #{payerLastName}", transactionRefNo: transactionRefNo.to_i,
-      email_address: data["order"]["customerEmail"], bookingType: data["order"]["bookingType"],
-      totalCost: data["order"]["totalAmount"], daysInBetween: data["order"]["daysInBetween"], startDate: data["order"]["allDates"].first,
+      email_address: data["order"]["customerEmail"], totalCost: data["order"]["totalAmount"],
+      daysInBetween: data["order"]["daysInBetween"], startDate: data["order"]["allDates"].first,
       endDate: data["order"]["allDates"].last, merchantRef: parsed_response["MerchantReference"])
       orderId = new_order.id
       # merchantReference = parsed_response["MerchantReference"] same as the sent info
@@ -28,7 +28,8 @@ class Api::V1::BookingsController < Api::V1::ApiController
       data["order"]["allDates"].each do |date|
         Booking.create!(startTime: data["booking"]["startTime"], endTime: data["booking"]["endTime"],
           courtType: data["booking"]["courtType"], sports_centre_id: token_params[:sports_centre_id],
-          order_id: orderId, date: date) # later calculate the courtNumber
+          order_id: orderId, date: date, bookingType: data["booking"]["bookingType"],
+          courtType: data["booking"]["courtType"]) # later calculate the courtNumber
       end
 
       #merchantAccountName = parsed_response["MerchantAccountName"]
@@ -66,12 +67,12 @@ class Api::V1::BookingsController < Api::V1::ApiController
     merchantDataString = '{"order":' +
       "{\"allDates\": #{order_params[:allDates]}," +
       "\"totalAmount\": \"#{order_params[:totalAmount]}\"," +
-      "\"bookingType\": \"#{order_params[:bookingType]}\"," +
       "\"daysInBetween\": \"#{order_params[:daysInBetween]}\"," +
       "\"customerEmail\": \"#{order_params[:customerEmail]}\"}" +
       ",\"booking\":" +
       "{\"startTime\": \"#{booking_params[:startTime]}\"," +
       "\"endTime\": \"#{booking_params[:endTime]}\"," +
+      "\"bookingType\": \"#{booking_params[:bookingType]}\"," +
       "\"courtType\": \"#{booking_params[:courtType]}\"}}"
 
     response = RestClient.post "https://poliapi.apac.paywithpoli.com/api/v2/Transaction/Initiate",
@@ -81,7 +82,7 @@ class Api::V1::BookingsController < Api::V1::ApiController
             SuccessURL: "http://www.localhost:3000/sports_centres/#{params[:sports_centre_id]}/booking_success",
             FailureURL: "http://www.localhost:3000/sports_centres/failure", # redirect to page with failure message later on
             CancellationURL: "http://www.localhost:3000/sports_centres/cancelled",
-            NotificationURL: "https://f4969c31.ngrok.io/api/v1/sports_centres/#{params[:sports_centre_id]}/bookings"},
+            NotificationURL: "https://59e4da6c.ngrok.io/api/v1/sports_centres/#{params[:sports_centre_id]}/bookings"},
             {Authorization: "Basic UzYxMDQ2ODk6RWQ2QCRNYjM0Z14="}
 
     parsedResponse = JSON.parse(response.body)
@@ -99,11 +100,11 @@ private
   end
 
   def order_params
-    params.require(:order).permit(:totalAmount, :customerEmail, :daysInBetween, :bookingType, allDates: [])
+    params.require(:order).permit(:totalAmount, :customerEmail, :daysInBetween, allDates: [])
   end
 
   def booking_params
-    params.require(:booking).permit(:courtType, :startTime, :endTime)
+    params.require(:booking).permit(:courtType, :startTime, :endTime, :bookingType)
   end
 
 end

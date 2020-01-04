@@ -199,7 +199,10 @@ document.addEventListener('DOMContentLoaded', function(){
         var modal_body = modal_content.find(".modal-body");
         // assuming only one booking is made
         var booking_type = modal_body.attr("data-booking-type");
+        //var booking_type = (parseInt(booking_number) > 1) ? "regular" : "casual"
+        //modal_body.attr("data-booking-type", booking_type);
         // set the value of the court-type
+        // later send number of bookings in params to controller
         var court_type = modal_body.attr("data-court-type");
 
         var startTime = modal_body.attr("data-booking-startTime");
@@ -208,10 +211,14 @@ document.addEventListener('DOMContentLoaded', function(){
         var booking_rate = modal_body.attr("data-booking-rate");
         var all_dates = [];
         var new_text;
-        modal_content.find('.modal-content .booking-dates p').each( function() {
-          new_text = $(this).text().split(", ")[1];
-          all_dates.push(new_text);
-        });
+        if (booking_type == "regular") {
+          modal_content.find('.modal-content .booking-dates p').each( function() {
+            new_text = $(this).text().split(", ")[1];
+            all_dates.push(new_text);
+          });
+        } else { // casual
+          all_dates.push($("input.dateHolder").val())
+        }
 
         var daysInBetween = modal_body.attr("data-booking-interval");
         //var daysInBetween = modal_body.attr("data-booking-interval");
@@ -227,13 +234,13 @@ document.addEventListener('DOMContentLoaded', function(){
              order: {
                totalAmount: total_amount_float,
                customerEmail: customer_email,
-               bookingType: booking_type,
                allDates: all_dates,
                daysInBetween: daysInBetween
              }, // all info specific to a booking
              // decide how to assign the court number later on
              booking: {
-               courtType: court_type,
+               bookingType: booking_type, // casual or regular
+               courtType: court_type, // half court or full court
                startTime: startTime,
                endTime: endTime
              }
@@ -262,14 +269,14 @@ document.addEventListener('DOMContentLoaded', function(){
       var modal_body = $("#payment-summary");
       var court_type_holder = modal_body.find(".courtType");
       if ($('#nav-halfCourt-tab').hasClass("active")) {
-        courtType = "half_court";
+        courtType = "halfCourt"; // half-court
         court_type_holder.text("Half Court");
       }
       if ($('#nav-fullCourt-tab').hasClass("active")) {
-        courtType = "full_court";
+        courtType = "fullCourt"; // full-court
         court_type_holder.text("Full Court");
       }
-      modal_body.attr("data-court-type", court_type);
+      modal_body.attr("data-court-type", courtType);
 
       // fill the startTime and endTimes.
       var startTime = $("input.startTime").val();
@@ -284,6 +291,9 @@ document.addEventListener('DOMContentLoaded', function(){
       // then create the regular booking format, otherwise leave casual as default.
       var repeat_card = $("#repeat-card");
       var number_of_bookings = parseInt(repeat_card.find(".number-of-bookings").text());
+      modal_body.attr("data-number-of-bookings", number_of_bookings);
+      var booking_type = (number_of_bookings > 1) ? "regular" : "casual"
+      modal_body.attr("data-booking-type", booking_type)
 
       var startDate = $("input.dateHolder").val();
       var weekday = startDate.split(" ")[0];
