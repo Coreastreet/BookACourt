@@ -1,5 +1,4 @@
 
-//var image_url = "<%= url_for(@sports_centre.images[0]) %>";
 var prices = document.querySelectorAll("h3.card-text");
 var title = document.querySelector(".title h3");
 var image = document.querySelector("img.resize");
@@ -7,7 +6,7 @@ var address = document.querySelector(".address");
 
 address.innerText = "<%= @sports_centre.address.full_address %>"
 
-<% if @sports_centre.images.attached? %>
+<% if @sports_centre.logo.attached? %>
   //image.src = image_url;
   title.innerText = "<%= @sports_centre.title.html_safe %>";
   prices[0].innerText = "<%= @sports_centre.opening_hours["Sun"]["openingHour"] %>";

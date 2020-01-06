@@ -2,7 +2,7 @@
       <spacer size="20"></spacer>
       <row>
         <columns small="9" class="first">
-        <%= image_tag(attachments["hurstvilleAquatic.png"].url, size: "72x72", class: "") %>
+        <%= image_tag(attachments['logo.png'].url, class: "image-contain") %>
         </columns>
       </row>
       <row>
@@ -96,9 +96,9 @@
               <p class="email email-padding-md border-bottom">Date:</p>
               <% @bookings.each do |booking| %>
                 <% if (booking.bookingType == "regular") %>
-                  <p class="email-padding-md no-border-top padding-top background-light-blue"><%= booking.date.strftime("%a, %d %b") %></p>
-                <% else %>
                   <p class="email-padding-md no-border-top padding-top background-tea-green"><%= booking.date.strftime("%a, %d %b") %></p>
+                <% else %>
+                  <p class="email-padding-md no-border-top padding-top background-light-blue"><%= booking.date.strftime("%a, %d %b") %></p>
                 <% end %>
               <% end %>
             </columns>

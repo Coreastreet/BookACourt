@@ -135,6 +135,26 @@ $(document).ready( function () {
         }
       });
 
+      $("body").on("click", ".datepicker-holder-row div.edit-profile", function() {
+        table = $("table.courts-table")
+        table.hide();
+        table.next().hide();
+        table.next().next().removeClass("d-none");
+      });
+
+      // Add the following code if you want the name of the file appear on select
+      $(".custom-file-input").on("change", function() {
+        var fileName = $(this).val().split("\\").pop();
+        $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+
+        var reader = new FileReader();
+        // get loaded data and render thumbnail.
+        reader.onload = function (e) {
+          document.getElementById("image").src = e.target.result;
+        };
+        reader.readAsDataURL(this.files[0]);
+      });
+
 });
 /*
 

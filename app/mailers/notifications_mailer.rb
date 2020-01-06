@@ -57,6 +57,10 @@ class NotificationsMailer < ApplicationMailer
     attachments.inline['teaGreenIcon.png'] = File.read('app/assets/images/teaGreenIcon.png')
     attachments.inline['greyBlueIcon.png'] = File.read('app/assets/images/greyBlueIcon.png')
 
+    logo = @sports_centre.logo
+    logo_url = logo.service.send(:path_for, logo.key).split("BookACourt/")[1];
+    attachments.inline['logo.png'] = File.read(logo_url)
+
     make_bootstrap_mail(to: @order.email_address, subject: "BookACourt Booking Invoice")
   end
 

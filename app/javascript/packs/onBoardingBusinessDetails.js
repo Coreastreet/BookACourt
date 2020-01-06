@@ -1,7 +1,6 @@
 $(document).ready( function () {
 
   // var script = document.createElement('script');script.src = "https://code.jquery.com/jquery-3.4.1.min.js";document.getElementsByTagName('head')[0].appendChild(script);
-  const stripe = Stripe('pk_test_N75DfmVdVk3b8FE5JMbkrgfY00sngv9GrB');
   const myForm = document.querySelector('form.business-registration');
 
   if (myForm != null) {

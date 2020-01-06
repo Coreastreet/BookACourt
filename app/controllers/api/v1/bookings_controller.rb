@@ -75,6 +75,7 @@ class Api::V1::BookingsController < Api::V1::ApiController
       "\"bookingType\": \"#{booking_params[:bookingType]}\"," +
       "\"courtType\": \"#{booking_params[:courtType]}\"}}"
 
+    binding.pry
     response = RestClient.post "https://poliapi.apac.paywithpoli.com/api/v2/Transaction/Initiate",
           {Amount: amount, CurrencyCode: "AUD", MerchantReference: orderReference,
             MerchantHomepageURL: sportsCentre_url,
@@ -82,7 +83,7 @@ class Api::V1::BookingsController < Api::V1::ApiController
             SuccessURL: "http://www.localhost:3000/sports_centres/#{params[:sports_centre_id]}/booking_success",
             FailureURL: "http://www.localhost:3000/sports_centres/failure", # redirect to page with failure message later on
             CancellationURL: "http://www.localhost:3000/sports_centres/cancelled",
-            NotificationURL: "https://59e4da6c.ngrok.io/api/v1/sports_centres/#{params[:sports_centre_id]}/bookings"},
+            NotificationURL: "https://02801ab0.ngrok.io/api/v1/sports_centres/#{params[:sports_centre_id]}/bookings"},
             {Authorization: "Basic UzYxMDQ2ODk6RWQ2QCRNYjM0Z14="}
 
     parsedResponse = JSON.parse(response.body)
@@ -93,7 +94,41 @@ class Api::V1::BookingsController < Api::V1::ApiController
     end
   end
 
+  def claim_booking
+    barcode_number = barcode_number_params[:barcode_number].chop.to_i
+    order = Order.find_by(transactionRefNo: barcode_number)
+    if order.nil?
+      msg = {:error => "Booking Not Found"}
+    else
+      todays_date = Date.today
+      booking_for_today = order.bookings.detect { |booking| booking.date == todays_date }   # array
+      if booking_for_today.nil?
+        msg = {:error => "Order found but booking not made for today"}
+      else
+        time_now = Time.now
+        time_reference = Time.utc(2000,1,1,time_now.hour, time_now.min, time_now.sec)
+        if time_reference.between?((booking_for_today.startTime - 1.hour), booking_for_today.endTime)
+          booking_for_today.update!(claimed: true)
+          msg = {:message => "Booking Confirmed!",
+            :startTime => booking_for_today.startTime.strftime("%I:%M%p"),
+            :endDate =>  booking_for_today.endTime.strftime("%I:%M%p"),
+            :name => booking_for_today.order.fullName}
+        else
+          msg = {:error => "Bookings found for today but customer either too early or too late",
+            :startTime => booking_for_today.startTime.strftime("%I:%M%p"), :endDate =>  booking_for_today.endTime.strftime("%I:%M%p")}
+        end
+      end
+    end
+    #respond_to do |format|
+    render :json => msg
+    #end
+  end
+
 private
+
+  def barcode_number_params
+    params.permit(:barcode_number)
+  end
 
   def token_params
     params.permit(:Token, :sports_centre_id)

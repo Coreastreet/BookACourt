@@ -12,28 +12,30 @@ document.addEventListener('DOMContentLoaded', function(){
     // choosing which times during the week and which date periods will have discounted rates.
     // for now assume the time rate is "off-peak"
     var time_type = "off_peak";
+    var firstModal = $(".modal-content.firstModal");
+    var hiddenModal = $(".modal-content.slideHolderModal");
 
     //payButton.setAttribute('style', 'display: none;');
       //payButton.setAttribute('style', 'display: inline;');
-    payButton.addEventListener('click', function() {
-      //alert("working");
-      // check that the startTime and the endTime has both been selected.
-      // fix later
-      var start = document.querySelector("input.startTime");
-      var end = document.querySelector("input.endTime");
+      payButton.addEventListener('click', function() {
+        //alert("working");
+        // check that the startTime and the endTime has both been selected.
+        // fix later
+        var start = document.querySelector("input.startTime");
+        var end = document.querySelector("input.endTime");
 
-      // missing either the start or end time
-      if ((start.value == "") || (end.value == "")) {
-        start.classList.add("is-invalid");
-        end.classList.add("is-invalid");
-        return;
-      }
+        // missing either the start or end time
+        if ((start.value == "") || (end.value == "")) {
+          start.classList.add("is-invalid");
+          end.classList.add("is-invalid");
+          return;
+        }
 
-      fillInPaymentModal();
-      //var total_cost = calculateTotalPrice();
-      //alert(total_cost);
-      //request = initPaymentRequest(total_cost);
-    });
+        fillInPaymentModal();
+        //var total_cost = calculateTotalPrice();
+        //alert(total_cost);
+        //request = initPaymentRequest(total_cost);
+      });
 
       // build and return a paymentRequest Object that contains order details and customer info.
       function initPaymentRequest(costAndTimes) {
@@ -179,11 +181,14 @@ document.addEventListener('DOMContentLoaded', function(){
       }
       //
       // slide in a modal from right to left upon clicking an right arrow in the first modal
-      var firstModal = $(".modal-content.firstModal");
-      var hiddenModal = $(".modal-content.slideHolderModal");
+      $("#payment-confirmation").on('shown.bs.modal', function(e) {
+        hiddenModal.css("margin-left", firstModal.width());
+        hiddenModal.width(firstModal.width());
+        hiddenModal.find(".modal-body").height(firstModal.find(".modal-body").height()+16);
+      })
+
       $("body").on("click", ".modal-body .caret", function() {
         hiddenModal.addClass('show');
-        hiddenModal.find(".modal-body").height(firstModal.find(".modal-body").height()+16);
       });
       $("body").on("click", ".back-arrow", function() {
         $(this).closest(".modal-content").removeClass("show");

@@ -42,6 +42,12 @@ class SportsCentresController < ApplicationController
     end
   end
 
+  def update
+    # update the sportsCentre with logo and new details
+    sports_centre = SportsCentre.find(id_params[:id])
+    sports_centre.update!(sports_centre_params)
+  end
+
   def delete
   end
 
@@ -86,6 +92,13 @@ class SportsCentresController < ApplicationController
   end
 
   def booking_success
+    url = "https://poliapi.apac.paywithpoli.com/api/v2/Transaction/GetTransaction?token=" + booking_token_params[:token]
+    response = RestClient.get url, {Authorization: ENV["POLIPAY_AUTH"]}
+    parsed_response = JSON.parse(response)
+
+    merchantData = JSON.parse(parsed_response["MerchantData"])
+    @customerEmail = merchantData["order"]["customerEmail"]
+
     @sports_centre = SportsCentre.find(params[:sports_centre_id])
   end
 
@@ -97,7 +110,7 @@ class SportsCentresController < ApplicationController
 
   private
     def sports_centre_params
-        params.require(:sports_centre).permit(:title, :email, :password, :password_confirmation, :ABN, :phone, :description, images:[])
+        params.require(:sports_centre).permit(:title, :email, :password, :password_confirmation, :ABN, :phone, :description, :logo)
     end
 
     def address_params
@@ -126,5 +139,9 @@ class SportsCentresController < ApplicationController
 
     def token_params
         params.require(:sports_centre).permit(:token_account, :token_person)
+    end
+
+    def booking_token_params
+      params.permit(:token, :sports_centre_id)
     end
 end

@@ -12,7 +12,7 @@ Rails.application.routes.draw do
   post '/login', to: 'sessions#create'
   delete '/logout', to: 'sessions#destroy'
 
-  resources :sports_centres, only: [:new, :create, :index] do
+  resources :sports_centres, only: [:new, :create, :index, :update] do
   end
 
   # move to new admin controller later
@@ -44,6 +44,7 @@ Rails.application.routes.draw do
         resources :sports_centres, only: [:show] do
           resource :bookings, shallow: true, only: [:create] do
             post "initiate", on: :collection
+            post "claim_booking", on: :collection
           end
         end
     end

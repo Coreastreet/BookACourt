@@ -1,2 +1,27 @@
-<h1><%= @sports_centre.title %></h1>
-<p>You have successfully made a booking!</p>
+<div class="container">
+  <div class="row justify-content-center mt-3">
+    <div class="col-8">
+      <%= image_tag((url_for @sports_centre.logo), class: "mx-auto d-block image-contain logo-height") %>
+    </div>
+  </div>
+  <div class="row justify-content-center">
+    <div class="col-10 mt-5">
+      <h2 class="text-center">Thank you for booking with <%= @sports_centre.title %>.</h2>
+    </div>
+  </div>
+  <div class="row justify-content-center mt-3">
+    <div class="col-3">
+      <%= image_tag("email-sent-icon.png", class: "mx-auto d-block img-fluid") %>
+    </div>
+  </div>
+  <div class="row justify-content-center mt-4">
+    <div class="col-6">
+      <h4 class="text-center">A confirmation email will be sent to <span class="text-primary"><%= @customerEmail %></span> shortly.</<h4>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <p class="text-right"><small class="text-muted">Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></p>
+    </div>
+  </div>
+</div>
