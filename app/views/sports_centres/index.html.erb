@@ -207,164 +207,165 @@
       <!-- Modal content-->
       <div class="modal fade" id="payment-confirmation" role="dialog">
         <div class="modal-dialog hidden">
-          <div class="modal-content firstModal">
-            <div class="modal-header">
-              <h6 class="modal-title">Review Bookings</h6>
-              <button type="button" class="close" data-dismiss="modal">&times;</button>
-            </div>
-            <div class="modal-body pt-0 booking px-0" data-booking-type="casual" data-court-type="half_court"
-              data-booking-interval="14" data-booking-startTime="11:30" data-booking-endTime="14:00" data-booking-rate="peak_hour"
-              data-number-of-bookings="10" data-casual-booking-date="" id="payment-summary">
-              <div class="container-fluid mt-3 booking-row-start">
-                <div class="row px-0">
-                  <div class="col-3 pr-0">
-                    <div class="row mx-0 pt-2 border-dark border">
-                      <div class="col-12 d-flex justify-content-center">
-                        <h6 class="monthHolder">March</h6>
-                      </div>
-                    </div>
-                    <div class="row mx-0 border border-dark border-top-0">
-                      <div class="col-12 d-flex justify-content-center">
-                        <h2 class="mt-2 dayHolder">30</h2>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-9">
-                    <div class="row booking-time">
-                      <div class="col-12 d-flex justify-content-between">
-                        <div class="font-weight-light slateGrey"><span id="weekday">Wednesday, </span>
-                          <span class="bookingPeriod">11:30AM-2PM</span></div>
-                      </div>
-                    </div>
-                    <div class="row mt-1">
-                      <div class="col-12 d-flex justify-content-between court-type">
-                        <h5 class="font-weight-bold">BasketBall <span class="courtType">Half-Court</span></h5>
-                        <h5 class="mb-0">$25.99</h5>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-12 d-flex">
-                        <div><i class="fas fa-map-marker-alt"></i></div>
-                        <div class="font-weight-light ml-2">Morris Iemma Indoor Sports Centre</div>
-                      </div>
-                    </div>
-                  </div>
+          <div class="wrapper">
+              <div class="modal-content firstModal">
+                <div class="modal-header">
+                  <h6 class="modal-title">Review Bookings</h6>
+                  <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
-              </div>
-              <div class="row mx-0 range-divider d-none">
-                <div class="col-3 pr-0">
-                  <div class="d-flex justify-content-center mt-2"><i class="fas fa-angle-down fa-lg" aria-hidden="true"></i></div>
-                </div>
-              </div>
-              <div class="container-fluid mt-1 booking-row-end d-none">
-                <div class="row px-0">
-                  <div class="col-3 pr-0">
-                    <div class="row mx-0 pt-2 border-dark border">
-                      <div class="col-12 d-flex justify-content-center">
-                        <h6 class="monthHolder">June</h6>
+                <div class="modal-body pt-0 booking px-0" data-booking-type="casual" data-court-type="half_court"
+                  data-booking-interval="14" data-booking-startTime="11:30" data-booking-endTime="14:00" data-booking-rate="peak_hour"
+                  data-number-of-bookings="10" data-casual-booking-date="" id="payment-summary">
+                  <div class="container-fluid mt-3 booking-row-start">
+                    <div class="row px-0">
+                      <div class="col-3 pr-0">
+                        <div class="row mx-0 pt-2 border-dark border">
+                          <div class="col-12 d-flex justify-content-center">
+                            <h6 class="monthHolder">March</h6>
+                          </div>
+                        </div>
+                        <div class="row mx-0 border border-dark border-top-0">
+                          <div class="col-12 d-flex justify-content-center">
+                            <h2 class="mt-2 dayHolder">30</h2>
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                    <div class="row mx-0 border border-dark border-top-0">
-                      <div class="col-12 d-flex justify-content-center">
-                        <h2 class="dayHolder mt-2">22</h2>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-9">
-                    <div class="row">
-                      <div class="col-12 d-flex justify-content-between">
-                        <div class="font-light-weight slateGrey frequencyHolder">Every 2 weeks</div>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-12 d-flex justify-content-between booking-type">
-                        <h5>Regular Booking</h5>
-                        <div>
-                          <i class="fas fa-sm fa-times d-inline-block"></i>
-                          <h5 class="d-inline-block booking-number">10</h5>
+                      <div class="col-9">
+                        <div class="row booking-time">
+                          <div class="col-12 d-flex justify-content-between">
+                            <div class="font-weight-light slateGrey"><span id="weekday">Wednesday, </span>
+                              <span class="bookingPeriod">11:30AM-2PM</span></div>
+                          </div>
+                        </div>
+                        <div class="row mt-1">
+                          <div class="col-12 d-flex justify-content-between court-type">
+                            <h5 class="font-weight-bold">BasketBall <span class="courtType">Half-Court</span></h5>
+                            <h5 class="mb-0">$25.99</h5>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-12 d-flex">
+                            <div><i class="fas fa-map-marker-alt"></i></div>
+                            <div class="font-weight-light ml-2">Morris Iemma Indoor Sports Centre</div>
+                          </div>
                         </div>
                       </div>
                     </div>
-                    <div class="row">
-                      <div class="col-12 d-flex justify-content-between caret py-2">
-                        <div>Review all bookings</div>
-                        <div><i class="fas fa-caret-right"></i></div>
+                  </div>
+                  <div class="row mx-0 range-divider d-none">
+                    <div class="col-3 pr-0">
+                      <div class="d-flex justify-content-center mt-2"><i class="fas fa-angle-down fa-lg" aria-hidden="true"></i></div>
+                    </div>
+                  </div>
+                  <div class="container-fluid mt-1 booking-row-end d-none">
+                    <div class="row px-0">
+                      <div class="col-3 pr-0">
+                        <div class="row mx-0 pt-2 border-dark border">
+                          <div class="col-12 d-flex justify-content-center">
+                            <h6 class="monthHolder">June</h6>
+                          </div>
+                        </div>
+                        <div class="row mx-0 border border-dark border-top-0">
+                          <div class="col-12 d-flex justify-content-center">
+                            <h2 class="dayHolder mt-2">22</h2>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-9">
+                        <div class="row">
+                          <div class="col-12 d-flex justify-content-between">
+                            <div class="font-light-weight slateGrey frequencyHolder">Every 2 weeks</div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-12 d-flex justify-content-between booking-type">
+                            <h5>Regular Booking</h5>
+                            <div>
+                              <i class="fas fa-sm fa-times d-inline-block"></i>
+                              <h5 class="d-inline-block booking-number">10</h5>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-12 d-flex justify-content-between caret py-2">
+                            <div>Review all bookings</div>
+                            <div><i class="fas fa-caret-right"></i></div>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            </div>
-            <div class="modal-body p-0">
-              <hr class="my-0">
-              <div class="container-fluid whiteSmokeBG pt-2 pb-4">
-                <div class="row rounded border p-2 mx-0 bg-white mb-3">
-                    <p class="col-5 mb-0">Email Receipt to:</p>
-                    <input type="email" class="form-control col-7 p-0 border-top-0 border-left-0 border-right-0 box-shadow-none"
-                    placeholder="john-citizen@hotmail.com" value="hi_justin@hotmail.com">
-                </div>
-                <div class="row px-0">
-                  <div class="col-9 offset-3 text-right">
-                    <div class="row">
-                      <div class="col-8">
-                        <p class="mb-1">Subtotal (<span class="booking-number">10</span> bookings)</p>
-                      </div>
-                      <div class="col-4">
-                        <p class="mb-1">$100.00</p>
-                      </div>
+                <div class="modal-body p-0">
+                  <hr class="my-0">
+                  <div class="container-fluid whiteSmokeBG pt-2 pb-4">
+                    <div class="row rounded border p-2 mx-0 bg-white mb-3">
+                        <p class="col-5 mb-0">Email Receipt to:</p>
+                        <input type="email" class="form-control col-7 p-0 border-top-0 border-left-0 border-right-0 box-shadow-none"
+                        placeholder="john-citizen@hotmail.com" value="hi_justin@hotmail.com">
                     </div>
-                    <div class="row">
-                      <div class="col-8">
-                        <p class="mb-1">Discount</p>
-                      </div>
-                      <div class="col-4">
-                        <p class="mb-1">-$10.00</p>
-                      </div>
-                    </div>
-                    <hr class="my-2">
-                    <div class="row">
-                      <div class="col-8">
-                        <h5 class="font-weight-bold mb-0">Order Total</h5>
-                      </div>
-                      <div class="col-4">
-                        <h5 class="font-weight-bold mb-0 totalAmount">$90.00</h5>
+                    <div class="row px-0">
+                      <div class="col-9 offset-3 text-right">
+                        <div class="row">
+                          <div class="col-8">
+                            <p class="mb-1">Subtotal (<span class="booking-number">10</span> bookings)</p>
+                          </div>
+                          <div class="col-4">
+                            <p class="mb-1">$100.00</p>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-8">
+                            <p class="mb-1">Discount</p>
+                          </div>
+                          <div class="col-4">
+                            <p class="mb-1">-$10.00</p>
+                          </div>
+                        </div>
+                        <hr class="my-2">
+                        <div class="row">
+                          <div class="col-8">
+                            <h5 class="font-weight-bold mb-0">Order Total</h5>
+                          </div>
+                          <div class="col-4">
+                            <h5 class="font-weight-bold mb-0 totalAmount">$90.00</h5>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-primary polipay" data-dismiss="modal">Pay</button>
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
               </div>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-primary polipay" data-dismiss="modal">Pay</button>
-              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            </div>
-            <div class="modal-content slideHolderModal position-fixed" id="allDatesModal">
-              <div class="modal-header d-flex py-2 pl-2">
-                <i class="fas fa-arrow-left back-arrow hover-grey mr-2 my-1 p-2 align-self-center rounded"></i>
-                <h6 class="modal-title align-self-center">Dates</h6>
-                <button type="button" class="close align-self-center" data-dismiss="modal">&times;</button>
-              </div>
-              <div class="modal-body px-0 overflow-auto pb-0">
-                <div class="container-fluid">
-                  <div class="row px-3">
-                    <p class="font-weight-light">Basketball Half-Court: 11:30AM-2PM</p>
+              <div class="modal-content slideHolderModal position-relative mt-0" id="allDatesModal">
+                <div class="modal-header d-flex py-2 pl-2">
+                  <i class="fas fa-arrow-left back-arrow hover-grey mr-2 my-1 p-2 align-self-center rounded"></i>
+                  <h6 class="modal-title align-self-center">Dates</h6>
+                  <button type="button" class="close align-self-center" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body px-0 overflow-auto pb-0">
+                  <div class="container-fluid">
+                    <div class="row px-3">
+                      <p class="font-weight-light">Basketball Half-Court: 11:30AM-2PM</p>
+                    </div>
+                  </div>
+                  <hr class="my-0 d-none">
+                  <div class="row justify-content-between template px-3 d-none">
+                    <p class="my-2">Saturday, 3 March 2019</p>
+                  </div>
+                  <hr class="my-0">
+                  <div class="container-fluid booking-dates">
                   </div>
                 </div>
-                <hr class="my-0 d-none">
-                <div class="row justify-content-between template px-3 d-none">
-                  <p class="my-2">Saturday, 3 March 2019</p>
-                </div>
-                <hr class="my-0">
-                <div class="container-fluid booking-dates">
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                 </div>
               </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-              </div>
-            </div>
-          </div>
-
         </div>
       </div>
+    </div>
   </div>
 </section>

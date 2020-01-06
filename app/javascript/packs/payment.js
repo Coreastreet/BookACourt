@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', function(){
     // for now assume the time rate is "off-peak"
     var time_type = "off_peak";
     var firstModal = $(".modal-content.firstModal");
-    var hiddenModal = $(".modal-content.slideHolderModal");
+    var hiddenModal = $("#allDatesModal");
 
     //payButton.setAttribute('style', 'display: none;');
       //payButton.setAttribute('style', 'display: inline;');
@@ -35,6 +35,11 @@ document.addEventListener('DOMContentLoaded', function(){
         //var total_cost = calculateTotalPrice();
         //alert(total_cost);
         //request = initPaymentRequest(total_cost);
+      });
+
+      $("#payment-confirmation").on('shown.bs.modal', function(e) {
+        alert("hello");
+        hiddenModal.css('top', `-${$(this).find(".firstModal").height()}px`);
       });
 
       // build and return a paymentRequest Object that contains order details and customer info.
@@ -181,13 +186,16 @@ document.addEventListener('DOMContentLoaded', function(){
       }
       //
       // slide in a modal from right to left upon clicking an right arrow in the first modal
-      $("#payment-confirmation").on('shown.bs.modal', function(e) {
-        hiddenModal.css("margin-left", firstModal.width());
-        hiddenModal.width(firstModal.width());
+      /* $("#payment-confirmation").on('shown.bs.modal', function(e) {
+        //hiddenModal.css("margin-left", firstModal.width());
+        //hiddenModal.width(firstModal.width());
         hiddenModal.find(".modal-body").height(firstModal.find(".modal-body").height()+16);
-      })
+      }) */
 
       $("body").on("click", ".modal-body .caret", function() {
+        //var height = $(this).closest(".wrapper").height();
+        //hiddenModal.height(height);
+        //hiddenModal.css('margin-top', height);
         hiddenModal.addClass('show');
       });
       $("body").on("click", ".back-arrow", function() {

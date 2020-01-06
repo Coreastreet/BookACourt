@@ -30,9 +30,9 @@
 .slideHolderModal {
   margin-left: 100%;
   transition: all 1s;
-  //min-width: 100%;
+  display: none;
   z-index: 99;
-  top: 0px;
+  margin-top: -50vh;
   background-color: white;
 }
 
