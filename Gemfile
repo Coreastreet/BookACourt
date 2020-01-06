@@ -25,7 +25,7 @@ gem 'bcrypt', '~> 3.1.7'
 
 # add gem 'bootstrap' for css framework
 # gem 'bootstrap',  '~>4.3.1
-gem 'stripe'
+# gem 'stripe'
 
 gem 'inky-rb', require: 'inky'
 
