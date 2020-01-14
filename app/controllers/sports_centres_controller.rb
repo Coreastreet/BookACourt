@@ -42,6 +42,12 @@ class SportsCentresController < ApplicationController
     end
   end
 
+  def update
+    # update the sportsCentre with logo and new details
+    sports_centre = SportsCentre.find(id_params[:id])
+    sports_centre.update!(sports_centre_params)
+  end
+
   def delete
   end
 
@@ -49,6 +55,8 @@ class SportsCentresController < ApplicationController
     # console
     @sports_centres = SportsCentre.all
     @arr = ["Half-Court", "Full-Court"]
+    # $redis.client.disconnect
+    #Redis.current.set("A", "1")
   end
 
   def show
@@ -85,7 +93,35 @@ class SportsCentresController < ApplicationController
     end
   end
 
+  def check_availability
+    sportsCentre = SportsCentre.find(params[:id])
+    @startTime = interval_params[:startTime]
+    @endTime = interval_params[:endTime]
+    @courtType = interval_params[:courtType]
+
+    @interval_in_days = interval_params[:dayInterval]
+    @date = interval_params[:date]
+    # use redis for faster data retrieval
+    #if ($redis.get("allBookings") == nil)
+    @json_bookings = sportsCentre.bookings.to_json
+    #  $redis.set("allBookings", @json_bookings)
+    #else
+    @numberOfCourts = sportsCentre.numberOfCourts
+    #  @json_bookings = $redis.get("allBookings")
+    #end
+    respond_to do |format|
+      format.js
+    end
+  end
+
   def booking_success
+    url = "https://poliapi.apac.paywithpoli.com/api/v2/Transaction/GetTransaction?token=" + booking_token_params[:token]
+    response = RestClient.get url, {Authorization: ENV["POLIPAY_AUTH"]}
+    parsed_response = JSON.parse(response)
+
+    merchantData = JSON.parse(parsed_response["MerchantData"])
+    @customerEmail = merchantData["order"]["customerEmail"]
+
     @sports_centre = SportsCentre.find(params[:sports_centre_id])
   end
 
@@ -97,7 +133,7 @@ class SportsCentresController < ApplicationController
 
   private
     def sports_centre_params
-        params.require(:sports_centre).permit(:title, :email, :password, :password_confirmation, :ABN, :phone, :description, images:[])
+        params.require(:sports_centre).permit(:title, :email, :password, :password_confirmation, :ABN, :phone, :description, :logo)
     end
 
     def address_params
@@ -110,6 +146,10 @@ class SportsCentresController < ApplicationController
 
     def id_params
         params.permit(:id)
+    end
+
+    def interval_params
+      params.permit(:dayInterval, :id, :date, :startTime, :endTime, :courtType)
     end
 
     def date_params
@@ -126,5 +166,9 @@ class SportsCentresController < ApplicationController
 
     def token_params
         params.require(:sports_centre).permit(:token_account, :token_person)
+    end
+
+    def booking_token_params
+      params.permit(:token, :sports_centre_id)
     end
 end

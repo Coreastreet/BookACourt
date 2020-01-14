@@ -1,5 +1,4 @@
 
-//var image_url = "<%= url_for(@sports_centre.images[0]) %>";
 var prices = document.querySelectorAll("h3.card-text");
 var title = document.querySelector(".title h3");
 var image = document.querySelector("img.resize");
@@ -7,11 +6,9 @@ var address = document.querySelector(".address");
 
 address.innerText = "<%= @sports_centre.address.full_address %>"
 
-<% if @sports_centre.images.attached? %>
+<% if @sports_centre.logo.attached? %>
   //image.src = image_url;
   title.innerText = "<%= @sports_centre.title.html_safe %>";
-  prices[0].innerText = "<%= @sports_centre.opening_hours["Sun"]["openingHour"] %>";
-  prices[1].innerText = "<%= @sports_centre.opening_hours["Sun"]["closingHour"] %>";
 <% else %>
   var image = document.querySelector("img.resize").src = "";
 <% end %>
@@ -51,6 +48,7 @@ end
 counter = 0;
 var counter2;
 var bookings = <%= @bookings %>;
+console.log(bookings);
 var numberOfCourts = <%= @sports_centre.numberOfCourts %>;
 //var dateSelected = document.querySelector(".dateHolder").dataset.date;
 //var dateSplitArray = dateSelected.toLocaleDateString().split('/');
@@ -86,6 +84,8 @@ while (courtCounter <= numberOfCourts) {
 console.log(outerArray);
 
 var arrayBooked = outerArray;
+localStorage.setItem("BookingsMatrix", JSON.stringify(arrayBooked));
+localStorage.setItem("allBookings", JSON.stringify(bookings));
 
 function calculateTimes(booking) {
   var arrayOfTimes = []
@@ -101,7 +101,7 @@ function calculateTimes(booking) {
     // console.log( start, finish);
     arrayOfTimes.push(start.toLocaleTimeString().slice(0,5));
     //return arrayOfTimes
-    start = new Date(start.setMinutes( start.getMinutes() + 30 ));
+    start = new Date(start.setMinutes( start.getMinutes() + 30));
   //  count--;
   }
   return arrayOfTimes;
@@ -606,5 +606,12 @@ halfCourtTab.addEventListener( "click", function() {
 });
 
 halfCourtTab.click(); // the default tab open, showing booking times, will be for half courts.
-//
 //fix frozen scroll
+// solve problem of covered up clock
+sportsCentreHolder = document.querySelector("#mainSlideHolder");
+sportsCentreHolder.classList.add("container");
+
+// set height of detail Holder to adjacent clock.
+detailHolder = document.querySelector("#detailHolder");
+clockHolder = document.querySelector("#clockHolder");
+detailHolder.setAttribute("height", clockHolder.offsetHeight);

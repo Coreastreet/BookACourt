@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', function(){
                 // info: info, // < note use of 'this' here
              },
              success: function(result) {
-                 alert('ok');
+                 alert('ok, change date working!');
              },
              error: function(result) {
                  alert('error');
@@ -40,5 +40,8 @@ document.addEventListener('DOMContentLoaded', function(){
       $('body').on('click', '[data-toggle="dropdown"]', function() {
         $('.dropdown-toggle').dropdown()
       });
+
+      //var clockHolderHeight = $('#clockHolder').height();
+      //$('#detailHolder').height(clockHolderHeight);
 
 });

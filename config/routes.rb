@@ -12,11 +12,12 @@ Rails.application.routes.draw do
   post '/login', to: 'sessions#create'
   delete '/logout', to: 'sessions#destroy'
 
-  resources :sports_centres, only: [:new, :create, :index] do
+  resources :sports_centres, only: [:new, :create, :index, :update] do
   end
 
+  get "/sports_centres/:id/check_availability", to: "sports_centres#check_availability", as: "sports_centre_check_availability"
   # move to new admin controller later
-  get "/sports_centres/:id", to: "sports_centres#user_show", as: "sports_centre_user"
+  get "/sports_centres/:id/user_show", to: "sports_centres#user_show", as: "sports_centre_user"
 
   get "/sports_centres/:sports_centre_id/booking_success", to: "sports_centres#booking_success", as: "sports_centre_booking_success"
   get "/sports_centres/booking_failure", to: "sports_centres#booking_failure", as: "sports_centre_booking_failure"
@@ -44,6 +45,8 @@ Rails.application.routes.draw do
         resources :sports_centres, only: [:show] do
           resource :bookings, shallow: true, only: [:create] do
             post "initiate", on: :collection
+            post "claim_booking", on: :collection
+            get "check_availability", on: :collection
           end
         end
     end

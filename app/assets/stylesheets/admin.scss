@@ -6,7 +6,10 @@
   background-color: darkSlategray;
 }
 
-.admin-menu:hover {
-  color: darkBlue;
-  background-color: paleturquoise;
+.hover-black:hover {
+  background-color: black;
+}
+
+.image-contain {
+  object-fit: contain;
 }
