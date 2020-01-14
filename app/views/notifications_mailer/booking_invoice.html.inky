@@ -74,9 +74,9 @@
               <p class="border-top">Total Charged</p>
             </columns>
             <columns small="8">
-              <p class="text-right email">AU $100.00</p>
-              <p class="text-right email">$100.00</p>
-              <p class="text-right border-top">AU $100.00</p>
+              <p class="text-right email">AU $<%= @order.totalCost.to_f %></p>
+              <p class="text-right email">- $<%= %></p>
+              <p class="text-right border-top">AU $<%= %></p>
             </columns>
             <columns small="1">
               <p></p>

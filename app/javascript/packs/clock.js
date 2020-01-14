@@ -15,8 +15,9 @@ document.addEventListener('DOMContentLoaded', function(){
         //$('.detailCol').removeClass("d-none");
            $.ajax({
                type: "GET",
-               url: `/sports_centres/${sports_centre_id}/${dateFormatted}`,
+               url: `/sports_centres/${sports_centre_id}/user_show`,
                data: {
+                  date: dateFormatted,
                   // info: info, // < note use of 'this' here
                   //sports_centre_id: $(this).data('id');
                },

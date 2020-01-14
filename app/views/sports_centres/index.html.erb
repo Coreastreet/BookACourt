@@ -23,11 +23,11 @@
             <div class="underneath position-absolute">
               <div id="mapid"></div>
             </div>
-            <div class="slideHolder position-absolute" data-centre = "">
+            <div class="slideHolder position-absolute h-100" data-centre = "" id="mainSlideHolder">
               <div class="row">
                 <div class="col-12">
                       <div class="row">
-                          <div class="col-7">
+                          <div class="col-7" id="detailHolder">
                               <div class="row">
                                  <div class="col-12 title pr-0">
                                     <h3></h3>
@@ -108,7 +108,7 @@
                              </div>
                           </div>
                           <div class="col-5 hidden px-0">
-                            <div class="card main">
+                            <div class="card main" id="clockHolder">
                               <div class="input-group date card-title mb-0" data-provide="datepicker">
                                   <input type="text" class="form-control dateHolder" data-date="">
                                   <div class="input-group-append">
@@ -183,6 +183,9 @@
                                     <button type="button" class="btn btn-primary btn-sm rounded-circle d-inline-block plus-button"><i class="fas fa-plus fa-xs"></i></button>
                                   </div>
                                 </div>
+                                <div class="mt-2 form-row white-box rounded d-none">
+                                  <label id="maxBookingsWarning" data-maxBookings = "1" data-arrayOfFreeCourtIds = "" class="text-danger mx-1"></label>
+                                </div>
                               </div>
                             </div>
                           </div>
@@ -190,13 +193,6 @@
                 </div>
               </div>
               <div class="row">
-                <div class="col-12">
-                  <p class="card-title">Half court:</p>
-                  <h3 class="card-text font-weight-bold text-center"></h3>
-                  <hr>
-                  <p class="card-title">Full court:</p>
-                  <h3 class="card-text font-weight-bold text-center"></h3>
-                </div>
                 <div class="col-12">
                   <img src="#", class="resize"/>
                 </div>
@@ -240,13 +236,27 @@
                         <div class="row mt-1">
                           <div class="col-12 d-flex justify-content-between court-type">
                             <h5 class="font-weight-bold">BasketBall <span class="courtType">Half-Court</span></h5>
-                            <h5 class="mb-0">$25.99</h5>
+                            <h5 class="mb-0 single-booking-price"></h5>
                           </div>
                         </div>
                         <div class="row">
                           <div class="col-12 d-flex">
                             <div><i class="fas fa-map-marker-alt"></i></div>
                             <div class="font-weight-light ml-2">Morris Iemma Indoor Sports Centre</div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row px-0" id="single-booking-review">
+                      <div class="col-3 pr-0">
+                        <div class="row mx-0">
+                        </div>
+                      </div>
+                      <div class="col-9">
+                        <div class="row booking-time">
+                          <div class="col-12 d-flex justify-content-between caret py-2">
+                            <div>Review this booking</div>
+                            <div><i class="fas fa-caret-right"></i></div>
                           </div>
                         </div>
                       </div>
@@ -299,8 +309,8 @@
                 <div class="modal-body p-0">
                   <hr class="my-0">
                   <div class="container-fluid whiteSmokeBG pt-2 pb-4">
-                    <div class="row rounded border p-2 mx-0 bg-white mb-3">
-                        <p class="col-5 mb-0">Email Receipt to:</p>
+                    <div class="row rounded border p-2 mx-0 bg-white mb-3 d-flex">
+                        <p class="col-5 mb-0 align-self-center">Email Receipt to:</p>
                         <input type="email" class="form-control col-7 p-0 border-top-0 border-left-0 border-right-0 box-shadow-none"
                         placeholder="john-citizen@hotmail.com" value="hi_justin@hotmail.com">
                     </div>
@@ -308,10 +318,10 @@
                       <div class="col-9 offset-3 text-right">
                         <div class="row">
                           <div class="col-8">
-                            <p class="mb-1">Subtotal (<span class="booking-number">10</span> bookings)</p>
+                            <p class="mb-1" id="subtotal-booking-text">Subtotal (<span id="subtotal-booking-number">10</span> bookings)</p>
                           </div>
                           <div class="col-4">
-                            <p class="mb-1">$100.00</p>
+                            <p class="mb-1 text-right" id="subtotal">$100.00</p>
                           </div>
                         </div>
                         <div class="row">
@@ -319,7 +329,7 @@
                             <p class="mb-1">Discount</p>
                           </div>
                           <div class="col-4">
-                            <p class="mb-1">-$10.00</p>
+                            <p class="mb-1 text-right" id="discount">-$10.00</p>
                           </div>
                         </div>
                         <hr class="my-2">
@@ -328,7 +338,7 @@
                             <h5 class="font-weight-bold mb-0">Order Total</h5>
                           </div>
                           <div class="col-4">
-                            <h5 class="font-weight-bold mb-0 totalAmount">$90.00</h5>
+                            <h5 class="font-weight-bold mb-0 text-right" id="totalAmount">$90.00</h5>
                           </div>
                         </div>
                       </div>
@@ -346,13 +356,42 @@
                   <h6 class="modal-title align-self-center">Dates</h6>
                   <button type="button" class="close align-self-center" data-dismiss="modal">&times;</button>
                 </div>
-                <div class="modal-body px-0 overflow-auto pb-0">
+                <div class="modal-body px-0 overflow-auto pb-0 h-75">
+                  <div class="row mx-3">
+                    <p class="font-weight-light">Court ID:</p>
+                  </div>
+                  <hr class="my-0">
+                  <div class="container-fluid" id="courtIdBody" data-regularBookingCourtIds="[]">
+                    <div class="row justify-content-between px-3 d-none templateCourtRow" data-courtId="" data-startTime="" data-endTime="">
+                      <p class="my-2">Court 5: 1PM - 3:30PM (Holder)</p>
+                    </div>
+                    <hr class="my-0">
+                  </div>
+                  <hr class="my-0">
+                  <div class="row px-3 mx-0" id="prices-title">
+                    <p class="font-weight-light mt-3">Prices: (per booking)</p>
+                  </div>
+                  <hr class="my-0">
                   <div class="container-fluid">
-                    <div class="row px-3">
-                      <p class="font-weight-light">Basketball Half-Court: 11:30AM-2PM</p>
+                    <div class="row prices-header mt-2 mb-2 d-none">
+                      <div class="col-3">
+                        <p class="time mb-0">Time:</p>
+                      </div>
+                      <div class="col-5">
+                        <p class="rate text-capitalize mb-0">Rate:</p>
+                      </div>
+                      <div class="col-2">
+                        <p class="hours mb-0">Hours:</p>
+                      </div>
+                      <div class="col-2">
+                        <p class="cost mb-0">Cost:</p>
+                      </div>
                     </div>
                   </div>
-                  <hr class="my-0 d-none">
+                  <hr class="my-0">
+                  <div class="row px-3 mx-0" id="dates-title">
+                    <p class="font-weight-light mt-3">Dates:</p>
+                  </div>
                   <div class="row justify-content-between template px-3 d-none">
                     <p class="my-2">Saturday, 3 March 2019</p>
                   </div>
@@ -366,6 +405,6 @@
               </div>
         </div>
       </div>
-    </div>
+      </div>
   </div>
 </section>

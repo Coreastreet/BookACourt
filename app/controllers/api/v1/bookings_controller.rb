@@ -7,7 +7,6 @@ class Api::V1::BookingsController < Api::V1::ApiController
     url = "https://poliapi.apac.paywithpoli.com/api/v2/Transaction/GetTransaction?token=" + token_params[:Token]
     response = RestClient.get url, {Authorization: ENV["POLIPAY_AUTH"]}
     parsed_response = JSON.parse(response)
-
     # if the transaction is successful,
     # create the booking
     if (parsed_response["TransactionStatus"] == "Completed")
@@ -16,22 +15,41 @@ class Api::V1::BookingsController < Api::V1::ApiController
       transactionRefNo = parsed_response["TransactionRefNo"]
 
       data = JSON.parse(parsed_response["MerchantData"])
+
+      combinedDates = data["order"]["firstDayBookings"] + data["order"]["allDates"]
+
       new_order = Order.create!(fullName: "#{payerFirstName} #{payerLastName}", transactionRefNo: transactionRefNo.to_i,
       email_address: data["order"]["customerEmail"], totalCost: data["order"]["totalAmount"],
-      daysInBetween: data["order"]["daysInBetween"], startDate: data["order"]["allDates"].first,
-      endDate: data["order"]["allDates"].last, merchantRef: parsed_response["MerchantReference"])
+      daysInBetween: data["order"]["daysInBetween"], startDate: combinedDates.first,
+      endDate: combinedDates.last, merchantRef: parsed_response["MerchantReference"])
       orderId = new_order.id
+      bookingType = data["booking"]["bookingType"]
+      id = token_params[:sports_centre_id]
       # merchantReference = parsed_response["MerchantReference"] same as the sent info
       # if successful, the customer will be given a reference 6-digit code to identify the order.
       customerReference = "#{orderId}-#{transactionRefNo[0..-3]}" # should remain unique since the first half is always unique
       new_order.update!(customerRef: customerReference)
-      data["order"]["allDates"].each do |date|
-        Booking.create!(startTime: data["booking"]["startTime"], endTime: data["booking"]["endTime"],
-          courtType: data["booking"]["courtType"], sports_centre_id: token_params[:sports_centre_id],
-          order_id: orderId, date: date, bookingType: data["booking"]["bookingType"],
-          courtType: data["booking"]["courtType"]) # later calculate the courtNumber
+
+      data["booking"]["courtIdTimesArray"].each do |booking|
+        idTimesArray = booking.split("-")
+        Booking.create!(startTime: idTimesArray[1], endTime: idTimesArray[2],
+          courtType: data["booking"]["courtType"], sports_centre_id: id,
+          order_id: orderId, date: data["order"]["firstDayBookings"][0], bookingType: bookingType,
+          court_no: idTimesArray[0]) # later calculate the courtNumber
       end
 
+      start = data["booking"]["startTime"]
+      endTime = data["booking"]["endTime"]
+      regularIds = data["order"]["arrayOfRegularCourtIds"]
+
+      if (!(data["order"]["allDates"].empty?)) # if the extra regular dates are not empty?
+        data["order"]["allDates"].each_with_index do |date, index|
+            Booking.create!(startTime: start, endTime: endTime,
+              courtType: data["booking"]["courtType"], sports_centre_id: id,
+              order_id: orderId, date: date, bookingType: bookingType,
+              court_no: regularIds[index])
+        end
+      end
       #merchantAccountName = parsed_response["MerchantAccountName"]
       #financialInstitutionName = parsed_response["FinancialInstitutionName"]
       #merchantName = parsed_response["MerchantName"]
@@ -42,6 +60,14 @@ class Api::V1::BookingsController < Api::V1::ApiController
       order: new_order).booking_invoice.deliver_later
     end
 
+  end
+
+  def check_availability
+    sportsCentre = SportsCentre.find(params[:sports_centre_id])
+    interval_in_days = interval_params[:dayInterval]
+    date = interval_params[:date]
+    @json_bookings = sportsCentre.bookings.to_json
+    render :json_bookings => @json_bookings
   end
 
   def initiate
@@ -64,18 +90,28 @@ class Api::V1::BookingsController < Api::V1::ApiController
     # store the string in merchantData
     # calculate the start and end Date later
     # if guest transaction, leave user_id as nil
+    allDates = (order_params[:allDates].nil?) ? [] : order_params[:allDates]
+    arrayOfRegularCourtIds = (order_params[:allDates].nil?) ? [] : order_params[:arrayOfRegularCourtIds]
+
+    # binding.pry
+
     merchantDataString = '{"order":' +
-      "{\"allDates\": #{order_params[:allDates]}," +
+      "{\"allDates\": #{allDates}," +
       "\"totalAmount\": \"#{order_params[:totalAmount]}\"," +
       "\"daysInBetween\": \"#{order_params[:daysInBetween]}\"," +
+      "\"firstDayBookings\": #{order_params[:firstDayBookings]}," +
+      "\"arrayOfRegularCourtIds\": #{arrayOfRegularCourtIds}," +
       "\"customerEmail\": \"#{order_params[:customerEmail]}\"}" +
       ",\"booking\":" +
-      "{\"startTime\": \"#{booking_params[:startTime]}\"," +
+      "{\"courtIdTimesArray\": #{booking_params[:courtIdTimesArray]}," +
+      "\"startTime\": \"#{booking_params[:startTime]}\"," +
       "\"endTime\": \"#{booking_params[:endTime]}\"," +
       "\"bookingType\": \"#{booking_params[:bookingType]}\"," +
       "\"courtType\": \"#{booking_params[:courtType]}\"}}"
 
-    binding.pry
+      #{}"{\"startTime\": \"#{booking_params[:startTime]}\"," +
+      #{}"\"endTime\": \"#{booking_params[:endTime]}\"," +
+
     response = RestClient.post "https://poliapi.apac.paywithpoli.com/api/v2/Transaction/Initiate",
           {Amount: amount, CurrencyCode: "AUD", MerchantReference: orderReference,
             MerchantHomepageURL: sportsCentre_url,
@@ -83,7 +119,7 @@ class Api::V1::BookingsController < Api::V1::ApiController
             SuccessURL: "http://www.localhost:3000/sports_centres/#{params[:sports_centre_id]}/booking_success",
             FailureURL: "http://www.localhost:3000/sports_centres/failure", # redirect to page with failure message later on
             CancellationURL: "http://www.localhost:3000/sports_centres/cancelled",
-            NotificationURL: "https://02801ab0.ngrok.io/api/v1/sports_centres/#{params[:sports_centre_id]}/bookings"},
+            NotificationURL: "https://e2f118e3.ngrok.io/api/v1/sports_centres/#{params[:sports_centre_id]}/bookings"},
             {Authorization: "Basic UzYxMDQ2ODk6RWQ2QCRNYjM0Z14="}
 
     parsedResponse = JSON.parse(response.body)
@@ -134,12 +170,16 @@ private
     params.permit(:Token, :sports_centre_id)
   end
 
+  def interval_params
+    params.permit(:dayInterval, :sports_centre_id, :date)
+  end
+
   def order_params
-    params.require(:order).permit(:totalAmount, :customerEmail, :daysInBetween, allDates: [])
+    params.require(:order).permit(:totalAmount, :customerEmail, :daysInBetween, allDates: [], arrayOfRegularCourtIds: [], firstDayBookings: [])
   end
 
   def booking_params
-    params.require(:booking).permit(:courtType, :startTime, :endTime, :bookingType)
+    params.require(:booking).permit(:courtType, :bookingType, :startTime, :endTime, courtIdTimesArray: [] )
   end
 
 end

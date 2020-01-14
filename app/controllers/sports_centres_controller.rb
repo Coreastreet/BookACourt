@@ -55,6 +55,8 @@ class SportsCentresController < ApplicationController
     # console
     @sports_centres = SportsCentre.all
     @arr = ["Half-Court", "Full-Court"]
+    # $redis.client.disconnect
+    #Redis.current.set("A", "1")
   end
 
   def show
@@ -91,6 +93,27 @@ class SportsCentresController < ApplicationController
     end
   end
 
+  def check_availability
+    sportsCentre = SportsCentre.find(params[:id])
+    @startTime = interval_params[:startTime]
+    @endTime = interval_params[:endTime]
+    @courtType = interval_params[:courtType]
+
+    @interval_in_days = interval_params[:dayInterval]
+    @date = interval_params[:date]
+    # use redis for faster data retrieval
+    #if ($redis.get("allBookings") == nil)
+    @json_bookings = sportsCentre.bookings.to_json
+    #  $redis.set("allBookings", @json_bookings)
+    #else
+    @numberOfCourts = sportsCentre.numberOfCourts
+    #  @json_bookings = $redis.get("allBookings")
+    #end
+    respond_to do |format|
+      format.js
+    end
+  end
+
   def booking_success
     url = "https://poliapi.apac.paywithpoli.com/api/v2/Transaction/GetTransaction?token=" + booking_token_params[:token]
     response = RestClient.get url, {Authorization: ENV["POLIPAY_AUTH"]}
@@ -123,6 +146,10 @@ class SportsCentresController < ApplicationController
 
     def id_params
         params.permit(:id)
+    end
+
+    def interval_params
+      params.permit(:dayInterval, :id, :date, :startTime, :endTime, :courtType)
     end
 
     def date_params

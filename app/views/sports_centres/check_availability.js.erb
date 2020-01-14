@@ -1,0 +1,142 @@
+var bookings = <%= @json_bookings.html_safe %>;
+var date = "<%= @date %>";
+var interval_in_days = <%= @interval_in_days %>;
+var startTime = "<%= @startTime %>";
+var endTime = "<%= @endTime %>";
+var courtType = "<%= @courtType %>";
+var numberOfCourts = <%= @numberOfCourts %>;
+var arrayOfFreeCourtIds = [];
+/*
+console.log(bookings);
+console.log(date);
+console.log(interval_in_days);
+*/
+
+var arrayOfArrays = extract_relevant_days(bookings, date, interval_in_days);
+console.log("selected days", arrayOfArrays);
+// after extracting the relevant days; let us filter the bookings so that only bookings matching the relevant dates remain.
+console.log("all bookings", bookings);
+var courtIdFree = null;
+for (var bookingsOfOneSelectedDate in arrayOfArrays) {
+  //if (arrayOfArrays[bookingsOfOneSelectedDate].length != 0) { an array containing all the bookings in one day, which matches a regular booking day
+    courtIdFree = checkDayAvailability(arrayOfArrays[bookingsOfOneSelectedDate], startTime, endTime, numberOfCourts) // return boolean depending on whether a court is free on that particular day
+    // add courtType later
+    if (courtIdFree == null) {
+      break
+    } else {
+      arrayOfFreeCourtIds.push(courtIdFree);
+    }
+
+}
+
+console.log(arrayOfFreeCourtIds);
+var maxNoBookings = arrayOfFreeCourtIds.length + 1; // max-bookings, count the number of extra bookings ahead and include the current/first booking
+var maxContainer = document.querySelector("#maxBookingsWarning");
+maxContainer.textContent = `Max. ${maxNoBookings} bookings available`;
+maxContainer.parentElement.classList.remove("d-none");
+maxContainer.setAttribute("data-maxBookings", maxNoBookings);
+maxContainer.setAttribute("data-arrayOfFreeCourtIds", JSON.stringify(arrayOfFreeCourtIds));
+//var maxBookings = $("#maxBookingsWarning").attr("data-maxBookings");
+
+//if (booking.textContent <= maxBookings){
+//console.log("Free Court Id", courtIdFree);
+// assume half_court for noew; let variable account for this later
+
+function extract_relevant_days(bookings, date, interval_in_days) {
+    var counter = 0;
+    var regularDate = new Date(date);
+    var stringDate;
+    var arrayOfDates = [];
+    var arrayOfArrays = [];
+    // check all dates for a regular booking up to ten bookings ahead
+    while (counter < 9) {
+      arrayOfDates = [];
+      regularDate.setDate(regularDate.getDate() + interval_in_days);
+      stringDate = regularDate.toLocaleString('en-us', {year: 'numeric', month: '2-digit', day: '2-digit'}).
+      replace(/(\d+)\/(\d+)\/(\d+)/, '$3-$1-$2');
+      console.log(stringDate);
+      // iterate through all bookings and add those matching one day to a subarray
+      for (var jsonBooking in bookings) {
+          if (bookings[jsonBooking]["date"] == stringDate) {
+              arrayOfDates.push(bookings[jsonBooking]);
+          }
+      }
+      arrayOfArrays.push(arrayOfDates); // add to larger array if found
+      //arrayOfDates.push(stringDate);
+      counter++;
+    }
+    // returns array of Arrays aka (where all days that have bookings on the same as the regular booking appear).
+    return arrayOfArrays;
+}
+
+function checkDayAvailability(arrayOfHash, startTime, endTime, numberOfCourts) {
+  var arr = [...Array(numberOfCourts+1).keys()];
+  arr.shift();
+  var availabilityBoolean = false;
+  var intervalTimes = new Set(getIntervals(startTime, endTime));
+  var hashSetTime;
+  var startTimeEdited;
+  var endTimeEdited;
+  var hashSet;
+  var bookingOverlapCounter = 0; // keep track of number of bookings in a day matching a court and also overlapping time. If none, then the court is free
+  var prevCourtCounter = 0;
+  var courtFreeId = null;
+  var intersection;
+  for (var court_no = 1; court_no <= arr.length; court_no++) { // 1..6
+    //console.log(court_no);
+    for (var hashBooking in arrayOfHash) {
+      hashSet = arrayOfHash[hashBooking];
+      // if none of the bookings in the hash (each representing a day) match, then no bookings for the current court on that day.
+      // bookingOverlapCounter remains zero or no difference
+      if ((hashSet.court_no == court_no) || ((hashSet.court_no == (court_no - 1)) && (hashSet.courtType == "fullCourt"))) { // if the previous skipped booking was in fact a full court booking
+        startTimeEdited = hashSet.startTime.split("T")[1].substr(0,5);
+        endTimeEdited = hashSet.endTime.split("T")[1].substr(0,5);
+        //console.log(hashSet, startTimeEdited, endTimeEdited);
+        hashSetTime = new Set(getIntervals(startTimeEdited, endTimeEdited));
+        intersection = new Set([...intervalTimes].filter(x => hashSetTime.has(x)));
+        // if intersection.size == 0, then bookingOverlapCounter remains 0 or no difference
+        if (intersection.size != 0) { // meaning the court is free during the time in question
+          bookingOverlapCounter++; // note that a booking in the current court overlaps with the desired booking
+        }
+      }
+    }
+    if (bookingOverlapCounter == prevCourtCounter) { // after iteration if no bookings match with a court
+      courtFreeId = court_no;
+      break;
+    } else {
+      prevCourtCounter = bookingOverlapCounter; // if not zero, i.e. assign the prevCourtCounter the new value to monitor difference.
+    }
+  }
+  //console.log("Free court id", courtFreeId);
+  return courtFreeId; // null means no court available
+}
+
+//checkDayAvailability(temp1[0], "10:30", "12:30", 6);
+
+function getIntervals(start, end) {
+  //console.log("start and end", start, end)
+  var startBookingTime = parseFloat(start.replace(":3", ".5"));
+  var endBookingTime = parseFloat(end.replace(":3", ".5"));
+  arrayIntervals = [];
+  var stringTime;
+  while (startBookingTime != endBookingTime) {
+    stringTime = convertTimeIntoString(startBookingTime);
+    arrayIntervals.push(stringTime);
+    startBookingTime += 0.5;
+  }
+  return arrayIntervals;
+}
+
+function convertTimeIntoString(number) {
+  var stringTime = number.toString();
+  //var minutes = stringTime.substr(1);
+  if (Number.isInteger(number)) {
+    stringTime = stringTime + ":00";
+  } else {
+    stringTime = stringTime.replace(".5", ":30");
+  }
+  if (number < 10) {
+    stringTime = "0" + stringTime;
+  }
+  return stringTime;
+}
