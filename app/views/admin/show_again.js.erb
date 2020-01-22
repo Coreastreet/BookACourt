@@ -13,28 +13,50 @@ var j = 0;
 var booking_start;
 var booking_end;
 var columnArray;
+var nextColumnArray;
 var booked = false;
 var columnNumber;
+var booking;
 var table = document.querySelector('table.table-sm');
 clearTable(table);
 while (i < bookings.length) {
   if (bookings[i].date === formattedDate) {
+    booking = bookings[i];
     j = 0;
-    booking_start = bookings[i].startTime.substr(11,5);
-    booking_end = bookings[i].endTime.substr(11,5);
-    columnArray = document.querySelectorAll(`[data-court="${bookings[i].court_no}"]`);
-    while (j < columnArray.length) {
-      if (columnArray[j].dataset.time == booking_start) {
-        booked = true;
-      }
-      if (columnArray[j].dataset.time == booking_end) {
-        booked = false;
-      }
-      if (booked) {
-        columnArray[j].classList.add("table-active");
-      }
-      j++;
-    }
+    booking_start = booking.startTime.substr(11,5);
+    booking_end = booking.endTime.substr(11,5);
+    console.log("start", booking_start);
+    console.log("end", booking_end);
+    columnArray = document.querySelectorAll(`[data-court="${booking.court_no}"]`);
+    if (booking.courtType == "halfCourt") {
+          while (j < columnArray.length) {
+            if (columnArray[j].dataset.time == booking_start) {
+              booked = true;
+            }
+            if (columnArray[j].dataset.time == booking_end) {
+              booked = false;
+            }
+            if (booked) {
+              columnArray[j].classList.add("table-active");
+            }
+            j++;
+          }
+     } else if (booking.courtType == "fullCourt") {
+         nextColumnArray = document.querySelectorAll(`[data-court="${booking.court_no + 1}"]`);
+         while (j < columnArray.length) {
+           if (columnArray[j].dataset.time == booking_start) {
+             booked = true;
+           }
+           if (columnArray[j].dataset.time == booking_end) {
+             booked = false;
+           }
+           if (booked) {
+             columnArray[j].classList.add("table-primary");
+             nextColumnArray[j].classList.add("table-primary");
+           }
+           j++;
+         }
+     }
   }
   i++;
 }
@@ -47,5 +69,12 @@ function clearTable(table) {
   while (i < bookedTimes.length) {
     bookedTimes[i].classList.remove('table-active');
     i++;
+  }
+
+  var bookedFullTimes = table.querySelectorAll('.table-primary');
+  var j = 0;
+  while (j < bookedFullTimes.length) {
+    bookedFullTimes[j].classList.remove('table-primary');
+    j++;
   }
 }

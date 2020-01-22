@@ -67,7 +67,15 @@ class Api::V1::BookingsController < Api::V1::ApiController
     interval_in_days = interval_params[:dayInterval]
     date = interval_params[:date]
     @json_bookings = sportsCentre.bookings.to_json
-    render :json_bookings => @json_bookings
+    @numberOfCourts = sportsCentre.numberOfCourts
+    @prices = sportsCentre.prices
+    @peak_hours = sportsCentre.peak_hours
+    if @json_bookings
+      render :json => {json_bookings: @json_bookings, number_of_courts: @numberOfCourts,
+      prices: @prices, peak_hours: @peak_hours, success: true, content_type: 'application/json'}.to_json, status: 200
+    else
+      render :json => {:error => "not-found", success: false, content_type: 'application/json'}.to_json, :status => 404
+    end
   end
 
   def initiate
@@ -77,6 +85,7 @@ class Api::V1::BookingsController < Api::V1::ApiController
 
     sportsCentre = SportsCentre.find(params[:sports_centre_id])
     sportsCentre_url = sportsCentre.URL
+
 
     attemptedBookings = sportsCentre.attemptedBookings
     orderReference = "#{params[:sports_centre_id]}_Order_#{attemptedBookings}" # dummy reference; not useful
@@ -90,10 +99,22 @@ class Api::V1::BookingsController < Api::V1::ApiController
     # store the string in merchantData
     # calculate the start and end Date later
     # if guest transaction, leave user_id as nil
-    allDates = (order_params[:allDates].nil?) ? [] : order_params[:allDates]
-    arrayOfRegularCourtIds = (order_params[:allDates].nil?) ? [] : order_params[:arrayOfRegularCourtIds]
+    isBWrequest = !order_params[:bwFirstDayBookings].nil?
+    # account for possibility that request is sent by third party widget
+    if (order_params[:allDates].nil?)
+        allDates = (isBWrequest) ? JSON.parse(order_params[:bwAllDates]) : []
+    else
+        allDates = order_params[:allDates]
+    end
+    if (order_params[:allDates].nil?)
+        arrayOfRegularCourtIds = (isBWrequest) ? JSON.parse(order_params[:bwArrayOfRegularCourtIds]) : []
+    else
+        arrayOfRegularCourtIds = order_params[:arrayOfRegularCourtIds]
+    end
+    # arrayOfRegularCourtIds = (order_params[:allDates].nil?) ? [] :
 
-    # binding.pry
+    courtIdTimesArray = (booking_params[:courtIdTimesArray].nil?) ? JSON.parse(booking_params[:bwCourtIdTimesArray]) : booking_params[:courtIdTimesArray]
+    #binding.pry
 
     merchantDataString = '{"order":' +
       "{\"allDates\": #{allDates}," +
@@ -103,12 +124,11 @@ class Api::V1::BookingsController < Api::V1::ApiController
       "\"arrayOfRegularCourtIds\": #{arrayOfRegularCourtIds}," +
       "\"customerEmail\": \"#{order_params[:customerEmail]}\"}" +
       ",\"booking\":" +
-      "{\"courtIdTimesArray\": #{booking_params[:courtIdTimesArray]}," +
+      "{\"courtIdTimesArray\": #{courtIdTimesArray}," +
       "\"startTime\": \"#{booking_params[:startTime]}\"," +
       "\"endTime\": \"#{booking_params[:endTime]}\"," +
       "\"bookingType\": \"#{booking_params[:bookingType]}\"," +
       "\"courtType\": \"#{booking_params[:courtType]}\"}}"
-
       #{}"{\"startTime\": \"#{booking_params[:startTime]}\"," +
       #{}"\"endTime\": \"#{booking_params[:endTime]}\"," +
 
@@ -124,7 +144,11 @@ class Api::V1::BookingsController < Api::V1::ApiController
 
     parsedResponse = JSON.parse(response.body)
     if (response.code == 200 && parsedResponse["Success"])
-      redirect_to parsedResponse["NavigateURL"]
+      if (isBWrequest)
+        render :json => {success: true, content_type: 'application/json', redirect_url: parsedResponse["NavigateURL"]}.to_json, :status => 200
+      else
+        redirect_to parsedResponse["NavigateURL"]
+      end
     else
       logger.info "initiate transaction action has failed"
     end
@@ -175,11 +199,11 @@ private
   end
 
   def order_params
-    params.require(:order).permit(:totalAmount, :customerEmail, :daysInBetween, allDates: [], arrayOfRegularCourtIds: [], firstDayBookings: [])
+    params.require(:order).permit(:totalAmount, :customerEmail, :daysInBetween, :bwAllDates, :bwArrayOfRegularCourtIds, :bwFirstDayBookings, allDates: [], arrayOfRegularCourtIds: [], firstDayBookings: [])
   end
 
   def booking_params
-    params.require(:booking).permit(:courtType, :bookingType, :startTime, :endTime, courtIdTimesArray: [] )
+    params.require(:booking).permit(:courtType, :bookingType, :startTime, :endTime, :bwCourtIdTimesArray, courtIdTimesArray: [] )
   end
 
 end

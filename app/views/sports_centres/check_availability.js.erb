@@ -70,6 +70,7 @@ function extract_relevant_days(bookings, date, interval_in_days) {
 }
 
 function checkDayAvailability(arrayOfHash, startTime, endTime, numberOfCourts) {
+  console.log("arrayOFHash", arrayOfHash);
   var arr = [...Array(numberOfCourts+1).keys()];
   arr.shift();
   var availabilityBoolean = false;
