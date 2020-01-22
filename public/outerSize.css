@@ -1,0 +1,453 @@
+#BookingWidget {
+  width: 100%;
+  max-width: 16rem;
+  overflow-x: hidden;
+}
+#BookingWidget #clockHolderCard {
+  width: 100%;
+}
+#BookingWidget #clockHolderCard .bw-none {
+  display: none !important;
+}
+#BookingWidget #clockHolderCard #calendar {
+  display: flex;
+  height: 2rem;
+  margin: 0;
+}
+#BookingWidget #clockHolderCard #dateHolder {
+  flex: 1 0 70%;
+}
+#BookingWidget #clockHolderCard #dateButton {
+  flex: 0 0 2rem;
+  background-color: lightgray;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#BookingWidget #clockHolderCard #tabHolder {
+  display: flex;
+  height: 2rem;
+}
+#BookingWidget #clockHolderCard #tabHolder div.tab {
+  flex: 1 0 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#BookingWidget #clockHolderCard #tabHolder div.tab:hover {
+  background-color: lightcyan;
+}
+#BookingWidget #clockHolderCard #tabHolder .active {
+  background-color: lightgray;
+}
+#BookingWidget #clockHolderCard #timeHolder {
+  display: flex;
+}
+#BookingWidget #clockHolderCard #timeHolder #startTime, #BookingWidget #clockHolderCard #timeHolder #endTime {
+  flex: 1 0 35%;
+  height: 2rem;
+}
+#BookingWidget #clockHolderCard #timeHolder #timeButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 0 0 2rem;
+  background-color: lightgray;
+}
+#BookingWidget #clockHolderCard #buttomRow {
+  display: flex;
+  height: 2rem;
+  color: white;
+  margin-top: 8px;
+}
+#BookingWidget #clockHolderCard #buttomRow #repeatButton {
+  flex: 1 0 50%;
+  border: none;
+  background-color: blue;
+  color: white;
+}
+#BookingWidget #clockHolderCard #buttomRow #clearButton {
+  flex: 1 0 50%;
+  border: none;
+  background-color: grey;
+  color: white;
+}
+#BookingWidget #clockHolderCard #bookNowButton {
+  height: 2rem;
+  width: 100%;
+  margin-top: 4px;
+  border: none;
+  color: white;
+  background-color: green;
+}
+#BookingWidget #repeatBookingCard {
+  margin-left: 100%;
+  transition: all 1s;
+  z-index: 99;
+  margin-top: -50vh;
+  background-color: lightgray;
+  width: 100%;
+  position: relative;
+}
+#BookingWidget #repeatBookingCard #miniContainer {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+#BookingWidget #repeatBookingCard #checkAvailabilityButton {
+  border: none;
+  margin: 1rem;
+  justify-self: end;
+  margin-top: auto;
+  height: 2rem;
+  background-color: forestgreen;
+  color: white;
+}
+#BookingWidget #repeatBookingCard #repeatHeader {
+  display: flex;
+  padding: 1rem;
+}
+#BookingWidget #repeatBookingCard #repeatHeader #repeatTitle {
+  margin: 0 0 0 1rem;
+  width: 100%;
+}
+#BookingWidget #repeatBookingCard #maxBookingRow {
+  background-color: white;
+  margin: 0.25rem 1rem;
+  padding: 0.5rem;
+  color: #dc3545;
+  font-weight: bold;
+}
+#BookingWidget #repeatBookingCard #startRow {
+  display: block;
+  border: 1px solid white;
+  margin: 0.25rem 1rem;
+  /* color: black; */
+  padding: 0.5rem;
+  background-color: white;
+}
+#BookingWidget #repeatBookingCard #startRow #startLabel {
+  width: 100%;
+  display: block;
+  height: 2rem;
+}
+#BookingWidget #repeatBookingCard #startRow #startDate {
+  border: none;
+  height: 2rem;
+  font-size: 1rem;
+}
+#BookingWidget #repeatBookingCard #frequencyRow {
+  display: block;
+  border: 1px solid white;
+  margin: 0.25rem 1rem;
+  /* color: black; */
+  padding: 0.5rem;
+  background-color: white;
+}
+#BookingWidget #repeatBookingCard #frequencyRow #frequencyHeader {
+  display: flex;
+  justify-content: space-between;
+}
+#BookingWidget #repeatBookingCard #frequencyRow #frequencyHeader #frequencyLabel {
+  width: 50%;
+  display: block;
+  height: 2rem;
+}
+#BookingWidget #repeatBookingCard #frequencyRow #frequencyHeader #frequencyButtons {
+  display: flex;
+}
+#BookingWidget #repeatBookingCard #frequencyRow #frequencyHeader #frequencyButtons #daysButton {
+  flex: 1 0 50%;
+  border: 1px solid #6c757d;
+  background-color: white;
+  border-radius: 4px 0 0 4px;
+}
+#BookingWidget #repeatBookingCard #frequencyRow #frequencyHeader #frequencyButtons #daysButton.btn-selected {
+  background-color: royalBlue !important;
+  color: white;
+  outline: none;
+  box-shadow: none;
+}
+#BookingWidget #repeatBookingCard #frequencyRow #frequencyHeader #frequencyButtons #daysButton:hover {
+  background-color: #6c757d;
+  color: white;
+}
+#BookingWidget #repeatBookingCard #frequencyRow #frequencyHeader #frequencyButtons #weeksButton {
+  flex: 1 0 50%;
+  border: 1px solid #6c757d;
+  background-color: white;
+  border-left: none;
+  border-radius: 0 4px 4px 0;
+}
+#BookingWidget #repeatBookingCard #frequencyRow #frequencyHeader #frequencyButtons #weeksButton.btn-selected {
+  background-color: royalBlue !important;
+  color: white;
+  outline: none;
+  box-shadow: none;
+}
+#BookingWidget #repeatBookingCard #frequencyRow #frequencyHeader #frequencyButtons #weeksButton:hover {
+  background-color: #6c757d;
+  color: white;
+}
+#BookingWidget #repeatBookingCard #frequencyRow #frequencyBottomRow {
+  display: flex;
+  width: 100%;
+  margin-top: 4px;
+}
+#BookingWidget #repeatBookingCard #frequencyRow #frequencyBottomRow #frequencyRate {
+  flex: 1 0 50%;
+  min-width: 50%;
+  border: none;
+  height: 2rem;
+  font-size: 1rem;
+}
+#BookingWidget #repeatBookingCard .addAndMinus {
+  display: flex;
+  flex: 1 0 30%;
+  width: 100%;
+  justify-content: space-between;
+  justify-content: flex-end;
+}
+#BookingWidget #repeatBookingCard .addAndMinus .minus-button {
+  border: none;
+  border-radius: 50%;
+  background-color: #f8f9fa;
+  padding: 0.25rem 0.5rem;
+}
+#BookingWidget #repeatBookingCard .addAndMinus .number {
+  vertical-align: middle;
+  align-self: center;
+  padding: 0.25rem 0.5rem;
+}
+#BookingWidget #repeatBookingCard .addAndMinus .plus-button {
+  border: none;
+  border-radius: 50%;
+  background-color: #007bff;
+  padding: 0.25rem 0.5rem;
+}
+#BookingWidget #repeatBookingCard #endRow {
+  display: block;
+  border: 1px solid white;
+  margin: 0.25rem 1rem;
+  padding: 0.5rem;
+  background-color: white;
+}
+#BookingWidget #repeatBookingCard #endRow #endLabel {
+  width: 100%;
+  display: block;
+  height: 2rem;
+}
+#BookingWidget #repeatBookingCard #endRow #endDate {
+  border: none;
+  height: 2rem;
+  font-size: 1rem;
+  flex: 1 0 50%;
+  min-width: 50%;
+}
+#BookingWidget #repeatBookingCard #endRow #endDateBottomRow {
+  display: flex;
+}
+
+div.datepicker.dropdown-menu.datepicker-orient-left.datepicker-orient-bottom {
+  margin-top: 1.2rem;
+}
+
+#payment-confirmation #modal-dialog {
+  max-width: 500px;
+  overflow: hidden;
+}
+#payment-confirmation .range-divider {
+  display: flex;
+}
+#payment-confirmation .range-divider .downCaret {
+  flex: 0 0 25%;
+  display: flex;
+  justify-content: center;
+}
+#payment-confirmation .bw-marginTop1 {
+  margin-top: 1rem;
+}
+#payment-confirmation .bw-paddingBottom1 {
+  padding-bottom: 1rem;
+}
+#payment-confirmation .bw-none {
+  display: none !important;
+}
+#payment-confirmation .bw-whitesmoke {
+  background-color: whitesmoke;
+}
+#payment-confirmation .bw-footer {
+  display: flex;
+  justify-content: flex-end;
+}
+#payment-confirmation .bw-footer .bw-button {
+  margin-right: 1rem;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+}
+#payment-confirmation .bw-footer .bw-blue {
+  color: white;
+  background-color: royalblue;
+}
+#payment-confirmation .bw-footer .bw-white {
+  color: black;
+  background-color: whitesmoke;
+}
+#payment-confirmation .bw-pl1 {
+  padding-left: 1rem;
+}
+#payment-confirmation .bw-pr1 {
+  padding-right: 1rem;
+}
+#payment-confirmation .bw-margin0 {
+  margin: 0;
+}
+#payment-confirmation .paymentGrid {
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+  grid-template-rows: auto auto auto auto;
+  grid-column-gap: 1rem;
+}
+#payment-confirmation .paymentGrid .bw-emailLine {
+  flex: 0 1 70%;
+  padding-left: 1rem;
+  border: none;
+}
+#payment-confirmation .paymentGrid .bw-flex {
+  display: flex;
+  justify-content: space-between;
+}
+#payment-confirmation .paymentGrid .paddingHover {
+  padding: 0.5rem 1rem;
+  margin: 0 -1rem;
+}
+#payment-confirmation .paymentGrid .paddingHover:hover {
+  background-color: whitesmoke;
+}
+#payment-confirmation .paymentGrid .bw-emailInput {
+  grid-column-start: 1;
+  grid-column-end: 3;
+  grid-row-start: 1;
+  grid-row-end: 2;
+  background: white;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  padding: 0 1rem;
+}
+#payment-confirmation .paymentGrid .bw-subtotal {
+  grid-column-start: 2;
+  grid-column-end: 3;
+  grid-row-start: 2;
+  grid-row-end: 3;
+}
+#payment-confirmation .paymentGrid .bw-discount {
+  grid-column-start: 2;
+  grid-column-end: 3;
+  grid-row-start: 3;
+  grid-row-end: 4;
+}
+#payment-confirmation .paymentGrid .bw-orderTotal {
+  grid-column-start: 2;
+  grid-column-end: 3;
+  grid-row-start: 4;
+  grid-row-end: 5;
+}
+#payment-confirmation .paymentGrid .startCalendarDate, #payment-confirmation .paymentGrid .endCalendarDate {
+  grid-column-start: 1;
+  grid-column-end: 2;
+  grid-row-start: 1;
+  grid-row-end: 4;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 1px solid black;
+}
+#payment-confirmation .paymentGrid .startCalendarDate .dayHolder, #payment-confirmation .paymentGrid .startCalendarDate .monthHolder, #payment-confirmation .paymentGrid .endCalendarDate .dayHolder, #payment-confirmation .paymentGrid .endCalendarDate .monthHolder {
+  margin: 0.5rem 0;
+}
+#payment-confirmation .paymentGrid .itemRow {
+  display: flex;
+  justify-content: space-between;
+}
+#payment-confirmation .paymentGrid .itemRow .bw-item {
+  margin: 0;
+  font-weight: 800;
+}
+#payment-confirmation .paymentGrid .itemRow .bw-price {
+  margin: 0;
+}
+#payment-confirmation .paymentGrid .itemRow .bw-align {
+  display: flex;
+  align-items: center;
+}
+#payment-confirmation .paymentGrid .modalHR {
+  width: 100%;
+  height: 1px;
+  background-color: black;
+  margin: 0px;
+}
+#payment-confirmation .paymentGrid .reviewSingleBooking, #payment-confirmation .paymentGrid .reviewAllBookings {
+  grid-column-start: 1;
+  grid-column-end: 3;
+  grid-row-start: 4;
+  grid-row-end: 5;
+  display: flex;
+  justify-content: space-between;
+}
+#payment-confirmation .paymentGrid #locationRow {
+  display: flex;
+  justify-content: flex-start;
+}
+#payment-confirmation #secondModalCard {
+  margin-left: 100%;
+  transition: all 1s;
+  z-index: 99;
+  margin-top: -50vh;
+  background-color: white;
+  width: 100%;
+  position: relative;
+}
+#payment-confirmation #secondModalCard #allDatesModal {
+  height: 70vh;
+}
+#payment-confirmation #secondModalCard .bw-justFlex {
+  display: flex;
+  justify-content: flex-start;
+}
+#payment-confirmation #secondModalCard .bw-alignCenter {
+  align-items: center;
+}
+#payment-confirmation #secondModalCard .bw-time {
+  flex: 1 0 25%;
+}
+#payment-confirmation #secondModalCard .bw-rate {
+  flex: 1 0 41%;
+}
+#payment-confirmation #secondModalCard .bw-hours {
+  flex: 1 0 17%;
+}
+#payment-confirmation #secondModalCard .bw-cost {
+  flex: 1 0 25%;
+}
+#payment-confirmation #secondModalCard .bw-negRem {
+  margin-left: -1rem;
+  margin-right: -1rem;
+}
+#payment-confirmation #secondModalCard .bw-padding-vert {
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+#payment-confirmation #secondModalCard .bw-largeFont {
+  font-size: large;
+}
+#payment-confirmation #secondModalCard .bw-marginNone {
+  margin: 0 !important;
+}
+#payment-confirmation #secondModalCard .bw-textCenter {
+  text-align: center;
+}
+#payment-confirmation #secondModalCard .bw-footer {
+  display: flex;
+  justify-content: flex-end;
+}

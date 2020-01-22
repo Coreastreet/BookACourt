@@ -1,0 +1,88 @@
+﻿#tile_5 {
+    background-color: #004e99 !important;
+}
+
+.page_full_bg {
+    background-image: url("/MIISCCCB/PublishingImages/background-MIISC.jpg") !important;
+}
+
+.bottom_footer{
+	background-color: #004e99 !important;
+}
+
+.page_sidebar_left {
+    background-color: #fbfdff !important;
+}
+.page-heading h2 {
+    color: #004e99 !important;
+}
+.page_heading h1 {
+    background-color: #004e99 !important;
+}
+#border img{
+	border-bottom: 5px solid #004e99 !important;
+}
+.menu_mgnt ul .active a{
+	color: #004e99 !important;
+}
+.grid_image img{
+	border-bottom : 5px solid #004e99 !important;
+}
+.page_text_heading h2 {    
+    color: #004e99 !important;
+}
+h2.ms-rteElement-H2{
+    color: #004e99 !important;   
+}
+#divSectionLandingSlider .carousel-control .glyphicon, #divSectionLandingSlider .side_right .glyphicon{
+	background-color: #004e99 !important;
+}
+
+/*responsive*/
+@media screen and (max-width:479px){
+	.parent-inner-wrapper {
+		background-color: #004e99 !important;
+	}
+}
+
+@media screen and (min-width:480px) and (max-width:640px){
+	.parent-inner-wrapper {
+		background-color: #004e99 !important;
+	}
+}
+
+@media screen and (max-width:1024px) {
+	.parent-inner-wrapper {
+		background-color: #004e99 !important;
+	}
+	.page_heading h1{
+		color: #004e99 !important;
+	}
+}
+
+/* Google Translate  */
+
+div.goog-te-gadget-simple {
+
+	background-color:#d3d3d3 !important;
+	border-radius: 10px !important;
+	font-size: 15pt !important;
+	padding-top: 5px !important;
+    padding-bottom: 5px !important;
+}
+
+
+
+
+a.goog-te-menu-value span:hover {
+
+	text-decoration: none;
+}
+
+a.goog-te-menu-value span {
+
+	color:#555555;
+    font-family: 'functionRegular';
+}
+
+/* Google Translate - END */

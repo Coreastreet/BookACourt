@@ -541,6 +541,7 @@ document.addEventListener('DOMContentLoaded', function(){
       //console.log(startDateObject);
 
       var bookingMatrix = JSON.parse(localStorage.getItem("BookingsMatrix"));
+      console.log("Booking Matrix", bookingMatrix);
       var bookingCourtIds = calculateCourtIds(startTime, endTime, bookingMatrix);
       // assign court ids and period to the rows in details modal
       var courtIdBody = $("#allDatesModal").find("#courtIdBody");

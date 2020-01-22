@@ -1,0 +1,77 @@
+
+
+BookingWidget.$('#BookingWidget').on("click", ".days-and-weeks button", function() {
+  //var frequency_options = BookingWidget.$(this).find("button");
+  var input = BookingWidget.$(this).closest(".form-row").find("input");
+  var inputString = input.val();
+  BookingWidget.$(this).addClass("btn-selected");
+  BookingWidget.$(this).siblings().not(BookingWidget.$(this)).removeClass("btn-selected");
+  if (BookingWidget.$(this).attr("data-frequency-type") == "Days") {
+    input.attr("placeholder", "Every Day");
+    input.attr("data-frequency-type", "Days");
+    if (inputString.length > 0) {
+      input.val(inputString.replace("Week", "Day"));
+    }
+  } else { // if this hasClass "weeks"
+    input.attr("placeholder", "Every Week");
+    input.attr("data-frequency-type", "Weeks");
+    if (inputString.length > 0) {
+      input.val(inputString.replace("Day", "Week"));
+    }
+  }
+});
+
+BookingWidget.$('#BookingWidget').on("click", ".addAndMinus .minus-button", function() {
+  number = parseInt(BookingWidget.$(this).next().text());
+  if (number > 0) {
+    number -= 1;
+    BookingWidget.$(this).next().text(number);
+    input = BookingWidget.$(this).closest(".form-row").find("input");
+    //console.log(input);
+    inputArray = input.attr("placeholder").split(" ");
+    //console.log(inputArray);
+    if (number == 1) {
+      if (BookingWidget.$(this).closest(".form-row").hasClass("frequency")) {
+          inputString = `${inputArray[0]} ${inputArray[inputArray.length - 1]}`;
+      } else {
+        inputString = `${inputArray[0]} ${number} ${inputArray[inputArray.length - 1]}`;
+      }
+    } else {
+      inputString = `${inputArray[0]} ${number} ${inputArray[inputArray.length - 1]}s`;
+    }
+
+    input.val(inputString);
+  }
+  //console.log(number);
+});
+
+BookingWidget.$('#BookingWidget').on("click", ".addAndMinus .plus-button", function() {
+  number = parseInt(BookingWidget.$(this).prev().text());
+  if (number < 52) {
+    number += 1;
+    BookingWidget.$(this).prev().text(number);
+    input = BookingWidget.$(this).closest(".form-row").find("input");
+
+    inputArray = input.attr("placeholder").split(" ");
+    console.log(inputArray);
+    if (number == 1) {
+      if (BookingWidget.$(this).closest(".form-row").hasClass("frequency")) {
+          inputString = `${inputArray[0]} ${inputArray[inputArray.length - 1]}`;
+      } else {
+        inputString = `${inputArray[0]} ${number} ${inputArray[inputArray.length - 1]}`;
+      }
+    } else {
+      inputString = `${inputArray[0]} ${number} ${inputArray[inputArray.length - 1]}s`;
+    }
+    input.val(inputString);
+  }
+  //console.log(number);
+});
+
+BookingWidget.$('#BookingWidget').on("click", ".repeat", function() {
+  BookingWidget.$("#repeatBookingCard").css("margin-left", "0%");
+});
+
+BookingWidget.$('#BookingWidget').on("click", ".back-arrow-booking", function() {
+  BookingWidget.$(this).closest(".card").css("margin-left", "100%");
+});

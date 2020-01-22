@@ -1,0 +1,106 @@
+﻿/* Custom CSS - Entered by City of Canterbury Bankstown */
+
+/* Hide Corporate Sign In Panel  */
+
+/* div#s4-workspace {
+	margin-top:-35px;
+} */
+
+/* Make top panel search visible */
+
+ul.nav.navbar-nav.web_menu {
+	min-height:46px;
+}
+
+/* Hide Corporate HOME from breadcrumbs */
+
+div.container-fluid.noindex.breadcrumbNavigation ul li:nth-child(2) {
+	display:none;
+}
+
+/* Hide Unnecessary Corporate Menu options */
+
+div.divResponsiveTopNavigation.noindex {
+	display:none;
+}
+
+/* Fix gap below MIISC tile */
+
+section.bottom_footer {
+	margin-top:-1px;
+}
+
+/* Hide Grid text */
+
+div.grid_text p.ChangeFont {
+	display:none !important;
+}
+
+div.sectionPageData {
+	min-height: 265px !important;
+}
+
+/* Navigation Tiles */
+
+.tile_1.text {
+    background-color: #959595;
+    width: 16.0%;
+    text-align: center;
+    color: #fff !important;
+    float: left;
+    padding: 20px 0px;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    cursor: pointer;
+}
+
+#tile_1 {
+    background-color: #959595;
+    margin-left: 0px;
+}
+
+#tile_2 {
+    background-color: #959595;
+    margin-left: 8px;
+}
+
+#tile_3 {
+    background-color: #959595;
+    margin-left: 8px;
+}
+
+#tile_4 {
+    background-color: #959595;
+    margin-left: 8px;
+    padding: 9px 0px;
+}
+
+#tile_5 {
+    background-color: #959595;
+    margin-left: 8px;
+
+}
+
+#tile_6 {
+    background-color: #959595;
+    margin-left: 8px;
+    padding: 9px 0px;
+}
+
+#tile_7 {
+    background-color: #959595;
+    margin-left: 8px;
+}
+
+#tile_8 {
+    background-color: #959595;
+    margin-left: 8px;
+}
+
+#tile_4 h2,
+#tile_6 h2 {
+	font-size:25px !important;
+}
+
+
+

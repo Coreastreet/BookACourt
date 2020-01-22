@@ -11,6 +11,21 @@ module BookACourt
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 6.0
 
+  #  config.action_dispatch.default_headers = {
+#      'Access-Control-Allow-Origin' => '*',
+#      'Access-Control-Request-Method' => %w{GET POST OPTIONS}.join(",")
+#    }
+
+      config.middleware.insert_before 0, Rack::Cors do
+       allow do
+         origins 'http://examplehello.com'
+         resource(
+           '*',
+           headers: :any,
+           methods: [:get, :patch, :put, :delete, :post, :options]
+           )
+       end
+     end
     # needed to provide a reference to images sent in email
     # config.action_controller.asset_host = 'https://59e4da6c.ngrok.io'
     # config.action_mailer.asset_host = config.action_controller.asset_host

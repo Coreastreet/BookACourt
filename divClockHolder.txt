@@ -1,0 +1,79 @@
+'<div class="col-5 hidden px-0">' +
+'<div class="card main" id="clockHolder">' +
+'<div class="input-group date card-title mb-0" data-provide="datepicker">' +
+'<input type="text" class="form-control dateHolder" data-date="">' +
+'<div class="input-group-append">' +
+'<span class="input-group-text" id="basic-addon2"><i class="fa fa-calendar"></i></span>' +
+'</div>' +
+'</div>' +
+'<div class="card-body py-1">' +
+'<nav>' +
+'<div class="nav nav-tabs court-types" id="nav-tab" role="tablist">' +
+'</a>' +
+'</a>' +
+'</div>' +
+'</nav>' +
+'<canvas id="canvas" width="400" height="400" style="background-color:lightgrey">' +
+'</canvas>' +
+'<div class="input-group">' +
+'<input type="time" class="form-control startTime" data-counter="" data-interval="" required/>' +
+'<input type="time" class="form-control endTime" data-counter="" data-interval="" required/>' +
+'<div class="input-group-append">' +
+'<span class="input-group-text" id=""><i class="fa fa-clock-o"></i></span>' +
+'</div>' +
+'<div class="d-none peak-hour-holder">' +
+'</div>' +
+'<div class="d-none real-price-holder">' +
+'</div>' +
+'</div>' +
+'</div>' +
+'<div class="card-footer pt-0">' +
+'<div class="row mt-2 mx-0">' +
+'<button type="button" class="btn btn-primary btn-sm col-6 repeat">Repeat booking</button>' +
+'<button type="button" class="btn btn-secondary btn-block btn-sm col-6 clearTime">Clear Time</button>' +
+'</div>' +
+'<hr class = "my-2">' +
+'<button type="button" class="btn btn-success btn-block book-now mt-2 below-clock" data-toggle="modal" data-target="#payment-confirmation">' +
+'</button>' +
+'</div>' +
+'</div>' +
+'<div class="card repeat-card-body border-bottom-0 slideHolderModal w-100" id="repeat-card">' +
+'<div class="card-body py-1">' +
+'<div class= "form-row mt-2">' +
+'<i class="fas fa-arrow-left back-arrow hover-grey mr-2 p-2 align-self-center back-arrow-booking rounded"></i>' +
+'<p class="bold heading mb-2">Regular Booking</p>' +
+'</div>' +
+'<div class="form-row white-box rounded">' +
+'<label class="col-4 text-left font-weight-normal">Start Date</label>' +
+'<input class="col-auto form-control startDate" placeHolder = "Wednesday, 18 December"></input>' +
+'</div>' +
+'<div class="form-row white-box rounded mt-2 frequency">' +
+'<div class="d-flex col-4">' +
+'<label class="text-left font-weight-normal mb-2">Frequency</label>' +
+'</div>' +
+'<div class="btn-group btn-group-sm days-and-weeks col-6 offset-2 mb-1 d-flex justify-content-end" role="group">' +
+'<button type="button" class="btn btn-outline-secondary daysWeeks" data-frequency-type="Days">Days</button>' +
+'<button type="button" class="btn btn-outline-secondary daysWeeks" data-frequency-type="Weeks">Weeks</button>' +
+'</div>' +
+'<input class="col-7 form-control" placeHolder = "Every Week" data-frequency-type="Weeks"></input>' +
+'<div class="col-5 d-flex justify-content-between add-and-minus">' +
+'<button type="button" class="btn btn-light btn-sm rounded-circle d-inline-block minus-button"><i class="fas fa-minus fa-xs"></i></button>' +
+'<div class="frequency-in-days d-inline-block my-auto" data-counter="" data-interval="">0</div>' +
+'<button type="button" class="btn btn-primary btn-sm rounded-circle d-inline-block plus-button"><i class="fas fa-plus fa-xs"></i></button>' +
+'</div>' +
+'</div>' +
+'<div class="form-row white-box rounded mt-2 endDate">' +
+'<label class="col-4 text-left font-weight-normal">End Date</label>' +
+'<input class="col-7 form-control" placeHolder = "After 1 booking"></input>' +
+'<div class="col-5 d-flex justify-content-between add-and-minus">' +
+'<button type="button" class="btn btn-light btn-sm rounded-circle d-inline-block minus-button"><i class="fas fa-minus fa-xs"></i></button>' +
+'<div class="number-of-bookings d-inline-block my-auto" data-counter="" data-interval="">1</div>' +
+'<button type="button" class="btn btn-primary btn-sm rounded-circle d-inline-block plus-button"><i class="fas fa-plus fa-xs"></i></button>' +
+'</div>' +
+'</div>' +
+'<div class="mt-2 form-row white-box rounded d-none">' +
+'<label id="maxBookingsWarning" data-maxBookings = "1" data-arrayOfFreeCourtIds = "" class="text-danger mx-1"></label>' +
+'</div>' +
+'</div>' +
+'</div>' +
+'</div>'
