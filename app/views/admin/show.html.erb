@@ -1,0 +1,480 @@
+<section class="container-fluid mt-3">
+  <div class="container">
+      <div class="row">
+        <div class="col-12">
+            <h3 class="sports_centre_holder" id="id-holder" data-sports-centre-id=<%= @sports_centre.id %>
+              data-number-of-courts=<%= @sports_centre.numberOfCourts %>><%= @sports_centre.title %></h3>
+        </div>
+      </div>
+  </div>
+</section>
+<section class="container-fluid mt-3">
+  <div class="container border border-dark rounded p-2">
+      <div class="row h-100 mx-0">
+        <div class="col-3 mx-0 admin-panel bg-silver pt-3">
+            <div class="row datepicker-holder-row">
+              <div class="col pr-0 pl-1 ml-2">
+                  <div id="datepicker"></div>
+                  <input type="hidden" id="my_hidden_input">
+              </div>
+              <div class="col mx-3 mt-4" id="buttonHolder">
+                <div class="row" id="addRemoveBookings" data-connectedRow="#ViewAndBookBody">
+                  <div class="col text-white hover-black rounded p-2">
+                    Add or Remove Bookings
+                  </div>
+                </div>
+                <div class="row" id="bookRegular" data-connectedRow="#regularBookingBody">
+                  <div class="col text-white hover-black rounded p-2">
+                    Make regular booking
+                  </div>
+                </div>
+                <div class="row" id="setPrices" data-connectedRow="#setPricesForm">
+                  <div class="col text-white hover-black rounded manage_peak_hours p-2">
+                    Set Booking Prices
+                  </div>
+                </div>
+                <div class="row" data-connectedRow="#editProfileBody" id="edit-profile">
+                  <div class="col text-white hover-black edit-profile rounded p-2" >
+                    <i class="fas fa-edit mr-2"></i>
+                    Set Business Hours
+                  </div>
+                </div>
+                <div class="row" id="setLogo" data-connectedRow="#editLogoBody">
+                  <div class="col text-white rounded hover-black p-2" >
+                    Set Business Logo
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
+        <div class="col-9 px-0 overflow-y" id="col-9-admin">
+          <!-- timetable for sports_centre -->
+          <div class='row mx-0 name-and-sport d-none ' data-bookingType="halfCourt" data-courtNo="" data-startTime="" data-endTime=""
+          data-totalCost="" data-reg-interval-days="" data-reg-totalCost="" data-reg-dates="">
+            <div class="triangle position-relative">
+            </div>
+            <div class="mx-0 border rounded p-3 bg-azure overflow-hidden popUpBox">
+              <div class="d-flex row mx-0 mt-2 border rounded-edges times mb-2 half-court-new-booking p-2">
+                <div class="col-6 pr-0">
+                  <div class="row mx-0 courtNumber text-muted">Court X & Y:</div>
+                  <div class="row mx-0 courtTime h5 mb-0">XX:00 - YY:00</div>
+                </div>
+                <div class="mx-0 col-6 courtCost h3 align-self-center mb-0 text-right"></div>
+              </div>
+              <div class="row mx-0 justify-content-between px-3 nb-first-row">
+                  <div class="px-0 h-2rem d-flex align-items-center">
+                    Name:
+                  </div>
+                    <input type="text" class="col-9 inline-block nb-start-time px-0 text-center bookingRate nameInput mousetrap" data-type="data-hc-op">
+              </div>
+              <div class="row mx-0 justify-content-between px-3 nb-second-row">
+                  <div class="px-0 h-2rem d-flex align-items-center">
+                    Sport:
+                  </div>
+                    <input type="text" class="col-9 inline-block nb-end-time px-0 text-center bookingRate sportTypeInput mousetrap" list="sports" data-type="data-hc-p">
+                    <datalist id="sports">
+                    </datalist>
+              </div>
+              <div class="row mx-0 mt-2 justify-content-end px-3">
+                <button type="button" class="btn btn-primary addNewBooking">Add Booking</button>
+                <button type="button" class="btn btn-secondary ml-2 cancelNewBooking">Cancel</button>
+              </div>
+              <div class="mx-0 border rounded p-3 bg-azure overflow-hidden d-none repeatDetail">
+              <div class="d-flex row mx-0 mt-2 border rounded-edges times mb-2 half-court-new-booking p-2">
+                <div class="col-6 pr-0">
+                  <div class="row mx-0 text-muted">Start Date:</div>
+                  <div class="row mx-0 h5 mb-0 nb-startDate"></div>
+                </div>
+                <div class="mx-0 col-6 courtRegularCost h3 align-self-center mb-0 text-right"></div>
+              </div>
+              <div class="row mx-0 justify-content-between px-3 nb-first-row">
+                  <div class="px-0 h-2rem d-flex align-items-center">No. of Bookings:</div>
+                    <input type="number" class="inline-block nb-start-time px-0 text-center bookingRate nb-numberInput mousetrap col-6" data-type="data-hc-op">
+              </div>
+              <div class="row mx-0 justify-content-between px-3 nb-second-row">
+                    <div class="px-0 h-2rem d-flex align-items-center">Interval:</div>
+                    <div class="col-6 px-0 btn-group btn-group-sm offset-2 mb-1 justify-content-end typeHolder" role="group">
+                      <button type="button" class="btn nb-intervalButton" data-frequency-type="Days">Days</button>
+                      <button type="button" class="btn nb-intervalButton" data-frequency-type="Weeks">Weeks</button>
+                    </div>
+                    <div class="input-group col-6 px-0 d-none nb-intervalInput">
+                      <input type="number" class="inline-block nb-end-time d-none px-0 text-center bookingRate nb-intervalInput col-6 mousetrap" data-type="data-hc-p">
+                      <div class="input-group-append">
+                      </div>
+                    </div>
+              </div>
+              <div class="row mx-0 mt-2 justify-content-end pr-3">
+                <button type="button" class="btn btn-primary addNewRegularBooking">Add Regular Booking</button>
+                <button type="button" class="btn btn-secondary ml-2 cancelNewBooking">Cancel</button>
+              </div>
+              </div>
+            </div>
+          </div>
+          <div id="ViewAndBookBody" class="px-3">
+              <div class="row mx-0 mt-4 mb-2">
+                    <h5>Add New Bookings</h5>
+              </div>
+              <table class="table table-fixed table-sm table-bordered courts-table parentWidth w-100" id="dashBoardTable">
+                <thead>
+                  <tr class="border-bottom">
+                    <th scope="col" class="moreEqualTH"></th>
+                    <% [*1..@sports_centre.numberOfCourts].each do |number| %>
+                      <th scope="col" class="equalTH">Court no.<%= number %></th>
+                    <% end %>
+                  </tr>
+                </thead>
+                <tbody class="h-70vh">
+                  <% (6.hours..23.5.hours).step(30.minutes).each do |hour| %>
+                    <tr class="d-flex">
+                      <th scope="row" class="p-0"><sup><%= Time.at(hour).gmtime.strftime('%H:%M') %></sup></th>
+                      <% [*1..@sports_centre.numberOfCourts].each do |i| %>
+                          <td data-time=<%= Time.at(hour).gmtime.strftime('%H:%M') %> data-court = <%= i %> class="td-flex d-flex justify-content-between">&nbsp;</td>
+                      <% end %>
+                    </tr>
+                  <% end %>
+                </tbody>
+              </table>
+              <div class="row mx-0 align-self-end my-4 mx-4 justify-content-end">
+                    <button type="button" class="btn btn-primary mr-2" id="newBookingsSave">Save</button>
+                    <button type="button" class="btn btn-secondary">Cancel</button>
+              </div>
+          </div>
+          <div class="col px-0 d-none alt-flex h-100" id="regularBookingBody">
+            <div class="row mx-0 mt-4 mb-2 mx-3">
+                  <h5>Make a regular Booking</h5>
+            </div>
+            <div class="row court-times mx-3 mb-3" id="courtTimes">
+                <div class="d-flex row mx-0 mt-2 border rounded-edges col-12 align-items-center">
+                  <label for="reg-name" class="my-0 px-4">Name:</label>
+                  <input type="text" name="reg-name" value="" class="reg-name">
+                  <label for="reg-name" class="my-0 px-4">Sport Type:</label>
+                  <input type="text" name="reg-sportType" value="" class="reg-sportType">
+                </div>
+                <div class="d-flex row mx-0 mt-2 rounded-edges col-12">
+                    <div class="col-2 offset-1 px-0 d-flex align-items-center justify-content-end">
+                      Court No:
+                    </div>
+                    <div class="col-2 px-0 d-flex align-items-center justify-content-start">
+                      <div class="pl-3">Start-time:</div>
+                    </div>
+                    <div class="col-2 px-0 d-flex align-items-center justify-content-start">
+                      <div class="pl-3">End-time:</div>
+                    </div>
+                    <div class="col-2 px-0 d-flex align-items-center justify-content-start">
+                      <div class="pl-3">Start-Date</div>
+                    </div>
+                    <div class="col-1 px-0 d-flex align-items-center justify-content-start">
+                      <div class="pl-3">Days</div>
+                    </div>
+                    <div class="col-2 px-0 d-flex align-items-center justify-content-start">
+                      <div class="pl-3">No. Bookings</div>
+                    </div>
+                </div>
+                <div class="d-flex row mx-0 mt-2 border rounded-edges col-12 times" id="half-court-reg-booking">
+                      <div class="col-2 px-0 pl-4 pricesRowHeight d-flex align-items-center">
+                        Half Court:
+                      </div>
+                      <div class="col-1 px-0 pl-3 pricesRowHeight d-flex align-items-center nb-court-no">
+                        <input type="number" value="" min="1"
+                        class="col-12 px-0 text-center bookingRate reg-input" id="full-court-regId">
+                      </div>
+                      <div class="col-2 pr-0 d-flex justify-content-end nb-start-time">
+                        <input type="time" class="col-12 px-0 text-center bookingRate reg-input" data-type="data-hc-op">
+                      </div>
+                      <div class="col-2 pr-0 d-flex justify-content-end nb-end-time">
+                        <input type="time" class="col-12 px-0 text-center bookingRate reg-input" data-type="data-hc-p">
+                      </div>
+                      <div class="col-2 pr-0 d-flex align-items-center nb-court-date">
+                        <input type="date" value="" min="1"
+                        class="col-12 px-0 text-center reg-startDate reg-input" id="full-court-dateStartId">
+                      </div>
+                      <div class="col-1 pr-0 d-flex justify-content-end nb-start-time">
+                        <input type="number" class="col-12 px-0 text-center reg-days reg-input" data-type="data-hc-op">
+                      </div>
+                      <div class="col-1 pr-0 d-flex justify-content-end nb-bookings">
+                        <input type="number" min="1" class="col-12 px-0 text-center reg-number reg-input" data-type="data-hc-p">
+                      </div>
+                      <div class="col-3 d-none justify-content-center">
+                        <input type="time" class="col-12 px-0 text-center bookingRate reg-input" data-type="data-hc-we">
+                      </div>
+                </div>
+                <div class="row align-self-end my-4 ml-auto mr-2 justify-content-end">
+                      <button type="button" class="btn btn-primary mr-2" id="halfRegBookingsSave" courtType="half">Save</button>
+                      <button type="button" class="btn btn-secondary">Cancel</button>
+                </div>
+                <div class="row w-100 mx-0 mt-0 mb-4 justify-content-center align-items-center">
+                  <hr class="col-4">
+                  <div class="col-1 mx-0">
+                    OR
+                  </div>
+                  <hr class="col-4">
+                </div>
+                <div class="d-flex row mx-0 mt-2 border rounded-edges col-12 align-items-center">
+                  <label for="reg-name" class="my-0 px-4">Name:</label>
+                  <input type="text" name="reg-name" value="">
+                  <label for="reg-name" class="my-0 px-4">Sport Type:</label>
+                  <input type="text" name="reg-sportType" value="">
+                </div>
+                <div class="d-flex row mx-0 mt-2 rounded-edges col-12">
+                    <div class="col-2 offset-1 px-0 d-flex align-items-center justify-content-end">
+                      Court No:
+                    </div>
+                    <div class="col-2 px-0 d-flex align-items-center justify-content-start">
+                      <div class="pl-3">Start-time:</div>
+                    </div>
+                    <div class="col-2 px-0 d-flex align-items-center justify-content-start">
+                      <div class="pl-3">End-time:</div>
+                    </div>
+                    <div class="col-2 px-0 d-flex align-items-center justify-content-start">
+                      <div class="pl-3">Start-Date</div>
+                    </div>
+                    <div class="col-1 px-0 d-flex align-items-center justify-content-start">
+                      <div class="pl-3">Days</div>
+                    </div>
+                    <div class="col-2 px-0 d-flex align-items-center justify-content-start">
+                      <div class="pl-3">No. Bookings</div>
+                    </div>
+                </div>
+                <div class="d-flex row mx-0 mt-2 border rounded-edges col-12 times" id="full-court-reg-booking">
+                      <div class="col-2 px-0 pl-4 pricesRowHeight d-flex align-items-center">
+                        Full Court:
+                      </div>
+                      <div class="col-1 px-0 pl-3 pricesRowHeight d-flex align-items-center nb-court-no">
+                        <input type="number" value="" min="1"
+                        class="col-12 px-0 text-center bookingRate reg-input" id="full-court-regId">
+                      </div>
+                      <div class="col-2 pr-0 d-flex justify-content-end nb-start-time">
+                        <input type="time" class="col-12 px-0 text-center bookingRate reg-input" data-type="data-hc-op">
+                      </div>
+                      <div class="col-2 pr-0 d-flex justify-content-end nb-end-time">
+                        <input type="time" class="col-12 px-0 text-center bookingRate reg-input" data-type="data-hc-p">
+                      </div>
+                      <div class="col-2 pr-0 d-flex align-items-center nb-court-date">
+                        <input type="date" value="" min="1"
+                        class="col-12 px-0 text-center bookingRate reg-startDate reg-input" id="full-court-dateStartId">
+                      </div>
+                      <div class="col-1 pr-0 d-flex justify-content-end nb-start-time">
+                        <input type="number" class="col-12 px-0 text-center reg-days reg-input" data-type="data-hc-op">
+                      </div>
+                      <div class="col-1 pr-0 d-flex justify-content-end nb-bookings">
+                        <input type="number" min="1" class="col-12 px-0 text-center reg-number reg-input" data-type="data-hc-p">
+                      </div>
+                      <div class="col-3 d-none justify-content-center">
+                        <input type="time" class="col-12 px-0 text-center bookingRate reg-input" data-type="data-hc-we">
+                      </div>
+                </div>
+            </div>
+            <div class="row mx-0 align-self-end my-4 mt-auto mx-4 justify-content-end">
+                  <button type="button" class="btn btn-primary mr-2" id="fullRegBookingsSave" courtType="full">Save</button>
+                  <button type="button" class="btn btn-secondary">Cancel</button>
+            </div>
+          </div>
+          <div class='row d-none' id="opening_hours_row">
+            <div class="col-8" id="opening_hours">
+              Bookings
+            </div>
+            <div class="col-4 d-none peak_hour_buttons justify-content-between" id="enterBookingBody">
+              <button type="button" class="btn btn-primary confirm">Confirm peak hours</button>
+              <button type="button" class="btn btn-secondary">Clear</button>
+            </div>
+          </div>
+          <div class="row mx-0 d-none upload-profile h-100" id="editProfileBody">
+            <%= form_with model: @sports_centre, class: "col d-flex flex-column", id: 'editBusinessHoursForm', url: admin_update_hours_path(@sports_centre), method: "post" do |f| %>
+              <div class="row mx-0">
+                <div class="col">
+                  <div class="rangeHolder">
+                      <div class="row my-4">
+                        <h5>Set Opening Hours</h5>
+                      </div>
+                      <div class="row d-flex justify-content-between buttonRow" id="weekdaysButtonRow">
+                        <% Date::DAYNAMES.each do |day| %>
+                        <button type="button" class="btn border rounded border-dark hover-selected"
+                        data-day="<%=day%>" data-openingHour="<%= @sports_centre.opening_hours[day[0...3]]["openingHour"] %>"
+                        data-closingHour="<%= @sports_centre.opening_hours[day[0...3]]["closingHour"] %>"><%=day%></button>
+                        <% end %>
+                      </div>
+                      <%= f.hidden_field :opening_hours %>
+                      <div class="row mt-4">
+                        <label for="customRange1">Opening Hour: <span class="timeHolder h5"></span></label>
+                        <input type="range" class="custom-range" min="6" max="24" step="0.5" data-type="data-openingHour" id="customRange1">
+                      </div>
+                      <div class="row mt-2">
+                        <label for="customRange2">Closing Hour: <span class="timeHolder h5"></span></label>
+                        <input type="range" class="custom-range" min="6" max="24" step="0.5" data-type="data-closingHour" id="customRange2">
+                      </div>
+                  </div>
+                  <div class="rangeHolder">
+                      <div class="row my-4">
+                        <h5>Set Peak Hours</h5>
+                      </div>
+                      <div class="row d-flex justify-content-between buttonRow" id="weekdaysButtonRow2">
+                        <% Date::DAYNAMES.each do |day| %>
+                        <button type="button" class="btn border rounded border-dark hover-selected"
+                        data-day="<%=day%>" data-peakHourStart="<%= @sports_centre.peak_hours[day[0...3]]["startingPeakHour"] %>"
+                        data-peakHourEnd="<%= @sports_centre.peak_hours[day[0...3]]["closingPeakHour"] %>"><%=day%></button>
+                        <% end %>
+                      </div>
+                      <%= f.hidden_field :peak_hours %>
+                      <div class="row mt-4">
+                        <label for="customRange3">Peak Hour Start: <span class="peakTimeHolder h5"></span></label>
+                        <input type="range" class="custom-range" min="6" max="24" step="0.5" data-type="data-peakHourStart" id="customRange3">
+                      </div>
+                      <div class="row mt-2">
+                        <label for="customRange4">Peak Hour End: <span class="peakTimeHolder h5"></span></label>
+                        <input type="range" class="custom-range" min="6" max="24" step="0.5" data-type="data-peakHourEnd" id="customRange4">
+                      </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row mx-0 align-self-end my-4">
+                <%= f.submit "Save", class: "btn btn-primary mr-2" %>
+                <button type="button" class="btn btn-secondary">Cancel</button>
+              </div>
+            <% end %>
+          </div>
+          <div class="row mx-0 d-none upload-logo h-100" id="editLogoBody">
+              <%= form_with model: @sports_centre, class: "col d-flex flex-column", id: 'editLogoForm', url: admin_update_logo_path(@sports_centre), method: "post" do |f| %>
+                <div class="row mx-0 mt-4">
+                  <h5>Upload a logo:</h5>
+                </div>
+                <% if @sports_centre.logo.attached? %>
+                <img id="image" class="image-contain" src="<%= url_for(@sports_centre.logo) %>"></img>
+                <% end %>
+                <div class="custom-file row mx-0 mt-2">
+                  <%= f.file_field :logo, class: "custom-file-input", id: "customFile" %>
+                  <label class="custom-file-label" for="customFile">Choose file</label>
+                </div>
+                <div class="row mx-0 align-self-end mt-auto mb-3">
+                  <%= f.submit "Save", class: "btn btn-primary mr-2" %>
+                  <button type="button" class="btn btn-secondary">Cancel</button>
+                </div>
+              <% end %>
+          </div>
+          <div class="row mx-0 d-none setPrices h-100" id="setPricesForm">
+            <%= form_with model: @sports_centre, class: "col d-flex flex-column", id: 'editPricesForm', url: admin_update_prices_path(@sports_centre), method: "post" do |f| %>
+              <div class="row mx-0 mt-4">
+                <h5>Select an Activity</h5>
+              </div>
+              <div class="row mx-0 my-4" id="activityCardHolder">
+                <% if @sports_centre.prices.empty? %>
+                <div class="col-2 d-flex flex-column align-items-center border rounded py-2 mr-2 activityCard" data-activity="basketball"
+                  data-hc-op="" data-hc-p="" data-hc-we="" data-fc-op="" data-fc-p="" data-fc-we="">
+                  <div class="position-absolute deleteActivity">&times</div>
+                  <img class="image-contain" src="<%= asset_path("basketball.png") %>">
+                  <div class="pt-2 activityName">basketball</div>
+                </div>
+                <% end %>
+                <% @sports_centre.prices.each do |activity, prices| %>
+                <div class="col-2 d-flex flex-column align-items-center border rounded py-2 mr-2 activityCard" data-activity=<%=activity%>
+                  data-hc-op="<%=prices["casual"]["half_court"]["off_peak"]%>" data-hc-p="<%=prices["casual"]["half_court"]["peak_hour"]%>" data-hc-we="<%=prices["casual"]["half_court"]["Weekend"]%>"
+                   data-fc-op="<%=prices["casual"]["full_court"]["off_peak"]%>" data-fc-p="<%=prices["casual"]["full_court"]["peak_hour"]%>" data-fc-we="<%=prices["casual"]["full_court"]["Weekend"]%>">
+                  <div class="position-absolute deleteActivity">&times</div>
+                  <img class="image-contain" src="<%= asset_path("#{activity}.png") %>">
+                  <div class="pt-2 activityName"><%= activity %></div>
+                </div>
+                <% end %>
+                <div class="col-2 d-flex flex-column align-items-center border rounded py-2 mr-2" id="addActivityCard">
+                  <div class="bg-light w-100 h-100 d-flex justify-content-center align-items-center xx-large"><i class="fas fa-plus"></i></div>
+                  <div class="pt-2 activityName">Add activity</div>
+                </div>
+              </div>
+              <%= f.hidden_field :prices %>
+              <div id="activityModal" class="w3-modal">
+                <div class="w3-modal-content col-lg-6 py-4 top-15rem">
+                  <div class="w3-container">
+                    <span id="closeActivityModal" class="w3-button w3-display-topright">&times;</span>
+                    <div class="form-group">
+                      <label for="exampleFormControlSelect1">Enter an Activity</label>
+                          <div class="input-group mb-3">
+                            <input type="text" class="form-control" list="activities" name="activity" id="newActivityInput">
+                               <datalist id="activities">
+                                 <% ["basketball", "badminton", "netball", "volleyball", "indoor_soccer"].each do |activity| %>
+                                 <option value="<%= activity %>", data-assetPath="<%= asset_path("#{activity}.png")%>">
+                                 <% end %>
+                               </datalist>
+                             <div class="input-group-append">
+                               <button class="btn btn-outline-dark" type="button" id="addActivity">Add an activity</button>
+                             </div>
+                          </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row mx-0">
+                <h5>Set Booking Prices</h5>
+              </div>
+              <div class="row mx-0">
+                <div class="col-lg-9 px-0">
+                  <div class="d-flex row mx-0 mt-2 rounded-edges">
+                    <div class="col-3 offset-3 px-0 d-flex align-items-center justify-content-center">
+                      Off Peak:
+                    </div>
+                    <div class="col-3 px-0 d-flex align-items-center justify-content-center">
+                      Peak:
+                    </div>
+                    <div class="col-3 px-0 d-none align-items-center justify-content-center" >
+                      Weekend:
+                    </div>
+                  </div>
+                  <div class="d-flex row mx-0 mt-2 border rounded-edges">
+                    <div class="col-3 px-0 pl-4 pricesRowHeight d-flex align-items-center">
+                      Half Court:
+                    </div>
+                    <div class="col-3 d-flex justify-content-center">
+                      <input type="number" step="0.10" class="col-12 text-center bookingRate" data-type="data-hc-op">
+                    </div>
+                    <div class="col-3 d-flex justify-content-center">
+                      <input type="number" step="0.10" class="col-12 text-center bookingRate" data-type="data-hc-p">
+                    </div>
+                    <div class="col-3 d-none justify-content-center">
+                      <input type="number" step="0.10" class="col-12 text-center bookingRate" data-type="data-hc-we">
+                    </div>
+                  </div>
+                  <div class="d-flex row mx-0 mt-4 border rounded-edges">
+                    <div class="col-3 px-0 pl-4 pricesRowHeight d-flex align-items-center">
+                      Full Court:
+                    </div>
+                    <div class="col-3 d-flex justify-content-center">
+                    <input type="number" step="0.10" class="col-12 text-center bookingRate" data-type="data-fc-op">
+                    </div>
+                    <div class="col-3 d-flex justify-content-center">
+                    <input type="number" step="0.10" class="col-12 text-center bookingRate" data-type="data-fc-p">
+                    </div>
+                    <div class="col-3 d-none justify-content-center">
+                    <input type="number" step="0.10" class="col-12 text-center bookingRate" data-type="data-fc-we">
+                    </div>
+                  </div>
+                </div>
+              </div>
+             <!-- add regular prices here later on -->
+              <div class="row mx-0 align-self-end mt-auto mb-3">
+                <%= f.submit "Save", class: "btn btn-primary mr-2", id: "savePrices" %>
+                <button type="button" class="btn btn-secondary">Cancel</button>
+              </div>
+            <% end %>
+          </div>
+          <div class="row peak-times d-none">
+            <div class="col-12 times" id="Sun">
+            </div>
+            <div class="col-12 times" id="Mon">
+            </div>
+            <div class="col-12 times" id="Tue">
+            </div>
+            <div class="col-12 times" id="Wed">
+            </div>
+            <div class="col-12 times" id="Thu">
+            </div>
+            <div class="col-12 times" id="Fri">
+            </div>
+            <div class="col-12 times" id="Sat">
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+  <div id="NotificationModal" class="notificationModal m-2 shadow">
+    <div class="modal-content h-100 p-2">
+      <h5 class="text-muted">New Booking<span class="close text-right">&times;</span></h5>
+    </div>
+  </div>
+</section>

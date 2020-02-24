@@ -1,0 +1,31 @@
+<container>
+  <spacer size="20"></spacer>
+  <row>
+    <columns small="9" class="first">
+      <%= image_tag(attachments['BookACourtLogo.png'].url, class: "image-contain") %>
+    </columns>
+  </row>
+  <row>
+    <columns small="9" class="first">
+      <p>Before you can start accepting bookings through bookACourt, you first need to confirm your email address.</p>
+    </columns>
+  <row>
+  <row>
+    <columns small="9" class="first">
+      <button class="expanded" href="<%= @confirmation_url %>">Confirm email address</button>
+    </columns>
+  <row>
+  <row>
+    <columns small="9" class="first">
+      <p>Once verified, you will receive access to an administrator dashboard and be able to manage your bookings.</p>
+      <p>Please do not reply, as this is an automatred email.</p>
+    </columns>
+  </row>
+  <row>
+    <columns small="9" class="first">
+      <p>Regards,</p>
+      <p>bookACourt team</p>
+    </columns>
+  </row>
+
+</container>
