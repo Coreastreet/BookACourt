@@ -6,10 +6,143 @@
   background-color: darkSlategray;
 }
 
+.bg-black {
+  background-color: black;
+}
+
+.h-70vh {
+  height: 70vh;
+}
+
+.h-50vh {
+  height: 50vh;
+}
+
 .hover-black:hover {
   background-color: black;
 }
 
 .image-contain {
   object-fit: contain;
+}
+
+.timeHolder {
+  color: #003153;
+}
+
+.deleteActivity {
+  margin-left: 40%;
+  top: -5px;
+  font-size: x-large;
+}
+
+.top-15rem {
+  top: 15rem;
+}
+
+.xx-large {
+  font-size: xx-large;
+}
+
+.rounded-edges {
+  border-radius: 2rem;
+}
+
+.h-2rem {
+  height: 2rem;
+}
+
+.alt-flex {
+  display: flex;
+  flex-direction: column;
+}
+
+.slateGrey {
+  color: slateGrey;
+}
+
+#activityCardHolder .selectedCard {
+  border-color: black !important;
+}
+
+#dashBoardTable .border-darkBlue {
+  border: 1px solid darkBlue;
+}
+
+#dashBoardTable tbody::-webkit-scrollbar {
+  display: none;
+}
+
+#dashBoardTable .booked {
+  max-height: 2rem;
+}
+
+#dashBoardTable .nb-intervalButton {
+  background-color: white;
+  color: black;
+  border: 1px solid gainsboro;
+}
+
+#dashBoardTable .nb-intervalButton:hover {
+  background-color: midnightBlue;
+  color: white;
+}
+
+#dashBoardTable .repeatDetail {
+  position: relative;
+  margin-top: -73%;
+  left: 106%;
+  transition: all 1s;
+  width: inherit;
+}
+
+#dashBoardTable .booked div:first-child {
+  word-break: break-all;
+}
+
+.td-flex {
+  flex: 1 0 1rem;
+}
+
+.tableBasketball {
+  background-color: #ffce80;
+}
+
+.tableBadminton {
+  background-color: #99ccff;
+}
+
+.tableVolleyball {
+  background-color: #bfff80;
+}
+
+.bg-azure {
+  background-color: azure;
+}
+
+.bookingRate {
+  //border-width: 0px 1px;
+  border-color: gainsboro !important;
+  border-style: solid;
+}
+
+.qr_barcode {
+  border: 10px solid black;
+}
+
+.triangle {
+  width: 0;
+  height: 0;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-top: 20px solid black;
+}
+
+#NotificationModal {
+    width: 20rem;
+    height: 8rem;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    display: none;
 }

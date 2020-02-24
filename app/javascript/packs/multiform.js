@@ -274,7 +274,7 @@ $(document).ready( function () {
   function fillInCard(card, contactType) {
     var contact_heading = card.querySelector('.contact-heading');
     var contact_sub_heading = card.querySelector('.contact-sub-heading');
-    var companyName = document.querySelector("input#title").value;
+    var companyName = document.querySelector("input#autocomplete").value.split(",")[0];
     var add_contact_button = card.querySelector('button.add-contact');
     var owner_list = $(".new-contact-details");
 

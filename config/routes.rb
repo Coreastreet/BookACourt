@@ -12,7 +12,7 @@ Rails.application.routes.draw do
   post '/login', to: 'sessions#create'
   delete '/logout', to: 'sessions#destroy'
 
-  resources :sports_centres, only: [:new, :create, :index, :update] do
+  resources :sports_centres, only: [:new, :create, :index] do
   end
 
   get "/sports_centres/:id/check_availability", to: "sports_centres#check_availability", as: "sports_centre_check_availability"
@@ -28,25 +28,36 @@ Rails.application.routes.draw do
   # after a transaction successfully completes
 
 
-  scope :admin, as: 'admin' do
-    resources :sports_centres, only: [:show] do
-    end
-  end
+  #scope :admin, as: 'admin' do
+  #  resources :sports_centres, only: [:show] do
+  #  end
+  #end
+
+  get "admin/sports_centre/:id", to: "admin#show", as: "admin_sports_centre"
 
   get "admin/sports_centre/:id/newPeakHour", to: "admin#newPeakHour", as: "new_peak_hour"
 
-  get 'admin/sports_centres/:id/date/:date_id', to: "admin#show_again", as: 'admin_show_again'
+  get 'admin/sports_centre/:id/date/:date_id', to: "admin#show_again", as: 'admin_show_again'
+  post "admin/sports_centre/:id/addNewBookings", to: "admin#addNewBookings", as: "admin_add_new_bookings"
+  post "admin/sports_centre/:id/deleteBooking", to: "admin#deleteBooking", as: "admin_delete_booking"
+  post "admin/sports_centre/:id/deleteOrder", to: "admin#deleteOrder", as: "admin_delete_order"
 
   post "admin/sports_centres/:id/peak_hours", to: "admin#updatePeakHours", as: "admin_update_peak"
+
+  post "admin/sports_centres/:id/update_logo", to: "admin#update_logo", as: "admin_update_logo"
+  post "admin/sports_centres/:id/update_hours", to: "admin#update_hours", as: "admin_update_hours"
+  post "admin/sports_centres/:id/update_prices", to: "admin#update_prices", as: "admin_update_prices"
 
   # api versioning
   namespace :api do
     namespace :v1, defaults: {format: 'json'} do
         resources :sports_centres, only: [:show] do
+          get "confirm_email", on: :member
           resource :bookings, shallow: true, only: [:create] do
             post "initiate", on: :collection
             post "claim_booking", on: :collection
             get "check_availability", on: :collection
+            post "check_qrCode", on: :collection
           end
         end
     end

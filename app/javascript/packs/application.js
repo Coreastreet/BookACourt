@@ -24,6 +24,8 @@ require("packs/manage_peak_hours")
 require("packs/manage_bookings")
 require("packs/select_courts_table")
 require("packs/onBoardingBusinessDetails")
+//require("packs/shortcut")
+require("mousetrap")
 //require("packs/mailer")
 //import('bootstrap-email');
 //require("leaflet-geosearch")
@@ -31,6 +33,9 @@ import "bootstrap"
 import "./custom"
 import "./styles"
 
+document.addEventListener("turbolinks:load", () => {
+  $('[data-toggle="tooltip"]').tooltip()
+})
 // Uncomment to copy all static images under ../images to the output folder and reference
 // them with the image_pack_tag helper in views (e.g <%= image_pack_tag 'rails.png' %>)
 // or the `imagePath` JavaScript helper below.

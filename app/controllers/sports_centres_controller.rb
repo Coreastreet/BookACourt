@@ -10,24 +10,31 @@ class SportsCentresController < ApplicationController
 
   def create
     require 'json'
+    require 'base64'
     new_address = Address.create(address_params[:address])
     new_sports_centre = SportsCentre.create(sports_centre_params)
 
     #puts(token_params)
     #new_sports_centre.email.downcase!
+    # create the final auth key
+    combinedCode = "#{sports_centre_params[:merchantCode]}:#{sports_centre_params[:authenticationCode]}"
+    encoded = Base64.encode64(combinedCode).chomp
+    finalAuthCode = "Basic #{encoded}"
+    new_sports_centre.update(combinedCode: finalAuthCode)
 
     new_sports_centre.update(address: new_address)
-    new_sports_centre.update(email: "blah4@gmail.com")
-    new_sports_centre.update(password: "Soba3724")
+    # new_sports_centre.update(email: "blah4@gmail.com") # add form row for email, will be used as username
+    #new_sports_centre.update(password: "Soba3724") # send password for immediate reset
     # move opening hours and images to dashboard
 
     #new_sports_centre.images.attach(params[:sports_centre][:images])
     # convert the string of opening hours to json before assignment
     #jsonAddress = JSON.parse(opening_hour_params[:opening_hours])
     # new_sports_centre.update(opening_hours: jsonAddress)
-    new_sports_centre.update(numberOfCourts: 6)
+    #new_sports_centre.update(numberOfCourts: 6) # add form row for user to select number of courts
     # format the full_address from street_address, suburb, state and postcode
     new_rep = Representative.create!(rep_params)
+    new_sports_centre.representative = new_rep
     new_contact = Contact.create!(contact_params)
     if new_address.full_address.blank?
       full_address = "#{new_address.street_address}, #{new_address.suburb} #{new_address.state} #{new_address.postcode}"
@@ -35,17 +42,12 @@ class SportsCentresController < ApplicationController
     end
     # new_sports_centre.images.attach(params[:sports_centre][:images])
     if new_sports_centre.save! && new_address.save!
-      debugger
       redirect_to admin_sports_centre_path(new_sports_centre)# show for sports_centre
+      # send mail containing first time access password
+      NotificationsMailer.with(sports_centre: new_sports_centre).signUp_confirmation.deliver_later
     else
       render :new
     end
-  end
-
-  def update
-    # update the sportsCentre with logo and new details
-    sports_centre = SportsCentre.find(id_params[:id])
-    sports_centre.update!(sports_centre_params)
   end
 
   def delete
@@ -57,21 +59,7 @@ class SportsCentresController < ApplicationController
     @arr = ["Half-Court", "Full-Court"]
     # $redis.client.disconnect
     #Redis.current.set("A", "1")
-  end
-
-  def show
-    console
-    @sports_centre = SportsCentre.find(params[:id])
-    array_booking = []
-    bookings = @sports_centre.bookings
-    bookings.each do |booking|
-      array_booking << booking.to_json
-    end
-    session[:bookings] = bookings.to_json
-    #respond_to do |format|
-    #  format.js
-      # format.html
-    # end
+    #generate_qrCode
   end
 
   # same code as above but will load js.erb file instead of html
@@ -133,7 +121,8 @@ class SportsCentresController < ApplicationController
 
   private
     def sports_centre_params
-        params.require(:sports_centre).permit(:title, :email, :password, :password_confirmation, :ABN, :phone, :description, :logo)
+        params.require(:sports_centre).permit(:title, :email, :password, :password_confirmation, :ABN,
+           :phone, :description, :logo, :merchantCode, :authenticationCode, :numberOfCourts)
     end
 
     def address_params

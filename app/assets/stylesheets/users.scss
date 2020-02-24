@@ -3,8 +3,12 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
 // to enable full white background for the purchase thank you page
-html, body {
+html {
   height: 100vh;
+}
+
+body {
+  height: auto;
 }
 // adjust calender height and width in the admin dashboard
 .admin-panel .datepicker,.admin-panel .table-condensed {

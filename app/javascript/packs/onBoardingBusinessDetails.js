@@ -1,4 +1,4 @@
-$(document).ready( function () {
+/* $(document).ready( function () {
 
   // var script = document.createElement('script');script.src = "https://code.jquery.com/jquery-3.4.1.min.js";document.getElementsByTagName('head')[0].appendChild(script);
   const myForm = document.querySelector('form.business-registration');
@@ -65,4 +65,31 @@ $(document).ready( function () {
       }
     }
 
+});
+
+*/
+document.addEventListener('DOMContentLoaded', function(){
+      $("#courtSelection").on("click", "button", function() {
+        var data;
+          if ($(this).hasClass("selected-button") == false) {
+            data = $(this).attr("data-numberOfCourts");
+            $(this).siblings().each( function() {
+                $(this).removeClass("selected-button");
+                $(`#hiddenCourtsNo input[type='radio'][value='${data}']`).prop("checked", false);
+            });
+            $(this).addClass("selected-button");
+            //data = $(this).attr("data-numberOfCourts");
+            $(`#hiddenCourtsNo input[type='radio'][value='${data}']`).prop("checked", true);
+          }
+      });
+
+      $("#sports_centre_password_confirmation").on("input", function() {
+          //console.log("hey");
+          if ($(this).val() != $("#sports_centre_password").val()) {
+            $(this).addClass("is-invalid");
+          } else {
+            $(this).removeClass("is-invalid");
+            $(this).addClass("is-valid");
+          }
+      });
 });

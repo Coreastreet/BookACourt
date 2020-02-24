@@ -12,16 +12,38 @@
                         <p class="bold heading">COMPANY INFORMATION</p>
                       </div>
                       <%= f.fields_for(@new_address) do |new_address| %>
-                      <div class="form-row white-box rounded-top">
-                        <%= new_address.label :full_address, "Company Name", class: 'col-4' %>
-                        <%= new_address.text_field :full_address, class: 'col-8 form-control', placeholder: "Morris Iemma Sports Centre", id: "autocomplete" %>
+                      <div class="form-row nested">
+                         <div class="col-md-12 border-top">
+                              <div class="row white-box pr-2">
+                                <%= new_address.label :full_address, "Company Name", class: 'min-label' %>
+                                <%= new_address.text_field :full_address, class: 'col form-control', placeholder: "Morris Iemma Sports Centre", id: "autocomplete" %>
+                              </div>
+                          </div>
                       </div>
-                      <div class="form-row nested white-box d-none">
-                            <%= f.label :title, "Company Name", class: 'col-4' %>
-                            <%= f.text_field :title, placeHolder: "Morris Iemma Sports Centre", id: "title", class: 'col-8 form-control mandatory border-0', required: true %>
-                            <div class="valid-feedback">Looks good!</div>
-                            <div class="invalid-feedback">Example invalid custom select feedback</div>
-                      </div>
+                       <div class="form-row nested">
+                          <div class="col-md-12 border-top">
+                               <div class="row white-box pr-2">
+                                 <%= f.label :email, "Company Email", class: 'min-label' %>
+                                 <%= f.text_field :email, class: 'col form-control mandatory', required: true%>
+                               </div>
+                           </div>
+                       </div>
+                       <div class="form-row nested">
+                          <div class="col-md-8 border-top">
+                               <div class="row white-box pr-2">
+                                 <%= f.label :password, "Password", class: 'col-4 min-label' %>
+                                 <%= f.password_field :password, class: 'col form-control mandatory', required: true%>
+                               </div>
+                           </div>
+                       </div>
+                        <div class="form-row nested">
+                           <div class="col-md-8 border-top">
+                             <div class="row white-box pr-2">
+                               <%= f.label :password_confirmation, "Password Confirmation", class: 'col-4 min-label' %>
+                               <%= f.password_field :password_confirmation, class: 'col form-control mandatory', required: true%>
+                             </div>
+                           </div>
+                         </div>
                     </div>
                   <div class="card-footer">
                     <div class="form-row btn-toolbar p-0">
@@ -90,7 +112,7 @@
                         <p class="heading font-weight-normal">Company profile</p>
                       </div>
                     <div class="form-row nested">
-                       <div class="col-md-12">
+                       <div class="col-md-12 border-top">
                          <div class="row white-box pr-2">
                            <%= f.label :URL, "Website URL", class: 'min-label' %>
                            <%= f.text_field :URL, class: 'col form-control mandatory', required: true%>
@@ -113,20 +135,33 @@
                            </div>
                          </div>
                        </div>
-                       <div class= "form-row">
+                       <div class= "form-row d-none">
                          <p class="heading font-weight-normal mt-3">Industry type</p>
                        </div>
-                        <div class = "form-row mb-4 mx-0">
-                          <div class="form-check form-check-inline mr-4">
-                             <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="For-profit">
-                             <label class="form-check-label" for="inlineRadio1">For-Profit</label>
-                           </div>
-                           <div class="form-check form-check-inline">
-                             <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="Not-for-Profit">
-                             <label class="form-check-label" for="inlineRadio2">Not-for-Profit</label>
-                           </div>
+                      <div class = "form-row mb-4 mx-0 d-none align-items-baseline justify-content-between" id="hiddenCourtsNo">
+                        <%= f.label :numberOfCourts, "Two Courts", value: 2 %>
+                        <%= f.radio_button :numberOfCourts, 2 %>
+                        <%= f.label :numberOfCourts, "Four Courts", value: 4 %>
+                        <%= f.radio_button :numberOfCourts, 4 %>
+                        <%= f.label :numberOfCourts, "Six Courts", value: 6 %>
+                        <%= f.radio_button :numberOfCourts, 6 %>
+                        <%= f.label :numberOfCourts, "Eight Courts", value: 8 %>
+                        <%= f.radio_button :numberOfCourts, 8 %>
+                      </div>
+                      <div class= "form-row">
+                        <p class="heading font-weight-normal mt-3">Number of half courts</p>
+                      </div>
+                      <div class = "form-row mb-4 mx-0">
+                        <div class="btn-group bg-white" id = "courtSelection" role="group" aria-label="Basic example">
+                          <button type="button" class="btn border-dark hover-selected rounded-0"
+                          data-numberOfCourts="2">Two Courts</button>
+                          <button type="button" class="btn border-dark hover-selected"
+                          data-numberOfCourts="4">Four Courts</button>
+                          <button type="button" class="btn border-dark hover-selected" data-numberOfCourts="6">Six Courts</button>
+                          <button type="button" class="btn border-dark hover-selected rounded-0" data-numberOfCourts="8">Eight Courts</button>
                         </div>
                       </div>
+                    </div>
                     <div class="card-footer">
                       <div class="form-row btn-toolbar p-0">
                           <button type="button" class="btn btn-light previous"><i class="fa fa-angle-left mr-2"></i>Previous</button>
@@ -384,19 +419,33 @@
                       <div class= "form-row contact-heading">
                         <p class="bold heading mb-1">Payment details</p>
                         <p>In order to receive online payments from your customers, BookACourt requires that you
-                          <%= link_to "sign up with Polipay", "https://signup.apac.paywithpoli.com/" %>
+                          <%= link_to "sign up with Polipay", "https://signup.apac.paywithpoli.com/", target: "_blank" %>
                           and provide us with the Merchant Code and Authentication Code associated with your new account</p>
                       </div>
+                      <img src="<%= asset_path('polipayLogo.png') %>" class="w-50"/>
                       <hr class="my-0">
-                      <iframe src="https://signup.apac.paywithpoli.com/"></iframe>
-                      <%= f.text_field :token_account, class: "d-none", id: "token-account" %>
-                      <%= f.text_field :token_person, class: "d-none", id: "token-person" %>
+                      <div class="form-row nested">
+                        <div class="col-md-10">
+                          <div class="row white-box pr-2 rounded-top border-top">
+                            <%= f.label :merchantCode,"Merchant Code", class: 'col-6 min-label' %>
+                            <%= f.text_field :merchantCode, class: 'col-6 form-control mandatory', required: true %>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="form-row nested">
+                        <div class="col-md-10">
+                          <div class="row white-box pr-2 rounded-top border-top">
+                            <%= f.label :authenticationCode,"Authentication Code", class: 'col-6 min-label' %>
+                            <%= f.text_field :authenticationCode, class: 'col-6 form-control mandatory', required: true %>
+                          </div>
+                        </div>
+                      </div>
                 </div>
                    <div class="card-footer">
-                     <p class="mb-2">By clicking Done, you agree that the information provided is accurate to the best of your knowledge.</p>
+                     <p class="mb-2">By clicking Register, you agree that the information provided is accurate to the best of your knowledge.</p>
                       <div class="form-row btn-toolbar p-0 mt-4">
                           <button type="button" class="btn btn-light previous"><i class="fa fa-angle-left mr-2"></i>Previous</button>
-                          <button type="button" class="btn btn-light ml-auto next">Next<i class="fa fa-angle-right ml-2"></i></button>
+                          <%= f.submit "Register", class: "btn btn-success ml-auto next" %>
                       </div>
                    </div>
               </fieldset>

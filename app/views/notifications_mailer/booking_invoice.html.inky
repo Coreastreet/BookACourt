@@ -13,7 +13,7 @@
       <row>
         <columns class="first last">
           <center>
-            <%= image_tag(attachments['barcode.png'].url) %>
+            <%= image_tag(attachments['qrCode.png'].url, class: "qr_barcode") %>
           </center>
         </columns>
       </row>

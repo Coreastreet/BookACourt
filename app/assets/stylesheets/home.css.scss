@@ -1,7 +1,21 @@
 // home#index page
 .bg-home-image-1 {
-  background-image: url(asset-path('emptyCourt2.jpg'));
+  background-image: url(asset-path('homePage.png'));
   background-size: 100% 25rem;
+}
+
+.btn.second-button {
+  //color: royalBlue !important;
+  background-color: white;
+}
+
+.orange-theme-color {
+  background-color: #e96b1e;
+}
+
+.btn.second-button:hover {
+  background-color: azure !important;
+  border-color: royalBlue !important;
 }
 
 .min-height {
@@ -10,6 +24,7 @@
 
 .home-text {
   color: white;
+  font-size: 3rem;
 }
 
 .fit-content {

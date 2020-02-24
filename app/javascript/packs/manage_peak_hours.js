@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', function(){
 
   //var admin_menu_buttons = document.querySelectorAll(".admin_menu");
   //alert("working");
-  if (document.querySelector(".manage_peak_hours")) {
+  if (document.querySelector("#manage_peak_hours")) {
    var sports_centre_id = $('.sports_centre_holder').data("sports-centre-id");
    // console.log(sports_centre_id);
    $('body').on("click", ".manage_peak_hours", function() {

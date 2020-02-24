@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_01_04_014934) do
+ActiveRecord::Schema.define(version: 2020_02_08_081404) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -45,6 +45,8 @@ ActiveRecord::Schema.define(version: 2020_01_04_014934) do
     t.datetime "updated_at", precision: 6, null: false
     t.integer "state"
     t.string "full_address"
+    t.bigint "representative_id"
+    t.index ["representative_id"], name: "index_addresses_on_representative_id"
     t.index ["sports_centre_id"], name: "index_addresses_on_sports_centre_id"
   end
 
@@ -60,6 +62,9 @@ ActiveRecord::Schema.define(version: 2020_01_04_014934) do
     t.bigint "order_id"
     t.integer "bookingType"
     t.boolean "claimed", default: false
+    t.bigint "qr_code"
+    t.string "sportsType"
+    t.string "name"
     t.index ["order_id"], name: "index_bookings_on_order_id"
     t.index ["sports_centre_id"], name: "index_bookings_on_sports_centre_id"
   end
@@ -87,6 +92,7 @@ ActiveRecord::Schema.define(version: 2020_01_04_014934) do
     t.bigint "transactionRefNo"
     t.string "merchantRef"
     t.string "customerRef"
+    t.boolean "adminEntry"
     t.index ["user_id"], name: "index_orders_on_user_id"
   end
 
@@ -136,15 +142,16 @@ ActiveRecord::Schema.define(version: 2020_01_04_014934) do
     t.string "title"
     t.string "email"
     t.text "opening_hours"
-    t.integer "BSB"
-    t.integer "account_number"
-    t.string "payID"
     t.string "password_digest"
     t.text "prices"
     t.text "peak_hours"
     t.integer "ABN"
     t.string "URL"
     t.integer "attemptedBookings", default: 0
+    t.string "merchantCode"
+    t.string "authenticationCode"
+    t.boolean "confirmed", default: false
+    t.string "combinedCode"
   end
 
   create_table "users", force: :cascade do |t|
@@ -155,6 +162,7 @@ ActiveRecord::Schema.define(version: 2020_01_04_014934) do
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "addresses", "representatives"
   add_foreign_key "addresses", "sports_centres"
   add_foreign_key "bookings", "orders"
   add_foreign_key "bookings", "sports_centres"

@@ -15,10 +15,11 @@ module BookACourt
 #      'Access-Control-Allow-Origin' => '*',
 #      'Access-Control-Request-Method' => %w{GET POST OPTIONS}.join(",")
 #    }
+    config.assets.paths << "#{Rails.root}/app/assets/videos"
 
       config.middleware.insert_before 0, Rack::Cors do
        allow do
-         origins 'http://examplehello.com'
+         origins '*'
          resource(
            '*',
            headers: :any,

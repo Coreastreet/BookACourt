@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', function(){
         function drawClockWidget() {}
 
         //loadScript("https://99dce927.ngrok.io/packs/js/catalog.js", function() {});
-        loadScript("https://a41cc010.ngrok.io/jquery.js",function() {
+        loadScript("https://1098b9f3.ngrok.io/jquery.js",function() {
             var BookingWidget = BookingWidget || {};
             BookingWidget.$ = BookingWidget.jQuery = jQuery.noConflict(true);
             var sportsCentreId = getSportsCentreId();  // sports centre id and date params

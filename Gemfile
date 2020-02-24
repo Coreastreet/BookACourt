@@ -36,6 +36,7 @@ gem 'premailer-rails', '~> 1.9', '>= 1.9.2'
 gem 'bootstrap-email'
 # for generating barcodes
 gem 'barby', '~> 0.6.8'
+gem 'rqrcode', '~> 0.10.1'
 # for writing to image files
 gem 'chunky_png', '~> 1.3', '>= 1.3.5'
 

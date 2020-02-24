@@ -347,6 +347,9 @@ function drawHalfHourBooking(ctx, radius, startTime, colour, bookingSchedule) {
               startTimeInput.setAttribute("data-interval", interval);
               //console.log(ctx.fillStyle);
               startTimeInput.value = startTime;
+              console.log(startTime);
+              // allow half-hour bookings
+              endTimeInput.value = convertTimeIntoString(interval + 0.5);
             }
           }
             //console.log(event.layerX, event.layerY);
@@ -435,33 +438,82 @@ function drawTime(ctx, radius, now) {
 function drawBottomButtons(ctx, radius) {
   //ctx.moveTo(-radius, radius);
   // draw circle of left side;
-  ctx.beginPath();
-  ctx.arc(-radius*0.8, radius*1.05, radius * 0.2, 0, 2*Math.PI);
-  ctx.strokeStyle = "white";
-  ctx.fillStyle = "white";
-  ctx.fill();
-  ctx.addHitRegion({id: "AM"});
-  ctx.lineWidth = 2;
-  ctx.stroke();
-  //ctx.strokeStyle = "black";
-  ctx.fillStyle = "black";
-  //ctx.moveTo(0,0);
-  ctx.fillText("AM", -radius*0.8, radius*1.05);
+  var circleHeight = parseFloat(radius*1.05).toFixed(2);
+  var circleWidth = parseFloat(radius*0.8).toFixed(2);
+  var circleRadius = parseFloat(radius*0.2).toFixed(2);
+  console.log("Circle Width", circleWidth);
+  var circles = [
+    {
+      x: -circleWidth,
+      y: circleHeight,
+      radius: circleRadius,
+      id: "AM"
+    },
+    {
+      x: circleWidth,
+      y: circleHeight,
+      radius: circleRadius,
+      id: "PM"
+    }
+  ];
 
+  console.log(circles);
+  circles.forEach( circle => {
+      ctx.beginPath();
+      ctx.arc(circle.x, circle.y, circle.radius, 0, 2*Math.PI);
+      ctx.strokeStyle = "white";
+      ctx.fillStyle = "white";
+      ctx.fill();
+      //ctx.addHitRegion({id: "AM"});
+      ctx.lineWidth = 2;
+      ctx.stroke();
+      //ctx.strokeStyle = "black";
+      ctx.fillStyle = "black";
+      //ctx.moveTo(0,0);
+      //console.log(circle.id);
+      ctx.fillText(circle.id, circle.x, circle.y);
+  });
+/*
   // draw circle of the right side;
   ctx.beginPath();
   ctx.arc(radius*0.8, radius*1.05, radius * 0.2, 0, 2*Math.PI);
   ctx.strokeStyle = "white";
   ctx.fillStyle = "white";
   ctx.fill();
-  ctx.addHitRegion({id: "PM"});
+  //ctx.addHitRegion({id: "PM"});
   ctx.lineWidth = 2;
   ctx.stroke();
   //ctx.strokeStyle = "black";
   ctx.fillStyle = "black";
   //ctx.moveTo(0,0);
   ctx.fillText("PM", radius*0.8, radius*1.05);
+*/
+  canvas.addEventListener('click', (e) => {
+    var boundingRect = canvas.getBoundingClientRect();
+    var pos = getMousePos(canvas, e);
+    //console.log(pos);
+    //console.log("canvas", canvas.width/2);
+    circles.forEach(circle => {
+      //console.log("width", canvas.width/2);
+      if (isIntersect(pos, circle)) {
+        alert('click on circle: ' + circle.id);
+      }
+    });
+  });
+}
 
+function getMousePos(canvas, evt) {
+    var rect = canvas.getBoundingClientRect();
+    return {
+        x: ((evt.clientX - rect.left) / (rect.right - rect.left) * canvas.width) - (canvas.width/2),
+        y: ((evt.clientY - rect.top) / (rect.bottom - rect.top) * canvas.height) - (0.45 * canvas.height)
+    };
+}
+
+function isIntersect(point, circle) {
+  console.log("point", point);
+  console.log("circle", circle);
+  return Math.sqrt((point.x-circle.x) ** 2 + (point.y - circle.y) ** 2) < circle.radius;
 }
 
 // set the prices in data attributes when a sports centre is selected.

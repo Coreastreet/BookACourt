@@ -68,11 +68,13 @@ bw.on("click", "#bookNowButton", function(e) {
 
         var heightModal = modal_body.find("#firstModalCard").outerHeight();
         modal_body.find("#bw-bookingSummary").css("max-height", heightModal);
+        reviewDetailModal.css("max-height", heightModal);
         reviewDetailModal.find("#allDatesModal").height(heightModal);
         reviewDetailModal.css("margin-top", `-${heightModal}px`);
 
         var customer_email = modal_body.find("input.bw-emailLine").val();
         var booking_type = modal_body.attr("data-booking-type");
+        var activity_type = modal_body.attr("data-activity-type");
         var court_type = modal_body.attr("data-court-type");
         var startTime = modal_body.attr("data-booking-startTime");
         var endTime = modal_body.attr("data-booking-endTime");
@@ -93,7 +95,7 @@ bw.on("click", "#bookNowButton", function(e) {
             all_dates.push(new_text);
           });
         } else { // casual
-          all_dates.push(modal_body.find("#dateHolder").val());
+          all_dates.push(bw.find("#dateHolder").val().split(", ")[1]);
           arrayOfRegularCourtIds = "[]";
         }
         first_day_bookings = all_dates.splice(0, 1);
@@ -125,6 +127,7 @@ bw.on("click", "#bookNowButton", function(e) {
             // decide how to assign the court number later on
         var jsonBookingParams = {
               bookingType: booking_type, // casual or regular
+              activityType: activity_type,
               courtType: court_type, // half court or full court
               startTime: startTime, // yes
               endTime: endTime, //yes
@@ -137,7 +140,7 @@ bw.on("click", "#bookNowButton", function(e) {
         //debugger
         //console.log(paramsText);
         modal_body.on("click", "#polipay", function() {
-          var request = makeCORSRequest("https://a41cc010.ngrok.io/api/v1/sports_centres/40/bookings/initiate", "POST");
+          var request = makeCORSRequest("https://1098b9f3.ngrok.io/api/v1/sports_centres/91/bookings/initiate", "POST");
           request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
           request.onload = function(e) {
             var response = request.response;
@@ -221,6 +224,7 @@ function registerPeakHours(costAndTimes) {
   var booking_type;
   //console.log(costAndTimes);
   if (typeof(costAndTimes) == 'object') {
+      console.log(costAndTimes);
       total = (costAndTimes["Total"]).toFixed(2); // get the total cost
       delete costAndTimes.Total
 
@@ -241,7 +245,7 @@ function registerPeakHours(costAndTimes) {
               end_of_booking_type = smallBookingArray[smallBookingArray.length - 1] + 0.5;
               booking_duration = end_of_booking_type - start_of_booking_type;
 
-              booking_rates = prices_json[frequency_type][court_type]; // assigning casual/regular or half_court/full_court respectively
+              booking_rates = prices_json["casual"][court_type]; // assigning casual/regular or half_court/full_court respectively
               booking_rate = booking_rates[type]; // for assigning off_peak or peak_hour
 
               booking_full_label = `${convertToAMPM(convertTimeIntoString(start_of_booking_type))} - ${convertToAMPM(convertTimeIntoString(end_of_booking_type))}`;
@@ -263,14 +267,40 @@ function calculateTotalPrice() {
   var peak_hours_text = bw.find("#peak-hour-holder").attr("data-peak-hours");
   var daySelected = bw.find("#dateHolder").val().substr(0,3); // abbr
   var peak_hours_object = JSON.parse(peak_hours_text);
-  var peak_starting_hour = peak_hours_object[daySelected]["startingPeakHour"];
-  var peak_closing_hour = peak_hours_object[daySelected]["closingPeakHour"];
+  //console.log("peak_hours", peak_hours_object);
+  var peak_starting_hour = convertAMPMToString(peak_hours_object[daySelected]["startingPeakHour"]);
+  var peak_closing_hour = convertAMPMToString(peak_hours_object[daySelected]["closingPeakHour"]);
   var bookingStartTime = bw.find("input.startTime").val();
   var bookingEndTime = bw.find("input.endTime").val();
   //console.log(bookingStartTime, bookingEndTime, peak_starting_hour, peak_closing_hour);
+  //console.log("peak-start", peak_starting_hour);
+  //console.log("peak-close", peak_closing_hour);
+  //console.log("booking-start", bookingStartTime);
+  //console.log("booking-end", bookingEndTime);
   var costAndTimes = generateIncrements(bookingStartTime, bookingEndTime, peak_starting_hour, peak_closing_hour);
   //console.log(totalCost);
+  //console.log(costAndTimes);
   return costAndTimes; // [totalCost, times outside the peak, times inside the peak period]
+}
+
+function convertAMPMToString(ampmTime) {
+   var newTime;
+   var shortened = ampmTime.substring(0,(ampmTime.length - 2));
+   var splitArray;
+   var ampm = ampmTime.substr(-2);
+   if (ampm == "PM") {
+      splitArray = shortened.split(":");
+      if (parseInt(splitArray[0]) < 12) {
+        newTime = `${parseInt(splitArray[0]) + 12}:${splitArray[1]}`;
+      } else {
+        newTime = `${parseInt(splitArray[0])}:${splitArray[1]}`;
+      }
+      //newTime = newTime.replace(".", ":").toFixed(2);
+   } else {  // ampm == "AM"
+      //newTime = ampmTime.substring(0,(ampmTime.length - 2));
+      newTime = (parseInt(shortened.substr(0,2)) < 10) ? `0${shortened}` : shortened;
+   }
+   return newTime;
 }
 
 function generateIncrements(start_time, end_time, peak_start, peak_end) {
@@ -297,6 +327,8 @@ function generateIncrements(start_time, end_time, peak_start, peak_end) {
   var time_period_off_peak = [];
   var productListing = [];
   //console.log(decimalStart, decimalEnd);
+  //console.log("start", decimalStart);
+  //console.log("end", decimalEnd);
   while (decimalStart != decimalEnd) {
     //console.log(totalCost)
       // if the booked time lies between the designated peak hours
@@ -316,12 +348,13 @@ function generateIncrements(start_time, end_time, peak_start, peak_end) {
       decimalStart += 0.5;
       // increment by thirty minutes
   }
-  //console.log(time_period_peak);
-  //console.log(time_period_off_peak);
+  //console.log(totalCost);
   // iterate through the resulting peak and off peak array to check for non 0.5 intervals
   // if exists separate into a separate array within.
   time_period_off_peak = checkArray(time_period_off_peak);
   time_period_peak = checkArray(time_period_peak);
+  console.log(time_period_peak);
+  console.log(time_period_off_peak);
   var costAndTimes = {"Total": totalCost, "off_peak":time_period_off_peak, "peak_hour":time_period_peak}
   //console.log(time_period_peak, time_period_off_peak);
   return costAndTimes;
@@ -332,6 +365,9 @@ function checkArray(arrayTimes) {
   var i = arrayTimes.length - 1;
   var subArray;
   var newArray = [];
+  if (i == 0) { // where arrayTimes length is only one where the customer wants to book a half-hour booking
+      newArray.unshift(arrayTimes);
+  }
   while (i > 0) {
     if (arrayTimes[i] - arrayTimes[i-1] != 0.5) {
       subArray = arrayTimes.splice(i);
@@ -360,6 +396,8 @@ function fillInPaymentModal() {
   // get the frequency of booking (not checking whether days or weeks yet).
   var frequency = parseInt(bw.find(".frequency-in-days").text());
 
+  var activityChosen = bw.find("#activityHolder").text();
+
   //var intervalBetweenBookings = parseInt(BookingWidget.$("#repeatBookingCard .frequency-in-days").text());
 
   // assign half court or half court to item in modal
@@ -372,6 +410,8 @@ function fillInPaymentModal() {
     court_type_holder.text("Full Court");
   }
 
+  modal_body.attr("data-activity-type", activityChosen)
+  modal_body.find("#activityType").text(activityChosen + " ")
   // store court type and interval in the div payment modal.
   modal_body.attr("data-court-type", courtType);
   modal_body.attr("data-booking-interval", frequency);
@@ -420,9 +460,9 @@ function fillInPaymentModal() {
 
   // get the array of arrays for that date
   var bookingMatrix = JSON.parse(localStorage.getItem("BookingsMatrix"));
-  console.log(bookingMatrix);
-  var bookingCourtIds = calculateCourtIds(startTime, endTime, bookingMatrix);
-  console.log("Court Ids", bookingCourtIds);
+  //console.log(bookingMatrix);
+  var bookingCourtIds = (courtType == "halfCourt") ? calculateCourtIds(startTime, endTime, bookingMatrix) : calculateFullCourtIds(startTime, endTime, bookingMatrix);
+  //console.log("Court Ids", bookingCourtIds);
   // assign court ids and period to the rows in details modal
   var courtIdBody = reviewDetailModal.find("#courtIdBody");
   assignCourtIdToBox(courtIdBody, bookingCourtIds);
@@ -583,13 +623,77 @@ function calculateCourtIds(startTime, endTime, courtArrays) {
       setBooking = newSetBooking;
 
   //} while (intersection.size != 0);
-      console.log("Court Timing", courtTimeDifference);
       courtFreePeriods.push(getLargestSubArray(courtTimeDifference));
   //return courtFreeIds;
   /*console.log("Times that still need filling", timesToBeFilled);
   console.log("id of the best matching court", courtFreeIds);
   console.log("Times that still need a court to accomodate", setBooking);
   *///console.log("HashSets", hashSets);
+} while(timesToBeFilled != 0);
+  for (var i in courtFreeIds) {
+      finalHash[parseInt(courtFreeIds[i])+1] = courtFreePeriods[i];
+  }
+  return finalHash;
+  //console.log("Court Ids", courtFreeIds);
+  //console.log("Respective Court Periods", courtFreePeriods);
+}
+
+function calculateFullCourtIds(startTime, endTime, courtArrays) {
+  //var bookingMatrix = localStorage.getItem("BookingsMatrix");
+  var bookingIntervals = getIntervals(startTime, endTime);
+  var setBooking = new Set(bookingIntervals);
+  var setCourtBookings;
+  var intersection;
+  var intersection2;
+  var courtFreeIds = [];
+  var timesToBeFilled;
+  var newSetBooking;
+  //var intersectionMatrix = [];
+  var courtTimeDifference;
+  var hashSets = {};
+  var courtFreePeriods = [];
+  var arrayBookedSets = [];
+  var finalHash = {};
+  for (var item in courtArrays) {
+    arrayBookedSets.push(new Set(courtArrays[item]));
+  }
+  //console.log("ArrayBookedSets", arrayBookedSets);
+  do {
+      for (var courtTimes = 0; courtTimes < (arrayBookedSets.length-1); courtTimes += 2) { // array of arrays
+        //setCourtBookings = new Set(courtArrays[courtTimes]);
+        //console.log(courtTimes);
+        intersection = new Set([...courtArrays[courtTimes]].filter(x => setBooking.has(x)));
+        intersection2 = new Set([...courtArrays[courtTimes+1]].filter(x => setBooking.has(x)));
+        isSetsEqual = (a, b) => a.size === b.size && [...a].every(value => b.has(value));
+        if (isSetsEqual(intersection, intersection2)) {
+          hashSets[intersection.size] = [intersection, courtTimes];
+        }
+        /* if (intersection.size == 0) {
+          courtFreeIds.push(courtTimes + 1);
+          break
+        } */// if no overlapping times, then this court is available to be booked. return the court id.
+        //intersectionMatrix.push(intersection); use hash instead of array
+        //console.log("Intersection", intersection);
+      }
+
+      timesToBeFilled = Object.keys(hashSets).sort()[0];
+      console.log("HashSets", hashSets);
+      console.log("Times to be filled", timesToBeFilled);
+      //console.log("hash sets", hashSets);
+      //console.log("times to be filled", timesToBeFilled);
+      courtFreeIds.push(hashSets[timesToBeFilled][1]); // store the courtId of the court that is free for most of the booking
+      newSetBooking = hashSets[timesToBeFilled][0]; // get the set which will contain the times which still need a courtId for.
+      courtTimeDifference = [...setBooking].filter(x => !newSetBooking.has(x)); // array
+      setBooking = newSetBooking;
+
+  //} while (intersection.size != 0);
+      courtFreePeriods.push(getLargestSubArray(courtTimeDifference));
+  //return courtFreeIds;
+  /*console.log("Times that still need filling", timesToBeFilled);
+  console.log("id of the best matching court", courtFreeIds);
+  console.log("Times that still need a court to accomodate", setBooking);
+  *///console.log("HashSets", hashSets);
+  //console.log(timesToBeFilled);
 } while(timesToBeFilled != 0);
   for (var i in courtFreeIds) {
       finalHash[parseInt(courtFreeIds[i])+1] = courtFreePeriods[i];

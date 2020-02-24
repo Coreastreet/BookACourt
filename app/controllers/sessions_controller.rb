@@ -23,10 +23,15 @@ class SessionsController < ApplicationController
           end
       elsif sports_centre_params
           sports_centre = SportsCentre.find_by(email: params[:sports_centre][:email].downcase)
-          if sports_centre && sports_centre.authenticate(params[:sports_centre][:password]) && !session[:user_id]
+          if sports_centre && sports_centre.authenticate(params[:sports_centre][:password])
+            if (sports_centre.confirmed) # representative has verified the email
+              $redis.set('centre_id', sports_centre.id.to_s)
+              current_sports_centre = current_sports_centre
+              redirect_to admin_sports_centre_path(sports_centre)
+            else
+              raise "sports centre email not confirmed yet"
+            end
             # Save the user.id in that user's session cookie:
-            session[:centre_id] = sports_centre.id.to_s
-            redirect_to root_path
           else
             raise "cannot login as sports_centre"
           end

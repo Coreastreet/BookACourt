@@ -6,12 +6,15 @@ $(document).ready( function () {
   }; */
   //var script = document.createElement('script');script.src = "https://code.jquery.com/jquery-3.4.1.min.js";document.getElementsByTagName('head')[0].appendChild(script);
   //console.log($('td'));
-  $(document).on("click", ".days-table td", function() {
-    if ($(this).hasClass("table-active")) {
-      disableSelection($(this));
-    } else {
-      enableSelection($(this));
-    }
+  /* $(document).on("click", ".days-table td", function() {
+    // only if add or remove bookings button is selected
+    //if ($("#addRemoveBookings").hasClass("bg-black")) {
+      if ($(this).hasClass("table-active")) {
+        disableSelection($(this));
+      } else {
+        enableSelection($(this));
+      }
+
   });
   //td.addClass('table-active');
 
@@ -81,5 +84,5 @@ $(document).ready( function () {
       //console.log($(dayHolder));
       $(dayHolder).text( day + ": " + starting_time + "-" + ending_time);
     //selectedCell.removeClass('table-active');
-  };
+  }; */
 });

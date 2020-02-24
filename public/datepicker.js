@@ -5,7 +5,7 @@ var canvas = mainClockCard.find("#canvas");
 
 
 var mainCardWidth = mainClockCard.width();
-var mainCardHeight = mainClockCard.height() - 10;
+var mainCardHeight = mainClockCard.outerHeight();
 console.log("height", mainCardHeight);
 
 canvas.width(mainCardWidth);
@@ -480,6 +480,7 @@ function drawHalfHourBooking(ctx, radius, startTime, colour, bookingSchedule) {
               startTimeInput.setAttribute("data-interval", interval);
               //console.log(ctx.fillStyle);
               startTimeInput.value = startTime;
+              endTimeInput.value = convertTimeIntoString(interval + 0.5);
             }
           }
             //console.log(event.layerX, event.layerY);
@@ -516,8 +517,15 @@ function drawBookedTimes(ctx, radius, dateSelected, bookingSchedule, meridiem) {
   //var days = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
   //var currentDay = days[now.getDay()];
   //var sports_centre = JSON.parse('<%= @sports_centre.to_json.html_safe %>');
-  var openingHour = "06:00";//sports_centre["opening_hours"][currentDay]["openingHour"];
-  var closingHour = "22:30";//sports_centre["opening_hours"][currentDay]["closingHour"];
+  // fix
+  var jsonOpeningHours = JSON.parse(localStorage.getItem("opening_hours"));
+  var weekDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+  var weekDay = weekDays[dateSelectedFormatted.getDay()];
+  var openingHour = convertAMPMToString(jsonOpeningHours[weekDay]["openingHour"]);//sports_centre["opening_hours"][currentDay]["openingHour"];
+  var closingHour = convertAMPMToString(jsonOpeningHours[weekDay]["closingHour"]);//sports_centre["opening_hours"][currentDay]["closingHour"];
+  //console.log(JSON.stringify(jsonOpeningHours));
+  console.log("open", openingHour);
+  console.log("close", closingHour);
   var currentTime = now.toTimeString().substring(0,5);
   //console.log(halfCourtsBooked);
 
@@ -541,7 +549,7 @@ function drawBookedTimes(ctx, radius, dateSelected, bookingSchedule, meridiem) {
   // iterate over times; if book shade in red an half-hour arc
     //drawClock();
     for (const time in bookingSchedule) {
-      if ((time < "12:00") && (time > openingHour) && (time >= currentTime)) {
+      if ((time < "12:00") && (time >= openingHour) && (time >= currentTime)) {
         //console.log(time, openingHour);
         if (bookingSchedule[time] == true) {
           drawHalfHourBooking(ctx, radius, time, transparentRed, bookingSchedule);
@@ -590,9 +598,29 @@ function convertTimeIntoString(number) {
   return stringTime;
 }
 
+function convertAMPMToString(ampmTime) {
+   var newTime;
+   var shortened = ampmTime.substring(0,(ampmTime.length - 2));
+   var splitArray;
+   var ampm = ampmTime.substr(-2);
+   if (ampm == "PM") {
+      splitArray = shortened.split(":");
+      if (parseInt(splitArray[0]) < 12) {
+        newTime = `${parseInt(splitArray[0]) + 12}:${splitArray[1]}`;
+      } else {
+        newTime = `${parseInt(splitArray[0])}:${splitArray[1]}`;
+      }
+      //newTime = newTime.replace(".", ":").toFixed(2);
+   } else {  // ampm == "AM"
+      //newTime = ampmTime.substring(0,(ampmTime.length - 2));
+      newTime = (parseInt(shortened.substr(0,2)) < 10) ? `0${shortened}` : shortened;
+   }
+   return newTime;
+}
+
 // enable the clear time button
 // fetch booking data for a particular sports centre.
-var request = makeCORSRequest("https://a41cc010.ngrok.io/api/v1/sports_centres/40/bookings/check_availability", "GET");
+var request = makeCORSRequest("https://1098b9f3.ngrok.io/api/v1/sports_centres/91/bookings/check_availability", "GET");
 //request.responseType = "json";
 request.responseType = "json";
 //request.timeout = 2000;
@@ -601,17 +629,56 @@ request.onload = function(e) {
     var nowFormattedDate = now.toLocaleString('en-us', {year: 'numeric', month: '2-digit', day: '2-digit'}).
     replace(/(\d+)\/(\d+)\/(\d+)/, '$3-$1-$2');
 
-    //console.log("response"); // get response["prices"]
+    //console.log(response); // get response["prices"]
     // store the peak hour times in a div above book-now for reference.
     var peak_hour_holder = mainClockCard.find("#peak-hour-holder");
+    console.log("peakHours", response["peak_hours"]);
     peak_hour_holder.attr("data-peak-hours", JSON.stringify(response["peak_hours"]));
     // store the prices in a div for reference in the widget sinces its easier.
-    var real_price_holder = mainClockCard.find("#real-price-holder");
-    real_price_holder.attr("data-prices", JSON.stringify(response["prices"]));
+    //var real_price_holder = mainClockCard.find("#real-price-holder");
+    //real_price_holder.attr("data-prices", JSON.stringify(response["prices"]));
+
+    // copy and insert more image icons in the activity selection bar depending on the number of activities in prices.
+    //var jsonPrices = JSON.parse(response["prices"]);
+    var cloneIcon;
+    var cloneSrc;
+    var activitySelector = mainClockCard.find("#activitySelector");
+    var jsonPrices = response["prices"];
+    console.log("Activity prices", response["prices"]);
+    for (var activity in jsonPrices) {
+      // insert an image icon
+        cloneIcon = activitySelector.find("img.activityIcon").eq(0).clone();
+        cloneIcon.attr("src", `/home/justin3724/Desktop/RubyOnRails/BookACourt/app/assets/images/${activity}.png`);
+        cloneIcon.removeClass("bw-none");
+        cloneIcon.attr("data-activity", activity);
+        //cloneIcon.attr("data-prices", jsonPrices[activity]);
+        cloneIcon.appendTo(activitySelector);
+    }
+
+    // add click listener on icons
+    var activityHolder;
+    var activityType;
+    activitySelector.on("click", "img.activityIcon", function(){
+        activityHolder = activitySelector.find("#activityHolder");
+        activityType = $(this).attr("data-activity");
+        $(this).siblings().each( function() {
+            $(this).removeClass("selectedIcon");
+        });
+        $(this).addClass("selectedIcon");
+        activityHolder.text(activityType);
+        console.log("jsonPrices", jsonPrices[activityType]);
+        mainClockCard.find("#real-price-holder").attr("data-prices", JSON.stringify(jsonPrices[activityType]));
+    });
+    activitySelector.find("img[data-activity='basketball']").click();
 
     numberOfCourts = response["number_of_courts"];
     localStorage.setItem("numberOfCourts", numberOfCourts);
     localStorage.setItem("bookings_array", response["json_bookings"]);
+
+    // store the opening hours in local storage too.
+    console.log(response);
+    localStorage.setItem("opening_hours", response["opening_hours"]);
+
     // generate the bookings availability for todays date when page first loads.
     bookings_array = JSON.parse(response["json_bookings"]);
     bookingMatrix = createBookingMatrix(bookings_array, nowFormattedDate, numberOfCourts);
@@ -682,10 +749,13 @@ clearTimeButton.addEventListener("click", function(event) {
   startTimeInput.value = "";
   endTimeInput.value = "";
 
-  bookingMatrix = createBookingMatrix(bookings_array, stringFormattedDate, numberOfCourts);
+  //bookingMatrix = createBookingMatrix(bookings_array, stringFormattedDate, numberOfCourts);
 
   var currentTab = document.querySelector("#tabHolder .active").id.replace("Tab", "");
-  bookingSchedule = check_availability(currentTab, bookingMatrix);
+  //bookingSchedule = check_availability(currentTab, bookingMatrix);
+  //console.log(bookingSchedule);
+  var bookingSchedule = JSON.parse(localStorage.getItem("currentBookings"));
+  //console.log(bookingSchedule2);
   //drawClock(ctx, radius);
   if (now.getHours() < 12) {
     drawBookedTimes(ctx, radius, formattedCurrentDate, bookingSchedule, 'AM');

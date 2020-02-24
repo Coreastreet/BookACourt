@@ -118,8 +118,8 @@ button.btn-selected {
   }
   tbody {
     display: block;
-    overflow-y: overlay;
-    height: 70vh;
+    overflow-y: auto;
+    //height: 70vh;
     //width: 68vw;
     tr {
       display: table;

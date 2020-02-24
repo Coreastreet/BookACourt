@@ -15,7 +15,7 @@ class Api::V1::BookingsController < Api::V1::ApiController
       transactionRefNo = parsed_response["TransactionRefNo"]
 
       data = JSON.parse(parsed_response["MerchantData"])
-
+      #binding.pry
       combinedDates = data["order"]["firstDayBookings"] + data["order"]["allDates"]
 
       new_order = Order.create!(fullName: "#{payerFirstName} #{payerLastName}", transactionRefNo: transactionRefNo.to_i,
@@ -35,7 +35,8 @@ class Api::V1::BookingsController < Api::V1::ApiController
         Booking.create!(startTime: idTimesArray[1], endTime: idTimesArray[2],
           courtType: data["booking"]["courtType"], sports_centre_id: id,
           order_id: orderId, date: data["order"]["firstDayBookings"][0], bookingType: bookingType,
-          court_no: idTimesArray[0]) # later calculate the courtNumber
+          court_no: idTimesArray[0], qr_code: new_order.transactionRefNo.to_s,
+          name: "#{payerFirstName} #{payerLastName}", sportsType: data["booking"]["activityType"] ) # later calculate the courtNumber
       end
 
       start = data["booking"]["startTime"]
@@ -55,7 +56,12 @@ class Api::V1::BookingsController < Api::V1::ApiController
       #merchantName = parsed_response["MerchantName"]
       #bankReceiptDateTime = parsed_response["BankReceiptDateTime"]
       # binding.pry
+      # send message to admin dashboard of the corresponding centre
+      #to notify in real time that a new booking has been made and update the dashboard.
+
       sports_centre = SportsCentre.find(token_params[:sports_centre_id])
+      DashboardChannel.broadcast_to(sports_centre, new_order.bookings)
+
       NotificationsMailer.with(sports_centre: sports_centre,
       order: new_order).booking_invoice.deliver_later
     end
@@ -70,8 +76,9 @@ class Api::V1::BookingsController < Api::V1::ApiController
     @numberOfCourts = sportsCentre.numberOfCourts
     @prices = sportsCentre.prices
     @peak_hours = sportsCentre.peak_hours
+    @opening_hours = sportsCentre.opening_hours.to_json
     if @json_bookings
-      render :json => {json_bookings: @json_bookings, number_of_courts: @numberOfCourts,
+      render :json => {json_bookings: @json_bookings, number_of_courts: @numberOfCourts, opening_hours: @opening_hours,
       prices: @prices, peak_hours: @peak_hours, success: true, content_type: 'application/json'}.to_json, status: 200
     else
       render :json => {:error => "not-found", success: false, content_type: 'application/json'}.to_json, :status => 404
@@ -120,7 +127,7 @@ class Api::V1::BookingsController < Api::V1::ApiController
       "{\"allDates\": #{allDates}," +
       "\"totalAmount\": \"#{order_params[:totalAmount]}\"," +
       "\"daysInBetween\": \"#{order_params[:daysInBetween]}\"," +
-      "\"firstDayBookings\": #{order_params[:firstDayBookings]}," +
+      "\"firstDayBookings\": #{order_params[:bwFirstDayBookings]}," +
       "\"arrayOfRegularCourtIds\": #{arrayOfRegularCourtIds}," +
       "\"customerEmail\": \"#{order_params[:customerEmail]}\"}" +
       ",\"booking\":" +
@@ -128,19 +135,20 @@ class Api::V1::BookingsController < Api::V1::ApiController
       "\"startTime\": \"#{booking_params[:startTime]}\"," +
       "\"endTime\": \"#{booking_params[:endTime]}\"," +
       "\"bookingType\": \"#{booking_params[:bookingType]}\"," +
+      "\"activityType\": \"#{booking_params[:activityType].capitalize}\"," +
       "\"courtType\": \"#{booking_params[:courtType]}\"}}"
       #{}"{\"startTime\": \"#{booking_params[:startTime]}\"," +
       #{}"\"endTime\": \"#{booking_params[:endTime]}\"," +
-
+    #binding.pry
     response = RestClient.post "https://poliapi.apac.paywithpoli.com/api/v2/Transaction/Initiate",
           {Amount: amount, CurrencyCode: "AUD", MerchantReference: orderReference,
-            MerchantHomepageURL: sportsCentre_url,
+            MerchantHomepageURL: "https://1098b9f3.ngrok.io/api/v1/sports_centres", #sportsCentre_url,
             MerchantData: merchantDataString,
             SuccessURL: "http://www.localhost:3000/sports_centres/#{params[:sports_centre_id]}/booking_success",
             FailureURL: "http://www.localhost:3000/sports_centres/failure", # redirect to page with failure message later on
             CancellationURL: "http://www.localhost:3000/sports_centres/cancelled",
-            NotificationURL: "https://e2f118e3.ngrok.io/api/v1/sports_centres/#{params[:sports_centre_id]}/bookings"},
-            {Authorization: "Basic UzYxMDQ2ODk6RWQ2QCRNYjM0Z14="}
+            NotificationURL: "https://1098b9f3.ngrok.io/api/v1/sports_centres/#{params[:sports_centre_id]}/bookings"},
+            {Authorization: "#{sportsCentre.combinedCode}"}
 
     parsedResponse = JSON.parse(response.body)
     if (response.code == 200 && parsedResponse["Success"])
@@ -184,10 +192,54 @@ class Api::V1::BookingsController < Api::V1::ApiController
     #end
   end
 
+  def check_qrCode
+    #binding.pry
+    sportsCentre = SportsCentre.find(params[:sports_centre_id])
+    matchingBookings = sportsCentre.bookings.where(qr_code: qr_code_params[:qr_code])
+    details = ""
+    error = ""
+    date = ""
+    result = false
+    if (matchingBookings.any?) # exists
+      matchingBooking = matchingBookings.find_by(date: Date.today)
+      if (matchingBooking)      # matching booking for todays date specifically
+          if (matchingBooking.claimed == false) # booking not claims yet
+            if (Time.now.strftime("%H:%M") < matchingBooking.endTime.strftime("%H:%M"))
+              result = true # Booking Valid!
+              matchingBooking.update!(claimed: true)
+              name = matchingBooking.name
+              startTime = matchingBooking.startTime.strftime("%l:%M%p").gsub(/\s+/, "")
+              endTime = matchingBooking.endTime.strftime("%l:%M%p").gsub(/\s+/, "")
+              details = {topMessage: "Hi #{name}", bottomMessage: "#{startTime}-#{endTime}", success_code: 0}
+            else # time for booking has elapsed
+              error = "Booking period over"
+              details = {error: error, error_code: 0}
+            end
+          else # claimed is true i.e. the customer scanned in for entry already
+            result = true
+            name = matchingBooking.name
+            details = {topMessage: "Bye #{name}", bottomMessage: "See you next time!", success_code: 1}
+          end
+      else
+        error = "No Booking Today"
+        details = {error: error, error_code: 2}
+      end
+    else
+        error = "No Bookings made!"
+        details = {error: error, error_code: 3}
+    end
+    render :json => {result: result, details: details}.to_json, status: 200
+    #sportsCentre.
+  end
+
 private
 
   def barcode_number_params
     params.permit(:barcode_number)
+  end
+
+  def qr_code_params
+    params.permit(:qr_code)
   end
 
   def token_params
@@ -203,7 +255,7 @@ private
   end
 
   def booking_params
-    params.require(:booking).permit(:courtType, :bookingType, :startTime, :endTime, :bwCourtIdTimesArray, courtIdTimesArray: [] )
+    params.require(:booking).permit(:courtType, :bookingType, :activityType, :startTime, :endTime, :bwCourtIdTimesArray, courtIdTimesArray: [])
   end
 
 end

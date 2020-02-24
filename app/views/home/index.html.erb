@@ -1,66 +1,107 @@
 <section class="container-fluid min-height bg-home-image-1">
     <div class="container fit-content padding-top">
       <div class="row">
-        <div class="col">
-          <div class="h1 home-text">Book a court online</div>
+        <div class="home-text col-12 text-center">Playground</div>
+      </div>
+      <div class="row">
+        <div class="col-12 h2 text-center">
+          Less Work and More Play
         </div>
       </div>
       <div class="row">
-        <div class="col-md-9">
-          <div class="input-group">
-            <input type="text" class="form-control" placeholder="Search this blog">
-            <div class="input-group-append">
-              <button class="btn btn-secondary" type="button">
-                <i class="fa fa-search"></i>
-              </button>
-            </div>
-          </div>
+        <div class="col-12 h2 text-center">
+          <button type="button" class="btn btn-primary btn-lg font-weight-bold">Get Started</button>
+          <button type="button" class="btn btn-lg border second-button rounded font-weight-bold">Learn More</button>
         </div>
       </div>
     </div>
 </section>
 <section class="container-fluid">
   <div class="container top-section-margin">
-      <form class="form-inline row full-width align-items-center">
-          <label for="name" class="col-auto pr-0"><h2 class="font-weight-bold my-auto">Popular in</h2></label>
-          <div id="popularInputHolder" class="form-group full-width col-md-5">
-              <input id="popularInput" type="text" placeholder="Hurstville" class="form-control full-width form-control-underlined">
-          </div>
-      </form>
-      <div class="row mb-4">
-        <div class="col">
-          <ul class="nav menu nav-tabs" id="myTab" role="tablist">
-           <li class="nav-item">
-             <a class="nav-link active px-0 mr-3" href="#All" data-toggle="tab" role="tab" aria-controls="All" aria-selected="true" >All</a>
-           </li>
-           <li class="nav-item">
-             <a class="nav-link px-0 mx-3" href="#for-you" data-toggle="tab" role="tab" aria-controls="For_you" aria-selected="false">For you</a>
-           </li>
-           <li class="nav-item">
-             <a class="nav-link px-0 mx-3" href="#weekend" data-toggle="tab" role="tab" aria-controls="This_weekend" aria-selected="false">This weekend</a>
-           </li>
-           <li class="nav-item">
-             <a class="nav-link px-0 mx-3" href="#Competitions" data-toggle="tab" role="tab" aria-controls="Competitions" aria-selected="false">Competitions</a>
-           </li>
-           <li class="nav-item">
-             <a class="nav-link px-0 mx-3" href="#Training" data-toggle="tab" role="tab" aria-controls="Training" aria-selected="false">Training</a>
-           </li>
-           <li class="nav-item">
-             <a class="nav-link px-0 mx-3" href="#offers" data-toggle="tab" role="tab" aria-controls="Special_offers" aria-selected="false">Special offers</a>
-           </li>
-          </ul>
-          <!-- Tab panes -->
+      <div class="row mx-0 full-width justify-content-center">
+        <p class="h1">An Automated Court Booking System</p>
+      </div>
+      <div class="row mx-0 full-width">
+        <div class="p-0 h4 font-weight-bold col-6 d-flex flex-column justify-content-center">
+          <p class="h3">Reduce Staff Costs</p>
+          <p class="h5">Staff not productive enough? Our self-service system lets your customers check-in and
+          out with QR codes instantly and without the immediate need for front-desk staff.</p>
+          <button type="button" class="btn btn-primary btn-lg font-weight-bold mt-2 align-self-start">See Features</button>
+        </div>
+        <div class="col-6">
+          <%= image_tag asset_path("QRscan.jpg") %>
         </div>
       </div>
-      <div class="row">
-        <div class="col">
-          <div class="tab-content">
-              <div class="tab-pane active" id="All" role="tabpanel" aria-labelledby="home-tab">Hello</div>
-              <div class="tab-pane" id="for-you" role="tabpanel" aria-labelledby="profile-tab">for-you</div>
-              <div class="tab-pane" id="weekend" role="tabpanel" aria-labelledby="messages-tab">weekend</div>
-              <div class="tab-pane" id="Competitions" role="tabpanel" aria-labelledby="settings-tab">competitions</div>
-          </div>
+      <div class="row mx-0 full-width">
+        <div class="col-4 px-0">
+          <video width="100%" height="500" autoplay loop>
+            <source src=<%= asset_path("widgetVideoNew.m4v")%> type="video/mp4">
+          </video>
+        </div>
+        <div class="p-0 h4 font-weight-bold col-8 d-flex flex-column justify-content-center">
+          <p class="h3">Increase online Bookings</p>
+          <p class="h5" >Customers book on <i>your</i> website; No account needed. They can make regular
+          bookings and even check for future court availability.</p>
+          <button type="button" class="btn btn-primary btn-lg align-self-start font-weight-bold mt-2 ">See Features</button>
         </div>
       </div>
+      <div class="row mx-0 full-width">
+        <div class="p-0 col-6 d-flex flex-column justify-content-center">
+          <p class="h3">Lower Transaction Fees</p>
+          <p class="h5">1% and 30c per transaction*; No extra establishment or ongoing fees;
+            Integrated with polipay*.</p>
+          <button type="button" class="btn btn-primary btn-lg font-weight-bold mt-2 align-self-start">See Features</button>
+        </div>
+        <div class="col-6">
+          <%= image_tag asset_path("compareFees.png") %>
+        </div>
+      </div>
+  </div>
+</section>
+<section class="container-fluid orange-theme-color">
+  <div class="container top-section-margin">
+    <div class="row">
+      <div class="col-12 text-white text-center mt-4 h3">
+        Ready to install?
+      </div>
+    </div>
+    <div class="row mx-0 full-width">
+      <div class="col-1 px-0">
+        <div class="row mx-0 display-3">
+          1
+        </div>
+        <div class="row mx-0 h5">
+          SignUp
+        </div>
+      </div>
+      <div class="col-3 d-flex flex-column justify-content-center pl-0 pr-5">
+        <%= image_tag asset_path("signUpPicture.png"), class: "img-fluid" %>
+      </div>
+      <div class="col-1 px-0">
+        <div class="row mx-0 display-3">
+          2
+        </div>
+        <div class="row mx-0 h5">
+          Transfer Bookings
+        </div>
+      </div>
+      <div class="col-3 d-flex flex-column justify-content-center pr-5">
+        <%= image_tag asset_path("timetable.png"), class: "img-fluid" %>
+      </div>
+      <div class="col-1 px-0">
+        <div class="row mx-0 display-3">
+          3
+        </div>
+        <div class="row mx-0 h5">
+          Insert Code
+        </div>
+      </div>
+      <div class="col-3 d-flex flex-column justify-content-center pl-0">
+        <%= image_tag asset_path("code2.png"), class: "img-fluid" %>
+      </div>
+    </div>
+    <div class="row d-flex justify-content-center py-4">
+      <button type="button" class="btn btn-primary btn-lg font-weight-bold">Get Started</button>
+    </div>
   </div>
 </section>

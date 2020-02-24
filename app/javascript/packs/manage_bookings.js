@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function(){
-
+/*
   $('body').on("click", ".manage_bookings", function() {
 
     //var counter = 0;
@@ -55,9 +55,7 @@ document.addEventListener('DOMContentLoaded', function(){
             }
           }
       });
-
-
-
    });
+*/
 
 });

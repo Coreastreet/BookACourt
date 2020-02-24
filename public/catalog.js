@@ -14,14 +14,20 @@ BookingWidget.html = (function() {
 
     var html;
     html = '<div id="BookingWidget">' +
-              '<div class="card main" id="clockHolderCard">' +
+              '<div id="clockHolderCard">' +
               '<div class="input-group date" data-provide="datepicker" id="calendar">' +
-              '<input type="text" class="form-control" data-date="" id="dateHolder">' +
+              '<input type="text" data-date="" id="dateHolder">' +
               '<div class="input-group-addon" id="dateButton">' +
               '<span class="input-group-text" id="basic-addon2"><i class="fa fa-calendar"></i></span>' +
               '</div>' +
               '</div>' +
               '<div class="card-body py-1">' +
+              '<nav>' +
+              '<div id="activitySelector" class="">' +
+              '<div id="activityHolder">Basketball</div>' +
+              '<img class="activityIcon bw-none" width="1rem" data-activity="" data-prices="" src="/home/justin3724/Desktop/RubyOnRails/BookACourt/app/assets/images/basketball.png"></img>' +
+              '</div>' +
+              '</nav>' +
               '<nav>' +
               '<div class="nav nav-tabs court-types" data-courtType = "" id="tabHolder">' +
               '<div class="tab" id="halfCourtTab">' +
@@ -32,7 +38,7 @@ BookingWidget.html = (function() {
               '</div>' +
               '</div>' +
               '</nav>' +
-              '<canvas id="canvas" width="250" height="250" style="background-color:lightgrey">' +
+              '<canvas id="canvas" width="270" height="270" style="background-color:lightgrey">' +
               '</canvas>' +
               '<div class="input-group" id="timeHolder">' +
               '<input type="time" class="form-control startTime" id="startTime" data-counter="" data-interval="" required/>' +
@@ -68,17 +74,17 @@ BookingWidget.html = (function() {
               '<div class="form-row white-box rounded mt-2" id="frequencyRow">' +
               '<div class="d-flex col-4" id="frequencyHeader">' +
               '<label class="text-left font-weight-normal mb-2" id="frequencyLabel">Frequency</label>' +
-              '<div class="btn-group btn-group-sm days-and-weeks col-6 offset-2 mb-1 d-flex justify-content-end" id="frequencyButtons" role="group">' +
-              '<button type="button" class="btn btn-outline-secondary daysWeeks" data-frequency-type="Days" id="daysButton">Days</button>' +
-              '<button type="button" class="btn btn-outline-secondary daysWeeks" data-frequency-type="Weeks" id="weeksButton">Weeks</button>' +
+              '<div class="days-and-weeks" id="frequencyButtons" role="group">' +
+              '<button type="button" class="daysWeeks" data-frequency-type="Days" id="daysButton">Days</button>' +
+              '<button type="button" class="daysWeeks" data-frequency-type="Weeks" id="weeksButton">Weeks</button>' +
               '</div>' +
               '</div>' +
               '<div id="frequencyBottomRow">' +
               '<input class="col-7 form-control" placeHolder = "Every Week" data-frequency-type="Weeks" id="frequencyRate"></input>' +
-              '<div class="col-5 d-flex justify-content-between addAndMinus">' +
-              '<button type="button" class="btn btn-light btn-sm rounded-circle d-inline-block minus-button"><i class="fas fa-minus fa-xs"></i></button>' +
-              '<div class="frequency-in-days d-inline-block my-auto number" data-counter="" data-interval="">0</div>' +
-              '<button type="button" class="btn btn-primary btn-sm rounded-circle d-inline-block plus-button"><i class="fas fa-plus fa-xs"></i></button>' +
+              '<div class="addAndMinus">' +
+              '<button type="button" class="rounded-circle minus-button"><i class="fas fa-minus fa-xs"></i></button>' +
+              '<div class="frequency-in-days number" data-counter="" data-interval="">0</div>' +
+              '<button type="button" class="rounded-circle plus-button"><i class="fas fa-plus fa-xs"></i></button>' +
               '</div>' +
               '</div>' +
               '</div>' +
@@ -86,32 +92,33 @@ BookingWidget.html = (function() {
               '<label class="col-4 text-left font-weight-normal" id="endLabel">End Date</label>' +
               '<div id="endDateBottomRow">' +
               '<input class="col-7 form-control" placeHolder = "After 1 booking" id="endDate"></input>' +
-              '<div class="col-5 d-flex justify-content-between addAndMinus">' +
-              '<button type="button" class="btn btn-light btn-sm rounded-circle d-inline-block minus-button"><i class="fas fa-minus fa-xs"></i></button>' +
-              '<div class="number-of-bookings d-inline-block my-auto number" data-counter="" data-interval="">1</div>' +
-              '<button type="button" class="btn btn-primary btn-sm rounded-circle d-inline-block plus-button"><i class="fas fa-plus fa-xs"></i></button>' +
+              '<div class="addAndMinus">' +
+              '<button type="button" class="rounded-circle minus-button"><i class="fas fa-minus fa-xs"></i></button>' +
+              '<div class="number-of-bookings number" data-counter="" data-interval="">1</div>' +
+              '<button type="button" class="rounded-circle plus-button"><i class="fas fa-plus fa-xs"></i></button>' +
               '</div>' +
               '</div>' +
               '</div>' +
               '<div class="mt-2 form-row white-box rounded bw-none" id="maxBookingRow">' +
               '<label id="maxBookingsWarning" data-maxBookings = "1" data-arrayOfFreeCourtIds = "" class="text-danger mx-1"></label>' +
               '</div>' +
-              '<button type="button" class="btn btn-success btn-block mt-2 below-clock" id="checkAvailabilityButton">Check Availability</button>' +
+              '<button type="button" class="below-clock" id="checkAvailabilityButton">Check Availability</button>' +
               '</div>' +
               '</div>' +
               '</div>' +
               // seperation between the top (the clock date and timepicker) vs below (the payment modal))
-              '<div class="modal fade w3-modal" id="payment-confirmation" role="dialog" data-court-type="" data-booking-interval=""' +
-              'data-booking-startTime="" data-booking-endTime="" data-number-of-bookings="" data-booking-rate="" data-booking-type="">' +
-              '<div class="modal-dialog hidden w3-modal-content" id="modal-dialog">' +
+              '<div class="w3-modal" id="payment-confirmation" role="dialog" data-court-type="" data-booking-interval="" ' +
+              'data-booking-startTime="" data-booking-endTime="" data-number-of-bookings="" ' +
+              'data-booking-rate="" data-booking-type="" data-activity-type="">' +
+              '<div class="w3-modal-content" id="modal-dialog">' +
               '<div class="wrapper" id="bw-bookingSummary">' +
               '<div id="firstModalCard">' +
-              '<div class="modal-content firstModal w3-container">' +
+              '<div class="w3-container">' +
               '<div class="modal-header">' +
-              '<span class="w3-button w3-display-topright" id="modalClose">&times;</span>' +
-              '<h6 class="modal-title">Review Bookings</h6>' +
+              '<span class="w3-button w3-display-topright modalClose" id="modalClose">&times;</span>' +
+              '<h6 class="modal-title bw-padding1">Review Bookings</h6>' +
               '</div>' +
-              '<div class="container-fluid mt-3 booking-row-start paymentGrid">' +
+              '<div class="container-fluid mt-3 booking-row-start bw-marginTop1 paymentGrid">' +
               //'<div class="row px-0">' +
               '<div class="col-3 pr-0 startCalendarDate">' +
               //'<div class="row mx-0 pt-2 border-dark border">' +
@@ -133,19 +140,19 @@ BookingWidget.html = (function() {
               '<span class="bookingPeriod">11:30AM-2PM</span></div>' +
               '</div>' +
               '</div>' +
-              '<div class="row mt-1">' +
+              '<div class="row mt-1 booking-order">' +
               '<div class="col-12 d-flex justify-content-between court-type itemRow">' +
-              '<h5 class="font-weight-bold bw-item">BasketBall <span class="courtType bw-item">Half-Court</span></h5>' +
+              '<h5 class="font-weight-bold bw-item"><span id="activityType">BasketBall</span><span class="courtType bw-item">Half-Court</span></h5>' +
               '<h5 class="mb-0 bw-price" id="single-booking-price"></h5>' +
               '</div>' +
               '</div>' +
-              '<div class="row">' +
+              '<div class="row booking-location">' +
               '<div class="col-12 d-flex" id="locationRow">' +
               '<div><i class="fas fa-map-marker-alt"></i></div>' +
               '<div class="font-weight-light ml-2 bw-pl1">Morris Iemma Indoor Sports Centre</div>' +
               '</div>' +
               '</div>' +
-              '<div class="col-12 d-flex justify-content-between caret py-2 reviewSingleBooking trigger-detail-modal paddingHover">' +
+              '<div class="reviewSingleBooking trigger-detail-modal paddingHover">' +
               '<div>Review this booking</div>' +
               '<div><i class="fas fa-caret-right"></i></div>' +
               '</div>' +
@@ -212,12 +219,11 @@ BookingWidget.html = (function() {
               '<div class="modal-body p-0">' +
               '<div class="container-fluid whiteSmokeBG pt-2 pb-4 w3-container bw-whitesmoke">' +
               '<div class="paymentGrid">' +
-              '<div class="row rounded border p-2 mx-0 bg-white mb-3 bw-flex bw-emailInput bw-marginTop1">' +
-              '<p class="col-5 mb-0 align-self-center">Email Receipt to:</p>' +
-              '<input type="email" class="form-control col-7 bw-emailLine ' +
-              'border-right-0 box-shadow-none" placeholder="john-citizen@hotmail.com" value="hi_justin@hotmail.com">' +
+              '<div class="bw-flex bw-emailInput bw-marginTop1">' +
+              '<p class="bw-marginTop1">Email Receipt to:</p>' +
+              '<input type="email" class="form-control col-7 bw-emailLine" placeholder="john-citizen@hotmail.com" value="hi_justin@hotmail.com">' +
               '</div>' +
-              '<div class="col-9 offset-3 text-right bw-flex bw-subtotal bw-marginTop1">' +
+              '<div class="bw-flex bw-subtotal bw-marginTop1">' +
               '<p class="mb-1 bw-margin0" id="subtotal-booking-text">Subtotal (<span id="subtotal-booking-number">10</span> bookings)</p>' +
               '<p class="mb-1 text-right bw-margin0" id="subtotal">$100.00</p>' +
               '</div>' +
@@ -239,14 +245,14 @@ BookingWidget.html = (function() {
               '</div>' +
               '<div id="secondModalCard">' +
               '<div class="modal-content slideHolderModal position-relative mt-0 w3-container" id="allDatesModal">' +
-              '<div class="modal-header bw-justFlex bw-alignCenter py-2 pl-2">' +
+              '<div class="bw-padding1 bw-justFlex bw-alignCenter modal-header">' +
               '<i class="fas fa-arrow-left back-arrow back-arrow-booking hover-grey mr-2 my-1 p-2 align-self-center rounded"></i>' +
               '<h6 class="modal-title align-self-center bw-pl1">Dates</h6>' +
-              '<span class="w3-button w3-display-topright" id="modalClose">&times;</span>' +
+              '<span class="w3-button w3-display-topright modalClose" id="modalClose">&times;</span>' +
               '</div>' +
               '<div class="modal-body px-0 overflow-auto pb-0 h-75">' +
               '<div class="row mx-3">' +
-              '<p class="font-weight-light bw-margin0 bw-padding-vert bw-largeFont">Court ID:</p>' +
+              '<p class="font-weight-light bw-margin0 bw-padding1 bw-largeFont">Court ID:</p>' +
               '</div>' +
               '<hr class="my-0 bw-margin0 bw-negRem">' +
               '<div class="container-fluid" id="courtIdBody" data-regularBookingCourtIds="[]">' +
@@ -256,7 +262,7 @@ BookingWidget.html = (function() {
               '<hr class="my-0 bw-margin0 bw-negRem">' +
               '</div>' +
               '<div class="row px-3 mx-0" id="prices-title">' +
-              '<p class="font-weight-light mt-3 bw-margin0 bw-padding-vert bw-largeFont">Prices: (per booking)</p>' +
+              '<p class="font-weight-light mt-3 bw-margin0 bw-padding1 bw-largeFont">Prices: (per booking)</p>' +
               '</div>' +
               '<hr class="my-0 bw-margin0 bw-negRem">' +
               '<div class="container-fluid">' +
@@ -277,7 +283,7 @@ BookingWidget.html = (function() {
               '</div>' +
               '<hr class="my-0 bw-margin0 bw-negRem">' +
               '<div class="row px-3 mx-0" id="dates-title">' +
-              '<p class="font-weight-light mt-3 bw-margin0 bw-padding-vert bw-largeFont">Dates:</p>' +
+              '<p class="font-weight-light mt-3 bw-margin0 bw-padding1 bw-largeFont">Dates:</p>' +
               '</div>' +
               '<hr class="my-0 bw-margin0 bw-negRem">' +
               '<div class="row justify-content-between templateDateRow px-3 bw-none">' +

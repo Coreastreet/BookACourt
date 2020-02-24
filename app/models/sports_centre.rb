@@ -5,6 +5,7 @@ class SportsCentre < ApplicationRecord
   serialize :prices, Hash
   serialize :opening_hours, Hash
   serialize :peak_hours, Hash
+  #serialize :activities, Hash
 
   has_one :address, dependent: :destroy
   has_one :representative, dependent: :destroy

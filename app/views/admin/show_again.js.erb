@@ -7,6 +7,7 @@ var bookings = <%= raw session[:bookings] %>;
 var newDate = document.querySelector('#my_hidden_input').value;
 var arr = newDate.split('/');
 var formattedDate = `${arr[2]}-${arr[0]}-${arr[1]}`
+//console.log(formattedDate);
 // reverse format
 var i = 0;
 var j = 0;
@@ -19,16 +20,25 @@ var columnNumber;
 var booking;
 var table = document.querySelector('table.table-sm');
 clearTable(table);
+
+var firstId = document.querySelector("#dashBoardTable td");
+firstId.classList.add("border-darkBlue");
+
 while (i < bookings.length) {
+  //console.log("fd", formattedDate);
+  //console.log("bd", bookings[i].date);
   if (bookings[i].date === formattedDate) {
     booking = bookings[i];
+    //console.log(booking);
     j = 0;
     booking_start = booking.startTime.substr(11,5);
     booking_end = booking.endTime.substr(11,5);
     console.log("start", booking_start);
     console.log("end", booking_end);
     columnArray = document.querySelectorAll(`[data-court="${booking.court_no}"]`);
+    var counter = 0;
     if (booking.courtType == "halfCourt") {
+          console.log(booking.courtType);
           while (j < columnArray.length) {
             if (columnArray[j].dataset.time == booking_start) {
               booked = true;
@@ -37,11 +47,21 @@ while (i < bookings.length) {
               booked = false;
             }
             if (booked) {
-              columnArray[j].classList.add("table-active");
+              columnArray[j].classList.add(`table${booking.sportsType}`, "booked");
+              columnArray[j].setAttribute("data-toggle", "tooltip");
+              columnArray[j].setAttribute("title", `${booking.name}\nType: ${booking.sportsType}\nStart:`
+              + ` ${convertToAMPM(booking_start)}\nEnd: ${convertToAMPM(booking_end)}`);
+              //columnArray[j].setAttribute("data-placement", "top");
+              if (counter == 0) {  // first selected td.
+                  columnArray[j].innerHTML = `<div>${booking.name}</div>` + "<div class='delete-booking'" + `data-booking-id=${booking.id} data-order-id=${booking.order_id}>&times</div>`
+                  columnArray[j].classList.add("textHolder");
+                  counter++;
+              }
             }
             j++;
           }
      } else if (booking.courtType == "fullCourt") {
+          console.log(booking.courtType)
          nextColumnArray = document.querySelectorAll(`[data-court="${booking.court_no + 1}"]`);
          while (j < columnArray.length) {
            if (columnArray[j].dataset.time == booking_start) {
@@ -51,8 +71,15 @@ while (i < bookings.length) {
              booked = false;
            }
            if (booked) {
-             columnArray[j].classList.add("table-primary");
-             nextColumnArray[j].classList.add("table-primary");
+             columnArray[j].classList.add(`table${booking.sportsType}`, "booked");
+             nextColumnArray[j].classList.add(`table${booking.sportsType}`, "booked");
+             if (counter == 0) {  // first selected td.
+                 columnArray[j].innerHTML = `<div>${booking.name}</div>`;
+                 columnArray[j].classList.add("textHolder");
+                 nextColumnArray[j].innerHTML = "<div></div><div class='delete-booking'" + `data-booking-id=${booking.id} data-order-id=${booking.order_id}>&times</div>`;
+                 nextColumnArray[j].classList.add("textHolder");
+                 counter++;
+             }
            }
            j++;
          }
@@ -64,17 +91,32 @@ while (i < bookings.length) {
 //var bookings = JSON.parse(bookings_json);
 
 function clearTable(table) {
-  var bookedTimes = table.querySelectorAll('.table-active');
+  var bookedTimes = table.querySelectorAll('td.booked');
+  var textHolders = table.querySelectorAll('td.textHolder');
   var i = 0;
+  var j = 0;
   while (i < bookedTimes.length) {
-    bookedTimes[i].classList.remove('table-active');
+    bookedTimes[i].setAttribute("class", "td-flex d-flex justify-content-between");
     i++;
   }
-
-  var bookedFullTimes = table.querySelectorAll('.table-primary');
-  var j = 0;
-  while (j < bookedFullTimes.length) {
-    bookedFullTimes[j].classList.remove('table-primary');
+  while (j < textHolders.length) {
+    textHolders[j].innerHTML = "";
     j++;
   }
+}
+
+/*
+var bookedFullTimes = table.querySelectorAll('td[class^="table"]');
+var j = 0;
+while (j < bookedFullTimes.length) {
+  bookedFullTimes[j].classList.remove('td[class^="table"]');
+  j++;
+} */
+
+function convertToAMPM(timeString) {
+  var hours_and_minutes = timeString.split(":");
+  var parsed_int = parseInt(hours_and_minutes[0]);
+  var int = (parsed_int % 12 == 0) ? 12 : parsed_int % 12;
+  var am_or_pm = (hours_and_minutes[0] >= 12) ? "PM" : "AM";
+  return `${int}:${hours_and_minutes[1]}${am_or_pm}`
 }

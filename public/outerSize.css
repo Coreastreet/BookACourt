@@ -1,7 +1,35 @@
 #BookingWidget {
   width: 100%;
-  max-width: 16rem;
-  overflow-x: hidden;
+  max-width: 18rem;
+  overflow: hidden;
+}
+#BookingWidget div {
+  margin: 0;
+  padding: 0;
+}
+#BookingWidget #activitySelector {
+  height: 2rem;
+  display: flex;
+  margin: 0.5rem 0;
+  padding: 0 0.5rem;
+  border: 1px solid black;
+}
+#BookingWidget #activitySelector #activityHolder {
+  flex: 1 0 25%;
+  align-self: center;
+  text-transform: capitalize;
+}
+#BookingWidget #activitySelector .activityIcon {
+  flex: 0 1 10%;
+  object-fit: contain;
+  margin-left: 0.25rem;
+  filter: opacity(0.5);
+}
+#BookingWidget #activitySelector .activityIcon:hover {
+  filter: opacity(1);
+}
+#BookingWidget #activitySelector .activityIcon.selectedIcon {
+  filter: opacity(1);
 }
 #BookingWidget #clockHolderCard {
   width: 100%;
@@ -149,12 +177,14 @@
   justify-content: space-between;
 }
 #BookingWidget #repeatBookingCard #frequencyRow #frequencyHeader #frequencyLabel {
-  width: 50%;
+  width: auto;
   display: block;
   height: 2rem;
+  padding-right: 1rem;
 }
 #BookingWidget #repeatBookingCard #frequencyRow #frequencyHeader #frequencyButtons {
   display: flex;
+  flex: 1 0 40%;
 }
 #BookingWidget #repeatBookingCard #frequencyRow #frequencyHeader #frequencyButtons #daysButton {
   flex: 1 0 50%;
@@ -171,6 +201,11 @@
 #BookingWidget #repeatBookingCard #frequencyRow #frequencyHeader #frequencyButtons #daysButton:hover {
   background-color: #6c757d;
   color: white;
+}
+#BookingWidget #repeatBookingCard #frequencyRow #frequencyHeader #frequencyButtons button.daysWeeks {
+  padding: 1px 6px;
+  margin: 0px;
+  min-width: 0px;
 }
 #BookingWidget #repeatBookingCard #frequencyRow #frequencyHeader #frequencyButtons #weeksButton {
   flex: 1 0 50%;
@@ -213,6 +248,7 @@
   border-radius: 50%;
   background-color: #f8f9fa;
   padding: 0.25rem 0.5rem;
+  min-width: 0px;
 }
 #BookingWidget #repeatBookingCard .addAndMinus .number {
   vertical-align: middle;
@@ -224,6 +260,7 @@
   border-radius: 50%;
   background-color: #007bff;
   padding: 0.25rem 0.5rem;
+  min-width: 0px;
 }
 #BookingWidget #repeatBookingCard #endRow {
   display: block;
@@ -252,9 +289,19 @@ div.datepicker.dropdown-menu.datepicker-orient-left.datepicker-orient-bottom {
   margin-top: 1.2rem;
 }
 
+#payment-confirmation div {
+  margin: 0px;
+  padding: 0px;
+}
+#payment-confirmation .modalClose {
+  font-size: 1.6rem;
+}
 #payment-confirmation #modal-dialog {
   max-width: 500px;
   overflow: hidden;
+}
+#payment-confirmation .bw-padding1 {
+  padding: 1rem;
 }
 #payment-confirmation .range-divider {
   display: flex;
@@ -279,6 +326,7 @@ div.datepicker.dropdown-menu.datepicker-orient-left.datepicker-orient-bottom {
 #payment-confirmation .bw-footer {
   display: flex;
   justify-content: flex-end;
+  border: none;
 }
 #payment-confirmation .bw-footer .bw-button {
   margin-right: 1rem;
@@ -309,6 +357,27 @@ div.datepicker.dropdown-menu.datepicker-orient-left.datepicker-orient-bottom {
   grid-template-rows: auto auto auto auto;
   grid-column-gap: 1rem;
 }
+#payment-confirmation .paymentGrid div {
+  margin: 0;
+}
+#payment-confirmation .paymentGrid .booking-time {
+  grid-row-start: 1;
+  grid-row-end: 2;
+  grid-column-start: 2;
+  grid-column-end: 3;
+}
+#payment-confirmation .paymentGrid .booking-order {
+  grid-row-start: 2;
+  grid-row-end: 3;
+  grid-column-start: 2;
+  grid-column-end: 3;
+}
+#payment-confirmation .paymentGrid .booking-location {
+  grid-row-start: 3;
+  grid-row-end: 4;
+  grid-column-start: 2;
+  grid-column-end: 3;
+}
 #payment-confirmation .paymentGrid .bw-emailLine {
   flex: 0 1 70%;
   padding-left: 1rem;
@@ -334,12 +403,14 @@ div.datepicker.dropdown-menu.datepicker-orient-left.datepicker-orient-bottom {
   border: 1px solid #dee2e6;
   border-radius: 8px;
   padding: 0 1rem;
+  margin-top: 1rem;
 }
 #payment-confirmation .paymentGrid .bw-subtotal {
   grid-column-start: 2;
   grid-column-end: 3;
   grid-row-start: 2;
   grid-row-end: 3;
+  margin-top: 1rem;
 }
 #payment-confirmation .paymentGrid .bw-discount {
   grid-column-start: 2;
@@ -400,7 +471,7 @@ div.datepicker.dropdown-menu.datepicker-orient-left.datepicker-orient-bottom {
   justify-content: flex-start;
 }
 #payment-confirmation #secondModalCard {
-  margin-left: 100%;
+  margin-left: calc(100% + 2px);
   transition: all 1s;
   z-index: 99;
   margin-top: -50vh;
@@ -410,6 +481,10 @@ div.datepicker.dropdown-menu.datepicker-orient-left.datepicker-orient-bottom {
 }
 #payment-confirmation #secondModalCard #allDatesModal {
   height: 70vh;
+  box-shadow: none;
+}
+#payment-confirmation #secondModalCard .bw-borderBottom {
+  border-bottom: 1px solid whitesmoke;
 }
 #payment-confirmation #secondModalCard .bw-justFlex {
   display: flex;
@@ -438,6 +513,9 @@ div.datepicker.dropdown-menu.datepicker-orient-left.datepicker-orient-bottom {
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
 }
+#payment-confirmation #secondModalCard .bw-padding-horizontal {
+  padding: 0px 1rem;
+}
 #payment-confirmation #secondModalCard .bw-largeFont {
   font-size: large;
 }
@@ -450,4 +528,9 @@ div.datepicker.dropdown-menu.datepicker-orient-left.datepicker-orient-bottom {
 #payment-confirmation #secondModalCard .bw-footer {
   display: flex;
   justify-content: flex-end;
+  border: none;
+}
+
+#payment-confirmation #activityType {
+  text-transform: capitalize;
 }
