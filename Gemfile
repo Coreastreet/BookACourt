@@ -9,7 +9,8 @@ gem 'rails', '~> 6.0.0'
 # Use postgresql as the database for Active Record
 gem 'pg', '>= 0.18', '< 2.0'
 # Use Puma as the app server
-gem 'puma', '~> 3.11'
+# gem 'puma', '~> 3.11'
+gem "passenger", ">= 5.3.2", require: "phusion_passenger/rack_handler"
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5'
 # Transpile app-like JavaScript. Read more: https://github.com/rails/webpacker
