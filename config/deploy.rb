@@ -5,6 +5,7 @@ set :application, "BookACourt"
 set :repo_url, "https://Coreastreet:Soba3724@github.com/Coreastreet/BookACourt"
 
 set :passenger_restart_with_touch, true
+set :bundle_without, %w{test}.join(' ')
 
 # Default branch is :master
 # ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
