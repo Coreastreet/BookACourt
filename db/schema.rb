@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_08_081404) do
+ActiveRecord::Schema.define(version: 2020_03_03_093854) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -40,7 +40,7 @@ ActiveRecord::Schema.define(version: 2020_02_08_081404) do
     t.string "street_address"
     t.string "suburb"
     t.integer "postcode"
-    t.bigint "sports_centre_id", null: false
+    t.bigint "sports_centre_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "state"
@@ -72,10 +72,11 @@ ActiveRecord::Schema.define(version: 2020_02_08_081404) do
   create_table "contacts", force: :cascade do |t|
     t.string "name"
     t.string "email"
-    t.integer "relationship"
     t.bigint "sports_centre_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.boolean "isOwner"
+    t.boolean "isDirector"
     t.index ["sports_centre_id"], name: "index_contacts_on_sports_centre_id"
   end
 
@@ -115,11 +116,13 @@ ActiveRecord::Schema.define(version: 2020_02_08_081404) do
     t.date "dob"
     t.string "title"
     t.string "email"
-    t.bigint "phone"
+    t.string "phone"
     t.string "password_digest"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "sports_centre_id"
+    t.boolean "isOwner"
+    t.boolean "isDirector"
     t.index ["sports_centre_id"], name: "index_representatives_on_sports_centre_id"
   end
 
@@ -145,7 +148,7 @@ ActiveRecord::Schema.define(version: 2020_02_08_081404) do
     t.string "password_digest"
     t.text "prices"
     t.text "peak_hours"
-    t.integer "ABN"
+    t.bigint "ABN"
     t.string "URL"
     t.integer "attemptedBookings", default: 0
     t.string "merchantCode"

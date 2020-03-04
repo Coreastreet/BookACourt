@@ -18,14 +18,6 @@ $(document).ready( function () {
       $("#col-9-admin datalist#sports").append($(`<option value=${capSportOffered}></option>`));
   });
 
-  Mousetrap.bind('ctrl+right', function() {
-    var currentDate = $('#datepicker').datepicker('getFormattedDate');
-    var currentDateObj = new Date(currentDate);
-    repeatDetailClone.css("left", "-6%");
-    repeatDetailClone.find(".nb-startDate").attr("data-startDate-Reg", currentDate);
-    repeatDetailClone.find(".nb-startDate").text(currentDateObj.toLocaleDateString("en-AU", {weekday: "short", day:"numeric", month:"short"}));
-  });
-
   $(document).on("click", ".courts-table td:not(.booked)", function() {
     var currentClick = parseInt(localStorage.getItem("clickCounter"));
     if ($("#addRemoveBookings").hasClass("bg-black") && (currentClick < 2)) {

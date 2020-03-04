@@ -9,8 +9,9 @@ gem 'rails', '~> 6.0.0'
 # Use postgresql as the database for Active Record
 gem 'pg', '>= 0.18', '< 2.0'
 # Use Puma as the app server
-# gem 'puma', '~> 3.11'
-gem "passenger", ">= 5.3.2", require: "phusion_passenger/rack_handler"
+gem 'puma', '~> 3.11'
+# gem "passenger", ">= 5.3.2", require: "phusion_passenger/rack_handler"
+
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5'
 # Transpile app-like JavaScript. Read more: https://github.com/rails/webpacker
@@ -21,6 +22,9 @@ gem 'turbolinks', '~> 5'
 gem 'jbuilder', '~> 2.7'
 # Use Redis adapter to run Action Cable in production
 gem 'redis', '~> 4.0'
+
+gem 'redis-rails'
+
 # Use Active Model has_secure_password
 gem 'bcrypt', '~> 3.1.7'
 

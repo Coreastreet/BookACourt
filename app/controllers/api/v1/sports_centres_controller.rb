@@ -9,7 +9,7 @@ class Api::V1::SportsCentresController < Api::V1::ApiController
     if (sports_centre.combinedCode == decodedKey && sports_centre.confirmed == false)
         # confirm the email address and set confirmed to true
         sports_centre.update!(confirmed: true)
-        $redis.set("centre_id", sports_centre.id)
+        session[:centre_id] = sports_centre.id#$redis.set("centre_id", sports_centre.id)
         redirect_to admin_sports_centre_path(sports_centre)
     else
         redirect_to root_path

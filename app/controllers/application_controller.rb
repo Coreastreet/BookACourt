@@ -16,8 +16,8 @@ class ApplicationController < ActionController::Base
   end
 
   def current_sports_centre
-    if $redis.get('centre_id')
-      @current_sports_centre ||= SportsCentre.find($redis.get("centre_id"))
+    if session[:centre_id]#$redis.get('centre_id')
+      @current_sports_centre ||= SportsCentre.find(session[:centre_id])#$redis.get("centre_id"))
     else
       @current_sports_centre = nil
     end

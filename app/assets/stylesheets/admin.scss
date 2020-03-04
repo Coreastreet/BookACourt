@@ -14,8 +14,27 @@
   height: 70vh;
 }
 
-.h-50vh {
-  height: 50vh;
+.h-63vh {
+  height: 63vh;
+}
+
+.h-85vh {
+  height: 85vh;
+}
+
+.mt-20vh {
+  margin-top: 20vh;
+}
+
+#ViewAndBookBody {
+  display: flex;
+  flex-direction: column;
+}
+
+.loginContainer {
+  border: 3px solid black;
+  border-radius: 1rem;
+  width: 20rem !important;
 }
 
 .hover-black:hover {

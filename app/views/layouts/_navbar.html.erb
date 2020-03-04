@@ -4,15 +4,17 @@
         <span class="navbar-toggler-icon"></span></button>
         <div id="navbarSupportedContent" class="collapse navbar-collapse pr-0">
           <ul class="navbar-nav ml-auto float-none justify-content-end">
-              <li class="nav-item nav-grey"><%= link_to '(New Sports Centres)', new_sports_centre_path, class: "nav-link" %></li>
-              <li class="nav-item nav-grey"><%= link_to '(Browse Sports Centres)', sports_centres_path, class: "nav-link" %></li>
+              <li class="nav-item nav-grey d-none"><%= link_to '(Browse Sports Centres)', sports_centres_path, class: "nav-link" %></li>
               <% if logged_out? %>
                 <li class="nav-item nav-grey"><%= link_to 'Log In', login_path, class: "nav-link" %></li>
-                <li class="nav-item mr-md-2 nav-grey"><a href="#" class="nav-link">Register</a></li>
+                <li class="nav-item mr-md-2 nav-grey"><%= link_to 'Register', new_sports_centre_path, id: "register", class: "nav-link"%></li>
              <% else %>
               <li class="dropdown d-flex">
-                <a href="#" class="nav-link" data-toggle="dropdown"><i class="fa fa-user-circle mr-md-2"></i>My Playground</a>
-                <div class="dropdown-menu dropdown-menu-right container">
+                <button class="btn nav-link dropdown-toggle" type="button" data-toggle="dropdown">
+                  <i class="fa fa-user-circle mr-md-2"></i>My Playground
+                  <span class"caret"></span>
+                </button>
+                <div class="dropdown-menu dropdown-menu-right">
                   <div class="row mx-0 my-3">
                     <%= image_tag("cameraIcon.png", size: "72x72", class: "col-4") %>
                     <div class="col-8 pl-0">
@@ -31,7 +33,7 @@
                   </div>
                   <div class="dropdown-divider row"></div>
                   <div class="row mx-0 dropdown-item">
-                    <%= link_to "Manage Bookings", sports_centre_path(current_sports_centre), class: "dropdown-item" if logged_in_as_sports_centre? %>
+                    <%= link_to "Manage Bookings", admin_sports_centre_path(current_sports_centre), class: "dropdown-item" if logged_in_as_sports_centre? %>
                   </div>
                   <div class="row mx-0 dropdown-item">
                     <a class="dropdown-item" href="#">Messages</a>

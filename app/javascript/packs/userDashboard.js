@@ -41,6 +41,19 @@ document.addEventListener('DOMContentLoaded', function(){
         $('.dropdown-toggle').dropdown()
       });
 
+      $("#homeBody").on("click", "button.tooltipTarget", function() {
+        $(this).find(".tooltiptext").css("visibility", "visible").delay(1000).fadeOut();
+        $(this).find(".tooltiptext").css("display", "block");
+        var id = $(this).attr("data-target");
+        var copiedTextInput = document.getElementById(`${id}`);
+        console.log(copiedTextInput);
+        copiedTextInput.select();
+        copiedTextInput.setSelectionRange(0, 99999);
+        document.execCommand("copy");
+        copiedTextInput.blur();
+        //alert(copiedTextInput.value);
+      });
+
       //var clockHolderHeight = $('#clockHolder').height();
       //$('#detailHolder').height(clockHolderHeight);
 

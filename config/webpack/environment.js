@@ -8,9 +8,10 @@ environment.plugins.prepend( "Provide",
     jQuery: "jquery",
     jquery: "jquery",
     'window.jQuery': 'jquery',
+    moment: 'moment',
     Popper: ["popper.js", "default"],
-    moment: 'moment'
   })
 )
+
 environment.loaders.prepend('erb', erb)
 module.exports = environment;

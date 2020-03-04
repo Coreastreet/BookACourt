@@ -2,33 +2,35 @@ import consumer from "./consumer"
 
 $(document).on('turbolinks:load', function () {
 
-    consumer.subscriptions.create({
-      channel: "DashboardChannel",
-      sports_centre_id: parseInt(document.querySelector("#id-holder").getAttribute("data-sports-centre-id"))
-      }, {
-      connected() {
-      	console.log("Connected!");
-        // Called when the subscription is ready for use on the server
-      },
+  if ($("#id-holder").length > 0) {
+        consumer.subscriptions.create({
+          channel: "DashboardChannel",
+          sports_centre_id: parseInt(document.querySelector("#id-holder").getAttribute("data-sports-centre-id"))
+          }, {
+          connected() {
+          	console.log("Connected!");
+            // Called when the subscription is ready for use on the server
+          },
 
-      disconnected() {
-        // Called when the subscription has been terminated by the server
-        console.log("Disconnected!");
-      },
+          disconnected() {
+            // Called when the subscription has been terminated by the server
+            console.log("Disconnected!");
+          },
 
-      received(data) { // data equal to bookings
-         console.log("Recieved Data");
-         console.log(data);
-         var currentDateNumbers = document.querySelector("#my_hidden_input").value.split("/");
-      	 var bookingHash = data.filter((booking) => (booking.date == `${currentDateNumbers[2]}-${currentDateNumbers[0]}-${currentDateNumbers[1]}`));
-         insertNewBooking(bookingHash[0]);
-         $("#NotificationModal").slideDown("slow", "swing");
-         setTimeout(function() {
-           $("#NotificationModal").slideUp("slow", "swing");            
-         }, 3000);
-        // Called when there's incoming data on the websocket for this channel
-      }
-    });
+          received(data) { // data equal to bookings
+             console.log("Recieved Data");
+             console.log(data);
+             var currentDateNumbers = document.querySelector("#my_hidden_input").value.split("/");
+          	 var bookingHash = data.filter((booking) => (booking.date == `${currentDateNumbers[2]}-${currentDateNumbers[0]}-${currentDateNumbers[1]}`));
+             insertNewBooking(bookingHash[0]);
+             $("#NotificationModal").slideDown("slow", "swing");
+             setTimeout(function() {
+               $("#NotificationModal").slideUp("slow", "swing");
+             }, 3000);
+            // Called when there's incoming data on the websocket for this channel
+           }
+         });
+    }
 
     function insertNewBooking(booking) {
           var j = 0;

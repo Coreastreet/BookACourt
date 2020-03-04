@@ -69,7 +69,7 @@ class NotificationsMailer < ApplicationMailer
     @sports_centre = params[:sports_centre]
     #create a notification url
     paramsCode = Base64.encode64(@sports_centre.combinedCode)
-    @confirmation_url = "https://1098b9f3.ngrok.io/api/v1/sports_centres/#{@sports_centre.id}/confirm_email?key=#{paramsCode}"
+    @confirmation_url = "http://localhost:3000/api/v1/sports_centres/#{@sports_centre.id}/confirm_email?key=#{paramsCode}"
 
     attachments.inline['BookACourtLogo.png'] = File.read('app/assets/images/bookACourt.png')
 

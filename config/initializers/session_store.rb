@@ -1,1 +1,7 @@
-Rails.application.config.session_store :active_record_store, :key => '_my_app_session'
+Rails.application.config.session_store :redis_store, {
+  servers: [
+    { host: Rails.application.config.redis_host,
+    port: 6379, db: 0, namespace: "session" },
+  ],
+  expire_after: 1.day
+}

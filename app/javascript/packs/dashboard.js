@@ -132,9 +132,9 @@ $(document).ready( function () {
       });
       $( "td.active.day"  ).trigger( "click" );
       // alert("Hey!");
-      $('body').on('click', '[data-toggle="dropdown"]', function() {
+      /* $('body').on('click', '[data-toggle="dropdown"]', function() {
         $('.dropdown-toggle').dropdown()
-      });
+      }); */
       //alert("cardBodies");
       // adjust level of div to right side of main card body
       var mainCard = $("#clockHolder");
@@ -257,14 +257,14 @@ $(document).ready( function () {
             // highlight in black
             $(this).addClass("bg-black");
             // alter size of table in top two buttons
-            if ($(this).attr("id") == "addRemoveBookings") {
+            /* if ($(this).attr("id") == "addRemoveBookings") {
               $("#dashBoardTable").find("tbody").removeClass("h-70vh");
               $("#dashBoardTable").find("tbody").addClass("h-50vh");
-            }
-            if ($(this).attr("id") == "manage-bookings") {
+            } */
+            /* if ($(this).attr("id") == "manage-bookings") {
               $("#dashBoardTable").find("tbody").removeClass("h-50vh");
               $("#dashBoardTable").find("tbody").addClass("h-70vh");
-            }
+            } */
               thisConnectedRowId = $(this).attr("data-connectedRow");
               $(`${thisConnectedRowId}`).removeClass("d-none");
       });

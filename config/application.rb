@@ -15,6 +15,7 @@ module BookACourt
 #      'Access-Control-Allow-Origin' => '*',
 #      'Access-Control-Request-Method' => %w{GET POST OPTIONS}.join(",")
 #    }
+    config.cache_store = :redis_store, 'redis://localhost:6379/0/cache', { expires_in: 1.day }
     config.assets.paths << "#{Rails.root}/app/assets/videos"
 
       config.middleware.insert_before 0, Rack::Cors do

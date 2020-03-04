@@ -16,7 +16,7 @@ class SessionsController < ApplicationController
           # method to see if the password submitted on the login form was correct:
           if user && user.authenticate(params[:user][:password])
             # Save the user.id in that user's session cookie:
-            session[:user_id] = user.id.to_s
+            session[:user_id] = user.id
             redirect_to root_path
           else
             raise "cannot login as user"
@@ -25,15 +25,23 @@ class SessionsController < ApplicationController
           sports_centre = SportsCentre.find_by(email: params[:sports_centre][:email].downcase)
           if sports_centre && sports_centre.authenticate(params[:sports_centre][:password])
             if (sports_centre.confirmed) # representative has verified the email
-              $redis.set('centre_id', sports_centre.id.to_s)
+              #$redis.set('centre_id', sports_centre.id.to_s)
+              session[:centre_id] = sports_centre.id
               current_sports_centre = current_sports_centre
               redirect_to admin_sports_centre_path(sports_centre)
             else
-              raise "sports centre email not confirmed yet"
+              flash.now[:alert] = "Sports Centre email is not confirmed yet"
+              render "new"
+              #raise "sports centre email not confirmed yet"
             end
             # Save the user.id in that user's session cookie:
           else
-            raise "cannot login as sports_centre"
+            if sports_centre
+              flash.now[:alert] = "Password is incorrect. Try again."
+            else
+              flash.now[:alert] = "Email Address is incorrect. Try again."
+            end
+            render "new"
           end
       end
     end

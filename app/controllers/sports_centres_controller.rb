@@ -11,9 +11,14 @@ class SportsCentresController < ApplicationController
   def create
     require 'json'
     require 'base64'
-    new_address = Address.create(address_params[:address])
-    new_sports_centre = SportsCentre.create(sports_centre_params)
+    title = address_params[:full_address].split(",")[0]
 
+    new_sports_centre = SportsCentre.new(sports_centre_params)
+
+    new_address = Address.new(address_params)
+    new_sports_centre.address = new_address
+
+    new_sports_centre.update!(title: title)
     #puts(token_params)
     #new_sports_centre.email.downcase!
     # create the final auth key
@@ -22,7 +27,32 @@ class SportsCentresController < ApplicationController
     finalAuthCode = "Basic #{encoded}"
     new_sports_centre.update(combinedCode: finalAuthCode)
 
-    new_sports_centre.update(address: new_address)
+    #new_sports_centre.update(address: new_address)
+
+
+
+    empty_opening_hours = {
+      Sun: {openingHour: "", closingHour: ""},
+      Mon: {openingHour: "", closingHour: ""},
+      Tue: {openingHour: "", closingHour: ""},
+      Wed: {openingHour: "", closingHour: ""},
+      Thu: {openingHour: "", closingHour: ""},
+      Fri: {openingHour: "", closingHour: ""},
+      Sat: {openingHour: "", closingHour: ""}
+    }
+
+    empty_peak_hours = {
+      Sun: {startingPeakHour: "", closingPeakHour: ""},
+      Mon: {startingPeakHour: "", closingPeakHour: ""},
+      Tue: {startingPeakHour: "", closingPeakHour: ""},
+      Wed: {startingPeakHour: "", closingPeakHour: ""},
+      Thu: {startingPeakHour: "", closingPeakHour: ""},
+      Fri: {startingPeakHour: "", closingPeakHour: ""},
+      Sat: {startingPeakHour: "", closingPeakHour: ""}
+    }
+
+    new_sports_centre.update!(opening_hours: empty_opening_hours)
+    new_sports_centre.update!(peak_hours: empty_peak_hours)
     # new_sports_centre.update(email: "blah4@gmail.com") # add form row for email, will be used as username
     #new_sports_centre.update(password: "Soba3724") # send password for immediate reset
     # move opening hours and images to dashboard
@@ -34,14 +64,20 @@ class SportsCentresController < ApplicationController
     #new_sports_centre.update(numberOfCourts: 6) # add form row for user to select number of courts
     # format the full_address from street_address, suburb, state and postcode
     new_rep = Representative.create!(rep_params)
+    new_rep_address = Address.create(rep_address_params)
+    new_rep.update!(address: new_rep_address)
+
     new_sports_centre.representative = new_rep
-    new_contact = Contact.create!(contact_params)
+    contact_params.each do |contact|
+       new_sports_centre.contacts << Contact.create!(contact)
+    end
+
     if new_address.full_address.blank?
       full_address = "#{new_address.street_address}, #{new_address.suburb} #{new_address.state} #{new_address.postcode}"
       new_address.full_address = full_address;
     end
     # new_sports_centre.images.attach(params[:sports_centre][:images])
-    if new_sports_centre.save! && new_address.save!
+    if new_sports_centre.save! && new_address.save
       redirect_to admin_sports_centre_path(new_sports_centre)# show for sports_centre
       # send mail containing first time access password
       NotificationsMailer.with(sports_centre: new_sports_centre).signUp_confirmation.deliver_later
@@ -121,12 +157,12 @@ class SportsCentresController < ApplicationController
 
   private
     def sports_centre_params
-        params.require(:sports_centre).permit(:title, :email, :password, :password_confirmation, :ABN,
+        params.require(:sports_centre).permit(:title, :email, :password, :password_confirmation, :ABN, :URL,
            :phone, :description, :logo, :merchantCode, :authenticationCode, :numberOfCourts)
     end
 
     def address_params
-        params.require(:sports_centre).permit(address: [:full_address, :street_address, :suburb, :state, :postcode])
+        params.require(:sports_centre).require(:address).permit(:full_address, :street_address, :suburb, :state, :postcode)
     end
 
     def opening_hour_params
@@ -146,11 +182,15 @@ class SportsCentresController < ApplicationController
     end
 
     def rep_params
-        params.require(:sports_centre).require(:representative).permit(:name, :address, :email, :title, :dob, :phone)
+        params.require(:sports_centre).require(:representative).permit(:name, :email, :title, :dob, :phone, :isOwner, :isDirector)
+    end
+
+    def rep_address_params
+        params.require(:sports_centre).require(:representative).require(:address).permit!
     end
 
     def contact_params
-        params.require(:sports_centre).require(:contact).permit(:name, :email)
+        JSON.parse(params.require(:arrayContacts))
     end
 
     def token_params
