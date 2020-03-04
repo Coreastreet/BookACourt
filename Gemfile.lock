@@ -180,6 +180,9 @@ GEM
     nio4r (2.5.2)
     nokogiri (1.10.8)
       mini_portile2 (~> 2.4.0)
+    passenger (6.0.4)
+      rack
+      rake (>= 0.8.1)
     pg (1.2.2)
     premailer (1.11.1)
       addressable
@@ -193,7 +196,6 @@ GEM
       method_source (~> 0.8.1)
       slop (~> 3.4)
     public_suffix (4.0.3)
-    puma (3.12.2)
     rack (2.2.2)
     rack-cors (1.1.1)
       rack (>= 2.0.0)
@@ -356,10 +358,10 @@ DEPENDENCIES
   jbuilder (~> 2.7)
   listen (>= 3.0.5, < 3.2)
   mini_magick (~> 4.5, >= 4.5.1)
+  passenger (>= 5.3.2)
   pg (>= 0.18, < 2.0)
   premailer-rails (~> 1.9, >= 1.9.2)
   pry (~> 0.10.3)
-  puma (~> 3.11)
   rack-cors (~> 1.1.1)
   rails (~> 6.0.0)
   rails-erd
