@@ -1,7 +1,8 @@
 Rails.application.config.session_store :redis_store, {
-  servers: [
-    { host: Rails.application.config.redis_host,
-    port: 6379, db: 0, namespace: "session" },
-  ],
-  expire_after: 1.day
+  servers: ["redis://localhost:6379/0/session"],
+  expire_after: 90.minutes,
+  key: "_#{Rails.application.class.parent_name.downcase}_session",
+  threadsafe: true,
+  signed: true,
+  secure: true
 }
