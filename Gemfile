@@ -48,6 +48,9 @@ gem 'chunky_png', '~> 1.3', '>= 1.3.5'
 # edit and transform images
 gem 'mini_magick', '~> 4.5', '>= 4.5.1'
 
+# to prevent csrf errors
+gem 'jquery-rails'
+
 # adding fount awesome icons
 gem 'font-awesome-rails'
 
