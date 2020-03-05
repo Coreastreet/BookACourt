@@ -1,6 +1,6 @@
 class HomeController < ApplicationController
   def index
-    console
+    # console
   end
 
   def about
