@@ -2,7 +2,7 @@ class SessionsController < ApplicationController
     def new
       # No need for anything in here, we are just going to render our
       # new.html.erb AKA the login page
-      # console
+      #console
     end
 
     def create
@@ -27,6 +27,7 @@ class SessionsController < ApplicationController
             if (sports_centre.confirmed) # representative has verified the email
               #$redis.set('centre_id', sports_centre.id.to_s)
               session[:centre_id] = sports_centre.id
+              cookies.signed[:centre_id] = sports_centre.id
               current_sports_centre = current_sports_centre
               redirect_to admin_sports_centre_path(sports_centre)
             else
@@ -51,7 +52,6 @@ class SessionsController < ApplicationController
       if session[:user_id]
         # delete the saved user_id key/value from the cookie:
         session.delete(:user_id)
-
         # no need for format.js right now
         respond_to do |format|
           format.html { redirect_to root_path }
@@ -59,6 +59,7 @@ class SessionsController < ApplicationController
         end
       elsif session[:centre_id]
         session.delete(:centre_id)
+        cookies.delete(:centre_id)
         respond_to do |format|
           format.html { redirect_to root_path }
           format.js

@@ -100,7 +100,7 @@ class SportsCentresController < ApplicationController
 
   # same code as above but will load js.erb file instead of html
   def user_show
-    console
+    # console
     @arr = []
     @sports_centre = SportsCentre.find(params[:id])
     @bookings = @sports_centre.bookings.to_json.html_safe

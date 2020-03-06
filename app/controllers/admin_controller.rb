@@ -48,6 +48,7 @@ class AdminController < ApplicationController
       array_booking << booking.to_json
     end
     session[:bookings] = bookings.to_json
+    #console
     #respond_to do |format|
     #  format.js
       # format.html

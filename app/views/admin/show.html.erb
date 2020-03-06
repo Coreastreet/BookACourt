@@ -9,7 +9,7 @@
   </div>
 </section>
 <section class="container-fluid mt-3">
-  <div class="container border border-dark rounded p-2 h-85vh">
+  <div class="container border border-dark rounded p-2 h-80vh">
       <div class="row h-100 mx-0">
         <div class="col-3 mx-0 admin-panel bg-silver pt-3">
             <div class="row datepicker-holder-row">
@@ -117,11 +117,11 @@
               </div>
               <div class="">
                   <h2 class="text-center py-5">weBall</h2>
-                  <h4> In order to complete your registration, you must complete the following steps.</h4>
-                  <h4>1. Enter and save your opening and peak hours.</h4>
-                  <h4>2. Enter and save your prices.</h4>
-                  <h4>3. Upload and save your logo.</h4>
-                  <h4>4. Copy and insert the following code into your sports center website.</h4>
+                  <h5> In order to complete your registration, you must complete the following steps.</h5>
+                  <h5>1. Enter and save your opening and peak hours.</h5>
+                  <h5>2. Enter and save your prices.</h5>
+                  <h5>3. Upload and save your logo.</h5>
+                  <h5>4. Copy and insert the following code into your sports center website.</h5>
                   <div id='wrapperCode' class="pt-4">
                     <div class="row mx-0 d-flex justify-content-between"><p class="mb-0 h-contentFit align-self-end">Place this line of code in the head section</p>
                       <button class="tooltipTarget btn btn-primary" data-target="scriptCode">
@@ -161,7 +161,7 @@
                       <% end %>
                     </tr>
                   </thead>
-                  <tbody class="h-63vh">
+                  <tbody class="h-55vh">
                     <% (6.hours..23.5.hours).step(30.minutes).each do |hour| %>
                       <tr class="d-flex">
                         <th scope="row" class="p-0"><sup><%= Time.at(hour).gmtime.strftime('%H:%M') %></sup></th>

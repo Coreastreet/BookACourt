@@ -1,5 +1,5 @@
 class ApplicationController < ActionController::Base
-  protect_from_forgery with: :exception
+  protect_from_forgery prepend: true
   # ----- add these lines here: -----
 
   # Make the current_user method available to views also, not just controllers:

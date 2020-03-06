@@ -9,7 +9,7 @@ module ApplicationCable
     private
 
 	  def find_verified_user
-	    if verified_centre_admin = session[:centre_id]#$redis.get("centre_id")
+	    if verified_centre_admin = cookies.signed[:centre_id]#$redis.get("centre_id")
 	      verified_centre_admin
 	    else
 	      reject_unauthorized_connection

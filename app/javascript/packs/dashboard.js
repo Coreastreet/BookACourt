@@ -43,6 +43,8 @@ $(document).ready( function () {
                  alert('error');
              }
            });
+           var firstId = document.querySelector("#dashBoardTable td");
+           firstId.classList.add("border-darkBlue");
            Mousetrap.bind('ctrl+up', function() {
              var currentTD = $("#dashBoardTable td.border-darkBlue");
              var tbody = $("#dashBoardTable tbody");
