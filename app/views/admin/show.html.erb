@@ -1,53 +1,59 @@
-<section class="container-fluid mt-3">
+<!-- <section class="container-fluid mt-3">
   <div class="container">
       <div class="row">
         <div class="col-12">
             <h3 class="sports_centre_holder" id="id-holder" data-sports-centre-id=<%= @sports_centre.id %>
-              data-number-of-courts=<%= @sports_centre.numberOfCourts %>><%= @sports_centre.title %></h3>
+            data-number-of-courts=<%= @sports_centre.numberOfCourts %>><%= @sports_centre.title %></h3>
         </div>
       </div>
   </div>
-</section>
-<section class="container-fluid mt-3">
-  <div class="container border border-dark rounded p-2 h-80vh">
+</section> -->
+<section class="container-fluid mt-3 h-88vh">
+  <div class="border border-dark rounded h-fillAvailable">
       <div class="row h-100 mx-0">
         <div class="col-3 mx-0 admin-panel bg-silver pt-3">
+
             <div class="row datepicker-holder-row">
-              <div class="col pr-0 pl-1 ml-2">
+              <div class="col px-1 mx-2">
                   <div id="datepicker"></div>
                   <input type="hidden" id="my_hidden_input">
               </div>
-              <div class="col mx-3 mt-4" id="buttonHolder">
+              <hr class="color-white">
+              <div class="col mx-3 pt-2" id="buttonHolder">
                 <div class="row" id="homeButton" data-connectedRow="#homeBody">
                   <div class="col text-white hover-black rounded p-2">
+                    <i class="fas fa-home w-1point5"></i>
                     Home
                   </div>
                 </div>
                 <div class="row" id="addRemoveBookings" data-connectedRow="#ViewAndBookBody">
                   <div class="col text-white hover-black rounded p-2">
+                    <i class="fas fa-th w-1point5"></i>
                     Bookings
                   </div>
                 </div>
                 <div class="row" id="setPrices" data-connectedRow="#setPricesForm">
                   <div class="col text-white hover-black rounded manage_peak_hours p-2">
+                    <i class="fas fa-dollar-sign w-1point5"></i>
                     Prices
                   </div>
                 </div>
                 <div class="row" data-connectedRow="#editProfileBody" id="edit-profile">
-                  <div class="col text-white hover-black edit-profile rounded p-2" >
-                    <i class="fas fa-edit mr-2"></i>
+                  <div class="col text-white hover-black edit-profile rounded p-2">
+                    <i class="far fa-clock w-1point5"></i>
                     Business Hours
                   </div>
                 </div>
                 <div class="row" id="setLogo" data-connectedRow="#editLogoBody">
-                  <div class="col text-white rounded hover-black p-2" >
+                  <div class="col text-white rounded hover-black p-2">
+                    <i class="far fa-image w-1point5"></i>
                     Logo
                   </div>
                 </div>
               </div>
             </div>
         </div>
-        <div class="col-9 px-0 overflow-y" id="col-9-admin">
+        <div class="col px-0 overflow-y" id="col-9-admin">
           <!-- timetable for sports_centre -->
           <div class='row mx-0 name-and-sport d-none ' data-bookingType="halfCourt" data-courtNo="" data-startTime="" data-endTime=""
           data-totalCost="" data-reg-interval-days="" data-reg-totalCost="" data-reg-dates="">

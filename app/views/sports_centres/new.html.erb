@@ -391,7 +391,7 @@
                 </div>
                 <div class="card-body d-none new-contact">
                   <div class= "form-row new-contact-heading">
-                    <p class="bold heading mb-1 px-0 col-2">Add an owner</p>
+                    <p class="bold heading mb-1 px-0 col">Add an owner</p>
                     <p>It’s required to add any individual who owns 25% or more of the company.</p>
                   </div>
                   <div class= "form-row new-contact-subheading">
@@ -407,7 +407,7 @@
                       </div>
                   </div>
                   <div class="form-row nested">
-                     <div class="col-md-12 border-bottom">
+                     <div class="col-md-12">
                           <div class="row pr-2 mb-2">
                               <%= new_contact.label :email, class: "min-label col-4 mb-0 align-self-center text-right" %>
                               <%= new_contact.email_field :email, class: "col-6 form-control new-contact-email white-box", required: true %>

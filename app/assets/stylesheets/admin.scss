@@ -10,6 +10,10 @@
   background-color: black;
 }
 
+.w-1point5 {
+  width: 1.5rem;
+}
+
 .h-70vh {
   height: 70vh;
 }
@@ -18,12 +22,21 @@
   height: 55vh;
 }
 
-.h-80vh {
-  height: 80vh;
+.h-88vh {
+  height: 88vh;
+}
+
+.h-fillAvailable {
+  height: -webkit-fill-available;
 }
 
 .mt-20vh {
   margin-top: 20vh;
+}
+
+#buttonHolder {
+  margin-top: 2rem;
+  border-top: 2px solid white;
 }
 
 #ViewAndBookBody {

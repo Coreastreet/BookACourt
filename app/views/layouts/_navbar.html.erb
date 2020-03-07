@@ -1,5 +1,5 @@
 <div class="container-fluid">
-  <nav class="pl-md-0 navbar navbar-light navbar-expand-lg shadow-sm bg-white m-0"><a href="index.html" class="navbar-brand">BookACourt</a>
+  <nav class="pl-md-0 navbar navbar-light navbar-expand-lg shadow-sm bg-white m-0"><%= link_to "BookACourt", root_path, class: "navbar-brand" %>
       <button type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler collapsed">
         <span class="navbar-toggler-icon"></span></button>
         <div id="navbarSupportedContent" class="collapse navbar-collapse pr-0">
@@ -11,8 +11,11 @@
              <% else %>
               <li class="dropdown d-flex">
                 <button class="btn nav-link dropdown-toggle" type="button" data-toggle="dropdown">
-                  <i class="fa fa-user-circle mr-md-2"></i>My Playground
+                  <% if @sports_centre %>
+                  <i class="fa fa-user-circle mr-md-2"></i><span class="sports_centre_holder" id="id-holder" data-sports-centre-id=<%= @sports_centre.id %>
+                      data-number-of-courts=<%= @sports_centre.numberOfCourts %>><%= @sports_centre.title %></span>
                   <span class"caret"></span>
+                  <% end %>
                 </button>
                 <div class="dropdown-menu dropdown-menu-right">
                   <div class="row mx-0 my-3">

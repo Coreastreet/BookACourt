@@ -28,9 +28,6 @@ class SportsCentresController < ApplicationController
     new_sports_centre.update(combinedCode: finalAuthCode)
 
     #new_sports_centre.update(address: new_address)
-
-
-
     empty_opening_hours = {
       Sun: {openingHour: "", closingHour: ""},
       Mon: {openingHour: "", closingHour: ""},
@@ -78,7 +75,7 @@ class SportsCentresController < ApplicationController
     end
     # new_sports_centre.images.attach(params[:sports_centre][:images])
     if new_sports_centre.save! && new_address.save
-      redirect_to admin_sports_centre_path(new_sports_centre)# show for sports_centre
+      redirect_to login_path, notice: "An account activation link has been sent to your company email."# admin_sports_centre_path(new_sports_centre) show for sports_centre
       # send mail containing first time access password
       NotificationsMailer.with(sports_centre: new_sports_centre).signUp_confirmation.deliver_later
     else
