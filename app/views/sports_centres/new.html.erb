@@ -1,4 +1,4 @@
-<section class="container-fluid">
+<section class="container-fluid bg-white">
   <div class="container py-3">
     <%= form_with(model: @sports_centre, local: true, html: {novalidate: true, id: 'registerCentre',class: 'needs-validation business-registration', multipart: true }) do |f| %>
         <div class="row">
@@ -51,8 +51,8 @@
                     </div>
                   <div class="card-footer">
                     <div class="form-row btn-toolbar p-0">
-                        <button type="button" class="btn btn-light previous"><i class="fa fa-angle-left mr-2"></i>Previous</button>
-                        <button type="button" class="btn btn-light ml-auto next">Next<i class="fa fa-angle-right ml-2"></i></button>
+                        <button type="button" class="btn btn-primary previous"><i class="fa fa-angle-left mr-2"></i>Previous</button>
+                        <button type="button" class="btn btn-primary ml-auto next">Next<i class="fa fa-angle-right ml-2"></i></button>
                     </div>
                   </div>
               </fieldset>
@@ -161,7 +161,7 @@
                         <p class="heading font-weight-normal mt-3">Number of half courts</p>
                       </div>
                       <div class = "form-row mb-4 mx-0">
-                        <div class="btn-group bg-white" id = "courtSelection" role="group" aria-label="Basic example">
+                        <div class="btn-group bg-white form-control pl-0 py-0 mandatory" id = "courtSelection" role="group" aria-label="Basic example">
                           <button type="button" class="btn border-dark hover-selected rounded-0"
                           data-numberOfCourts="2">Two Courts</button>
                           <button type="button" class="btn border-dark hover-selected"
@@ -169,12 +169,13 @@
                           <button type="button" class="btn border-dark hover-selected" data-numberOfCourts="6">Six Courts</button>
                           <button type="button" class="btn border-dark hover-selected rounded-0" data-numberOfCourts="8">Eight Courts</button>
                         </div>
+                        <div class="invalid-feedback row"><span class="col">Please select the number of half courts to accomadate.</span></div>
                       </div>
                     </div>
                     <div class="card-footer">
                       <div class="form-row btn-toolbar p-0">
-                          <button type="button" class="btn btn-light previous"><i class="fa fa-angle-left mr-2"></i>Previous</button>
-                          <button type="button" class="btn btn-light ml-auto next">Next<i class="fa fa-angle-right ml-2"></i></button>
+                          <button type="button" class="btn btn-primary previous"><i class="fa fa-angle-left mr-2"></i>Previous</button>
+                          <button type="button" class="btn btn-primary ml-auto next">Next<i class="fa fa-angle-right ml-2"></i></button>
                       </div>
                     </div>
               </fieldset>
@@ -340,10 +341,10 @@
                 </div>
                 <% end %>
                 <div class="card-footer">
-                  <p class="mb-2">By clicking next, you agree to our <%= link_to "Services Agreement", "#" %></p>
+                  <p class="mb-2">By clicking next, you agree to our <%= link_to "Terms of Service", "#{root_url}weball_terms_of_service.pdf", target: "_blank" %></p>
                   <div class="form-row btn-toolbar p-0 mt-4">
-                      <button type="button" class="btn btn-light previous"><i class="fa fa-angle-left mr-2"></i>Previous</button>
-                      <button type="button" class="btn btn-light ml-auto next">Next<i class="fa fa-angle-right ml-2"></i></button>
+                      <button type="button" class="btn btn-primary previous"><i class="fa fa-angle-left mr-2"></i>Previous</button>
+                      <button type="button" class="btn btn-primary ml-auto next">Next<i class="fa fa-angle-right ml-2"></i></button>
                   </div>
                 </div>
               </fieldset>
@@ -423,8 +424,8 @@
                 <% end %>
                  <div class="card-footer">
                     <div class="form-row btn-toolbar p-0 mt-4">
-                        <button type="button" class="btn btn-light previous"><i class="fa fa-angle-left mr-2"></i>Previous</button>
-                        <button type="button" class="btn btn-light ml-auto next">Next<i class="fa fa-angle-right ml-2"></i></button>
+                        <button type="button" class="btn btn-primary previous"><i class="fa fa-angle-left mr-2"></i>Previous</button>
+                        <button type="button" class="btn btn-primary ml-auto next">Next<i class="fa fa-angle-right ml-2"></i></button>
                     </div>
                  </div>
               </fieldset>
@@ -464,7 +465,7 @@
                    <div class="card-footer">
                      <p class="mb-2">By clicking Register, you agree that the information provided is accurate to the best of your knowledge.</p>
                       <div class="form-row btn-toolbar p-0 mt-4">
-                          <button type="button" class="btn btn-light previous"><i class="fa fa-angle-left mr-2"></i>Previous</button>
+                          <button type="button" class="btn btn-primary previous"><i class="fa fa-angle-left mr-2"></i>Previous</button>
                           <%= f.submit "Register", class: "btn btn-success ml-auto next" %>
                       </div>
                    </div>

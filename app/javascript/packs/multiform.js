@@ -1,4 +1,4 @@
-$(document).ready( function () {
+document.addEventListener("turbolinks:load", function () {
 
   var owner_name = document.querySelector(".contact-name");
   var owner_email = document.querySelector(".contact-email");
@@ -118,24 +118,41 @@ $(document).ready( function () {
       }
   });
 
+  $("body").on("click", "#courtSelection", function() {
+      $(this).removeClass("is-invalid");
+      $(this).next().hide();
+  });
+
   $('body').on('click', 'button.next', function(e) {
     // if current card is a contact card that requires both owner and executive details, do not move to next card.
     var outerCard = $(this).closest(".card");
     var contactCard = $("fieldset.contact");
     var directorChecked = contactCard.attr("data-director-form");
     var ownerChecked = contactCard.attr("data-owner-form");
-    if (outerCard.has("input.is-invalid").length > 0) {
+    if (currentCard == 1) {
+      var buttons = $("#courtSelection");
+      if (buttons.find("button.selected-button").length == 0) { // if a button, indicating number of courts, is not selected
+          buttons.addClass("is-invalid");
+          buttons.next().show();
+      }
+    }
+    if (outerCard.has(".is-invalid").length > 0) {
+        var emptyInputs = outerCard.find("input");
+        emptyInputs.each( function() {
+          if ($(this).val().length == 0) {
+            $(this).addClass("is-invalid");
+          };
+        });
         e.preventDefault();
-        //console.log("input invalid");
         return false;
     }
     if (currentCard == 2) {
       var companyName = document.querySelector("input#autocomplete").value.split(",")[0];
       $("fieldset span.companyName").text(companyName);
       //var checkedContacts = $("fieldset#repCard input[type=checkbox]:checked");
+
       if (  directorChecked == "false" && ownerChecked == "false" ) { // no second card checkboxes selected i.e. owners and directors
         // so skip directly to the Post detail page.
-        console.log("skip 2")
         nextPrev(2);
       } else if ((directorChecked == "true") && (ownerChecked == "true")) {
            if ($("#inlineRadio1").is(":checked") && $("#inlineRadio3").is(":checked")) { // double yes

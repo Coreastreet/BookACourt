@@ -1,5 +1,5 @@
 $(document).on('turbolinks:load', function() {
-  var input = document.getElementById('autocomplete')
+  var input = document.querySelector('#autocomplete');
 
   // Limit the results to just Cities in the US
   var options = {

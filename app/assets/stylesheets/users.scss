@@ -3,12 +3,9 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
 // to enable full white background for the purchase thank you page
-html {
-  height: 100vh;
-}
 
 body {
-  height: 100%;//auto;
+  height: -webkit-fill-available;//auto;
   display: flex;
   flex-direction: column;
 }
