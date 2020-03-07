@@ -1,5 +1,11 @@
 document.addEventListener("turbolinks:load", function () {
 
+  $('form').on('keypress', e => {
+      if (e.keyCode == 13) {
+          return false;
+      }
+  });
+
   var owner_name = document.querySelector(".contact-name");
   var owner_email = document.querySelector(".contact-email");
   // var script = document.createElement('script');script.src = "https://code.jquery.com/jquery-3.4.1.min.js";document.getElementsByTagName('head')[0].appendChild(script);
