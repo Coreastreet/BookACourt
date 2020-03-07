@@ -124,9 +124,10 @@ document.addEventListener("turbolinks:load", function () {
       }
   });
 
-  $("body").on("click", "#courtSelection", function() {
+  $("body").on("click", "#courtSelection button", function() {
+      $(this).addClass("selected-button");
       $(this).removeClass("is-invalid");
-      $(this).next().hide();
+      $(this).parent().next().hide();
   });
 
   $('body').on('click', 'button.next', function(e) {
