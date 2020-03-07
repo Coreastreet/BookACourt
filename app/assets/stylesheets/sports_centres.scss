@@ -62,6 +62,7 @@ tr > th {
 }
 
 // remove tick and cross icons
+/*
 .was-validated .form-control:invalid, .form-control.is-invalid {
   background-image: none;
   padding-right: 0;
@@ -70,7 +71,7 @@ tr > th {
 .was-validated .form-control:valid, .form-control.is-valid {
   background-image: none;
   padding-right: 0;
-}
+} */
 
 // class for nest cols (within another col and row)
 .nested .row {
@@ -105,7 +106,7 @@ input::-webkit-calendar-picker-indicator {
 }
 
 .dropdown-menu {
-  width: 20rem; 
+  width: 20rem;
 }
 
 @media only screen and (min-width: 768px) {
