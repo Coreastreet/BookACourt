@@ -20,7 +20,7 @@ document.addEventListener("turbolinks:load", function () {
   $('.card').eq(0).find('button.previous').eq(0).css('display', 'none');
   $('.card').eq(-1).find('button.next').css('display', 'none');
   $('.card').eq(-1).find('button[type="submit"]').text('Submit');
-
+/*
   $("#autocomplete").val("Morris Iemma Indoor Sports Centre");
   $("#sports_centre_email").val("hi_justin@hotmail.com");
   $("#sports_centre_password").val("Soba3724");
@@ -42,7 +42,7 @@ document.addEventListener("turbolinks:load", function () {
   $("#sports_centre_representative_email").val("hi_justin@hotmail.com");
   $("#sports_centre_representative_title").val("CEO");
   $("#sports_centre_representative_phone").val("0437578502");
-
+*/
 //  $('body').on("click", "a#register", function() {
 //      $("form fieldset.card:first").css("display", "block");
 //  })
