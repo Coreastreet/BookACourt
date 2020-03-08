@@ -18,13 +18,20 @@
   border-color: royalBlue !important;
 }
 
+
+
 .min-height {
   height: 25rem;
 }
 
-.home-text {
-  color: white;
-  font-size: 3rem;
+.max-text-logo {
+  max-width: 8rem;
+  height: auto;
+}
+
+.max-logo {
+  max-width: 12rem;
+  height: auto;
 }
 
 .fit-content {
