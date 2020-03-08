@@ -12,7 +12,7 @@ class SportsCentresController < ApplicationController
     require 'json'
     require 'base64'
     title = address_params[:full_address].split(",")[0]
-    if SportsCentre.exists(email: sports_centre_params[:email])
+    if SportsCentre.exists?(email: sports_centre_params[:email])
       redirect_to login_path, error: "An account with this company email already exists" # account already exists
     end
     new_sports_centre = SportsCentre.new(sports_centre_params)
