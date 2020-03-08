@@ -18,6 +18,7 @@ class ApplicationController < ActionController::Base
   def current_sports_centre
     if session[:centre_id]#$redis.get('centre_id')
       @current_sports_centre ||= SportsCentre.find(session[:centre_id])#$redis.get("centre_id"))
+      # enter a condition to allow blocking accounts later on
     else
       @current_sports_centre = nil
     end

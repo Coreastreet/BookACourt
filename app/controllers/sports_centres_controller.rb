@@ -12,7 +12,9 @@ class SportsCentresController < ApplicationController
     require 'json'
     require 'base64'
     title = address_params[:full_address].split(",")[0]
-
+    if SportsCentre.exists(email: sports_centre_params[:email])
+      redirect_to login_path, error: "An account with this company email already exists" # account already exists
+    end
     new_sports_centre = SportsCentre.new(sports_centre_params)
 
     new_address = Address.new(address_params)
@@ -65,8 +67,10 @@ class SportsCentresController < ApplicationController
     new_rep.update!(address: new_rep_address)
 
     new_sports_centre.representative = new_rep
-    contact_params.each do |contact|
-       new_sports_centre.contacts << Contact.create!(contact)
+    if contact_params
+      contact_params.each do |contact|
+         new_sports_centre.contacts << Contact.create!(contact)
+      end
     end
 
     if new_address.full_address.blank?
@@ -187,7 +191,9 @@ class SportsCentresController < ApplicationController
     end
 
     def contact_params
-        JSON.parse(params.require(:arrayContacts))
+        if params[:arrayContacts]
+          JSON.parse(params.require(:arrayContacts))
+        end
     end
 
     def token_params

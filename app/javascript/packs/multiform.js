@@ -127,7 +127,7 @@ document.addEventListener("turbolinks:load", function () {
   $("body").on("click", "#courtSelection button", function() {
       $(this).siblings().removeClass("selected-button");
       $(this).addClass("selected-button");
-      $(this).removeClass("is-invalid");
+      $(this).parent().removeClass("is-invalid");
       $(this).parent().next().hide();
   });
 
