@@ -14,76 +14,77 @@ class SportsCentresController < ApplicationController
     title = address_params[:full_address].split(",")[0]
     if SportsCentre.exists?(email: sports_centre_params[:email])
       redirect_to login_path, error: "An account with this company email already exists" # account already exists
-    end
-    new_sports_centre = SportsCentre.new(sports_centre_params)
-
-    new_address = Address.new(address_params)
-    new_sports_centre.address = new_address
-
-    new_sports_centre.update!(title: title)
-    #puts(token_params)
-    #new_sports_centre.email.downcase!
-    # create the final auth key
-    combinedCode = "#{sports_centre_params[:merchantCode]}:#{sports_centre_params[:authenticationCode]}"
-    encoded = Base64.encode64(combinedCode).chomp
-    finalAuthCode = "Basic #{encoded}"
-    new_sports_centre.update(combinedCode: finalAuthCode)
-
-    #new_sports_centre.update(address: new_address)
-    empty_opening_hours = {
-      Sun: {openingHour: "", closingHour: ""},
-      Mon: {openingHour: "", closingHour: ""},
-      Tue: {openingHour: "", closingHour: ""},
-      Wed: {openingHour: "", closingHour: ""},
-      Thu: {openingHour: "", closingHour: ""},
-      Fri: {openingHour: "", closingHour: ""},
-      Sat: {openingHour: "", closingHour: ""}
-    }
-
-    empty_peak_hours = {
-      Sun: {startingPeakHour: "", closingPeakHour: ""},
-      Mon: {startingPeakHour: "", closingPeakHour: ""},
-      Tue: {startingPeakHour: "", closingPeakHour: ""},
-      Wed: {startingPeakHour: "", closingPeakHour: ""},
-      Thu: {startingPeakHour: "", closingPeakHour: ""},
-      Fri: {startingPeakHour: "", closingPeakHour: ""},
-      Sat: {startingPeakHour: "", closingPeakHour: ""}
-    }
-
-    new_sports_centre.update!(opening_hours: empty_opening_hours)
-    new_sports_centre.update!(peak_hours: empty_peak_hours)
-    # new_sports_centre.update(email: "blah4@gmail.com") # add form row for email, will be used as username
-    #new_sports_centre.update(password: "Soba3724") # send password for immediate reset
-    # move opening hours and images to dashboard
-
-    #new_sports_centre.images.attach(params[:sports_centre][:images])
-    # convert the string of opening hours to json before assignment
-    #jsonAddress = JSON.parse(opening_hour_params[:opening_hours])
-    # new_sports_centre.update(opening_hours: jsonAddress)
-    #new_sports_centre.update(numberOfCourts: 6) # add form row for user to select number of courts
-    # format the full_address from street_address, suburb, state and postcode
-    new_rep = Representative.create!(rep_params)
-    new_rep_address = Address.create(rep_address_params)
-    new_rep.update!(address: new_rep_address)
-
-    new_sports_centre.representative = new_rep
-    if contact_params
-      contact_params.each do |contact|
-         new_sports_centre.contacts << Contact.create!(contact)
-      end
-    end
-
-    if new_address.full_address.blank?
-      full_address = "#{new_address.street_address}, #{new_address.suburb} #{new_address.state} #{new_address.postcode}"
-      new_address.full_address = full_address;
-    end
-    # new_sports_centre.images.attach(params[:sports_centre][:images])
-    if new_sports_centre.save! && new_address.save
-      redirect_to login_path, notice: "An account activation link has been sent to your company email."# admin_sports_centre_path(new_sports_centre) show for sports_centre
-      # send mail containing first time access password
-      NotificationsMailer.with(sports_centre: new_sports_centre).signUp_confirmation.deliver_later
     else
-      render :new
+      new_sports_centre = SportsCentre.new(sports_centre_params)
+
+      new_address = Address.new(address_params)
+      new_sports_centre.address = new_address
+
+      new_sports_centre.update!(title: title)
+      #puts(token_params)
+      #new_sports_centre.email.downcase!
+      # create the final auth key
+      combinedCode = "#{sports_centre_params[:merchantCode]}:#{sports_centre_params[:authenticationCode]}"
+      encoded = Base64.encode64(combinedCode).chomp
+      finalAuthCode = "Basic #{encoded}"
+      new_sports_centre.update(combinedCode: finalAuthCode)
+
+      #new_sports_centre.update(address: new_address)
+      empty_opening_hours = {
+        Sun: {openingHour: "", closingHour: ""},
+        Mon: {openingHour: "", closingHour: ""},
+        Tue: {openingHour: "", closingHour: ""},
+        Wed: {openingHour: "", closingHour: ""},
+        Thu: {openingHour: "", closingHour: ""},
+        Fri: {openingHour: "", closingHour: ""},
+        Sat: {openingHour: "", closingHour: ""}
+      }
+
+      empty_peak_hours = {
+        Sun: {startingPeakHour: "", closingPeakHour: ""},
+        Mon: {startingPeakHour: "", closingPeakHour: ""},
+        Tue: {startingPeakHour: "", closingPeakHour: ""},
+        Wed: {startingPeakHour: "", closingPeakHour: ""},
+        Thu: {startingPeakHour: "", closingPeakHour: ""},
+        Fri: {startingPeakHour: "", closingPeakHour: ""},
+        Sat: {startingPeakHour: "", closingPeakHour: ""}
+      }
+
+      new_sports_centre.update!(opening_hours: empty_opening_hours)
+      new_sports_centre.update!(peak_hours: empty_peak_hours)
+      # new_sports_centre.update(email: "blah4@gmail.com") # add form row for email, will be used as username
+      #new_sports_centre.update(password: "Soba3724") # send password for immediate reset
+      # move opening hours and images to dashboard
+
+      #new_sports_centre.images.attach(params[:sports_centre][:images])
+      # convert the string of opening hours to json before assignment
+      #jsonAddress = JSON.parse(opening_hour_params[:opening_hours])
+      # new_sports_centre.update(opening_hours: jsonAddress)
+      #new_sports_centre.update(numberOfCourts: 6) # add form row for user to select number of courts
+      # format the full_address from street_address, suburb, state and postcode
+      new_rep = Representative.create!(rep_params)
+      new_rep_address = Address.create(rep_address_params)
+      new_rep.update!(address: new_rep_address)
+
+      new_sports_centre.representative = new_rep
+      if contact_params
+        contact_params.each do |contact|
+           new_sports_centre.contacts << Contact.create!(contact)
+        end
+      end
+
+      if new_address.full_address.blank?
+        full_address = "#{new_address.street_address}, #{new_address.suburb} #{new_address.state} #{new_address.postcode}"
+        new_address.full_address = full_address;
+      end
+      # new_sports_centre.images.attach(params[:sports_centre][:images])
+      if new_sports_centre.save! && new_address.save
+        redirect_to login_path, notice: "An account activation link has been sent to your company email."# admin_sports_centre_path(new_sports_centre) show for sports_centre
+        # send mail containing first time access password
+        NotificationsMailer.with(sports_centre: new_sports_centre).signUp_confirmation.deliver_later
+      else
+        render :new
+      end
     end
   end
 
