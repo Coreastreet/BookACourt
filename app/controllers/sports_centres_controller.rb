@@ -159,7 +159,7 @@ class SportsCentresController < ApplicationController
   private
     def sports_centre_params
         params.require(:sports_centre).permit(:title, :email, :password, :password_confirmation, :ABN, :URL,
-           :phone, :description, :logo, :merchantCode, :authenticationCode, :numberOfCourts)
+           :numberOfCourts, :phone, :description, :logo, :merchantCode, :authenticationCode)
     end
 
     def address_params
