@@ -67,7 +67,7 @@
 
 });
 
-*/
+*/ /*
 document.addEventListener('DOMContentLoaded', function(){
       $("#courtSelection").on("click", "button", function() {
         var data;
@@ -82,21 +82,4 @@ document.addEventListener('DOMContentLoaded', function(){
             $(`#hiddenCourtsNo input[type='radio'][value='${data}']`).prop("checked", true);
           }
       });
-
-      $("#registerCentre").on("submit", function() {
-          // build the new data
-          var arr = [];
-          $(".new-contact-details:not(.rep-contact):not(.original)").each( function() {
-                var name = $(this).find(".contact-name").text();
-                var email = $(this).find(".contact-email").text();
-                var type = $(this).attr("data-contact-type");
-                var newContact = (type == "Director") ? { name: name, email: email, isDirector: true } :  { name: name, email: email, isOwner: true }
-                arr.push(newContact);
-          });
-          var input = $("<input>")
-               .attr("type", "hidden")
-               .attr("name", "arrayContacts").val(JSON.stringify(arr));
-          $(this).append(input);
-          return true;
-      });
-});
+}); */

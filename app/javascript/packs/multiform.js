@@ -6,6 +6,23 @@ document.addEventListener("turbolinks:load", function () {
       }
   });
 
+  $("#registerCentre").on("submit", function() {
+      // build the new data
+      var arr = [];
+      $(".new-contact-details:not(.rep-contact):not(.original)").each( function() {
+            var name = $(this).find(".contact-name").text();
+            var email = $(this).find(".contact-email").text();
+            var type = $(this).attr("data-contact-type");
+            var newContact = (type == "Director") ? { name: name, email: email, isDirector: true } :  { name: name, email: email, isOwner: true }
+            arr.push(newContact);
+      });
+      var input = $("<input>")
+           .attr("type", "hidden")
+           .attr("name", "arrayContacts").val(JSON.stringify(arr));
+      $(this).append(input);
+      return true;
+  });
+
   var owner_name = document.querySelector(".contact-name");
   var owner_email = document.querySelector(".contact-email");
   // var script = document.createElement('script');script.src = "https://code.jquery.com/jquery-3.4.1.min.js";document.getElementsByTagName('head')[0].appendChild(script);
@@ -20,7 +37,7 @@ document.addEventListener("turbolinks:load", function () {
   $('.card').eq(0).find('button.previous').eq(0).css('display', 'none');
   $('.card').eq(-1).find('button.next').css('display', 'none');
   $('.card').eq(-1).find('button[type="submit"]').text('Submit');
-/*
+
   $("#autocomplete").val("Morris Iemma Indoor Sports Centre");
   $("#sports_centre_email").val("hi_justin@hotmail.com");
   $("#sports_centre_password").val("Soba3724");
@@ -42,7 +59,7 @@ document.addEventListener("turbolinks:load", function () {
   $("#sports_centre_representative_email").val("hi_justin@hotmail.com");
   $("#sports_centre_representative_title").val("CEO");
   $("#sports_centre_representative_phone").val("0437578502");
-*/
+
 //  $('body').on("click", "a#register", function() {
 //      $("form fieldset.card:first").css("display", "block");
 //  })
@@ -501,6 +518,8 @@ document.addEventListener("turbolinks:load", function () {
     var new_owner_email = document.querySelector(".new-contact-email").value;
     add_contact_card.classList.add("d-none");
     owner_card.classList.remove("d-none");
+    $("input.new-contact-name").val("");
+    $("input.new-contact-email").val("");
 
     parentCardNode.insertBefore(detailsClone, ownerButtonNode);
     parentCardNode.insertBefore(hrTag, ownerButtonNode);
