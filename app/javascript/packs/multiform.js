@@ -129,6 +129,8 @@ document.addEventListener("turbolinks:load", function () {
       $(this).addClass("selected-button");
       $(this).parent().removeClass("is-invalid");
       $(this).parent().next().hide();
+      var index = $(this).index();
+      $("#hiddenCourtsNo input")[index].checked = true;
   });
 
   $('body').on('click', 'button.next', function(e) {
