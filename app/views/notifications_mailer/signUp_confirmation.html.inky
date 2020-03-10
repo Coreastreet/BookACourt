@@ -2,17 +2,17 @@
   <spacer size="20"></spacer>
   <row>
     <columns small="9" class="first">
-      <%= image_tag(attachments['BookACourtLogo.png'].url, class: "image-contain") %>
+      <%= image_tag(attachments['weballText.png'].url, class: "image-contain") %>
     </columns>
   </row>
   <row>
     <columns small="9" class="first">
-      <p>Before you can start accepting bookings through bookACourt, you first need to confirm your company's email address.</p>
+      <p>Before you can start accepting bookings through WeBall, you first need to confirm your company's email address.</p>
     </columns>
   <row>
   <row>
     <columns small="9" class="first">
-      <button class="expanded" href="<%= @confirmation_url %>">Confirm email address</button>
+      <button class="expanded rounded" href="<%= @confirmation_url %>">Confirm email address</button>
     </columns>
   <row>
   <row>
@@ -24,7 +24,7 @@
   <row>
     <columns small="9" class="first">
       <p>Regards,</p>
-      <p>bookACourt team</p>
+      <p>WeBall team</p>
     </columns>
   </row>
 

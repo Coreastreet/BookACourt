@@ -82,3 +82,7 @@ p.border-bottom {
 .email-display-inline {
   display: inline;
 }
+
+p.weballColour {
+  background-color: #e96b1e !important;
+}

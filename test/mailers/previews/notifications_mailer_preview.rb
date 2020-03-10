@@ -3,7 +3,7 @@ class NotificationsMailerPreview < ActionMailer::Preview
 
   # Preview this email at http://localhost:3000/rails/mailers/notifications_mailer/signUp_confirmation
   def signUp_confirmation
-    NotificationsMailer.signUp_confirmation
+    NotificationsMailer.with(sports_centre: SportsCentre.first).signUp_confirmation
   end
 
   # Preview this email at http://localhost:3000/rails/mailers/notifications_mailer/forgot_password

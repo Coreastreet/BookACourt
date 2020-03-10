@@ -67,13 +67,15 @@ class NotificationsMailer < ApplicationMailer
   def signUp_confirmation
     require "base64"
     @sports_centre = params[:sports_centre]
+    domain_url = params[:origin_url]
     #create a notification url
     paramsCode = Base64.encode64(@sports_centre.combinedCode)
-    @confirmation_url = "http://localhost:3000/api/v1/sports_centres/#{@sports_centre.id}/confirm_email?key=#{paramsCode}"
 
-    attachments.inline['BookACourtLogo.png'] = File.read('app/assets/images/bookACourt.png')
+    @confirmation_url = "#{domain_url}/api/v1/sports_centres/#{@sports_centre.id}/confirm_email?key=#{paramsCode}"
 
-    make_bootstrap_mail(to: @sports_centre.email, subject: "Confirm your BookACourt email address!")
+    attachments.inline['weballText.png'] = File.read('app/assets/images/weballText.png')
+
+    make_bootstrap_mail(to: @sports_centre.email, subject: "WeBall: Confirm your company email address!")
   end
 
   private
