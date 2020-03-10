@@ -51,6 +51,21 @@ Rails.application.configure do
   # when problems arise.
   config.log_level = :debug
 
+  config.action_mailer.default_url_options = { :host => 'weball.com.au' } #localhost:3000
+
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+    :address              => "smtp.gmail.com",
+    :port                 => 587,
+    :domain               => 'gmail.com',
+    :user_name            => 'coreastreet50',
+    :password             => 'tomitbvvuyymlnqi',
+    :authentication       => 'plain',
+    :enable_starttls_auto => true  }
+
+  config.action_mailer.perform_deliveries = true
+  config.action_mailer.raise_delivery_errors = true
+
   # Prepend all log lines with the following tags.
   config.log_tags = [ :request_id ]
 

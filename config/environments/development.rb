@@ -14,7 +14,7 @@ Rails.application.configure do
   config.consider_all_requests_local = true
 
   # config for sending mail via gmail
-  config.action_mailer.default_url_options = { :host => 'weball.com.au'  } #localhost:3000
+  config.action_mailer.default_url_options = { :host => 'localhost:3000'  } #localhost:3000
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
   config.exceptions_app = self.routes
 
