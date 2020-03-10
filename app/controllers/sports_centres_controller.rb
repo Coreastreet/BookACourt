@@ -82,8 +82,8 @@ class SportsCentresController < ApplicationController
     if new_sports_centre.save! && new_address.save
       redirect_to login_path, notice: "An account activation link has been sent to your company email."# admin_sports_centre_path(new_sports_centre) show for sports_centre
       # send mail containing first time access password
-      matchdata = request.url.match(/^(http|https):\/\/[^\/]*/)
-      NotificationsMailer.with(sports_centre: new_sports_centre, origin_url: matchdata[0]).signUp_confirmation.deliver_later
+      # matchdata = request.url.match(/^(http|https):\/\/[^\/]*/)
+      NotificationsMailer.with(sports_centre: new_sports_centre).signUp_confirmation.deliver_later
     else
       render :new
     end
