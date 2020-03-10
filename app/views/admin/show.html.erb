@@ -204,8 +204,8 @@
                       <div class="row d-flex justify-content-between buttonRow" id="weekdaysButtonRow">
                         <% Date::DAYNAMES.each do |day| %>
                         <button type="button" class="btn border rounded border-dark hover-selected"
-                        data-day="<%=day%>" data-openingHour="<%= @sports_centre.opening_hours[day[0...3].to_sym]["openingHour"] %>"
-                        data-closingHour="<%= @sports_centre.opening_hours[day[0...3].to_sym]["closingHour"] %>"><%=day%></button>
+                        data-day="<%=day%>" data-openingHour="<%= @sports_centre.opening_hours[day[0...3]]["openingHour"] %>"
+                        data-closingHour="<%= @sports_centre.opening_hours[day[0...3]]["closingHour"] %>"><%=day%></button>
                         <% end %>
                       </div>
                       <%= f.hidden_field :opening_hours %>
