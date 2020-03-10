@@ -51,8 +51,8 @@ class SportsCentresController < ApplicationController
       Sat: {startingPeakHour: "", closingPeakHour: ""}
     }
 
-    new_sports_centre.update!(opening_hours: empty_opening_hours)
-    new_sports_centre.update!(peak_hours: empty_peak_hours)
+    new_sports_centre.opening_hours = empty_opening_hours;
+    new_sports_centre.peak_hours = empty_peak_hours;
     # new_sports_centre.update(email: "blah4@gmail.com") # add form row for email, will be used as username
     #new_sports_centre.update(password: "Soba3724") # send password for immediate reset
     # move opening hours and images to dashboard
