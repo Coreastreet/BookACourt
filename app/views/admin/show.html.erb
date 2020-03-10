@@ -195,56 +195,60 @@
           </div>
           <div class="row mx-0 d-none upload-profile h-100" id="editProfileBody">
             <%= form_with model: @sports_centre, class: "col d-flex flex-column justify-content-between", id: 'editBusinessHoursForm', url: admin_update_hours_path(@sports_centre), method: "post" do |f| %>
-              <div class="row mx-0">
-                <div class="col">
-                  <div class="rangeHolder">
-                      <div class="row my-4">
-                        <h5>Set Opening Hours</h5>
-                      </div>
-                      <div class="row d-flex justify-content-between buttonRow" id="weekdaysButtonRow">
-                        <% Date::DAYNAMES.each do |day| %>
-                        <button type="button" class="btn border rounded border-dark hover-selected"
-                        data-day="<%=day%>" data-openingHour="<%= @sports_centre.opening_hours[day[0...3].to_sym]["openingHour"] %>"
-                        data-closingHour="<%= @sports_centre.opening_hours[day[0...3].to_sym]["closingHour"] %>"><%=day%></button>
-                        <% end %>
-                      </div>
-                      <%= f.hidden_field :opening_hours %>
-                      <div class="row mt-4">
-                        <label for="customRange1">Opening Hour: <span class="timeHolder h5"></span></label>
-                        <input type="range" class="custom-range" min="6" max="24" step="0.5" data-type="data-openingHour" id="customRange1">
-                      </div>
-                      <div class="row mt-2">
-                        <label for="customRange2">Closing Hour: <span class="timeHolder h5"></span></label>
-                        <input type="range" class="custom-range" min="6" max="24" step="0.5" data-type="data-closingHour" id="customRange2">
-                      </div>
-                  </div>
-                  <div class="rangeHolder">
-                      <div class="row my-4">
-                        <h5>Set Peak Hours</h5>
-                      </div>
-                      <div class="row d-flex justify-content-between buttonRow" id="weekdaysButtonRow2">
-                        <% Date::DAYNAMES.each do |day| %>
-                        <button type="button" class="btn border rounded border-dark hover-selected"
-                        data-day="<%=day%>" data-peakHourStart="<%= @sports_centre.peak_hours[day[0...3].to_sym]["startingPeakHour"] %>"
-                        data-peakHourEnd="<%= @sports_centre.peak_hours[day[0...3].to_sym]["closingPeakHour"] %>"><%=day%></button>
-                        <% end %>
-                      </div>
-                      <%= f.hidden_field :peak_hours %>
-                      <div class="row mt-4">
-                        <label for="customRange3">Peak Hour Start: <span class="peakTimeHolder h5"></span></label>
-                        <input type="range" class="custom-range" min="6" max="24" step="0.5" data-type="data-peakHourStart" id="customRange3">
-                      </div>
-                      <div class="row mt-2">
-                        <label for="customRange4">Peak Hour End: <span class="peakTimeHolder h5"></span></label>
-                        <input type="range" class="custom-range" min="6" max="24" step="0.5" data-type="data-peakHourEnd" id="customRange4">
-                      </div>
+                <div class="row mx-0">
+                  <div class="col">
+                    <div class="rangeHolder">
+                        <div class="row my-4">
+                          <h5>Set Opening Hours</h5>
+                        </div>
+                        <div class="row d-flex justify-content-start buttonRow" id="weekdaysButtonRow">
+                          <% Date::DAYNAMES.each do |day| %>
+                          <button type="button" class="btn border rounded border-dark hover-selected mr-3"
+                          data-day="<%=day%>" data-openingHour="<%= @sports_centre.opening_hours[day[0...3]]["openingHour"] %>"
+                          data-closingHour="<%= @sports_centre.opening_hours[day[0...3]]["closingHour"] %>"><%=day%></button>
+                          <% end %>
+                        </div>
+                        <%= f.hidden_field :opening_hours %>
+                        <div class="row mt-4">
+                          <label for="customRange1">Opening Hour: <span class="timeHolder h5"></span></label>
+                          <input type="range" class="custom-range" min="6" max="24" step="0.5" data-type="data-openingHour" id="customRange1">
+                        </div>
+                        <div class="row mt-2">
+                          <label for="customRange2">Closing Hour: <span class="timeHolder h5"></span></label>
+                          <input type="range" class="custom-range" min="6" max="24" step="0.5" data-type="data-closingHour" id="customRange2">
+                        </div>
+                    </div>
+                    <div class="rangeHolder">
+                        <div class="row my-4">
+                          <h5>Set Peak Hours</h5>
+                        </div>
+                        <div class="row d-flex justify-content-start buttonRow" id="weekdaysButtonRow2">
+                          <% Date::DAYNAMES.each do |day| %>
+                          <button type="button" class="btn border rounded border-dark hover-selected mr-3"
+                          data-day="<%=day%>" data-peakHourStart="<%= @sports_centre.peak_hours[day[0...3]]["startingPeakHour"] %>"
+                          data-peakHourEnd="<%= @sports_centre.peak_hours[day[0...3]]["closingPeakHour"] %>"><%=day%></button>
+                          <% end %>
+                        </div>
+                        <%= f.hidden_field :peak_hours %>
+                        <div class="row mt-4">
+                          <label for="customRange3">Peak Hour Start: <span class="peakTimeHolder h5"></span></label>
+                          <input type="range" class="custom-range" min="6" max="24" step="0.5" data-type="data-peakHourStart" id="customRange3">
+                        </div>
+                        <div class="row mt-2">
+                          <label for="customRange4">Peak Hour End: <span class="peakTimeHolder h5"></span></label>
+                          <input type="range" class="custom-range" min="6" max="24" step="0.5" data-type="data-peakHourEnd" id="customRange4">
+                        </div>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div class="row mx-0 align-self-end mt-4 mb-3">
-                <%= f.submit "Save", class: "btn btn-primary mr-2" %>
-                <button type="button" class="btn btn-secondary">Cancel</button>
-              </div>
+                <div class="d-flex flex-column">
+                  <p class="alert alert-success mb-0 d-none" id="hours-success">Business Hours saved successfully.</p>
+                  <p class="alert alert-danger mb-0 d-none" id="hours-failure">Business Hours saving unsuccessful.</p>
+                  <div class="row mx-0 align-self-end mt-4 mb-3">
+                    <%= f.submit "Save", class: "btn btn-primary mr-2" %>
+                    <button type="button" class="btn btn-secondary">Cancel</button>
+                  </div>
+                </div>
             <% end %>
           </div>
           <div class="row mx-0 d-none upload-logo h-100" id="editLogoBody">

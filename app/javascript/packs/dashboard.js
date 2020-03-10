@@ -1,5 +1,5 @@
 $.noConflict();
-$(document).ready( function () {
+$(document).on('turbolinks:load', function () {
       //$("#NotificationModal").slideUp("fast", "swing");
       localStorage.setItem("preBookingsMade", 0);
       $('#datepicker').datepicker();
@@ -285,10 +285,36 @@ $(document).ready( function () {
             var timeHolders = $("#editProfileBody span.timeHolder");
             timeHolders[0].innerText = openingTime;
             timeHolders[1].innerText = closingTime;
+
+            var openingTimeInput = parseFloat(convertAMPMToString(openingTime).replace(":30", ".5"));
+            var closingTimeInput = parseFloat(convertAMPMToString(closingTime).replace(":30", ".5"));
+
+            timeHolders.eq(0).parent().next().val(openingTimeInput);
+            timeHolders.eq(1).parent().next().val(closingTimeInput);
             //data = $(this).attr("data-numberOfCourts");
             //$(`#hiddenCourtsNo input[type='radio'][value='${data}']`).prop("checked", true);
           }
       });
+
+      function convertAMPMToString(ampmTime) {
+         var newTime;
+         var shortened = ampmTime.substring(0,(ampmTime.length - 2));
+         var splitArray;
+         var ampm = ampmTime.substr(-2);
+         if (ampm == "PM") {
+            splitArray = shortened.split(":");
+            if (parseInt(splitArray[0]) < 12) {
+              newTime = `${parseInt(splitArray[0]) + 12}:${splitArray[1]}`;
+            } else {
+              newTime = `${parseInt(splitArray[0])}:${splitArray[1]}`;
+            }
+            //newTime = newTime.replace(".", ":").toFixed(2);
+         } else {  // ampm == "AM"
+            //newTime = ampmTime.substring(0,(ampmTime.length - 2));
+            newTime = (parseInt(shortened.substr(0,2)) < 10) ? `0${shortened}` : shortened;
+         }
+         return newTime;
+      }
 
       // add darkness to selected button for day of peak hours
       $("#weekdaysButtonRow2").on("click", "button", function() {
@@ -305,6 +331,12 @@ $(document).ready( function () {
             var timeHolders = $("#editProfileBody span.peakTimeHolder");
             timeHolders[0].innerText = peakHourStart;
             timeHolders[1].innerText = peakHourEnd;
+
+            var peakHourStartInput = parseFloat(convertAMPMToString(peakHourStart).replace(":30", ".5"));
+            var peakHourEndInput = parseFloat(convertAMPMToString(peakHourEnd).replace(":30", ".5"));
+
+            timeHolders.eq(0).parent().next().val(peakHourStartInput);
+            timeHolders.eq(1).parent().next().val(peakHourEndInput);
             //data = $(this).attr("data-numberOfCourts");
             //$(`#hiddenCourtsNo input[type='radio'][value='${data}']`).prop("checked", true);
           }
@@ -478,7 +510,17 @@ $(document).ready( function () {
         //}
       });
 
+      $("#editBusinessHoursForm").bind('ajax:complete', function() {
+          $(this).find("#hours-success").removeClass("d-none");
+      });
+
+       $("#editBusinessHoursForm").bind('ajax:error', function() {
+           $(this).find("#hours-failure").removeClass("d-none");
+      });
+
       $("#editBusinessHoursForm").submit(function() {
+          $(this).find("#hours-success").addClass("d-none");
+          $(this).find("#hours-failure").addClass("d-none");
           var openingTimesObject = {};
           var timeObject = {};
           $("#weekdaysButtonRow button").each( function() {

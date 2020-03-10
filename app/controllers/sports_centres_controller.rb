@@ -32,23 +32,23 @@ class SportsCentresController < ApplicationController
 
     #new_sports_centre.update(address: new_address)
     empty_opening_hours = {
-      Sun: {openingHour: "", closingHour: ""},
-      Mon: {openingHour: "", closingHour: ""},
-      Tue: {openingHour: "", closingHour: ""},
-      Wed: {openingHour: "", closingHour: ""},
-      Thu: {openingHour: "", closingHour: ""},
-      Fri: {openingHour: "", closingHour: ""},
-      Sat: {openingHour: "", closingHour: ""}
+      "Sun": {"openingHour": "", "closingHour": ""},
+      "Mon": {"openingHour": "", "closingHour": ""},
+      "Tue": {"openingHour": "", "closingHour": ""},
+      "Wed": {"openingHour": "", "closingHour": ""},
+      "Thu": {"openingHour": "", "closingHour": ""},
+      "Fri": {"openingHour": "", "closingHour": ""},
+      "Sat": {"openingHour": "", "closingHour": ""}
     }
 
     empty_peak_hours = {
-      Sun: {startingPeakHour: "", closingPeakHour: ""},
-      Mon: {startingPeakHour: "", closingPeakHour: ""},
-      Tue: {startingPeakHour: "", closingPeakHour: ""},
-      Wed: {startingPeakHour: "", closingPeakHour: ""},
-      Thu: {startingPeakHour: "", closingPeakHour: ""},
-      Fri: {startingPeakHour: "", closingPeakHour: ""},
-      Sat: {startingPeakHour: "", closingPeakHour: ""}
+      "Sun": {"startingPeakHour": "", "closingPeakHour": ""},
+      "Mon": {"startingPeakHour": "", "closingPeakHour": ""},
+      "Tue": {"startingPeakHour": "", "closingPeakHour": ""},
+      "Wed": {"startingPeakHour": "", "closingPeakHour": ""},
+      "Thu": {"startingPeakHour": "", "closingPeakHour": ""},
+      "Fri": {"startingPeakHour": "", "closingPeakHour": ""},
+      "Sat": {"startingPeakHour": "", "closingPeakHour": ""},
     }
 
     new_sports_centre.opening_hours = empty_opening_hours;
