@@ -43,7 +43,7 @@ var BookingWidget = (function(window, undefined) {
 
                     var target = $('[data-sportsCentreId]')[0];
                     var targetId = target.getAttribute("data-sportsCentreId");
-                    target.removeAttribute("data-sportsCentreId");
+                    //target.removeAttribute("data-sportsCentreId");
 
                     if (targetId) {
                       return {id: targetId, location: target};
