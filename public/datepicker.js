@@ -661,11 +661,11 @@ request.onload = function(e) {
     var activityType;
     activitySelector.on("click", "img.activityIcon", function(){
         activityHolder = activitySelector.find("#activityHolder");
-        activityType = $(this).attr("data-activity");
-        $(this).siblings().each( function() {
-            $(this).removeClass("selectedIcon");
+        activityType = BookingWidget.$(this).attr("data-activity");
+        BookingWidget.$(this).siblings().each( function() {
+            BookingWidget.$(this).removeClass("selectedIcon");
         });
-        $(this).addClass("selectedIcon");
+        BookingWidget.$(this).addClass("selectedIcon");
         activityHolder.text(activityType);
         console.log("jsonPrices", jsonPrices[activityType]);
         mainClockCard.find("#real-price-holder").attr("data-prices", JSON.stringify(jsonPrices[activityType]));
