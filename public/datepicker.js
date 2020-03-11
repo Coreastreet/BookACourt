@@ -620,7 +620,8 @@ function convertAMPMToString(ampmTime) {
 
 // enable the clear time button
 // fetch booking data for a particular sports centre.
-var request = makeCORSRequest("https://weball.com.au/api/v1/sports_centres/91/bookings/check_availability", "GET");
+var sportsCentreId = document.querySelector("#weBallWidget").getAttribute("data-sportsCentreId");
+var request = makeCORSRequest(`https://weball.com.au/api/v1/sports_centres/${sportsCentreId}/bookings/check_availability`, "GET");
 //request.responseType = "json";
 request.responseType = "json";
 //request.timeout = 2000;

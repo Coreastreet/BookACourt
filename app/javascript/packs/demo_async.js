@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', function(){
         function drawClockWidget() {}
 
         //loadScript("https://99dce927.ngrok.io/packs/js/catalog.js", function() {});
-        loadScript("https:///jquery.js",function() {
+        loadScript("https://weball.com.au/jquery.js",function() {
             var BookingWidget = BookingWidget || {};
             BookingWidget.$ = BookingWidget.jQuery = jQuery.noConflict(true);
             var sportsCentreId = getSportsCentreId();  // sports centre id and date params
