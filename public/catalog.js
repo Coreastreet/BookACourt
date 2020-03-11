@@ -110,7 +110,7 @@ BookingWidget.html = (function() {
               '<div class="w3-modal" id="payment-confirmation" role="dialog" data-court-type="" data-booking-interval="" ' +
               'data-booking-startTime="" data-booking-endTime="" data-number-of-bookings="" ' +
               'data-booking-rate="" data-booking-type="" data-activity-type="">' +
-              '<div class="w3-modal-content" id="modal-dialog">' +
+              '<div class="w3-modal-content mx-auto" id="modal-dialog">' +
               '<div class="wrapper" id="bw-bookingSummary">' +
               '<div id="firstModalCard">' +
               '<div class="w3-container">' +
@@ -118,7 +118,7 @@ BookingWidget.html = (function() {
               '<span class="w3-button w3-display-topright modalClose" id="modalClose">&times;</span>' +
               '<h6 class="modal-title bw-padding1">Review Bookings</h6>' +
               '</div>' +
-              '<div class="container-fluid mt-3 booking-row-start bw-marginTop1 paymentGrid">' +
+              '<div class="container-fluid mt-3 booking-row-start bw-marginTop1 paymentGrid px-2">' +
               //'<div class="row px-0">' +
               '<div class="col-3 pr-0 startCalendarDate">' +
               //'<div class="row mx-0 pt-2 border-dark border">' +
@@ -217,7 +217,7 @@ BookingWidget.html = (function() {
               '</div>' +
               //'</div>' +
               '<div class="modal-body p-0">' +
-              '<div class="container-fluid whiteSmokeBG pt-2 pb-4 w3-container bw-whitesmoke">' +
+              '<div class="container-fluid whiteSmokeBG pt-2 pb-4 w3-container bw-whitesmoke px-2">' +
               '<div class="paymentGrid">' +
               '<div class="bw-flex bw-emailInput bw-marginTop1">' +
               '<p class="bw-marginTop1">Email Receipt to:</p>' +
@@ -265,7 +265,7 @@ BookingWidget.html = (function() {
               '<p class="font-weight-light mt-3 bw-margin0 bw-padding1 bw-largeFont">Prices: (per booking)</p>' +
               '</div>' +
               '<hr class="my-0 bw-margin0 bw-negRem">' +
-              '<div class="container-fluid">' +
+              '<div class="container-fluid px-2">' +
               '<div class="row prices-header mt-2 mb-2 d-none bw-justFlex bw-padding-vert">' +
               '<div class="bw-time col-3">' +
               '<p class="mb-0 bw-margin0">Time:</p>' +
