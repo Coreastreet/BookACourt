@@ -301,6 +301,7 @@ div.datepicker.dropdown-menu.datepicker-orient-left.datepicker-orient-bottom {
   overflow: hidden;
   margin-left: auto;
   margin-right: auto;
+  background-color: transparent;
 }
 #payment-confirmation .bw-padding1 {
   padding: 1rem;
@@ -484,6 +485,11 @@ div.datepicker.dropdown-menu.datepicker-orient-left.datepicker-orient-bottom {
   display: flex;
   justify-content: flex-start;
 }
+
+#payment-confirmation #firstModalCard {
+  background-color: white;
+}
+
 #payment-confirmation #secondModalCard {
   margin-left: calc(100% + 2px);
   transition: all 1s;
@@ -494,7 +500,6 @@ div.datepicker.dropdown-menu.datepicker-orient-left.datepicker-orient-bottom {
   position: relative;
 }
 #payment-confirmation #secondModalCard #allDatesModal {
-  min-height: 70vh;
   box-shadow: none;
   height: fit-content;
 }

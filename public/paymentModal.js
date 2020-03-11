@@ -69,7 +69,7 @@ bw.on("click", "#bookNowButton", function(e) {
         var heightModal = modal_body.find("#firstModalCard").outerHeight();
         //modal_body.find("#bw-bookingSummary").css("max-height", heightModal);
         //reviewDetailModal.css("max-height", heightModal);
-        //reviewDetailModal.find("#allDatesModal").height(heightModal);
+        reviewDetailModal.find("#allDatesModal").css("min-height", heightModal);
         reviewDetailModal.css("margin-top", `-${heightModal}px`);
 
         var customer_email = modal_body.find("input.bw-emailLine").val();
