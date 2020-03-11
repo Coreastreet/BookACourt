@@ -293,7 +293,7 @@ BookingWidget.html = (function() {
               '<div class="container-fluid booking-dates">' +
               '</div>' +
               '</div>' +
-              '<div class="modal-footer bw-footer bw-marginTop1">' +
+              '<div class="modal-footer bw-footer bw-marginTop1 bw-marginBR1">' +
               '<button type="button" class="btn btn-default bw-button bw-white bw-marginNone" data-dismiss="modal">Close</button>' +
               '</div>' +
               '</div>' +

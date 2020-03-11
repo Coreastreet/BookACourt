@@ -319,6 +319,10 @@ div.datepicker.dropdown-menu.datepicker-orient-left.datepicker-orient-bottom {
 #payment-confirmation .bw-paddingBottom1 {
   padding-bottom: 1rem;
 }
+#payment-confirmation .bw-marginBR1 {
+  margin-bottom: 1rem;
+  margin-right: 1rem;
+}
 #payment-confirmation .bw-none {
   display: none !important;
 }
@@ -490,8 +494,9 @@ div.datepicker.dropdown-menu.datepicker-orient-left.datepicker-orient-bottom {
   position: relative;
 }
 #payment-confirmation #secondModalCard #allDatesModal {
-  height: 70vh;
+  min-height: 70vh;
   box-shadow: none;
+  height: fit-content;
 }
 #payment-confirmation #secondModalCard .bw-borderBottom {
   border-bottom: 1px solid whitesmoke;

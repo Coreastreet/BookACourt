@@ -67,9 +67,9 @@ bw.on("click", "#bookNowButton", function(e) {
         BookingWidget.$("#totalAmount").text(`$${subtotal.toFixed(2)}`);
 
         var heightModal = modal_body.find("#firstModalCard").outerHeight();
-        modal_body.find("#bw-bookingSummary").css("max-height", heightModal);
-        reviewDetailModal.css("max-height", heightModal);
-        reviewDetailModal.find("#allDatesModal").height(heightModal);
+        //modal_body.find("#bw-bookingSummary").css("max-height", heightModal);
+        //reviewDetailModal.css("max-height", heightModal);
+        //reviewDetailModal.find("#allDatesModal").height(heightModal);
         reviewDetailModal.css("margin-top", `-${heightModal}px`);
 
         var customer_email = modal_body.find("input.bw-emailLine").val();
