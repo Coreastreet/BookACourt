@@ -25,7 +25,7 @@ BookingWidget.html = (function() {
               '<nav>' +
               '<div id="activitySelector" class="">' +
               '<div id="activityHolder">Basketball</div>' +
-              '<img class="activityIcon bw-none" width="1rem" data-activity="" data-prices="" src="/home/justin3724/Desktop/RubyOnRails/BookACourt/app/assets/images/basketball.png"></img>' +
+              '<img class="activityIcon bw-none" width="1rem" data-activity="" data-prices="" src="https://weball.com.au/basketball.png"></img>' +
               '</div>' +
               '</nav>' +
               '<nav>' +

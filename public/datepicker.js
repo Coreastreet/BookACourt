@@ -649,7 +649,7 @@ request.onload = function(e) {
     for (var activity in jsonPrices) {
       // insert an image icon
         cloneIcon = activitySelector.find("img.activityIcon").eq(0).clone();
-        cloneIcon.attr("src", `/home/justin3724/Desktop/RubyOnRails/BookACourt/app/assets/images/${activity}.png`);
+        cloneIcon.attr("src", `https://weball.com.au/${activity}.png`);
         cloneIcon.removeClass("bw-none");
         cloneIcon.attr("data-activity", activity);
         //cloneIcon.attr("data-prices", jsonPrices[activity]);
