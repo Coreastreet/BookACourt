@@ -31,13 +31,13 @@ var BookingWidget = (function(window, undefined) {
     }
 
 
-    loadStylesheet("https://1098b9f3.ngrok.io/outerSize.css");
+    loadStylesheet("https://weball.com.au/outerSize.css");
     loadStylesheet("https://www.w3schools.com/w3css/4/w3.css");
     loadStylesheet("https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker3.standalone.min.css");
-    loadScript("https://1098b9f3.ngrok.io/jquery.js", function() {
+    loadScript("https://weball.com.au/jquery.js", function() {
         (function($) {
           loadScript("https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.js", function() {
-              loadScript("https://1098b9f3.ngrok.io/catalog.js",function() {
+              loadScript("https://weball.com.au/catalog.js",function() {
 
                 function getSportsCentreParams() {
 
@@ -77,15 +77,15 @@ var BookingWidget = (function(window, undefined) {
                 });
                   //var greeting = BookingWidget.$("#p1").text();
                   //alert(greeting);
-                loadScript("https://1098b9f3.ngrok.io/datepicker.js", function(){
+                loadScript("https://weball.com.au/datepicker.js", function(){
                   //alert("date format loaded!");
                 });
 
-                loadScript("https://1098b9f3.ngrok.io/repeatCard.js", function(){
+                loadScript("https://weball.com.au/repeatCard.js", function(){
                   //alert("date format loaded!");
                 });
 
-                loadScript("https://1098b9f3.ngrok.io/paymentModal.js", function(){
+                loadScript("https://weball.com.au/paymentModal.js", function(){
                   //alert("date format loaded!");
                 });
             });

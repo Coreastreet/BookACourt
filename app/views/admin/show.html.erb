@@ -242,11 +242,10 @@
                   </div>
                 </div>
                 <div class="d-flex flex-column">
-                  <p class="alert alert-success mb-0 d-none" id="hours-success">Business Hours saved successfully.</p>
-                  <p class="alert alert-danger mb-0 d-none" id="hours-failure">Business Hours saving unsuccessful.</p>
                   <div class="row mx-0 align-self-end mt-4 mb-3">
+                    <p class="alert alert-success mb-0 d-none py-2" id="hours-success">Business Hours saved successfully.</p>
+                    <p class="alert alert-danger mb-0 d-none py-2" id="hours-failure">Business Hours saving unsuccessful.</p>
                     <%= f.submit "Save", class: "btn btn-primary mr-2" %>
-                    <button type="button" class="btn btn-secondary">Cancel</button>
                   </div>
                 </div>
             <% end %>
@@ -265,7 +264,6 @@
                 </div>
                 <div class="row mx-0 align-self-end mt-auto mb-3">
                   <%= f.submit "Save", class: "btn btn-primary mr-2" %>
-                  <button type="button" class="btn btn-secondary">Cancel</button>
                 </div>
               <% end %>
           </div>
@@ -323,12 +321,12 @@
                 <h5>Set Booking Prices</h5>
               </div>
               <div class="row mx-0">
-                <div class="col-lg-9 px-0">
+                <div class="col-lg-7 px-0">
                   <div class="d-flex row mx-0 mt-2 rounded-edges">
-                    <div class="col-3 offset-3 px-0 d-flex align-items-center justify-content-center">
+                    <div class="col-4 offset-3 px-0 d-flex align-items-center justify-content-center">
                       Off Peak:
                     </div>
-                    <div class="col-3 px-0 d-flex align-items-center justify-content-center">
+                    <div class="col-4 px-0 d-flex align-items-center justify-content-center">
                       Peak:
                     </div>
                     <div class="col-3 px-0 d-none align-items-center justify-content-center" >
@@ -339,10 +337,10 @@
                     <div class="col-3 px-0 pl-4 pricesRowHeight d-flex align-items-center">
                       Half Court:
                     </div>
-                    <div class="col-3 d-flex justify-content-center">
+                    <div class="col-4 d-flex justify-content-center">
                       <input type="number" step="0.10" class="col-12 text-center bookingRate" data-type="data-hc-op">
                     </div>
-                    <div class="col-3 d-flex justify-content-center">
+                    <div class="col-4 d-flex justify-content-center">
                       <input type="number" step="0.10" class="col-12 text-center bookingRate" data-type="data-hc-p">
                     </div>
                     <div class="col-3 d-none justify-content-center">
@@ -353,10 +351,10 @@
                     <div class="col-3 px-0 pl-4 pricesRowHeight d-flex align-items-center">
                       Full Court:
                     </div>
-                    <div class="col-3 d-flex justify-content-center">
+                    <div class="col-4 d-flex justify-content-center">
                     <input type="number" step="0.10" class="col-12 text-center bookingRate" data-type="data-fc-op">
                     </div>
-                    <div class="col-3 d-flex justify-content-center">
+                    <div class="col-4 d-flex justify-content-center">
                     <input type="number" step="0.10" class="col-12 text-center bookingRate" data-type="data-fc-p">
                     </div>
                     <div class="col-3 d-none justify-content-center">
@@ -367,8 +365,9 @@
               </div>
              <!-- add regular prices here later on -->
               <div class="row mx-0 align-self-end mt-auto mb-3">
+                <p class="alert alert-success mb-0 d-none py-2" id="prices-success">Court Hire rates saved successfully.</p>
+                <p class="alert alert-danger mb-0 d-none py-2" id="prices-failure">Court Hire rates saving unsuccessful.</p>
                 <%= f.submit "Save", class: "btn btn-primary mr-2", id: "savePrices" %>
-                <button type="button" class="btn btn-secondary">Cancel</button>
               </div>
             <% end %>
           </div>

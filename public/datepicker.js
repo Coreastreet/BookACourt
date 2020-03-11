@@ -620,7 +620,7 @@ function convertAMPMToString(ampmTime) {
 
 // enable the clear time button
 // fetch booking data for a particular sports centre.
-var request = makeCORSRequest("https://1098b9f3.ngrok.io/api/v1/sports_centres/91/bookings/check_availability", "GET");
+var request = makeCORSRequest("https://weball.com.au/api/v1/sports_centres/91/bookings/check_availability", "GET");
 //request.responseType = "json";
 request.responseType = "json";
 //request.timeout = 2000;

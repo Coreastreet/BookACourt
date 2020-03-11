@@ -254,6 +254,7 @@ $(document).on('turbolinks:load', function () {
               connectedRowId = $(this).attr("data-connectedRow");
               //console.log(connectedRowId);
               $(this).removeClass("bg-black");
+              $(`${connectedRowId}`).find(".alert").addClass("d-none");
               $(`${connectedRowId}`).addClass("d-none");
             });
             // highlight in black
@@ -510,6 +511,8 @@ $(document).on('turbolinks:load', function () {
         //}
       });
 
+
+
       $("#editBusinessHoursForm").bind('ajax:complete', function() {
           $(this).find("#hours-success").removeClass("d-none");
       });
@@ -546,6 +549,10 @@ $(document).on('turbolinks:load', function () {
       });
 
       $("#editPricesForm").submit(function() {
+
+          $(this).find("#prices-success").addClass("d-none");
+          $(this).find("#prices-failure").addClass("d-none");
+
           var pricesHash = {};
           var activity;
           //var halfCourtPrices;
@@ -577,6 +584,14 @@ $(document).on('turbolinks:load', function () {
           //console.log(JSON.stringify(pricesHash));
           $("#sports_centre_prices").val(JSON.stringify(pricesHash));
           return true;
+      });
+
+      $("#editPricesForm").bind('ajax:complete', function() {
+          $(this).find("#prices-success").removeClass("d-none");
+      });
+
+      $("#editBusinessHoursForm").bind('ajax:error', function() {
+          $(this).find("#prices-failure").removeClass("d-none");
       });
 });
 /*

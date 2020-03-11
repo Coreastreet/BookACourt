@@ -140,7 +140,7 @@ bw.on("click", "#bookNowButton", function(e) {
         //debugger
         //console.log(paramsText);
         modal_body.on("click", "#polipay", function() {
-          var request = makeCORSRequest("https://1098b9f3.ngrok.io/api/v1/sports_centres/91/bookings/initiate", "POST");
+          var request = makeCORSRequest("https://weball.com.au/api/v1/sports_centres/91/bookings/initiate", "POST");
           request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
           request.onload = function(e) {
             var response = request.response;
