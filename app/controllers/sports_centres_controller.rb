@@ -142,14 +142,13 @@ class SportsCentresController < ApplicationController
   end
 
   def booking_success
+    @sports_centre = SportsCentre.find(params[:sports_centre_id])
     url = "https://poliapi.apac.paywithpoli.com/api/v2/Transaction/GetTransaction?token=" + booking_token_params[:token]
-    response = RestClient.get url, {Authorization: ENV["POLIPAY_AUTH"]}
+    response = RestClient.get url, {Authorization: @sports_centre.combinedCode}
     parsed_response = JSON.parse(response)
 
     merchantData = JSON.parse(parsed_response["MerchantData"])
     @customerEmail = merchantData["order"]["customerEmail"]
-
-    @sports_centre = SportsCentre.find(params[:sports_centre_id])
   end
 
   def booking_cancelled
