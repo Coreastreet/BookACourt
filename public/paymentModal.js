@@ -139,8 +139,9 @@ bw.on("click", "#bookNowButton", function(e) {
         //console.log("first_day", first_day_bookings);
         //debugger
         //console.log(paramsText);
+        var sportsCentreId = document.querySelector("#weBallWidget").getAttribute("data-sportsCentreId");
         modal_body.on("click", "#polipay", function() {
-          var request = makeCORSRequest("https://weball.com.au/api/v1/sports_centres/91/bookings/initiate", "POST");
+          var request = makeCORSRequest(`https://weball.com.au/api/v1/sports_centres/${sportsCentreId}/bookings/initiate`, "POST");
           request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
           request.onload = function(e) {
             var response = request.response;

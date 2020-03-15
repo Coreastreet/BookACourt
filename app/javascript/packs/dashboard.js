@@ -1,6 +1,48 @@
 $.noConflict();
 $(document).on('turbolinks:load', function () {
       //$("#NotificationModal").slideUp("fast", "swing");
+      var transactionFee = parseFloat($("#feeHolder").text());
+      if (transactionFee != 0) {
+        $("#feeHolder").text(`${transactionFee}%`);
+      } else {
+        $("#feeHolder").text("N/A");
+      }
+      var upgradePlanButton = $("#upgrade-plan");
+      var currentPlanType = upgradePlanButton.attr("data-plan");
+      var currentPlanButton = $('#upgradePlanBody button.planButton').filter(`[data-planType=${currentPlanType}]`)
+      currentPlanButton.text("Current Plan");
+      currentPlanButton.prev().click();
+      addBorders(currentPlanButton);
+
+      $("#upgradePlanBody").on("click", "button.planButton", function() {
+          $(this).prev().click();
+          //$(this).prev().prop("checked", true);
+          addBorders($(this));
+          $("#upgradePlanBody button.planButton").not($(this)).each( function() {
+              removeBorders($(this));
+          });
+      });
+
+      function addBorders(planButton) {
+          var button = planButton.closest(".max-plan")
+          button.addClass("buttonBorder");
+          var imageAbove = button.parent().prev().children().eq(button.index());
+          //console.log(imageAbove);
+          imageAbove.addClass("leftRightBorder");
+          var planTitleAbove = imageAbove.parent().prev().children().eq(button.index());
+          planTitleAbove.addClass("leftRightBorder");
+      }
+
+      function removeBorders(planButton) {
+          var button = planButton.closest(".max-plan")
+          button.removeClass("buttonBorder");
+          var imageAbove = button.parent().prev().children().eq(button.index());
+          //console.log(imageAbove);
+          imageAbove.removeClass("leftRightBorder");
+          var planTitleAbove = imageAbove.parent().prev().children().eq(button.index());
+          planTitleAbove.removeClass("leftRightBorder");
+      }
+
       localStorage.setItem("preBookingsMade", 0);
       $('#datepicker').datepicker();
       var today = new Date();
@@ -511,7 +553,35 @@ $(document).on('turbolinks:load', function () {
         //}
       });
 
+      $("#planForm").bind('ajax:complete', function() {
+          var idValue = $("#id-holder").attr("data-sports-centre-id");
+          $(this).find("#plan-success").removeClass("d-none");
+          var planRadio = $("input[type='radio']:checked");
+          $("#upgradePlanBody button.planButton").text("Select");
+          var planSelectedButton = planRadio.next()
+          planSelectedButton.text("Current Plan");
+          var planSelected = planRadio.val();
+          $("#upgrade-plan").attr("data-plan", planSelected);
+          $("#feeHolder").text(planSelectedButton.attr("data-planFee"));
+          $("#planHolder").text(planSelectedButton.attr("data-planType"));
+          if (planSelected != "Basic") {
+              $("#wrapperCode").removeClass("d-none");
+              $("#step4").removeClass("d-none");
+              $("#step5").removeClass("d-none");
+              $("#wrapperCode #scriptCode").val('<script async src="https://www.weball.com.au/demo_async.js"></script>');
+              $("#wrapperCode #widgetCode").val(`<div data-sportsCentreId=${idValue}></div>`);
+          } else {
+              $("#wrapperCode #scriptCode").val("");
+              $("#wrapperCode #widgetCode").val("");
+              $("#wrapperCode").addClass("d-none");
+              $("#step4").addClass("d-none");
+              $("#step5").addClass("d-none");
+          }
+      });
 
+       $("#planForm").bind('ajax:error', function() {
+           $(this).find("#plan-failure").removeClass("d-none");
+      });
 
       $("#editBusinessHoursForm").bind('ajax:complete', function() {
           $(this).find("#hours-success").removeClass("d-none");

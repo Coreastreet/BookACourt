@@ -10,15 +10,17 @@
 }
 
 .orange-theme-color {
-  background-color: #e96b1e;
+  background-color: #e96b1e !important;
+}
+
+.orange-theme-border {
+  border-color: #e96b1e !important;
 }
 
 .btn.second-button:hover {
   background-color: azure !important;
   border-color: royalBlue !important;
 }
-
-
 
 .min-height {
   height: 25rem;

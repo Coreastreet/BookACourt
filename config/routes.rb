@@ -47,6 +47,7 @@ Rails.application.routes.draw do
   post "admin/sports_centres/:id/update_logo", to: "admin#update_logo", as: "admin_update_logo"
   post "admin/sports_centres/:id/update_hours", to: "admin#update_hours", as: "admin_update_hours"
   post "admin/sports_centres/:id/update_prices", to: "admin#update_prices", as: "admin_update_prices"
+  post "admin/sports_centres/:id/update_plan", to: "admin#update_plan", as: "admin_update_plan"
 
   # api versioning
   namespace :api do

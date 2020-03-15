@@ -86,6 +86,18 @@ class AdminController < ApplicationController
     order.destroy!
   end
 
+  def update_plan
+    planType = plan_params[:plan]
+    if (planType == "Premium")
+      transactionRate = 0.04
+    elsif (planType == "Standard")
+      transactionRate = 0.0165
+    else #if (planType == "Premium")
+      transactionRate = 0.0
+    end
+    current_sports_centre.update!(plan: plan_params[:plan], transactionRate: transactionRate)
+  end
+
   def update_hours
     # update the sportsCentre with logo and new details
     require 'json'
@@ -129,6 +141,10 @@ class AdminController < ApplicationController
 
   def hour_params
       params.require(:sports_centre).permit(:opening_hours, :peak_hours)
+  end
+
+  def plan_params
+      params.require(:sports_centre).permit(:plan)
   end
 
   def sports_centre_params

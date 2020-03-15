@@ -35,7 +35,7 @@
 }
 
 #buttonHolder {
-  margin-top: 2rem;
+  margin-top: -1rem;
   border-top: 2px solid white;
 }
 
@@ -84,6 +84,10 @@
   height: 2rem;
 }
 
+.h-0rem {
+  height: 0rem;
+}
+
 .alt-flex {
   display: flex;
   flex-direction: column;
@@ -91,6 +95,17 @@
 
 .slateGrey {
   color: slateGrey;
+}
+
+#upgradePlanBody .buttonBorder {
+  border: 2px solid darkBlue;
+  border-top: none;
+}
+
+#upgradePlanBody .leftRightBorder {
+  border: 2px solid darkBlue;
+  border-top: none;
+  border-bottom: none;
 }
 
 #activityCardHolder .selectedCard {
@@ -150,6 +165,35 @@
 
 .bg-azure {
   background-color: azure;
+}
+
+.selectPlan-paddingTop {
+  padding-top: 8.5rem;
+}
+
+.half-opaque {
+  opacity: 0.5;
+}
+
+.color-orange {
+  color: #e96b1e;
+}
+
+.max-plan {
+  max-width: 13rem !important;
+}
+
+#upgradePlanBody .max-plan h5, #upgradePlanBody .flex-grow-1 p {
+  margin-bottom: 0rem;
+}
+
+.bronze {
+  color: #cd7f32;
+}
+
+.background-bronze {
+  background-color: #cd7f32 !important;
+  border: #cd7f32 !important;
 }
 
 .bookingRate {

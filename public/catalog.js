@@ -245,7 +245,7 @@ BookingWidget.html = (function() {
               '</div>' +
               '<div id="secondModalCard">' +
               '<div class="modal-content slideHolderModal position-relative mt-0 w3-container" id="allDatesModal">' +
-              '<div class="bw-padding1 bw-justFlex bw-alignCenter modal-header bw-marginNone">' +
+              '<div class="bw-padding1 bw-justFlex bw-alignCenter modal-header bw-margin0">' +
               '<i class="fas fa-arrow-left back-arrow back-arrow-booking hover-grey mr-2 my-1 p-2 align-self-center rounded"></i>' +
               '<h6 class="modal-title align-self-center bw-pl1">Dates</h6>' +
               '<span class="w3-button w3-display-topright modalClose" id="modalClose">&times;</span>' +
