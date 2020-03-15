@@ -10,8 +10,8 @@ backblaze:
   service: Backblaze
   bucket_name: weball
   bucket_id: ae4de55c3359ec0477000d15
-  key_id: ed5c39c470d5
-  key_token: Master Application Key
+  key_id: 000ed5c39c470d50000000001
+  key_token: K000mFK4gSpfR5ujVIM+vQCu8/4ev7I
 
 # Use rails credentials:edit to set the AWS secrets (as aws:access_key_id|secret_access_key)
 # amazon:
