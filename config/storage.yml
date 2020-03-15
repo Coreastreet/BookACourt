@@ -6,6 +6,13 @@ local:
   service: Disk
   root: <%= Rails.root.join("storage") %>
 
+backblaze:
+  service: Backblaze
+  bucket_name: weball
+  bucket_id: ae4de55c3359ec0477000d15
+  key_id: ed5c39c470d5
+  key_token: Master Application Key
+
 # Use rails credentials:edit to set the AWS secrets (as aws:access_key_id|secret_access_key)
 # amazon:
 #   service: S3

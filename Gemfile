@@ -28,6 +28,9 @@ gem 'redis-rails'
 # Use Active Model has_secure_password
 gem 'bcrypt', '~> 3.1.7'
 
+# for storing pics in cloud
+gem 'activestorage-backblaze', '~> 0.0.5'
+# gem 'google-cloud-storage', '>= 1.25.1', require: false
 # add gem 'bootstrap' for css framework
 # gem 'bootstrap',  '~>4.3.1
 # gem 'redis', '~> 3.3', '>= 3.3.1'
