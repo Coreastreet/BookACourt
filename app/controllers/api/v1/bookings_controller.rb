@@ -4,8 +4,10 @@ class Api::V1::BookingsController < Api::V1::ApiController
     require "rest-client"
     require "json"
 
+    sports_centre = SportsCentre.find(token_params[:sports_centre_id])
+
     url = "https://poliapi.apac.paywithpoli.com/api/v2/Transaction/GetTransaction?token=" + token_params[:Token]
-    response = RestClient.get url, {Authorization: ENV["POLIPAY_AUTH"]}
+    response = RestClient.get url, {Authorization: sports_centre.combinedCode}
     parsed_response = JSON.parse(response)
     # if the transaction is successful,
     # create the booking
@@ -58,8 +60,6 @@ class Api::V1::BookingsController < Api::V1::ApiController
       # binding.pry
       # send message to admin dashboard of the corresponding centre
       #to notify in real time that a new booking has been made and update the dashboard.
-
-      sports_centre = SportsCentre.find(token_params[:sports_centre_id])
       DashboardChannel.broadcast_to(sports_centre, new_order.bookings)
 
       NotificationsMailer.with(sports_centre: sports_centre,
