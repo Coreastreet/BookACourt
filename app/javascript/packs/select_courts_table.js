@@ -1,4 +1,4 @@
-$(document).ready( function () {
+$(document).on('turbolinks:load', function() {
   //var $td = document.getElementsByTagName("td");
   /* l = td.length;
   for (i = 0; i < l; i++) {
