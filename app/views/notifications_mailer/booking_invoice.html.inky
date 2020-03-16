@@ -2,7 +2,7 @@
       <spacer size="20"></spacer>
       <row>
         <columns small="9" class="first">
-        <%= image_tag(attachments['logo.png'].url, class: "image-contain") %>
+        <%= image_tag("https://f000.backblazeb2.com/file/weball/#{@logo_url}", class: "image-contain") %>
         </columns>
       </row>
       <row>
