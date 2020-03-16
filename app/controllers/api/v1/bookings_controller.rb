@@ -3,6 +3,7 @@ class Api::V1::BookingsController < Api::V1::ApiController
   def create
     require "rest-client"
     require "json"
+    require "securerandom"
 
     sports_centre = SportsCentre.find(token_params[:sports_centre_id])
 
@@ -37,7 +38,7 @@ class Api::V1::BookingsController < Api::V1::ApiController
         Booking.create!(startTime: idTimesArray[1], endTime: idTimesArray[2],
           courtType: data["booking"]["courtType"], sports_centre_id: id,
           order_id: orderId, date: data["order"]["firstDayBookings"][0], bookingType: bookingType,
-          court_no: idTimesArray[0], qr_code: new_order.transactionRefNo.to_s,
+          court_no: idTimesArray[0], pin: pin_generate,
           name: "#{payerFirstName} #{payerLastName}", sportsType: data["booking"]["activityType"] ) # later calculate the courtNumber
       end
 
@@ -192,10 +193,11 @@ class Api::V1::BookingsController < Api::V1::ApiController
     #end
   end
 
+  # qr-code not needed
   def check_qrCode
     #binding.pry
     sportsCentre = SportsCentre.find(params[:sports_centre_id])
-    matchingBookings = sportsCentre.bookings.where(qr_code: qr_code_params[:qr_code])
+    matchingBookings = sportsCentre.bookings.where(pin: pin_params[:pin])
     details = ""
     error = ""
     date = ""
@@ -234,12 +236,16 @@ class Api::V1::BookingsController < Api::V1::ApiController
 
 private
 
+  def pin_generate
+    (SecureRandom.random_number(9e5) + 1e5).to_i
+  end
+
   def barcode_number_params
     params.permit(:barcode_number)
   end
 
-  def qr_code_params
-    params.permit(:qr_code)
+  def pin_params
+    params.permit(:pin)
   end
 
   def token_params

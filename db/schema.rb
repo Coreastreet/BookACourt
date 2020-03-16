@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_15_010021) do
+ActiveRecord::Schema.define(version: 2020_03_16_041326) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -62,9 +62,9 @@ ActiveRecord::Schema.define(version: 2020_03_15_010021) do
     t.bigint "order_id"
     t.integer "bookingType"
     t.boolean "claimed", default: false
-    t.bigint "qr_code"
     t.string "sportsType"
     t.string "name"
+    t.integer "pin"
     t.index ["order_id"], name: "index_bookings_on_order_id"
     t.index ["sports_centre_id"], name: "index_bookings_on_sports_centre_id"
   end
