@@ -13,7 +13,7 @@
       <row>
         <columns class="first last">
           <center>
-            <%= image_tag(attachments['qrCode.png'].url, class: "qr_barcode") %>
+            <h5 class="email-padding-md">Your PIN: <%= @bookings.first.pin %></h5>
           </center>
         </columns>
       </row>

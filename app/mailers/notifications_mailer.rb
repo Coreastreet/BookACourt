@@ -40,7 +40,7 @@ class NotificationsMailer < ApplicationMailer
     @sports_centre = params[:sports_centre]
     #require 'barby/barcode/ean_13'
     #require 'barby/outputter/png_outputter'
-    generate_qrCode(@order.transactionRefNo.to_s)
+    # generate_qrCode(@order.transactionRefNo.to_s)
     #barcode = Barby::EAN13.new(@order.transactionRefNo.to_s)
     #File.open('app/assets/images/barcode.png', 'wb'){|f|
     #    f.write barcode.to_png(:height => 80, :margin => 20)
@@ -49,7 +49,7 @@ class NotificationsMailer < ApplicationMailer
     #image.resize "150%"
     #image.crop "100%x72%+0+25"
     # send an email to the booker with details of the booking and the barcode.
-    attachments.inline['qrCode.png'] = File.read('app/assets/images/qrCode.png')
+    # attachments.inline['qrCode.png'] = File.read('app/assets/images/qrCode.png')
     attachments.inline['hurstvilleAquatic.png'] = File.read('app/assets/images/hurstvilleAquatic.png')
     attachments.inline['calendar-icon.png'] = File.read('app/assets/images/calendar-icon.png')
     attachments.inline['location-icon.png'] = File.read('app/assets/images/location-icon.png')

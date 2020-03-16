@@ -32,13 +32,14 @@ class Api::V1::BookingsController < Api::V1::ApiController
       # if successful, the customer will be given a reference 6-digit code to identify the order.
       customerReference = "#{orderId}-#{transactionRefNo[0..-3]}" # should remain unique since the first half is always unique
       new_order.update!(customerRef: customerReference)
-
+      # use the same random pin for each booking
+      booking_pin = pin_generate
       data["booking"]["courtIdTimesArray"].each do |booking|
         idTimesArray = booking.split("-")
         Booking.create!(startTime: idTimesArray[1], endTime: idTimesArray[2],
           courtType: data["booking"]["courtType"], sports_centre_id: id,
           order_id: orderId, date: data["order"]["firstDayBookings"][0], bookingType: bookingType,
-          court_no: idTimesArray[0], pin: pin_generate,
+          court_no: idTimesArray[0], pin: booking_pin,
           name: "#{payerFirstName} #{payerLastName}", sportsType: data["booking"]["activityType"] ) # later calculate the courtNumber
       end
 
