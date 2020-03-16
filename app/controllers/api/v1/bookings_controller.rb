@@ -52,7 +52,7 @@ class Api::V1::BookingsController < Api::V1::ApiController
             Booking.create!(startTime: start, endTime: endTime,
               courtType: data["booking"]["courtType"], sports_centre_id: id,
               order_id: orderId, date: date, bookingType: bookingType,
-              court_no: regularIds[index])
+              court_no: regularIds[index], pin: booking_pin)
         end
       end
       #merchantAccountName = parsed_response["MerchantAccountName"]
