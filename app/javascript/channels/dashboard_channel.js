@@ -32,6 +32,14 @@ $(document).on('turbolinks:load', function () {
          });
     }
 
+    function convertToAMPM(timeString) {
+      var hours_and_minutes = timeString.split(":");
+      var parsed_int = parseInt(hours_and_minutes[0]);
+      var int = (parsed_int % 12 == 0) ? 12 : parsed_int % 12;
+      var am_or_pm = (hours_and_minutes[0] >= 12) ? "PM" : "AM";
+      return `${int}:${hours_and_minutes[1]}${am_or_pm}`
+    }
+
     function insertNewBooking(booking) {
           var j = 0;
           var booking_start = booking.startTime.substr(11,5);
