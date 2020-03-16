@@ -1,6 +1,8 @@
 $.noConflict();
 $(document).on('turbolinks:load', function () {
       //$("#NotificationModal").slideUp("fast", "swing");
+      var idValue = $("#id-holder").attr("data-sports-centre-id");
+
       var transactionFee = parseFloat($("#feeHolder").text());
       if (transactionFee != 0) {
         $("#feeHolder").text(`${transactionFee}%`);
@@ -58,7 +60,7 @@ $(document).on('turbolinks:load', function () {
           // $('#datepicker').datepicker("setDate", info);
           $.ajax({
              type: "GET",
-             url: "91/date/13",
+             url:  `${idValue}/date/`,
              data: {
                date: newDate,
                 // info: info, // < note use of 'this' here
@@ -74,7 +76,7 @@ $(document).on('turbolinks:load', function () {
           newDate = $('#datepicker').datepicker('getFormattedDate');
           $.ajax({
              type: "GET",
-             url: "91/date/13",
+             url: `${idValue}/date/`,
              data: {
                date: newDate,
                 // info: info, // < note use of 'this' here
@@ -554,7 +556,6 @@ $(document).on('turbolinks:load', function () {
       });
 
       $("#planForm").bind('ajax:complete', function() {
-          var idValue = $("#id-holder").attr("data-sports-centre-id");
           $(this).find("#plan-success").removeClass("d-none");
           var planRadio = $("input[type='radio']:checked");
           $("#upgradePlanBody button.planButton").text("Select");

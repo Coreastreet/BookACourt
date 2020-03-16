@@ -48,7 +48,7 @@ class AdminController < ApplicationController
       array_booking << booking.to_json
     end
     session[:bookings] = bookings.to_json
-    #console
+    # console
     #respond_to do |format|
     #  format.js
       # format.html
@@ -157,14 +157,6 @@ class AdminController < ApplicationController
   end
 
   def check_logged_in
-      current_sports_centre
-      if (@current_sports_centre.nil?)
-        logged_in = false;
-      else
-        logged_in = (@current_sports_centre.id == params[:id].to_i) ? true : false
-      end
-      if (not logged_in)
-        redirect_to login_path
-      end
+      redirect_to login_path if !logged_in_as_sports_centre?# since not logged in
   end
 end
