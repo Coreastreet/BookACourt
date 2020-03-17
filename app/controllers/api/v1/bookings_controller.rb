@@ -3,7 +3,6 @@ class Api::V1::BookingsController < Api::V1::ApiController
   def create
     require "rest-client"
     require "json"
-    require "securerandom"
 
     sports_centre = SportsCentre.find(token_params[:sports_centre_id])
 
@@ -128,6 +127,8 @@ class Api::V1::BookingsController < Api::V1::ApiController
     merchantDataString = '{"order":' +
       "{\"allDates\": #{allDates}," +
       "\"totalAmount\": \"#{order_params[:totalAmount]}\"," +
+      "\"plan\": \"#{sportsCentre.plan}\"," +
+      "\"totalCommission\": \"#{order_params[:totalAmount] * sportsCentre.transactionRate}\"," +
       "\"daysInBetween\": \"#{order_params[:daysInBetween]}\"," +
       "\"firstDayBookings\": #{order_params[:bwFirstDayBookings]}," +
       "\"arrayOfRegularCourtIds\": #{arrayOfRegularCourtIds}," +
@@ -238,6 +239,7 @@ class Api::V1::BookingsController < Api::V1::ApiController
 private
 
   def pin_generate
+    require "securerandom"
     (SecureRandom.random_number(9e5) + 1e5).to_i
   end
 

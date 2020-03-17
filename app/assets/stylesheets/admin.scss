@@ -18,8 +18,8 @@
   height: 70vh;
 }
 
-.h-55vh {
-  height: 55vh;
+.dashBoardHeight {
+  height: 68vh;
 }
 
 .h-88vh {
@@ -35,7 +35,7 @@
 }
 
 #buttonHolder {
-  margin-top: -1rem;
+  //margin-top: -1rem;
   border-top: 2px solid white;
 }
 
@@ -113,15 +113,20 @@
 }
 
 #dashBoardTable .border-darkBlue {
-  border: 1px solid darkBlue;
+  border: 1px solid darkBlue !important;
 }
 
 #dashBoardTable tbody::-webkit-scrollbar {
   display: none;
 }
 
-#dashBoardTable .booked {
+#dashBoardTable td.booked {
   max-height: 2rem;
+  border: none;
+}
+
+#ViewAndBookBody .max-8rem {
+  max-width: 8rem;
 }
 
 #dashBoardTable .nb-intervalButton {
@@ -137,14 +142,37 @@
 
 #dashBoardTable .repeatDetail {
   position: relative;
-  margin-top: -73%;
-  left: 106%;
+  margin-top: -64%;
+  left: 105%;
   transition: all 1s;
   width: inherit;
 }
 
 #dashBoardTable .booked div:first-child {
   word-break: break-all;
+}
+
+#dashBoardTable td.border-xy {
+
+}
+
+#dashBoardTable {
+  width: 100%;
+  border: 1px solid rgb(222, 226, 230);
+
+  th, td {
+    vertical-align: top;
+    border-top: 1px solid rgb(222, 226, 230);
+    border-left: 1px solid rgb(222, 226, 230);
+  }
+
+  th {
+    border-right: 1px solid rgb(222, 226, 230);
+  }
+
+  thead th {
+    vertical-align: bottom;
+  }
 }
 
 .td-flex {
@@ -209,6 +237,12 @@
   border-left: 10px solid transparent;
   border-right: 10px solid transparent;
   border-top: 20px solid black;
+}
+
+
+div.position-relative.triangle-up {
+  border-bottom: 20px solid black;
+  border-top: none;
 }
 
 #NotificationModal {

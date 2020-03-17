@@ -61,6 +61,7 @@ $(document).on('turbolinks:load', function () {
                   }
                   if (booked) {
                     columnArray[j].classList.add(`table${booking.sportsType}`, "booked");
+                    columnArray[j].setAttribute("data-booking-id", `${booking.id}`);
                     columnArray[j].setAttribute("data-toggle", "tooltip");
                     columnArray[j].setAttribute("title", `${booking.name}\nType: ${booking.sportsType}\nStart:`
                     + ` ${convertToAMPM(booking_start)}\nEnd: ${convertToAMPM(booking_end)}`);
@@ -85,7 +86,15 @@ $(document).on('turbolinks:load', function () {
                  }
                  if (booked) {
                    columnArray[j].classList.add(`table${booking.sportsType}`, "booked");
+                   columnArray[j].setAttribute("data-booking-id", `${booking.id}`);
+                   columnArray[j].setAttribute("data-toggle", "tooltip");
+                   columnArray[j].setAttribute("title", `${booking.name}\nType: ${booking.sportsType}\nStart:`
+                   + ` ${convertToAMPM(booking_start)}\nEnd: ${convertToAMPM(booking_end)}`);
                    nextColumnArray[j].classList.add(`table${booking.sportsType}`, "booked");
+                   nextColumnArray[j].setAttribute("data-booking-id", `${booking.id}`);
+                   nextColumnArray[j].setAttribute("data-toggle", "tooltip");
+                   nextColumnArray[j].setAttribute("title", `${booking.name}\nType: ${booking.sportsType}\nStart:`
+                   + ` ${convertToAMPM(booking_start)}\nEnd: ${convertToAMPM(booking_end)}`);
                    if (counter == 0) {  // first selected td.
                        columnArray[j].innerHTML = `<div>${booking.name}</div>`;
                        columnArray[j].classList.add("textHolder");

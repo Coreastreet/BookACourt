@@ -170,6 +170,7 @@ $(document).on('turbolinks:load', function() {
   $("#col-9-admin").on("click", ".delete-booking", function(e) {
     var sports_centre_id = $("#id-holder").attr("data-sports-centre-id");
     var answer;
+    var bookingId = $(this).attr("data-booking-id");
     if (e.ctrlKey) {
         answer = window.confirm("Delete this Order?")
         if (answer) {
@@ -187,6 +188,16 @@ $(document).on('turbolinks:load', function() {
               },
               //dataType: "json"
             })
+            $(this).remove();
+            $(`#dashBoardTable td[data-booking-id="${bookingId}"]`).each( function(index) {
+                  if (index == (0 || 1)) {
+                    console.log(this);
+                    $(this).children().remove();
+                  }
+                  $(this).removeClass("booked textHolder");
+                  $(this).removeAttr("data-booking-id data-toggle title");
+                  removeClassByPrefix($(this)[0], "table");
+            });
         }
     } else {
         answer = window.confirm("Delete this Booking?")
@@ -205,8 +216,42 @@ $(document).on('turbolinks:load', function() {
               },
               //dataType: "json"
             })
+            $(this).remove();
+            $(`#dashBoardTable td[data-booking-id="${bookingId}"]`).each( function(index) {
+                  if ((index == 0) || (index == 1)) {
+                    $(this).children().remove();
+                  }
+                  $(this).removeClass("booked textHolder");
+                  $(this).removeAttr("data-booking-id data-toggle title");
+                  removeClassByPrefix($(this)[0], "table");
+            });
         }
     }
+  });
+
+  $("#col-9-admin").on('click', "#pinNameHolder", function() {
+      var matchedBooking = $(this).attr("data-booking-id");
+      var chosenBooking = $(`#dashBoardTable td.textHolder[data-booking-id=${matchedBooking}]:first`);
+      if (chosenBooking) {
+          $("#dashBoardTable td.border-darkBlue").removeClass("border-darkBlue");
+          //realChosenBooking = (chosenBooking.length == 1) ? chosenBooking : chosenBooking.first();
+          //console.log(chosenBooking);
+          var topDistance = chosenBooking.position().top;
+          var topPosition =  topDistance - 32;
+          console.log("topPosition", topPosition);
+          if (topPosition > 0) {
+            $("tbody.dashBoardHeight").animate({scrollTop: topPosition});
+          } else if (topPosition < 0) { // negative above
+            $("tbody.dashBoardHeight").animate({scrollTop: (-1*topPosition)});
+          }
+          chosenBooking.addClass("border-darkBlue");
+      }
+  });
+
+  $("#col-9-admin").on('click', "#sports_centre_booking_pin", function() {
+        $(this).removeClass("is-invalid");
+        $(this).removeClass("is-valid");
+        $(this).val("");
   });
 
   $("#col-9-admin").on("click", ".delete-presaved-booking", function() {
@@ -214,9 +259,12 @@ $(document).on('turbolinks:load', function() {
         var preBooking = $(this).parent();
         var preBookingId = preBooking.attr("data-preBookedId");
         preBooking.empty();
-        preBooking.removeClass("textHolder");
-        preBooking.prev().empty();
-        preBooking.prev().removeClass("textHolder");
+        if (preBooking.hasClass("textHolder")) {
+            preBooking.removeClass("textHolder");
+        } else {
+            preBooking.prev().empty();
+            preBooking.prev().removeClass("textHolder");
+        }
         $(`#dashBoardTable td[data-preBookedId="${preBookingId}"]`).each( function() {
               $(this).removeClass("booked");
               $(this).removeAttr("data-preBookedId");
@@ -471,24 +519,32 @@ $(document).on('turbolinks:load', function() {
     //console.log("top", topTD);
     //console.log("bottomTd", bottomTD);
       var topPosition = topTD.position();
+      console.log("topPosition", topPosition);
       var bottomPosition = bottomTD.position();
       var dashBoardPosition = $("#dashBoardTable").position().top;
       var halfway = (topPosition.top + bottomPosition.top)/2;
       var clone = $("#col-9-admin .name-and-sport").clone();
       clone.addClass("clone");
+      var down = false;
+
+      if (topPosition.top < 100) {
+        clone.children().first().addClass("triangle-up");
+        down = true;
+      }
+      var cloneTopHeight = (down) ? (bottomPosition.top + dashBoardPosition + 52) : (topPosition.top - dashBoardPosition - 115);
       clone.removeClass("d-none");
       if (courtType == "half_court") {
           if (topPosition.left == bottomPosition.left) {
             if (topTD.is(":last-child")) {
-              $("#dashBoardTable tbody").append(clone.css({top: (topPosition.top - dashBoardPosition - 115), right: 10, position: "absolute"}));
+              $("#dashBoardTable tbody").append(clone.css({top: cloneTopHeight, right: 10, position: "absolute"}));
               var cloneWidth = clone.outerWidth()/2;
-              var cloneHeight = clone.outerHeight();
+              var cloneHeight = (down) ? -20 : clone.outerHeight();
               $("#col-9-admin .triangle").eq(1).css({top: cloneHeight, left: cloneWidth + 100});
             } else {
               var admin_panel_width = $(".admin-panel").width()/2;
-              $("#dashBoardTable tbody").append(clone.css({top: (topPosition.top - dashBoardPosition - 115), left: (topPosition.left - admin_panel_width), position: "absolute"}));
+              $("#dashBoardTable tbody").append(clone.css({top: cloneTopHeight, left: (topPosition.left - admin_panel_width), position: "absolute"}));
               var cloneWidth = clone.outerWidth()/2;
-              var cloneHeight = clone.outerHeight();
+              var cloneHeight = (down) ? -20 : clone.outerHeight();
               $("#col-9-admin .triangle").eq(1).css({left: cloneWidth, top: cloneHeight});
             }
             clone.find(".nameInput").trigger("focus");
@@ -496,15 +552,15 @@ $(document).on('turbolinks:load', function() {
           }
       } else { // fult court two courts adjacent; has been checked already.
           if (topTD.is(":last-child")) {
-            $("#dashBoardTable tbody").append(clone.css({top: (topPosition.top - dashBoardPosition - 115), right: 10, position: "absolute"}));
+            $("#dashBoardTable tbody").append(clone.css({top: cloneTopHeight, right: 10, position: "absolute"}));
             var cloneWidth = clone.outerWidth()/2;
-            var cloneHeight = clone.outerHeight();
+            var cloneHeight = (down) ? -20 : clone.outerHeight();
             $("#col-9-admin .triangle").eq(1).css({top: cloneHeight, left: cloneWidth + 100});
           } else {
             var admin_panel_width = $(".admin-panel").width()/2;
-            $("#dashBoardTable tbody").append(clone.css({top: (topPosition.top - dashBoardPosition - 115), left: (topPosition.left - admin_panel_width), position: "absolute"}));
+            $("#dashBoardTable tbody").append(clone.css({top: cloneTopHeight, left: (topPosition.left - admin_panel_width), position: "absolute"}));
             var cloneWidth = clone.outerWidth()/2;
-            var cloneHeight = clone.outerHeight();
+            var cloneHeight = (down) ? -20 : clone.outerHeight();
             $("#col-9-admin .triangle").eq(1).css({left: cloneWidth, top: cloneHeight});
           }
           //clone.attr("data-courtNo", topTD.attr("data-court"));

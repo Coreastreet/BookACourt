@@ -173,7 +173,7 @@
                 <div class="row mx-0 mt-4 mb-2">
                       <h5>Monitor and add bookings</h5>
                 </div>
-                <table class="table table-fixed table-sm table-bordered courts-table parentWidth w-100" id="dashBoardTable">
+                <table class="table-fixed table-sm courts-table parentWidth w-100" id="dashBoardTable">
                   <thead>
                     <tr class="border-bottom">
                       <th scope="col" class="moreEqualTH"></th>
@@ -182,7 +182,7 @@
                       <% end %>
                     </tr>
                   </thead>
-                  <tbody class="h-55vh">
+                  <tbody class="dashBoardHeight">
                     <% (6.hours..23.5.hours).step(30.minutes).each do |hour| %>
                       <tr class="d-flex">
                         <th scope="row" class="p-0"><sup><%= Time.at(hour).gmtime.strftime('%H:%M') %></sup></th>
@@ -194,9 +194,19 @@
                   </tbody>
                 </table>
               </div>
-              <div class="row mx-0 align-self-end mt-auto mb-3 ml-4 justify-content-end">
-                    <button type="button" class="btn btn-primary mr-2" id="newBookingsSave">Save</button>
-                    <button type="button" class="btn btn-secondary">Cancel</button>
+              <div class="row d-flex justify-content-between mx-0 mt-auto">
+                <%= form_with model: @sports_centre, class: "row mx-0 h-contentFit d-flex justify-content-between", id: 'checkPinForm', url: admin_check_pin_path(@sports_centre), method: "post" do |f| %>
+                    <%= f.fields_for @new_booking do |nb| %>
+                        <%= nb.number_field :pin, class: "max-8rem form-control mr-3" %>
+                    <% end %>
+                    <%= f.submit "Check PIN", class: "btn btn-primary" %>
+                    <div class="alert d-none">Hey</div>
+                <% end %>
+                <button type="button" id="pinNameHolder" class="d-none" data-booking-id=""></button>
+                <div class="row mx-0 align-self-end mt-auto mb-3 ml-4 justify-content-end">
+                      <button type="button" class="btn btn-primary mr-2" id="newBookingsSave">Save</button>
+                      <button type="button" class="btn btn-secondary">Cancel</button>
+                </div>
               </div>
           </div>
           <div class='row d-none' id="opening_hours_row">
@@ -284,19 +294,57 @@
           </div>
           <div class="row mx-0 d-none h-100 px-3" id="payFeesBody">
                 <div class="row mx-0 mt-4 w-100 d-flex flex-column">
-                  <div class="row">
+                  <div class="row d-flex justify-content-between mx-0">
                     <h5>Pay Fees</h5>
-                    <h5 class="mt-4">
-                      <span>Current Plan:
-                        <span class="h3" id="planHolder"><%= @sports_centre.plan %></span>
-                      </span>
-                      <span class="ml-5">Polipay transaction fee:
-                        <span class="h3" id="feeHolder"><%= @sports_centre.transactionRate * 100 %></span>
-                      </span>
-                    </h5>
                   </div>
-                  <h5 class="mt-4">Amount owed: <span class="h3">$<%= @sports_centre.moneyOwed %></span></h5>
-                  <div class="row mx-0 align-self-end mt-auto mb-3">
+                  <p>Online Payment Records</p>
+                    <div class="row mx-0">
+                      <div class="col-1">
+                        <p>Date:</p>
+                      </div>
+                      <div class="col-3">
+                        <p>Booking Activity:</p>
+                      </div>
+                      <div class="col-2">
+                        <p>Court Type:</p>
+                      </div>
+                      <div class="col-2">
+                        <p>Time:</p>
+                      </div>
+                      <div class="col-1">
+                        <p>Amount Paid:</p>
+                      </div>
+                      <div class="col-1">
+                        <p>Transaction Fee:</p>
+                      </div>
+                    </div>
+                  <% @arrayDailyTransactions.each do |transaction| %>
+                    <div class="row mx-0">
+                      <div class="col-1">
+                        <%= transaction["EndDateTime"].split("T")[1][0,5] %>
+                      </div>
+                      <div class="col-3 text-capitalize">
+                        <%= transaction["MerchantData"]["booking"]["bookingType"] %>
+                        <%= transaction["MerchantData"]["booking"]["activityType"] %>
+                      </div>
+                      <div class="col-2">
+                        <%= transaction["MerchantData"]["booking"]["courtType"] %>
+                      </div>
+                      <div class="col-2">
+                        <%= transaction["MerchantData"]["booking"]["startTime"] %>-<%= transaction["MerchantData"]["booking"]["endTime"] %>
+                      </div>
+                      <div class="col-1">
+                        $<%= transaction["AmountPaid"] %>
+                      </div>
+                      <div class="col-1">
+                        $<%= '%.2f' % (transaction["AmountPaid"] * @sports_centre.transactionRate) %>
+                      </div>
+                    </div>
+                  <% end %>
+                  <div class="row mx-0 align-self-end mt-auto mb-3 d-flex justify-content-between h5">
+                    <span>Total amount owed: </span><span class="h3">$<%= '%.2f' % @sports_centre.moneyOwed %></span>
+                  </div>
+                  <div class="row mx-0 align-self-end mb-3">
                     <button type="button" class="btn btn-primary mr-2">Pay now</button>
                   </div>
                 </div>

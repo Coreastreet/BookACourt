@@ -8,7 +8,12 @@ class ApplicationController < ActionController::Base
   helper_method :logged_in_as_user?
   helper_method :logged_in_as_sports_centre?
   helper_method :logged_out?
+  helper_method :pin_generate
 
+  def pin_generate
+    require "securerandom"
+    (SecureRandom.random_number(9e5) + 1e5).to_i
+  end
   # Define the current_user method:
   def current_user
     # Look up the current user based on user_id in the session cookie:

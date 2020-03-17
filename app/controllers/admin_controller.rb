@@ -41,18 +41,37 @@ class AdminController < ApplicationController
 
   def show
     require "date"
+    require "restclient"
     @sports_centre = SportsCentre.find(params[:id])
     array_booking = []
     bookings = @sports_centre.bookings
+    @new_booking = Booking.new
     bookings.each do |booking|
       array_booking << booking.to_json
     end
     session[:bookings] = bookings.to_json
-    # console
-    #respond_to do |format|
-    #  format.js
+    # make a restclient get call to the api for daily transactions
+    todayDate = Date.today.strftime("%Y-%m-%d")
+    jsonDailyTransactions = RestClient.get("https://poliapi.apac.paywithpoli.com/api/v2/Transaction/GetDailyTransactions?date=#{todayDate}&statuscodes=Completed",{Authorization: @sports_centre.combinedCode})
+    @arrayDailyTransactions = JSON.parse(jsonDailyTransactions)
+    @arrayDailyTransactions.each do |transaction|
+      transaction["MerchantData"] = JSON.parse(transaction["MerchantData"])
+    end
+  end
+
+  def check_pin
+    pin = pin_params[:pin].to_i
+    matchedBooking = current_sports_centre.bookings.find_by(pin: pin, date: Date.today)
+    if !matchedBooking.nil? # customer has booking today, return with name and green alert
+      @matchingBooking_id = matchedBooking.id
+      @booking_found = true
+    else # alert red no booking today
+      @booking_found = false
+    end
+    respond_to do |format|
+      format.js
       # format.html
-    # end
+    end
   end
 
   def addNewBookings
@@ -62,13 +81,14 @@ class AdminController < ApplicationController
       if (bookingOrder["booking"]["bookingType"] == "casual")
           newOrder = Order.create!(bookingOrder["order"])
           newBooking = Booking.new(bookingOrder["booking"])
-          newBooking.update!(order_id: newOrder.id)
+          newBooking.update!(order_id: newOrder.id, pin: pin_generate)
           newBooking.save!
       else # regular booking made
           newOrder = Order.create!(bookingOrder["order"])
+          constant_pin = pin_generate
           bookingOrder["booking"]["date"].each do |date|
             newBooking = Booking.new(bookingOrder["booking"])
-            newBooking.update!(order_id: newOrder.id, date: date)
+            newBooking.update!(order_id: newOrder.id, date: date, pin: constant_pin)
             newBooking.save!
           end
       end
@@ -122,6 +142,10 @@ class AdminController < ApplicationController
   end
 
   private
+
+  def pin_params
+      params.require(:sports_centre).require(:booking).permit(:pin)
+  end
 
   def newBookingParams
       params.require(:arrOrderAndBookings).permit!

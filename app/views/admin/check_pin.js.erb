@@ -1,0 +1,15 @@
+var pin_input = document.querySelector("#sports_centre_booking_pin");
+var hiddenButton = document.querySelector("#pinNameHolder");
+
+<% if @booking_found %>
+  var bookingId = <%= @matchingBooking_id %>;
+  // add is-valid to input
+  // locate the booking on the grid
+  // add border to the matching booking's name
+  pin_input.classList.add("is-valid");
+  hiddenButton.setAttribute("data-booking-id", bookingId);
+  hiddenButton.click();
+<% else %>
+   pin_input.classList.add("is-invalid");
+  // add is-invalid to input
+<% end %>

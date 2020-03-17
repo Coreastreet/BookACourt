@@ -49,6 +49,7 @@ Rails.application.routes.draw do
   post "admin/sports_centres/:id/update_prices", to: "admin#update_prices", as: "admin_update_prices"
   post "admin/sports_centres/:id/update_plan", to: "admin#update_plan", as: "admin_update_plan"
 
+  post "admin/sports_centres/:id/check_pin", to: "admin#check_pin", as: "admin_check_pin"
   # api versioning
   namespace :api do
     namespace :v1, defaults: {format: 'json'} do

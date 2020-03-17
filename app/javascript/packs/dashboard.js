@@ -555,6 +555,9 @@ $(document).on('turbolinks:load', function () {
         //}
       });
 
+      $("#buttonHolder").on("click", "pay-fees", function() {
+      });
+
       $("#planForm").bind('ajax:complete', function() {
           $(this).find("#plan-success").removeClass("d-none");
           var planRadio = $("input[type='radio']:checked");
