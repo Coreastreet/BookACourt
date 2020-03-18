@@ -51,7 +51,7 @@ class AdminController < ApplicationController
     end
     session[:bookings] = bookings.to_json
     # make a restclient get call to the api for daily transactions
-    todayDate = Date.today.strftime("%Y-%m-%d")
+    todayDate = (Date.today - 1.day).strftime("%Y-%m-%d")
     jsonDailyTransactions = RestClient.get("https://poliapi.apac.paywithpoli.com/api/v2/Transaction/GetDailyTransactions?date=#{todayDate}&statuscodes=Completed",{Authorization: @sports_centre.combinedCode})
     @arrayDailyTransactions = (JSON.parse(jsonDailyTransactions)).reverse()
     @arrayDailyTransactions.each do |transaction|
@@ -76,10 +76,12 @@ class AdminController < ApplicationController
 
   def pay_moneyOwed
     moneyOwed = current_sports_centre.moneyOwed
+    moneyPaid = current_sports_centre.moneyPaid
+    info = current_sports_centre.title
     response = RestClient.post "https://poliapi.apac.paywithpoli.com/api/v2/Transaction/Initiate",
           {Amount: moneyOwed, CurrencyCode: "AUD", MerchantReference: orderReference,
             MerchantHomepageURL: "https://weball.com.au/api/v1/sports_centres", #sportsCentre_url,
-            MerchantData: merchantDataString,
+            MerchantData: info,
             SuccessURL: "https://weball.com.au/sports_centres/#{params[:sports_centre_id]}/booking_success",
             FailureURL: "https://weball.com.au/sports_centres/failure", # redirect to page with failure message later on
             CancellationURL: "https://weball.com.au/sports_centres/cancelled",
@@ -87,6 +89,11 @@ class AdminController < ApplicationController
             {Authorization: "Basic UzYxMDQ2ODk6RWQ2QCRNYjM0Z14="}
 
     parsedResponse = JSON.parse(response.body)
+
+    if (parsed_response["TransactionStatus"] == "Completed")
+      current_sports_centre.update!(moneyOwed: 0.0, moneyPaid: moneyPaid + moneyOwed)
+    end
+
   end
 
   def addNewBookings

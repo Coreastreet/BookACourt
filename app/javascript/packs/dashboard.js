@@ -556,6 +556,18 @@ $(document).on('turbolinks:load', function () {
       });
 
       $("#buttonHolder").on("click", "pay-fees", function() {
+          $.ajax({
+              type: "GET",
+              url: `admin/sports_centre/${idValue}/payMoneyOwed`,
+              data: {
+              },
+              success: function(result) {
+                alert("Yes");
+              },
+              error: function(result) {
+                alert("error");
+              }
+          });
       });
 
       $("#planForm").bind('ajax:complete', function() {

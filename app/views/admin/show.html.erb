@@ -298,7 +298,7 @@
                     <h5>Pay Fees</h5>
                   </div>
                   <p>Online Payment Records</p>
-                  <div class="neg-margin-x flex-grow-1 overflow-y-scroll">
+                  <div class="neg-margin-x flex-grow-1 overflow-y-scroll" id="paymentRecordHolder">
                     <div class="row mx-0">
                       <div class="col-1">
                         <p>Date:</p>
@@ -360,7 +360,7 @@
                     <span class="align-self-center">Total amount owed: </span><span class="h3 mr-2">$<%= '%.2f' % @sports_centre.moneyOwed %></span>
                   </div>
                   <div class="row mx-0 align-self-end mb-3">
-                    <button type="button" class="btn btn-primary mr-2">Pay now</button>
+                    <button id="pay-fees" type="button" class="btn btn-primary mr-2">Pay now</button>
                   </div>
                 </div>
           </div>

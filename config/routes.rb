@@ -38,6 +38,8 @@ Rails.application.routes.draw do
   get "admin/sports_centre/:id/newPeakHour", to: "admin#newPeakHour", as: "new_peak_hour"
 
   get 'admin/sports_centre/:id/date', to: "admin#show_again", as: 'admin_show_again'
+  get 'admin/sports_centre/:id/payMoneyOwed', to: "admin#payMoneyOwed", as: 'admin_pay_money_owed'
+
   post "admin/sports_centre/:id/addNewBookings", to: "admin#addNewBookings", as: "admin_add_new_bookings"
   post "admin/sports_centre/:id/deleteBooking", to: "admin#deleteBooking", as: "admin_delete_booking"
   post "admin/sports_centre/:id/deleteOrder", to: "admin#deleteOrder", as: "admin_delete_order"
