@@ -128,7 +128,7 @@ class Api::V1::BookingsController < Api::V1::ApiController
       "{\"allDates\": #{allDates}," +
       "\"totalAmount\": \"#{order_params[:totalAmount]}\"," +
       "\"plan\": \"#{sportsCentre.plan}\"," +
-      "\"totalCommission\": \"#{order_params[:totalAmount] * sportsCentre.transactionRate}\"," +
+      "\"totalCommission\": \"#{order_params[:totalAmount].to_i * sportsCentre.transactionRate}\"," +
       "\"daysInBetween\": \"#{order_params[:daysInBetween]}\"," +
       "\"firstDayBookings\": #{order_params[:bwFirstDayBookings]}," +
       "\"arrayOfRegularCourtIds\": #{arrayOfRegularCourtIds}," +
