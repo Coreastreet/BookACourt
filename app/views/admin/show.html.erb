@@ -298,6 +298,7 @@
                     <h5>Pay Fees</h5>
                   </div>
                   <p>Online Payment Records</p>
+                  <div class="neg-margin-x flex-grow-1 overflow-y-scroll">
                     <div class="row mx-0">
                       <div class="col-1">
                         <p>Date:</p>
@@ -321,40 +322,41 @@
                         <p>Fee:</p>
                       </div>
                     </div>
-                  <% @arrayDailyTransactions.each do |transaction| %>
-                    <div class="row mx-0">
-                      <div class="col-1">
-                        <%= transaction["EndDateTime"].split("T")[1][0,5] %>
-                      </div>
-                      <div class="col-3 text-capitalize">
-                        <%= transaction["MerchantData"]["booking"]["courtType"].sub("Court", "-court") %>
-                        <%= transaction["MerchantData"]["booking"]["bookingType"] %>
-                        <%= transaction["MerchantData"]["booking"]["activityType"] %>
-                      </div>
-                      <div class="col-2">
-                          <%= transaction["MerchantData"]["booking"]["startTime"] %>-<%= transaction["MerchantData"]["booking"]["endTime"] %>
-                      </div>
-                      <div class="col-1">
-                        <div data-toggle="tooltip" title="<%= transaction["MerchantData"]["order"]["firstDayBookings"] + transaction["MerchantData"]["order"]["allDates"] %>">
-                          <%= transaction["MerchantData"]["order"]["allDates"].count + 1 %>
+                    <% @arrayDailyTransactions.each do |transaction| %>
+                      <div class="row mx-0">
+                        <div class="col-1">
+                          <%= transaction["EndDateTime"].split("T")[1][0,5] %>
+                        </div>
+                        <div class="col-3 text-capitalize">
+                          <%= transaction["MerchantData"]["booking"]["courtType"].sub("Court", "-court") %>
+                          <%= transaction["MerchantData"]["booking"]["bookingType"] %>
+                          <%= transaction["MerchantData"]["booking"]["activityType"] %>
+                        </div>
+                        <div class="col-2">
+                            <%= transaction["MerchantData"]["booking"]["startTime"] %>-<%= transaction["MerchantData"]["booking"]["endTime"] %>
+                        </div>
+                        <div class="col-1">
+                          <div data-toggle="tooltip" title="<%= transaction["MerchantData"]["order"]["firstDayBookings"] + transaction["MerchantData"]["order"]["allDates"] %>">
+                            <%= transaction["MerchantData"]["order"]["allDates"].count + 1 %>
+                          </div>
+                        </div>
+                        <div class="col-1">
+                          <%= transaction["MerchantData"]["order"]["plan"] %>
+                        </div>
+                        <div class="col-1 offset-md-2">
+                          $<%= '%.2f' % transaction["AmountPaid"] %>
+                        </div>
+                        <div class="col-1">
+                          <% if (transaction["MerchantData"]["order"]["totalCommission"]).present? %>
+                            $<%=  '%.2f' % (transaction["MerchantData"]["order"]["totalCommission"])%>
+                          <% else %>
+                            <%= 'N/A' %>
+                          <% end %>
                         </div>
                       </div>
-                      <div class="col-1">
-                        <%= transaction["MerchantData"]["order"]["plan"] %>
-                      </div>
-                      <div class="col-1 offset-md-2">
-                        $<%= '%.2f' % transaction["AmountPaid"] %>
-                      </div>
-                      <div class="col-1">
-                        <% if (transaction["MerchantData"]["order"]["totalCommission"]).present? %>
-                          $<%=  '%.2f' % (transaction["MerchantData"]["order"]["totalCommission"])%>
-                        <% else %>
-                          <%= 'N/A' %>
-                        <% end %>
-                      </div>
-                    </div>
-                  <% end %>
-                  <div class="row mx-0 align-self-end mt-auto mb-3 d-flex justify-content-between h5 w-20rem">
+                    <% end %>
+                  </div>
+                  <div class="row mx-0 align-self-end my-3 d-flex justify-content-between h5 w-20rem">
                     <span class="align-self-center">Total amount owed: </span><span class="h3 mr-2">$<%= '%.2f' % @sports_centre.moneyOwed %></span>
                   </div>
                   <div class="row mx-0 align-self-end mb-3">

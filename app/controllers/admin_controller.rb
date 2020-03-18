@@ -53,7 +53,7 @@ class AdminController < ApplicationController
     # make a restclient get call to the api for daily transactions
     todayDate = Date.today.strftime("%Y-%m-%d")
     jsonDailyTransactions = RestClient.get("https://poliapi.apac.paywithpoli.com/api/v2/Transaction/GetDailyTransactions?date=#{todayDate}&statuscodes=Completed",{Authorization: @sports_centre.combinedCode})
-    @arrayDailyTransactions = JSON.parse(jsonDailyTransactions)
+    @arrayDailyTransactions = (JSON.parse(jsonDailyTransactions)).reverse()
     @arrayDailyTransactions.each do |transaction|
       transaction["MerchantData"] = JSON.parse(transaction["MerchantData"])
     end
