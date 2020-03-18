@@ -12,7 +12,7 @@ class Api::V1::BookingsController < Api::V1::ApiController
     # if the transaction is successful,
     # create the booking
     if (parsed_response["TransactionStatus"] == "Completed")
-      moneyOwed = sports_centre.moneyOwed + data["order"]["totalCommission"]
+      moneyOwed = sports_centre.moneyOwed + data["order"]["totalCommission"].to_d
       sports_centre.update!(moneyOwed: moneyOwed)
 
       payerFirstName = parsed_response["PayerFirstName"]
