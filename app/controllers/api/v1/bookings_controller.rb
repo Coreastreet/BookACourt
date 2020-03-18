@@ -12,8 +12,6 @@ class Api::V1::BookingsController < Api::V1::ApiController
     # if the transaction is successful,
     # create the booking
     if (parsed_response["TransactionStatus"] == "Completed")
-      moneyOwed = sports_centre.moneyOwed + data["order"]["totalCommission"].to_d
-      sports_centre.update!(moneyOwed: moneyOwed)
 
       payerFirstName = parsed_response["PayerFirstName"]
       payerLastName = parsed_response["PayerFamilyName"]
@@ -31,6 +29,8 @@ class Api::V1::BookingsController < Api::V1::ApiController
       bookingType = data["booking"]["bookingType"]
       id = token_params[:sports_centre_id]
       # add the transaction fee to the sportcentres total amount due.
+      moneyOwed = sports_centre.moneyOwed + data["order"]["totalCommission"].to_d
+      sports_centre.update!(moneyOwed: moneyOwed)
       # merchantReference = parsed_response["MerchantReference"] same as the sent info
       # if successful, the customer will be given a reference 6-digit code to identify the order.
       customerReference = "#{orderId}-#{transactionRefNo[0..-3]}" # should remain unique since the first half is always unique
