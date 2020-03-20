@@ -6,11 +6,11 @@ ruby '2.6.5'
 gem 'dotenv-rails', :groups => [:development, :test]
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 6.0.0'
-# Use postgresql as the database for Active Record
+## Use postgresql as the database for Active Record
 gem 'pg', '>= 0.18', '< 2.0'
 # Use Puma as the app server
-gem 'puma', '~> 3.11'
-# gem "passenger", ">= 5.3.2", require: "phusion_passenger/rack_handler"
+# gem 'puma', '~> 3.11'
+gem "passenger", ">= 5.3.2", require: "phusion_passenger/rack_handler"
 
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5'

@@ -117,7 +117,8 @@ class AdminController < ApplicationController
   end
 
   def pay_money_owed
-    yesterdayMoneyOwed = current_sports_centre.yesterdayMoneyOwed
+    require "restclient"
+    yesterdayMoneyOwed = current_sports_centre.yesterdayMoneyOwed.to_s
     currentDate = Date.current
     orderReference = "#{params[:id]}_payment_#{currentDate.strftime("%d-%m-%y")}"
 
@@ -126,18 +127,18 @@ class AdminController < ApplicationController
           {Amount: yesterdayMoneyOwed, CurrencyCode: "AUD", MerchantReference: orderReference,
             MerchantHomepageURL: "https://weball.com.au/api/v1/sports_centres", #sportsCentre_url,
             MerchantData: info,
-            SuccessURL: "https://weball.com.au/admin/sports_centre/2/paymentSuccess",
-            FailureURL: "https://weball.com.au #/sports_centres/failure", # redirect to page with failure message later on
+            SuccessURL: "https://weball.com.au/admin/sports_centre/#{params[:id]}/paymentSuccess",
+            FailureURL: "https://weball.com.au/sports_centres/failure", # redirect to page with failure message later on
             CancellationURL: "https://weball.com.au/sports_centres/cancelled",
-            NotificationURL: "https://weball.com.au/api/v1/sports_centres/2/bookings"},
+            NotificationURL: "https://weball.com.au/api/v1/sports_centres/#{params[:id]}/bookings"},
             {Authorization: "Basic UzYxMDQ2ODk6RWQ2QCRNYjM0Z14="}
 
     parsedResponse = JSON.parse(response.body)
+
     if (response.code == 200 && parsedResponse["Success"])
         redirect_to parsedResponse["NavigateURL"]
     else
-        redirect_to root_path
-      # logger.info "initiate transaction action has failed"
+      logger.info "initiate transaction action has failed"
     end
 
   end
