@@ -79,6 +79,14 @@ pre.code code {
   z-index: 1;
 }
 
+.color-gainsboro {
+  color: gainsboro;
+}
+
+.d-content {
+  display: contents;
+}
+
 .h-contentFit {
   height: fit-content;
 }
@@ -86,4 +94,8 @@ pre.code code {
 .codeInput {
   border: none;
   background-color: #333;
+}
+
+#recordArrowControls .fas:hover {
+    background-color: gainsboro;
 }

@@ -555,10 +555,10 @@ $(document).on('turbolinks:load', function () {
         //}
       });
 
-      $("#buttonHolder").on("click", "pay-fees", function() {
+/*      $("#payFeesBody").on("click", "#payTransactionFees", function() {
           $.ajax({
               type: "GET",
-              url: `admin/sports_centre/${idValue}/payMoneyOwed`,
+              url: ``,
               data: {
               },
               success: function(result) {
@@ -569,7 +569,7 @@ $(document).on('turbolinks:load', function () {
               }
           });
       });
-
+*/
       $("#planForm").bind('ajax:complete', function() {
           $(this).find("#plan-success").removeClass("d-none");
           var planRadio = $("input[type='radio']:checked");
@@ -678,6 +678,71 @@ $(document).on('turbolinks:load', function () {
 
       $("#editBusinessHoursForm").bind('ajax:error', function() {
           $(this).find("#prices-failure").removeClass("d-none");
+      });
+
+      // this is code for getting the payment records of chosen dates.
+      $("#payFeesBody").on("click", "#recordArrowControls i", function() {
+          var recordDateHolder = $("#payFeesBody #recordDateBox");
+          var nextDate = new Date(recordDateHolder.text());
+          //if (nextDate < myToday) {
+            if ($(this).hasClass("add-icon")) {
+                if ($(this).hasClass("day")) {
+                    nextDate.setDate(nextDate.getDate() + 1);
+                } else { //
+                    nextDate.setMonth(nextDate.getMonth() + 1);
+                }
+            } else { // minus
+                if ($(this).hasClass("day")) {
+                    nextDate.setDate(nextDate.getDate() - 1);
+                } else { //
+                    nextDate.setMonth(nextDate.getMonth() - 1);
+                }
+            }
+            var options = { day: 'numeric', month: 'long', year: 'numeric' };
+            var formattedDate = nextDate.toLocaleDateString("en-AU", options);
+
+            var todayDate = new Date();
+            todayDate.setDate(todayDate.getDate()-1);
+            var myPrevDate = new Date(todayDate.getFullYear(), todayDate.getMonth(), todayDate.getDate(), 0, 0, 0);
+
+            var addIcons = $("#recordArrowControls i.add-icon");
+
+            if (nextDate < myPrevDate) {
+              addIcons.removeClass("color-gainsboro");
+              recordDateHolder.text(formattedDate);
+              $.ajax({
+                 type: "GET",
+                 url:  `/admin/sports_centres/${idValue}/getPastRecords`,
+                 data: {
+                   date: formattedDate,
+                    // info: info, // < note use of 'this' here
+                 },
+                 success: function(result) {
+                 },
+                 error: function(result) {
+                     alert('error');
+                 }
+               });
+             } else {
+               addIcons.addClass("color-gainsboro");
+               recordDateHolder.text(myPrevDate.toLocaleDateString("en-AU", options));
+               $.ajax({
+                  type: "GET",
+                  url:  `/admin/sports_centres/${idValue}/getPastRecords`,
+                  data: {
+                    date: myPrevDate.toLocaleDateString("en-AU", options),
+                     // info: info, // < note use of 'this' here
+                  },
+                  success: function(result) {
+                  },
+                  error: function(result) {
+                      alert('error');
+                  }
+                });
+             }
+            //} else {
+
+            //}
       });
 });
 /*

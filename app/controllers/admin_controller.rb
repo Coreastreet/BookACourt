@@ -59,6 +59,21 @@ class AdminController < ApplicationController
     end
   end
 
+  def getPastRecords
+    require "restclient"
+    date = Date.parse(date_params[:date])
+    formattedDate = date.strftime("%Y-%m-%d")
+    jsonDailyTransactions = RestClient.get("https://poliapi.apac.paywithpoli.com/api/v2/Transaction/GetDailyTransactions?date=#{formattedDate}&statuscodes=Completed",{Authorization: current_sports_centre.combinedCode})
+    @arrayDailyTransactions = (JSON.parse(jsonDailyTransactions)).reverse()
+    @arrayDailyTransactions.each do |transaction|
+      transaction["MerchantData"] = JSON.parse(transaction["MerchantData"])
+    end
+    respond_to do |format|
+      format.js
+      # format.html
+    end
+  end
+
   def check_pin
     pin = pin_params[:pin].to_i
     matchedBooking = current_sports_centre.bookings.find_by(pin: pin, date: Date.today)
@@ -74,24 +89,55 @@ class AdminController < ApplicationController
     end
   end
 
-  def pay_moneyOwed
-    moneyOwed = current_sports_centre.moneyOwed
-    moneyPaid = current_sports_centre.moneyPaid
-    info = current_sports_centre.title
+  def payment_success
+    url = "https://poliapi.apac.paywithpoli.com/api/v2/Transaction/GetTransaction?token=" + token_params[:Token]
+    response = RestClient.get url, {Authorization: "Basic UzYxMDQ2ODk6RWQ2QCRNYjM0Z14="}
+    parsed_response = JSON.parse(response)
+    # if the transaction is successful,
+    # create the booking
+    if (parsed_response["TransactionStatus"] == "Completed")
+
+        moneyPaid = current_sports_centre.moneyPaid
+        moneyOwed = current_sports_centre.moneyOwed
+
+        current_sports_centre.update!(yesterdayMoneyOwed: 0.0,
+          moneyPaid: moneyPaid + yesterdayMoneyOwed,
+          moneyOwed: moneyOwed - yesterdayMoneyOwed,
+          lastPayDate: Date.current) # all fees paid up to but not inclusive of this date
+        # reset the money owed up to yesterday to Zero;
+        # increase the money paid by the amount paid;
+        # decrease the amount of money owed by the amount paid.
+    end
+
+    @sportsCentre = current_sports_centre;
+    respond_to do |format|
+      # format.js
+      format.html
+    end
+  end
+
+  def pay_money_owed
+    yesterdayMoneyOwed = current_sports_centre.yesterdayMoneyOwed
+    currentDate = Date.current
+    orderReference = "#{params[:id]}_payment_#{currentDate.strftime("%d-%m-%y")}"
+
+    info = "#{current_sports_centre.title}: #{yesterdayMoneyOwed}AUD"
     response = RestClient.post "https://poliapi.apac.paywithpoli.com/api/v2/Transaction/Initiate",
-          {Amount: moneyOwed, CurrencyCode: "AUD", MerchantReference: orderReference,
+          {Amount: yesterdayMoneyOwed, CurrencyCode: "AUD", MerchantReference: orderReference,
             MerchantHomepageURL: "https://weball.com.au/api/v1/sports_centres", #sportsCentre_url,
             MerchantData: info,
-            SuccessURL: "https://weball.com.au/sports_centres/#{params[:sports_centre_id]}/booking_success",
+            SuccessURL: "https://weball.com.au/admin/sports_centre/#{params[:id]}/paymentSuccess",
             FailureURL: "https://weball.com.au/sports_centres/failure", # redirect to page with failure message later on
             CancellationURL: "https://weball.com.au/sports_centres/cancelled",
-            NotificationURL: "https://weball.com.au/api/v1/sports_centres/#{params[:sports_centre_id]}/bookings"},
+            NotificationURL: "https://weball.com.au/api/v1/sports_centres/#{params[:id]}/bookings"},
             {Authorization: "Basic UzYxMDQ2ODk6RWQ2QCRNYjM0Z14="}
 
     parsedResponse = JSON.parse(response.body)
 
-    if (parsed_response["TransactionStatus"] == "Completed")
-      current_sports_centre.update!(moneyOwed: 0.0, moneyPaid: moneyPaid + moneyOwed)
+    if (response.code == 200 && parsedResponse["Success"])
+        redirect_to parsedResponse["NavigateURL"]
+    else
+      logger.info "initiate transaction action has failed"
     end
 
   end
@@ -193,9 +239,17 @@ class AdminController < ApplicationController
       params.require(:sports_centre).permit(:plan)
   end
 
+  def date_params
+      params.permit(:id, :date) #.require(:)
+  end
+
   def sports_centre_params
       params.require(:sports_centre).permit(:title, :email, :password, :password_confirmation, :ABN,
          :phone, :description, :logo, :merchantCode, :authenticationCode, :numberOfCourts, :prices)
+  end
+
+  def token_params
+    params.permit(:Token, :sports_centre_id)
   end
 
   def id_params

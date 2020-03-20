@@ -1,0 +1,25 @@
+var recordHolder = document.querySelector("#paymentRecordHolder");
+recordHolder.innerHTML = "";
+var templateRow = document.querySelector("#payFeesBody .templateRecordRow");
+var cloneRecordRow;
+var children;
+<% @arrayDailyTransactions.each do |transaction| %>
+  cloneRecordRow = templateRow.cloneNode(true);
+  children = cloneRecordRow.children
+  children[0].innerHTML = "<%= transaction["EndDateTime"].split("T")[1][0,5] %>";
+  children[1].innerHTML = "<%= "#{transaction["MerchantData"]["booking"]["courtType"].sub("Court", "-court")}" +
+                          " #{transaction["MerchantData"]["booking"]["bookingType"]}" +
+                          " #{transaction["MerchantData"]["booking"]["activityType"]}" %>";
+  children[2].innerHTML = "<%= "#{transaction["MerchantData"]["booking"]["startTime"]}- #{transaction["MerchantData"]["booking"]["endTime"]}" %>"
+  children[3].firstElementChild.setAttribute("title", "<%= transaction["MerchantData"]["order"]["firstDayBookings"] + transaction["MerchantData"]["order"]["allDates"] %>");
+  children[3].firstElementChild.innerHTML = "<%= transaction["MerchantData"]["order"]["allDates"].count + 1 %>";
+  children[4].innerHTML = "<%= transaction["TransactionRefNo"] %>";
+  children[5].innerHTML = "$<%= '%.2f' % transaction["AmountPaid"] %>";
+  children[6].innerHTML = <% if (transaction["MerchantData"]["order"]["totalCommission"]).present? %>
+    "$<%=  '%.2f' % (transaction["MerchantData"]["order"]["totalCommission"])%>"
+  <% else %>
+    "<%= 'N/A' %>"
+  <% end %>;
+  recordHolder.appendChild(cloneRecordRow);
+  cloneRecordRow.classList.remove("d-none");
+<% end %>

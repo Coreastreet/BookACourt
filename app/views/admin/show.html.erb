@@ -296,32 +296,61 @@
                 <div class="row mx-0 mt-4 w-100 d-flex flex-column">
                   <div class="row d-flex justify-content-between mx-0">
                     <h5>Pay Fees</h5>
+                    <div id="recordDateBox" class="d-inline h5 mb-0 px-2"><%= (Date.today - 1.day).strftime("%d %B %Y") %></div>
                   </div>
-                  <p>Online Payment Records</p>
-                  <div class="neg-margin-x flex-grow-1 overflow-y-scroll" id="paymentRecordHolder">
-                    <div class="row mx-0">
-                      <div class="col-1">
-                        <p>Date:</p>
+                  <div class="row d-flex justify-content-end mx-0">
+                      <div id="recordArrowControls" class="d-content">
+                          <i class="fas fa-angle-double-left fa-lg p-2 rounded-circle minus-icon month"></i>
+                          <i class="fas fa-angle-left fa-lg p-2 rounded-circle minus-icon day"></i>
+                          <i class="fas fa-angle-right fa-lg p-2 rounded-circle add-icon day color-gainsboro" ></i>
+                          <i class="fas fa-angle-double-right fa-lg p-2 rounded-circle add-icon month color-gainsboro"></i>
                       </div>
-                      <div class="col-3">
-                        <p>Activity:</p>
-                      </div>
-                      <div class="col-2">
-                        <p>Time:</p>
-                      </div>
-                      <div class="col-1">
-                        <p>No.</p>
-                      </div>
-                      <div class="col-1">
-                        <p>Plan:</p>
-                      </div>
-                      <div class="offset-md-2 col-1">
-                        <p>Amount:</p>
-                      </div>
-                      <div class="col-1">
-                        <p>Fee:</p>
+                  </div>
+                  <div class="row d-flex justify-content-between mx-0">
+                    <p>Online Payment Records</p>
+                  </div>
+                  <div class="row pr-3 neg-margin-x">
+                    <div class="col-1">
+                      <p>Date:</p>
+                    </div>
+                    <div class="col-3">
+                      <p>Activity:</p>
+                    </div>
+                    <div class="col-2">
+                      <p>Time:</p>
+                    </div>
+                    <div class="col-1">
+                      <p>No.</p>
+                    </div>
+                    <div class="col-2">
+                      <p>Poli ID:</p>
+                    </div>
+                    <div class="offset-md-1 col-1">
+                      <p>Amount:</p>
+                    </div>
+                    <div class="col-1">
+                      <p>Fee:</p>
+                    </div>
+                  </div>
+                  <div class="row mx-0 templateRecordRow d-none">
+                    <div class="col-1">
+                    </div>
+                    <div class="col-3 text-capitalize">
+                    </div>
+                    <div class="col-2">
+                    </div>
+                    <div class="col-1">
+                      <div data-toggle="tooltip" title>"">
                       </div>
                     </div>
+                    <div class="col-2">
+                    </div>
+                    <div class="col-1 offset-md-1">
+                    </div>
+                    <div class="col-1">
+                    </div>
+                  </div>
+                  <div class="neg-margin-x flex-grow-1 overflow-y-scroll" id="paymentRecordHolder">
                     <% @arrayDailyTransactions.each do |transaction| %>
                       <div class="row mx-0">
                         <div class="col-1">
@@ -340,10 +369,10 @@
                             <%= transaction["MerchantData"]["order"]["allDates"].count + 1 %>
                           </div>
                         </div>
-                        <div class="col-1">
-                          <%= transaction["MerchantData"]["order"]["plan"] %>
+                        <div class="col-2">
+                          <%= transaction["TransactionRefNo"] %>
                         </div>
-                        <div class="col-1 offset-md-2">
+                        <div class="col-1 offset-md-1">
                           $<%= '%.2f' % transaction["AmountPaid"] %>
                         </div>
                         <div class="col-1">
@@ -356,13 +385,12 @@
                       </div>
                     <% end %>
                   </div>
-                  <div class="row mx-0 align-self-end my-3 d-flex justify-content-between h5 w-20rem">
+                  <div class="row mx-0 align-self-end mt-3 d-flex justify-content-between h5 w-20rem">
                     <span class="align-self-center">Total amount owed: </span><span class="h3 mr-2">$<%= '%.2f' % @sports_centre.yesterdayMoneyOwed %></span>
                   </div>
                   <div class="row mx-0 align-self-end mb-3">
-                    <button id="pay-fees" type="button" class="btn btn-primary mr-2">Pay now</button>
+                      <%= link_to "Pay now", "/admin/sports_centre/#{@sports_centre.id}/payMoneyOwed", class: "btn btn-primary mr-2 text-white", id: "payTransactionFees" %>
                   </div>
-                </div>
           </div>
           <div class="row mx-0 d-none setPrices h-100" id="setPricesForm">
             <%= form_with model: @sports_centre, class: "col d-flex flex-column", id: 'editPricesForm', url: admin_update_prices_path(@sports_centre), method: "post" do |f| %>
