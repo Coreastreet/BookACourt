@@ -40,7 +40,7 @@ Rails.application.routes.draw do
   get 'admin/sports_centre/:id/date', to: "admin#show_again", as: 'admin_show_again'
   get 'admin/sports_centre/:id/payMoneyOwed', to: "admin#pay_money_owed", as: 'admin_pay_money_owed'
   get "admin/sports_centres/:id/getPastRecords", to: "admin#getPastRecords", as: "admin_get_past_records"
-  get "admin/sports_centre/:id/paymentSuccess", to: "admin#payment_success", as: "admin_payment_success"
+  get "admin/sports_centre/:id/payment_success", to: "admin#payment_success", as: "admin_payment_success"
 
   post "admin/sports_centre/:id/addNewBookings", to: "admin#addNewBookings", as: "admin_add_new_bookings"
   post "admin/sports_centre/:id/deleteBooking", to: "admin#deleteBooking", as: "admin_delete_booking"

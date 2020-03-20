@@ -54,6 +54,8 @@ class AdminController < ApplicationController
     todayDate = (Date.today - 1.day).strftime("%Y-%m-%d")
     jsonDailyTransactions = RestClient.get("https://poliapi.apac.paywithpoli.com/api/v2/Transaction/GetDailyTransactions?date=#{todayDate}&statuscodes=Completed",{Authorization: @sports_centre.combinedCode})
     @arrayDailyTransactions = (JSON.parse(jsonDailyTransactions)).reverse()
+    @arrayDailyTransactions.reject! { |hash| !hash["MerchantData"].include?("[") }
+
     @arrayDailyTransactions.each do |transaction|
       transaction["MerchantData"] = JSON.parse(transaction["MerchantData"])
     end
@@ -127,7 +129,7 @@ class AdminController < ApplicationController
           {Amount: yesterdayMoneyOwed, CurrencyCode: "AUD", MerchantReference: orderReference,
             MerchantHomepageURL: "https://weball.com.au/api/v1/sports_centres", #sportsCentre_url,
             MerchantData: info,
-            SuccessURL: "https://weball.com.au/admin/sports_centre/#{params[:id]}/paymentSuccess",
+            SuccessURL: "https://weball.com.au/admin/sports_centre/#{params[:id]}/payment_success",
             FailureURL: "https://weball.com.au/sports_centres/failure", # redirect to page with failure message later on
             CancellationURL: "https://weball.com.au/sports_centres/cancelled",
             NotificationURL: "https://weball.com.au/api/v1/sports_centres/#{params[:id]}/bookings"},
