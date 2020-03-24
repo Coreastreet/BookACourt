@@ -621,7 +621,7 @@ function convertAMPMToString(ampmTime) {
 // enable the clear time button
 // fetch booking data for a particular sports centre.
 var sportsCentreId = document.querySelector("#weBallWidget").getAttribute("data-sportsCentreId");
-var request = makeCORSRequest(`https://weball.com.au/api/v1/sports_centres/${sportsCentreId}/bookings/check_availability`, "GET");
+var request = makeCORSRequest(`https://www.weball.com.au/api/v1/sports_centres/${sportsCentreId}/bookings/check_availability`, "GET");
 //request.responseType = "json";
 request.responseType = "json";
 //request.timeout = 2000;
@@ -649,7 +649,7 @@ request.onload = function(e) {
     for (var activity in jsonPrices) {
       // insert an image icon
         cloneIcon = activitySelector.find("img.activityIcon").eq(0).clone();
-        cloneIcon.attr("src", `https://weball.com.au/${activity}.png`);
+        cloneIcon.attr("src", `https://www.weball.com.au/${activity}.png`);
         cloneIcon.removeClass("bw-none");
         cloneIcon.attr("data-activity", activity);
         //cloneIcon.attr("data-prices", jsonPrices[activity]);
