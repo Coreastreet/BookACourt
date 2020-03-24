@@ -159,12 +159,12 @@ class AdminController < ApplicationController
     info = "#{current_sports_centre.title}: #{yesterdayMoneyOwed}AUD"
     response = RestClient.post "https://poliapi.apac.paywithpoli.com/api/v2/Transaction/Initiate",
           {Amount: yesterdayMoneyOwed, CurrencyCode: "AUD", MerchantReference: orderReference,
-            MerchantHomepageURL: "https://www.weball.com.au/api/v1/sports_centres", #sportsCentre_url,
+            MerchantHomepageURL: "https://weball.com.au/api/v1/sports_centres", #sportsCentre_url,
             MerchantData: info,
-            SuccessURL: "https://www.weball.com.au/admin/sports_centre/#{params[:id]}/payment_success",
-            FailureURL: "https://www.weball.com.au/sports_centres/failure", # redirect to page with failure message later on
-            CancellationURL: "https://www.weball.com.au/sports_centres/cancelled",
-            NotificationURL: "https://www.weball.com.au/api/v1/sports_centres/#{params[:id]}/bookings"},
+            SuccessURL: "https://weball.com.au/admin/sports_centre/#{params[:id]}/payment_success",
+            FailureURL: "https://weball.com.au/sports_centres/failure", # redirect to page with failure message later on
+            CancellationURL: "https://weball.com.au/sports_centres/cancelled",
+            NotificationURL: "https://weball.com.au/api/v1/sports_centres/#{params[:id]}/bookings"},
             {Authorization: "Basic UzYxMDQ2ODk6RWQ2QCRNYjM0Z14="}
 
     parsedResponse = JSON.parse(response.body)

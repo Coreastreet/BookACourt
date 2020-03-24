@@ -589,7 +589,7 @@ $(document).on('turbolinks:load', function () {
               $("#wrapperCode").removeClass("d-none");
               $("#step4").removeClass("d-none");
               $("#step5").removeClass("d-none");
-              $("#wrapperCode #scriptCode").val('<script async src="https://www.weball.com.au/demo_async.js"></script>');
+              $("#wrapperCode #scriptCode").val('<script async src="https://weball.com.au/demo_async.js"></script>');
               $("#wrapperCode #widgetCode").val(`<div data-sportsCentreId=${idValue}></div>`);
           } else {
               $("#wrapperCode #scriptCode").val("");
