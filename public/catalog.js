@@ -244,7 +244,7 @@ BookingWidget.html = (function() {
               '<button type="button" class="btn btn-default bw-button bw-white" data-dismiss="modal">Close</button>' +
               '</div>' +
               '</div>' +
-              '<div class="modal-footer bw-footer bw-paddingMargin bw-paddingBottom1" id="polipayFooter">' +
+              '<div class="modal-footer bw-footer bw-paddingMargin bw-paddingBottom1 bw-none" id="polipayFooter">' +
               'POLi is a secure payment system that allows you to pay directly from your bank account.' +
               '</div>' +
               '</div>' +
