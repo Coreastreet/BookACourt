@@ -159,6 +159,7 @@ class SportsCentresController < ApplicationController
   end
 
   def booking_failure
+    debugger
   end
 
   private

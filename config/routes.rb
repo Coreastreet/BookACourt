@@ -20,8 +20,8 @@ Rails.application.routes.draw do
   get "/sports_centres/:id/user_show", to: "sports_centres#user_show", as: "sports_centre_user"
 
   get "/sports_centres/:sports_centre_id/booking_success", to: "sports_centres#booking_success", as: "sports_centre_booking_success"
-  get "/sports_centres/booking_failure", to: "sports_centres#booking_failure", as: "sports_centre_booking_failure"
-  get "/sports_centres/booking_cancelled", to: "sports_centres#booking_cancelled", as: "sports_centre_booking_cancelled"
+  get "/sports_centres/:id/booking_failure", to: "sports_centres#booking_failure", as: "sports_centre_booking_failure"
+  get "/sports_centres/:id/booking_cancelled", to: "sports_centres#booking_cancelled", as: "sports_centre_booking_cancelled"
   # above route overlaps with the one below, should try to simplify routes later on
   get "/sports_centres/:id/:date", to: "sports_centres#user_show", as: "sports_centre_user_date"
 
