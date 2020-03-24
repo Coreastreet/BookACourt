@@ -490,7 +490,7 @@ div.datepicker.dropdown-menu.datepicker-orient-left.datepicker-orient-bottom {
   background-color: white;
 }
 
-#payment-confirmation #firstModalCard .modalFooter img {
+#payment-confirmation #firstModalCard .modal-footer img {
     height: 2.5rem;
 }
 
