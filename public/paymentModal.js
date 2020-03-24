@@ -139,7 +139,7 @@ bw.on("click", "#bookNowButton", function(e) {
         //console.log("all_dates", all_dates);
         //console.log("first_day", first_day_bookings);
         //debugger
-        $("#polipayInfo").hover( showPolipayInfo, hidePolipayInfo );
+        BookingWidget.$("#firstModalCard #polipayInfo").hover( showPolipayInfo, hidePolipayInfo );
         //console.log(paramsText);
         var sportsCentreId = document.querySelector("#weBallWidget").getAttribute("data-sportsCentreId");
         modal_body.on("click", "#polipay", function() {
@@ -174,11 +174,11 @@ modal_body.on("click", ".trigger-detail-modal", function() {
 });
 // fill in payment details except for the cost
 function showPolipayInfo() {
-    $("#polipayFooter").removeClass("bw-none");
+    BookingWidget.$("#firstModalCard #polipayFooter").removeClass("bw-none");
 }
 
 function hidePolipayInfo() {
-    $("#polipayFooter").addClass("bw-none");
+    BookingWidget.$("#firstModalCard #polipayFooter").addClass("bw-none");
 }
 
 function addParams(name, jsonParams) {
