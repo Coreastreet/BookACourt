@@ -239,13 +239,12 @@ BookingWidget.html = (function() {
               '</div>' +
               '<div class="modal-footer bw-footer bw-marginTop1 bw-paddingBottom1">' +
               '<img src="https://weball.com.au/polipayLogo.png" class=""></img>' +
-              '<i class="fas fa-info-circle"></i>' +
-              '<div id="poliInfo"></div>' +
+              '<i class="fas fa-info-circle fa-lg" id="polipayInfo"></i>' +
               '<button type="button" class="btn btn-primary bw-button bw-blue" id="polipay" data-dismiss="modal">Pay with POLi</button>' +
               '<button type="button" class="btn btn-default bw-button bw-white" data-dismiss="modal">Close</button>' +
               '</div>' +
               '</div>' +
-              '<div class="modal-footer bw-footer bw-paddingMargin bw-paddingBottom1">' +
+              '<div class="modal-footer bw-footer bw-paddingMargin bw-paddingBottom1" id="polipayFooter">' +
               'POLi is a secure payment system that allows you to pay directly from your bank account.' +
               '</div>' +
               '</div>' +
