@@ -90,7 +90,7 @@ var BookingWidget = (function(window, undefined) {
                   //alert("date format loaded!");
                 });
             });
-              }):
+              });
           });
         })(jQuery);
     });
