@@ -25,7 +25,7 @@ BookingWidget.html = (function() {
               '<nav>' +
               '<div id="activitySelector" class="">' +
               '<div id="activityHolder">Basketball</div>' +
-              '<img class="activityIcon bw-none" width="1rem" data-activity="" data-prices="" src="http://localhost:3000/basketball.png"></img>' +
+              '<img class="activityIcon bw-none" width="1rem" data-activity="" data-prices="" src="https://weball.com.au/basketball.png"></img>' +
               '</div>' +
               '</nav>' +
               '<nav>' +
@@ -238,8 +238,9 @@ BookingWidget.html = (function() {
               '</div>' +
               '</div>' +
               '<div class="modal-footer bw-footer bw-marginTop1 bw-paddingBottom1">' +
-              '<img src="http://localhost:3000/polipayLogo.png" class="mr-auto"></img>' +
-              '<button type="button" class="btn btn-primary bw-button bw-blue" id="polipay" data-dismiss="modal">Pay with POLi</button>' +
+              '<img src="https://weball.com.au/polipayLogo.png" class=""></img>' +
+              '<button type="button" class="btn btn-primary bw-button bw-blue" id="polipay" aria-describedby="tooltip" data-dismiss="modal">Pay with POLi</button>' +
+              '<div id="tooltip" role="tooltip">My tooltip</div>' +
               '<button type="button" class="btn btn-default bw-button bw-white" data-dismiss="modal">Close</button>' +
               '</div>' +
               '</div>' +

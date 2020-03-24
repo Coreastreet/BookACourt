@@ -37,7 +37,8 @@ var BookingWidget = (function(window, undefined) {
     loadScript("https://weball.com.au/jquery.js", function() {
         (function($) {
           loadScript("https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.js", function() {
-              loadScript("https://weball.com.au/catalog.js",function() {
+              loadScript("https://unpkg.com/@popperjs/core@2", function() {
+                    loadScript("https://weball.com.au/catalog.js",function() {
 
                 function getSportsCentreParams() {
 
@@ -89,6 +90,7 @@ var BookingWidget = (function(window, undefined) {
                   //alert("date format loaded!");
                 });
             });
+              }):
           });
         })(jQuery);
     });
