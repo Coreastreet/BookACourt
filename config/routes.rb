@@ -42,6 +42,8 @@ Rails.application.routes.draw do
   get "admin/sports_centres/:id/getPastRecords", to: "admin#getPastRecords", as: "admin_get_past_records"
   get "admin/sports_centre/:id/payment_success", to: "admin#payment_success", as: "admin_payment_success"
 
+  post "admin/sports_centre/:id/lockPage", to: "admin#lockPage", as: "admin_lock_page"
+  post "admin/sports_centre/:id/checkAdminPin", to: "admin#check_admin_pin", as: "admin_check_admin_pin"
   post "admin/sports_centre/:id/addNewBookings", to: "admin#addNewBookings", as: "admin_add_new_bookings"
   post "admin/sports_centre/:id/deleteBooking", to: "admin#deleteBooking", as: "admin_delete_booking"
   post "admin/sports_centre/:id/deleteOrder", to: "admin#deleteOrder", as: "admin_delete_order"

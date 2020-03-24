@@ -33,35 +33,37 @@
                     </div>
                   </div>
                   <div class="row" id="setPrices" data-connectedRow="#setPricesForm">
-                    <div class="col text-white hover-black rounded manage_peak_hours p-2">
-                      <i class="fas fa-dollar-sign w-1point5"></i>
+                    <div class="col d-flex text-white hover-black rounded manage_peak_hours p-2">
+                      <i class="fas fa-dollar-sign align-self-center mr-1 w-1point5"></i>
                       Prices
+                      <i class="fas fa-lock align-self-center ml-auto lock"></i>
                     </div>
                   </div>
-                  <div class="row" data-connectedRow="#editProfileBody" id="edit-profile">
-                    <div class="col text-white hover-black edit-profile rounded p-2">
-                      <i class="far fa-clock w-1point5"></i>
+                  <div class="row" data-connectedRow="#editProfileBody" id="edit_profile">
+                    <div class="col d-flex text-white hover-black edit_profile rounded p-2">
+                      <i class="far fa-clock align-self-center w-1point5 mr-1"></i>
                       Business Hours
+                      <i class="fas fa-lock align-self-center ml-auto lock"></i>
                     </div>
                   </div>
-                  <div class="row" id="setLogo" data-connectedRow="#editLogoBody">
-                    <div class="col text-white rounded hover-black p-2">
-                      <i class="far fa-image w-1point5"></i>
+                  <div class="row mb-auto" id="setLogo" data-connectedRow="#editLogoBody">
+                    <div class="col d-flex text-white rounded hover-black p-2">
+                      <i class="far fa-image align-self-center w-1point5 mr-1"></i>
                       Logo
+                      <i class="fas fa-lock align-self-center ml-auto lock"></i>
                     </div>
-                  </div>
-                  <div class="row flex-grow-1">
                   </div>
                   <div class="row" data-connectedRow="#payFeesBody" id="pay-fees">
-                    <div class="col text-white hover-black edit-profile rounded p-2">
+                    <div class="col text-white hover-black edit_profile rounded p-2">
                       <i class="fas fa-money-bill w-1point5"></i>
                       Pay fees
                     </div>
                   </div>
-                  <div class="row" data-connectedRow="#upgradePlanBody" id="upgrade-plan" data-plan=<%= @sports_centre.plan %>>
-                    <div class="col text-white hover-black edit-profile rounded p-2">
-                      <i class="fas fa-arrow-circle-up w-1point5"></i>
+                  <div class="row" data-connectedRow="#upgradePlanBody" id="upgrade_plan" data-plan=<%= @sports_centre.plan %>>
+                    <div class="col d-flex text-white hover-black edit_profile rounded p-2">
+                      <i class="fas fa-arrow-circle-up w-1point5 mr-1 align-self-center"></i>
                       Upgrade plan
+                      <i class="fas fa-lock align-self-center ml-auto lock"></i>
                     </div>
                   </div>
               </div>
@@ -137,7 +139,7 @@
               </div>
               <div class="">
                   <h2 class="text-center py-5">weBall</h2>
-                  <h5> In order to complete your registration, you must complete the following steps.</h5>
+                  <h5>In order to complete your registration, you must complete the following steps.</h5>
                   <h5>1. Enter and save your opening and peak hours.</h5>
                   <h5>2. Enter and save your prices.</h5>
                   <h5>3. Enter bookings into the dashboard.</h5>
@@ -205,7 +207,7 @@
                 <button type="button" id="pinNameHolder" class="d-none" data-booking-id=""></button>
                 <div class="row mx-0 align-self-end mt-auto mb-3 ml-4 justify-content-end">
                       <button type="button" class="btn btn-primary mr-2" id="newBookingsSave">Save</button>
-                      <button type="button" class="btn btn-secondary">Cancel</button>
+                      <button type="button" class="btn btn-secondary" id="removeUnconfirmed">Cancel</button>
                 </div>
               </div>
           </div>
@@ -218,7 +220,13 @@
               <button type="button" class="btn btn-secondary">Clear</button>
             </div>
           </div>
-          <div class="row mx-0 d-none upload-profile h-100" id="editProfileBody">
+          <div class="row mx-0 d-none upload-profile h-100 position-relative lockdown" data-buttonRef="#edit_profile" id="editProfileBody">
+            <div class="overlay">
+              <i class="fas fa-lock fa-10x align-self-center"></i>
+              <h5 class="text-center text-white mt-3">Admin access only</h5>
+              <input type="password" value="" class="col-3 align-self-center text-center max-h form-control"></input>
+              <button type="button" class="col-3 align-self-center max-h checkAdminPin">Check admin PIN</button>
+            </div>
             <%= form_with model: @sports_centre, class: "col d-flex flex-column justify-content-between", id: 'editBusinessHoursForm', url: admin_update_hours_path(@sports_centre), method: "post" do |f| %>
                 <div class="row mx-0">
                   <div class="col">
@@ -271,11 +279,18 @@
                     <p class="alert alert-success mb-0 d-none py-2" id="hours-success">Business Hours saved successfully.</p>
                     <p class="alert alert-danger mb-0 d-none py-2" id="hours-failure">Business Hours saving unsuccessful.</p>
                     <%= f.submit "Save", class: "btn btn-primary mr-2" %>
+                    <button type="button" name="button" class="lockPage btn btn-secondary">Lock</button>
                   </div>
                 </div>
             <% end %>
           </div>
-          <div class="row mx-0 d-none upload-logo h-100" id="editLogoBody">
+          <div class="row mx-0 d-none upload-logo h-100 position-relative lockdown" data-buttonRef="#setLogo" id="editLogoBody">
+              <div class="overlay">
+                <i class="fas fa-lock fa-10x align-self-center"></i>
+                <h5 class="text-center text-white mt-3">Admin access only</h5>
+                <input type="password" value="" class="col-3 align-self-center text-center max-h form-control"></input>
+                <button type="button" class="col-3 align-self-center max-h checkAdminPin">Check admin PIN</button>
+              </div>
               <%= form_with model: @sports_centre, class: "col d-flex flex-column", id: 'editLogoForm', url: admin_update_logo_path(@sports_centre), method: "post" do |f| %>
                 <div class="row mx-0 mt-4">
                   <h5>Upload a logo:</h5>
@@ -289,6 +304,7 @@
                 </div>
                 <div class="row mx-0 align-self-end mt-auto mb-3">
                   <%= f.submit "Save", class: "btn btn-primary mr-2" %>
+                  <button type="button" name="button" class="lockPage btn btn-secondary">Lock</button>
                 </div>
               <% end %>
           </div>
@@ -296,7 +312,10 @@
                 <div class="row mx-0 mt-4 w-100 d-flex flex-column">
                   <div class="row d-flex justify-content-between mx-0">
                     <h5>Pay Fees</h5>
-                    <div id="recordDateBox" class="d-inline h5 mb-0 px-2"><%= (Date.today - 1.day).strftime("%d %B %Y") %></div>
+                    <div class="">
+                      <p class="alert alert-success py-1 <%= 'd-none' unless @sports_centre.lastPayDate == Date.current %>" id="lastPayDateHolder" data-lastPayDate="<%= @sports_centre.lastPayDate %>">Paid</p>
+                      <div id="recordDateBox" class="d-inline h5 mb-0 px-2"><%= (Date.today - 1.day).strftime("%d %B %Y") %></div>
+                    </div>
                   </div>
                   <div class="row d-flex justify-content-end mx-0">
                       <div id="recordArrowControls" class="d-content">
@@ -385,14 +404,32 @@
                       </div>
                     <% end %>
                   </div>
-                  <div class="row mx-0 align-self-end mt-3 d-flex justify-content-between h5 w-20rem">
-                    <span class="align-self-center">Total amount owed: </span><span class="h3 mr-2">$<%= '%.2f' % @sports_centre.yesterdayMoneyOwed %></span>
+                  <div class="row mx-0 align-self-end my-3 grid-container h5 w-100" id="polipayGrid">
+                      <p class="mb-0 d-flex justify-content-between flex-column mt-1" id="poliInfo">
+                        <span>POLi is a secure payment system that allows <br>you to pay directly from your bank account.</span>
+                        <span class="">
+                          <a href="http://www.polipayments.com/buy" class="mr-4" target="_blank">Learn more about POLi</a>
+                          <a href="https://transaction.apac.paywithpoli.com/POLiFISupported.aspx?merchantcode='S6104689'" target="_blank">Available Banks</a>
+                        </span>
+                      </p>
+                      <span class="align-self-center ml-auto width-fit-content" id="totalOwed_label">
+                        <span class="align-self-center">Total amount due: </span>
+                      </span>
+                      <span id="totalOwed_price" class="align-self-center mr-2 mb-0 ml-5">
+                        <span class="h3 mr-2 mb-0 align-self-center ml-5">$<%= '%.2f' % @sports_centre.yesterdayMoneyOwed %></span>
+                      </span>
+                      <a href="http://www.polipayments.com/consumer" id="polipayLogo" class="d-flex"><%= image_tag(asset_path("polipayLogo.png"), class: "mb-auto", alt:"POLi Logo") %></a>
+                      <%= link_to "Pay now with POLi", "/admin/sports_centre/#{@sports_centre.id}/payMoneyOwed", class: "btn btn-primary mr-2 text-white width-fit-content ml-auto", id: "payTransactionFees" %>
                   </div>
-                  <div class="row mx-0 align-self-end mb-3">
-                      <%= link_to "Pay now", "/admin/sports_centre/#{@sports_centre.id}/payMoneyOwed", class: "btn btn-primary mr-2 text-white", id: "payTransactionFees" %>
-                  </div>
+              </div>
           </div>
-          <div class="row mx-0 d-none setPrices h-100" id="setPricesForm">
+          <div class="row mx-0 d-none setPrices h-100 position-relative lockdown" data-buttonRef="#setPrices" id="setPricesForm">
+            <div class="overlay">
+              <i class="fas fa-lock fa-10x align-self-center"></i>
+              <h5 class="text-center text-white mt-3">Admin access only</h5>
+              <input type="password" value="" class="col-3 align-self-center max-h text-center form-control"></input>
+              <button type="button" class="col-3 align-self-center max-h checkAdminPin">Check admin PIN</button>
+            </div>
             <%= form_with model: @sports_centre, class: "col d-flex flex-column", id: 'editPricesForm', url: admin_update_prices_path(@sports_centre), method: "post" do |f| %>
               <div class="row mx-0 mt-4">
                 <h5>Select an Activity</h5>
@@ -493,10 +530,17 @@
                 <p class="alert alert-success mb-0 d-none py-2" id="prices-success">Court Hire rates saved successfully.</p>
                 <p class="alert alert-danger mb-0 d-none py-2" id="prices-failure">Court Hire rates saving unsuccessful.</p>
                 <%= f.submit "Save", class: "btn btn-primary mr-2", id: "savePrices" %>
+                <button type="button" name="button" class="lockPage btn btn-secondary">Lock</button>
               </div>
             <% end %>
           </div>
-          <div class="row mx-0 d-none h-100 px-3" id="upgradePlanBody">
+          <div class="row mx-0 d-none h-100 px-3 lockdown" id="upgradePlanBody" data-buttonRef="#upgrade_plan">
+            <div class="overlay">
+              <i class="fas fa-lock fa-10x align-self-center"></i>
+              <h5 class="text-center text-white mt-3">Admin access only</h5>
+              <input type="password" value="" class="col-3 align-self-center text-center max-h form-control"></input>
+              <button type="button" class="col-3 align-self-center max-h checkAdminPin">Check admin PIN</button>
+            </div>
             <%= form_with model: @sports_centre, class: "row mx-0 h-contentFit w-100 h-100", id: "planForm", url: admin_update_plan_path(@sports_centre), method: "post" do |f| %>
             <div class="d-flex flex-column w-100">
               <div class="row mx-0 h-contentFit">
@@ -776,6 +820,7 @@
                 <p class="alert alert-success mb-0 d-none py-2" id="plan-success">Plan updated successfully.</p>
                 <p class="alert alert-danger mb-0 d-none py-2" id="plan-failure">Plan update unsuccessful.</p>
                 <%= f.submit "Save", class: "btn btn-primary mr-2", id: "savePlanType" %>
+                <button type="button" name="button" class="lockPage btn btn-secondary">Lock</button>
               </div>
             </div>
             <% end %>

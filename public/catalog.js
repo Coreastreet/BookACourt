@@ -238,7 +238,8 @@ BookingWidget.html = (function() {
               '</div>' +
               '</div>' +
               '<div class="modal-footer bw-footer bw-marginTop1 bw-paddingBottom1">' +
-              '<button type="button" class="btn btn-primary bw-button bw-blue" id="polipay" data-dismiss="modal">Pay</button>' +
+              '<img src="https://weball.com.au/polipayLogo.png"></img>'
+              '<button type="button" class="btn btn-primary bw-button bw-blue" id="polipay" data-dismiss="modal">Pay with POLi</button>' +
               '<button type="button" class="btn btn-default bw-button bw-white" data-dismiss="modal">Close</button>' +
               '</div>' +
               '</div>' +

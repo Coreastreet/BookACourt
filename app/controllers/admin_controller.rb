@@ -1,6 +1,7 @@
 class AdminController < ApplicationController
 
   before_action :check_logged_in
+  before_action :admin_pin_access, only: [:update_logo, :update_prices, :update_hours]
 
   def newPeakHour
     @weekdays = Date::DAYNAMES
@@ -59,6 +60,9 @@ class AdminController < ApplicationController
     @arrayDailyTransactions.each do |transaction|
       transaction["MerchantData"] = JSON.parse(transaction["MerchantData"])
     end
+    [:setPrices, :edit_profile, :setLogo, :upgrade_plan].each do |buttonRef|
+        session[buttonRef] = false
+    end
   end
 
   def getPastRecords
@@ -91,20 +95,42 @@ class AdminController < ApplicationController
     end
   end
 
+  def check_admin_pin
+    @buttonId = admin_pin_params[:buttonId]
+    pin = admin_pin_params[:adminPin]
+    rep = current_sports_centre.representative
+    if (rep && rep.authenticate(pin))
+      @isAdmin = true
+      buttonRef = @buttonId[1..].to_sym
+      session[buttonRef] = true
+    else
+      @isAdmin = false
+    end
+    respond_to do |format|
+      format.js
+    end
+  end
+
   def payment_success
-    url = "https://poliapi.apac.paywithpoli.com/api/v2/Transaction/GetTransaction?token=" + token_params[:Token]
+    require 'json'
+    require 'restclient'
+    url = "https://poliapi.apac.paywithpoli.com/api/v2/Transaction/GetTransaction?token=" + token_params[:token]
     response = RestClient.get url, {Authorization: "Basic UzYxMDQ2ODk6RWQ2QCRNYjM0Z14="}
     parsed_response = JSON.parse(response)
+
     # if the transaction is successful,
     # create the booking
     if (parsed_response["TransactionStatus"] == "Completed")
+        transactionRefNo = parsed_response["TransactionRefNo"]
 
         moneyPaid = current_sports_centre.moneyPaid
         moneyOwed = current_sports_centre.moneyOwed
+        yesterdayMoneyOwed = current_sports_centre.yesterdayMoneyOwed
+        amountPaid = parsed_response["AmountPaid"].to_d
 
-        current_sports_centre.update!(yesterdayMoneyOwed: 0.0,
-          moneyPaid: moneyPaid + yesterdayMoneyOwed,
-          moneyOwed: moneyOwed - yesterdayMoneyOwed,
+        current_sports_centre.update!(yesterdayMoneyOwed: yesterdayMoneyOwed - amountPaid,
+          moneyPaid: moneyPaid + amountPaid,
+          moneyOwed: moneyOwed - amountPaid,
           lastPayDate: Date.current) # all fees paid up to but not inclusive of this date
         # reset the money owed up to yesterday to Zero;
         # increase the money paid by the amount paid;
@@ -112,10 +138,16 @@ class AdminController < ApplicationController
     end
 
     @sportsCentre = current_sports_centre;
+    NotificationsMailer.with(sports_centre: current_sports_centre, amountPaid: amountPaid, poliId: transactionRefNo).transaction_fee_invoice.deliver_later
     respond_to do |format|
       # format.js
       format.html
     end
+  end
+
+  def lockPage
+     buttonRef = lock_params[:buttonRef][1..].to_sym
+     session[buttonRef] = false
   end
 
   def pay_money_owed
@@ -129,7 +161,7 @@ class AdminController < ApplicationController
           {Amount: yesterdayMoneyOwed, CurrencyCode: "AUD", MerchantReference: orderReference,
             MerchantHomepageURL: "https://weball.com.au/api/v1/sports_centres", #sportsCentre_url,
             MerchantData: info,
-            SuccessURL: "https://weball.com.au/admin/sports_centre/#{params[:id]}/payment_success",
+            SuccessURL: "http://localhost:3000/admin/sports_centre/#{params[:id]}/payment_success",
             FailureURL: "https://weball.com.au/sports_centres/failure", # redirect to page with failure message later on
             CancellationURL: "https://weball.com.au/sports_centres/cancelled",
             NotificationURL: "https://weball.com.au/api/v1/sports_centres/#{params[:id]}/bookings"},
@@ -178,41 +210,57 @@ class AdminController < ApplicationController
   end
 
   def update_plan
-    planType = plan_params[:plan]
-    if (planType == "Premium")
-      transactionRate = 0.04
-    elsif (planType == "Standard")
-      transactionRate = 0.0165
-    else #if (planType == "Premium")
-      transactionRate = 0.0
+    buttonRef = lock_params[:buttonRef][1..].to_sym
+    if session[buttonRef]
+          planType = plan_params[:plan]
+          if (planType == "Premium")
+            transactionRate = 0.04
+          elsif (planType == "Standard")
+            transactionRate = 0.0165
+          else #if (planType == "Premium")
+            transactionRate = 0.0
+          end
+          current_sports_centre.update!(plan: plan_params[:plan], transactionRate: transactionRate)
     end
-    current_sports_centre.update!(plan: plan_params[:plan], transactionRate: transactionRate)
   end
 
   def update_hours
     # update the sportsCentre with logo and new details
-    require 'json'
-    openHours = JSON.parse(hour_params[:opening_hours])
-    sports_centre = SportsCentre.find(id_params[:id])
-    sports_centre.update!(opening_hours: openHours)
+    buttonRef = lock_params[:buttonRef].to_sym
+    if session[buttonRef]
+        require 'json'
+        openHours = JSON.parse(hour_params[:opening_hours])
+        sports_centre = SportsCentre.find(id_params[:id])
+        sports_centre.update!(opening_hours: openHours)
 
-    peakHours = JSON.parse(hour_params[:peak_hours])
-    sports_centre.update!(peak_hours: peakHours)
+        peakHours = JSON.parse(hour_params[:peak_hours])
+        sports_centre.update!(peak_hours: peakHours)
+    end
   end
 
   def update_logo
-    sports_centre = SportsCentre.find(id_params[:id])
-    sports_centre.update!(sports_centre_params)
+    buttonRef = lock_params[:buttonRef].to_sym
+    if session[buttonRef]
+          sports_centre = SportsCentre.find(id_params[:id])
+          sports_centre.update!(sports_centre_params)
+    end
   end
 
   def update_prices
-    require 'json'
-    sports_centre = SportsCentre.find(id_params[:id])
-    jsonPrices = JSON.parse(sports_centre_params[:prices])
-    sports_centre.update!(prices: jsonPrices)
+    buttonRef = lock_params[:buttonRef].to_sym
+    if session[buttonRef]
+        require 'json'
+        sports_centre = SportsCentre.find(id_params[:id])
+        jsonPrices = JSON.parse(sports_centre_params[:prices])
+        sports_centre.update!(prices: jsonPrices)
+    end
   end
 
   private
+
+  def admin_pin_params
+      params.permit(:adminPin, :buttonId, :id)
+  end
 
   def pin_params
       params.require(:sports_centre).require(:booking).permit(:pin)
@@ -252,7 +300,7 @@ class AdminController < ApplicationController
   end
 
   def token_params
-    params.permit(:Token, :sports_centre_id)
+    params.permit(:token, :id)
   end
 
   def id_params
@@ -261,5 +309,13 @@ class AdminController < ApplicationController
 
   def check_logged_in
       redirect_to login_path if !logged_in_as_sports_centre?# since not logged in
+  end
+
+  def lock_params
+      params.permit(:buttonRef)
+  end
+
+  def admin_pin_access
+
   end
 end

@@ -1,0 +1,14 @@
+var buttonLock = document.querySelector("<%= @buttonId %> i.lock");
+var panel = buttonLock.parentElement.parentElement.getAttribute("data-connectedRow");
+
+<% if @isAdmin %>
+  // remove lock screens
+    var lockScreen = document.querySelector(`${panel} div.overlay`);
+    lockScreen.classList.add("d-none");
+  // remove lock icons
+    var buttonLock = document.querySelector("<%= @buttonId %> i.lock");
+    buttonLock.classList.add("d-none");
+<% else %>
+    //console.log(panel);
+    document.querySelector(`${panel} .overlay input`).classList.add("is-invalid");
+<% end %>

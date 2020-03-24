@@ -110,6 +110,77 @@
   color: slateGrey;
 }
 
+#polipayGrid #polipayLogo {
+    grid-column-start: 1;
+    grid-column-end: 2;
+    grid-row-start: 1;
+    grid-row-end: 2;
+    margin-left: -0.75rem;
+    img {
+      max-height: 5rem;
+    }
+}
+
+#paymentRecordHolder {
+    height: 46.6vh;
+}
+
+#lastPayDateHolder {
+    display: inline;
+}
+
+#polipayGrid #totalOwed_label {
+    grid-column-start: 4;
+    grid-column-end: 5;
+    grid-row-start: 1;
+    grid-row-end: 2;
+}
+
+#polipayGrid #totalOwed_price {
+    grid-column-start: 5;
+    grid-column-end: 6;
+    grid-row-start: 1;
+    grid-row-end: 2;
+}
+
+#polipayGrid #payTransactionFees {
+    grid-column-start: 4;
+    grid-column-end: 6;
+    grid-row-start: 3;
+    grid-row-end: 4;
+}
+
+#polipayGrid #poliInfo {
+    grid-column-start: 1;
+    grid-column-end: 3;
+    grid-row-start: 2;
+    grid-row-end: 4;
+}
+
+#polipayGrid {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr 0.5fr;
+}
+
+.max-h {
+  max-height: min-content;
+}
+
+#col-9-admin .overlay {
+    position: absolute;
+    background-color: rgba(0,0,0,0.5);
+    z-index: 99;
+    display: block;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
 #upgradePlanBody .buttonBorder {
   border: 2px solid darkBlue;
   border-top: none;

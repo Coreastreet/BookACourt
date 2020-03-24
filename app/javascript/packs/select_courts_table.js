@@ -20,7 +20,7 @@ $(document).on('turbolinks:load', function() {
 
   $(document).on("click", ".courts-table td:not(.booked)", function() {
     var currentClick = parseInt(localStorage.getItem("clickCounter"));
-    if ($("#addRemoveBookings").hasClass("bg-black") && (currentClick < 2)) {
+    if ($("#addRemoveBookings").hasClass("bg-black") && (currentClick < 2) && $("#dashBoardTable tbody div.name-and-sport.clone").length == 0) {
       if ($(this).hasClass("table-active")) {
         disableSelection($(this));
       } else {
@@ -44,6 +44,7 @@ $(document).on('turbolinks:load', function() {
           }
       }
       if (currentClick+1 == 2) {
+          //alert("inserted");
           var topSelection = $("#dashBoardTable tbody td.unconfirmed").eq(0);
           var bottomSelection = $(this);//$("#dashBoardTable tbody td.unconfirmed").eq(1);
           var columnTop = parseInt($(topSelection).attr("data-court"));
@@ -86,7 +87,7 @@ $(document).on('turbolinks:load', function() {
       var courtType = $(this).closest(".clone").attr("data-courtType");
       $(this).closest(".clone").remove();
       var start = $("#dashBoardTable tbody td.unconfirmed").eq(0);
-      var end = $("#dashBoardTable tbody td.unconfirmed").eq(1);
+      var end = ($("#dashBoardTable tbody td.unconfirmed").length > 1) ? $("#dashBoardTable tbody td.unconfirmed").eq(1) : $("#dashBoardTable tbody td.unconfirmed").eq(0);
       var startTime = start.attr("data-time");
       var endTime = end.attr("data-time");
       var intervalArray = getIntervalsInclusive(startTime, endTime);
@@ -135,7 +136,7 @@ $(document).on('turbolinks:load', function() {
       var tdCounter = 0;
       $("#dashBoardTable tbody td.table-active").each( function() {
           if (tdCounter == 0) {
-            $(this).html(`<i class="fas fa-redo"></i><div>${name}</div>`);
+            $(this).html(`<div>${name}</div>`);
             $(this).addClass("textHolder");
           }
           if ((tdCounter == 0 && courtType == "halfCourt") || (tdCounter == 1 && courtType == "fullCourt")) {
@@ -143,12 +144,23 @@ $(document).on('turbolinks:load', function() {
           }
           $(this).removeClass("unconfirmed table-active");
           $(this).addClass(`table${sportType} booked`);
+          $(this).attr("data-toggle", "tooltip");
+          $(this).attr("title", `${name}\nType: ${sportType}\nStart: ${ convertToAMPM(box.attr("data-startTime")) }\nEnd: ${ convertToAMPM(box.attr("data-endTime")) }`);
           $(this).attr("data-preBookedId", preBookedId);
           tdCounter++;
       });
       localStorage.setItem("clickCounter", "0");
       localStorage.setItem("preBookingsMade", preBookedId+1)
   });
+
+  function convertToAMPM(timeString) {
+    var hours_and_minutes = timeString.split(":");
+    var parsed_int = parseInt(hours_and_minutes[0]);
+    var int = (parsed_int % 12 == 0) ? 12 : parsed_int % 12;
+    var am_or_pm = (hours_and_minutes[0] >= 12) ? "PM" : "AM";
+    return `${int}:${hours_and_minutes[1]}${am_or_pm}`
+  }
+
 
   $("#col-9-admin").on("click", "#newBookingsSave", function() {
       var sports_centre_id = $("#id-holder").attr("data-sports-centre-id");
@@ -165,6 +177,12 @@ $(document).on('turbolinks:load', function() {
         },
         //dataType: "json"
       })
+  });
+
+  $("#ViewAndBookBody").on("click", "#removeUnconfirmed", function() {
+      $("#dashBoardTable tbody td.table-active").removeClass("unconfirmed table-active");
+      $("#dashBoardTable .clone.name-and-sport").remove();
+      localStorage.setItem("clickCounter", 0);
   });
 
   $("#col-9-admin").on("click", ".delete-booking", function(e) {
@@ -236,14 +254,11 @@ $(document).on('turbolinks:load', function() {
           $("#dashBoardTable td.border-darkBlue").removeClass("border-darkBlue");
           //realChosenBooking = (chosenBooking.length == 1) ? chosenBooking : chosenBooking.first();
           //console.log(chosenBooking);
-          var topDistance = chosenBooking.position().top;
-          var topPosition =  topDistance - 32;
-          console.log("topPosition", topPosition);
-          if (topPosition > 0) {
-            $("tbody.dashBoardHeight").animate({scrollTop: topPosition});
-          } else if (topPosition < 0) { // negative above
-            $("tbody.dashBoardHeight").animate({scrollTop: (-1*topPosition)});
-          }
+          var tdHeight = $("#dashBoardTable td:first").outerHeight();
+          var tdIndex = chosenBooking.parent().index();
+          console.log("tdIndex", tdIndex);
+
+          $("tbody.dashBoardHeight").animate({scrollTop: (tdHeight*tdIndex)});
           chosenBooking.addClass("border-darkBlue");
       }
   });

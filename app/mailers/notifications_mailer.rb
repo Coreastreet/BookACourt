@@ -60,7 +60,7 @@ class NotificationsMailer < ApplicationMailer
     @logo_url = @sports_centre.logo.blob.key
     #attachments.inline['logo.png'] = File.read(logo_url)
 
-    make_bootstrap_mail(to: @order.email_address, subject: "BookACourt Booking Invoice")
+    make_bootstrap_mail(to: @order.email_address, subject: "Weball: Booking Invoice")
   end
 
   def signUp_confirmation
@@ -75,6 +75,31 @@ class NotificationsMailer < ApplicationMailer
     attachments.inline['weballText.png'] = File.read('app/assets/images/weballText.png')
 
     make_bootstrap_mail(to: @sports_centre.email, subject: "WeBall: Confirm your company email address!")
+  end
+
+  def provide_admin_pin
+    @sports_centre = params[:sports_centre]
+    @new_rep = params[:new_rep]
+    @admin_password = params[:adminPin]
+
+    attachments.inline['weballText.png'] = File.read('app/assets/images/weballText.png')
+
+    make_bootstrap_mail(to: @new_rep.email, subject: "WeBall: Your Administrator PIN")
+  end
+
+  def transaction_fee_invoice
+    @amountPaid = params[:amountPaid]
+    @sports_centre = params[:sports_centre]
+    @poliId = params[:poliId]
+
+    attachments.inline['weballText.png'] = File.read('app/assets/images/weballText.png')
+
+    make_bootstrap_mail(to: @sports_centre.email, subject: "WeBall: Payment Invoice")
+  end
+
+  def payment_invoice
+
+    make_bootstrap_mail(to: @sports_centre.email, subject: "BookACourt Booking Invoice")
   end
 
   private

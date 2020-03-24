@@ -1,0 +1,13 @@
+Weball: Payment Invoice
+===============================================
+
+Record of payment.
+
+Date:                             Payer                          Poli ID:           Amount:
+
+<%= @sports_centre.lastPayDate %> <%= @sports_centre.title %>   <%= @poliId %>     <%= @amountPaid %> to Weball.
+
+Thank you for your continued support of the Weball platform,
+If you have any problems with the system, please send a text to 0437 578 502
+
+Regards, Weball

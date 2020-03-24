@@ -1,0 +1,49 @@
+
+<container>
+  <spacer size="20"></spacer>
+  <row>
+    <columns small="9" class="first">
+      <%= image_tag(attachments['weballText.png'].url, class: "image-contain") %>
+    </columns>
+  </row>
+  <row>
+    <columns small="9" class="first">
+      <h5>Your Administration PIN.</h5>
+        <p>Dear <%= @new_rep.name %>,</p>
+        <div>Thank you for creating an account with WeBall.</div>
+        <div>As the representative of <%= @sports_centre.title %>, you will be provided with an adminstrator PIN.</div>
+    </columns>
+  </row>
+  <row>
+    <columns small="9" class="first last">
+        <center>
+          <h5 class="email-padding-md">Your Admin PIN: <%= @admin_password %></h5>
+        </center>
+    </columns>
+  </row>
+  <row>
+    <columns small="9" class="first">
+        <div>After logging into your company account, use this PIN will provide you with the sole ability to:</div>
+    </columns>
+  </row>
+  <row>
+    <columns small="9" class="large-offset-1">
+        <div>- Set Booking Prices</div>
+        <spacer size="5"></spacer>
+        <div>- Set Opening & Peak Hours</div>
+        <spacer size="5"></spacer>
+        <div>- Set Company Logo for email</div>
+    </columns>
+  </row>
+  <row>
+    <columns small="9" class="first">
+        <div>  All other staff will only have the ability to monitor and make bookings on behalf of customers in addition to paying fees.</div>
+    </columns>
+  </row>
+  <row>
+    <columns small="9" class="first">
+      <div>Regards,</div>
+      <div>WeBall team</div>
+    </columns>
+  </row>
+</container>

@@ -9,7 +9,7 @@ $(document).on('turbolinks:load', function () {
       } else {
         $("#feeHolder").text("N/A");
       }
-      var upgradePlanButton = $("#upgrade-plan");
+      var upgradePlanButton = $("#upgrade_plan");
       var currentPlanType = upgradePlanButton.attr("data-plan");
       var currentPlanButton = $('#upgradePlanBody button.planButton').filter(`[data-planType=${currentPlanType}]`)
       currentPlanButton.text("Current Plan");
@@ -262,6 +262,13 @@ $(document).on('turbolinks:load', function () {
         //console.log(number);
       });
 
+      $("#editLogoForm").submit( function() {
+        var buttonRef = $(this).parent().attr("data-buttonRef");
+        var input = $("<input>").attr("type", "hidden").attr("name", "buttonRef").val(buttonRef);
+        $('#editLogoForm').append(input);
+        return true
+      });
+
       //
       $('body').on("click", ".days-and-weeks button", function() {
         //var frequency_options = $(this).find("button");
@@ -436,8 +443,6 @@ $(document).on('turbolinks:load', function () {
             activityCardSelected.attr(dataType, $(this).val());
       });
 
-
-
       $("#activityCardHolder").on("click", ".activityCard", function() {
           $(this).siblings().each( function() {
               $(this).removeClass("selectedCard");
@@ -577,7 +582,7 @@ $(document).on('turbolinks:load', function () {
           var planSelectedButton = planRadio.next()
           planSelectedButton.text("Current Plan");
           var planSelected = planRadio.val();
-          $("#upgrade-plan").attr("data-plan", planSelected);
+          $("#upgrade_plan").attr("data-plan", planSelected);
           $("#feeHolder").text(planSelectedButton.attr("data-planFee"));
           $("#planHolder").text(planSelectedButton.attr("data-planType"));
           if (planSelected != "Basic") {
@@ -593,6 +598,12 @@ $(document).on('turbolinks:load', function () {
               $("#step4").addClass("d-none");
               $("#step5").addClass("d-none");
           }
+      });
+
+      $("#planForm").submit(function() {
+            var buttonRef = $(this).parent().attr("data-buttonRef");
+            var input = $("<input>").attr("type", "hidden").attr("name", "buttonRef").val(buttonRef);
+            $('#planForm').append(input);
       });
 
        $("#planForm").bind('ajax:error', function() {
@@ -631,6 +642,12 @@ $(document).on('turbolinks:load', function () {
           });
           var stringPeakTimes = JSON.stringify(peakTimesObject);
           $("#sports_centre_peak_hours").val(stringPeakTimes);
+
+          // attach buttonref
+          var buttonRef = $(this).parent().attr("data-buttonRef");
+          var input = $("<input>").attr("type", "hidden").attr("name", "buttonRef").val(buttonRef);
+          $('#editBusinessHoursForm').append(input);
+
           return true;
       });
 
@@ -669,11 +686,55 @@ $(document).on('turbolinks:load', function () {
           });
           //console.log(JSON.stringify(pricesHash));
           $("#sports_centre_prices").val(JSON.stringify(pricesHash));
+          // attach the panel button id
+          var buttonRef = $(this).parent().attr("data-buttonRef");
+          var input = $("<input>").attr("type", "hidden").attr("name", "buttonRef").val(buttonRef);
+          $('#editPricesForm').append(input);
           return true;
       });
 
       $("#editPricesForm").bind('ajax:complete', function() {
           $(this).find("#prices-success").removeClass("d-none");
+      });
+
+      $("#col-9-admin").on("click", ".checkAdminPin", function() {
+          var adminPin = $(this).prev().val();
+          var buttonId = $(this).closest(".lockdown").attr("data-buttonRef");
+          $.ajax({
+             type: "POST",
+             url:  `${idValue}/checkAdminPin`,
+             data: {
+               adminPin: adminPin,
+               buttonId: buttonId,
+                // info: info, // < note use of 'this' here
+             },
+             success: function(result) {
+             },
+             error: function(result) {
+                 alert('error');
+             }
+           });
+      });
+
+      $("#col-9-admin").on("click", "button.lockPage", function() {
+            var overlay = $(this).closest(".lockdown").find(".overlay")
+            overlay.find("input").val("");
+            overlay.removeClass("d-none");
+            var buttonRef = overlay.parent().attr("data-buttonRef");
+            $(`${buttonRef}`).find("i.lock").removeClass("d-none");
+            $.ajax({
+               type: "POST",
+               url:  `${idValue}/lockPage`,
+               data: {
+                 buttonRef: buttonRef,
+                  // info: info, // < note use of 'this' here
+               },
+               success: function(result) {
+               },
+               error: function(result) {
+                   alert('error');
+               }
+             });
       });
 
       $("#editBusinessHoursForm").bind('ajax:error', function() {
@@ -684,6 +745,9 @@ $(document).on('turbolinks:load', function () {
       $("#payFeesBody").on("click", "#recordArrowControls i", function() {
           var recordDateHolder = $("#payFeesBody #recordDateBox");
           var nextDate = new Date(recordDateHolder.text());
+          var lastPayDateHolder = $("#payFeesBody #lastPayDateHolder");
+          var lastPayDate = new Date(lastPayDateHolder.attr("data-lastPayDate"));
+          lastPayDate2 = new Date(lastPayDate.getFullYear(), lastPayDate.getMonth(), lastPayDate.getDate(), 0, 0, 0);
           //if (nextDate < myToday) {
             if ($(this).hasClass("add-icon")) {
                 if ($(this).hasClass("day")) {
@@ -723,6 +787,13 @@ $(document).on('turbolinks:load', function () {
                      alert('error');
                  }
                });
+               console.log("nextDate", nextDate);
+               console.log("lastPayDate", lastPayDate2);
+               if (nextDate < lastPayDate2) {
+                 lastPayDateHolder.removeClass("d-none");
+               } else {
+                 lastPayDateHolder.addClass("d-none");
+               }
              } else {
                addIcons.addClass("color-gainsboro");
                recordDateHolder.text(myPrevDate.toLocaleDateString("en-AU", options));

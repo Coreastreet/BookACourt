@@ -66,6 +66,8 @@ class SportsCentresController < ApplicationController
     new_rep = Representative.create!(rep_params)
     new_rep_address = Address.create(rep_address_params)
     new_rep.update!(address: new_rep_address)
+    admin_password = pin4_generate.to_s
+    new_rep.update!(password: admin_password)
 
     new_sports_centre.representative = new_rep
     if contact_params
@@ -83,6 +85,8 @@ class SportsCentresController < ApplicationController
       redirect_to login_path, notice: "An account activation link has been sent to your company email."# admin_sports_centre_path(new_sports_centre) show for sports_centre
       # send mail containing first time access password
       matchdata = request.url.match(/^(http|https):\/\/[^\/]*/)
+      NotificationsMailer.with(sports_centre: new_sports_centre, new_rep: new_rep, adminPin: admin_password).provide_admin_pin.deliver_later
+
       NotificationsMailer.with(sports_centre: new_sports_centre, origin_url: matchdata[0]).signUp_confirmation.deliver_later
     else
       render :new
@@ -158,6 +162,12 @@ class SportsCentresController < ApplicationController
   end
 
   private
+
+    def pin4_generate
+      require "securerandom"
+      (SecureRandom.random_number(9e3) + 1e3).to_i
+    end
+
     def sports_centre_params
         params.require(:sports_centre).permit(:title, :email, :password, :password_confirmation, :ABN, :URL,
            :numberOfCourts, :phone, :description, :logo, :merchantCode, :authenticationCode)

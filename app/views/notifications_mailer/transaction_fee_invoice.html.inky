@@ -1,0 +1,49 @@
+<container>
+  <spacer size="20"></spacer>
+  <row>
+    <columns small="9" class="first">
+      <%= image_tag(attachments['weballText.png'].url, class: "image-contain") %>
+    </columns>
+  </row>
+  <row>
+    <columns small="9" class="first">
+      <div>Record of payment:</div>
+    </columns>
+  </row>
+  <row>
+    <columns small="2" class="">
+      <div>Date:</div>
+    </columns>
+    <columns small="4" class="">
+      <div>Sports Centre:</div>
+    </columns>
+    <columns small="2" class="">
+      <div>Poli ID:</div>
+    </columns>
+    <columns small="1" class="">
+      <div>Paid:</div>
+    </columns>
+  </row>
+  <row>
+    <columns small="2" class="">
+      <div><%= @sports_centre.lastPayDate.strftime("%d/%m/%y") %></div>
+    </columns>
+    <columns small="4" class="">
+      <div><%= @sports_centre.title %></div>
+    </columns>
+    <columns small="2" class="">
+      <div><%= @poliId %></div>
+    </columns>
+    <columns small="1" class="">
+      <div><%= '%.2f' % @amountPaid %></div>
+    </columns>
+  </row>
+  <row>
+    <columns small="9" class="first">
+      <div>Thank you for your continued support of the Weball platform.</div>
+      <div>If you have any problems with the system, please send a text to 0437 578 502.</div>
+        <spacer size="15"></spacer>
+      <div>Regards, Weball</div>
+    </columns>
+  </row>
+</container>
