@@ -245,9 +245,11 @@ BookingWidget.html = (function() {
               '</div>' +
               '</div>' +
               '<div class="modal-footer bw-footer bw-paddingMargin bw-paddingBottom1 bw-none" id="polipayFooter">' +
-              '<span>POLi is a secure payment system that allows you to pay directly from your bank account.</span>' +
-              '<span><a href="ttp://www.polipayments.com/buy" target="_blank">Learn more</a>' +
-              '<a href="https://transaction.apac.paywithpoli.com/POLiFISupported.aspx?merchantcode=&apos;S6104689&apos;" target="_blank">Available banks</a></span>' +
+              '<span>POLi is a secure payment system that allows you to pay directly from your bank account.' +
+              '<span id="bw-poliLinks"><a href="ttp://www.polipayments.com/buy" target="_blank">Learn more</a>' +
+              '<a id="bw-banks" href="https://transaction.apac.paywithpoli.com/POLiFISupported.aspx?merchantcode=&apos;S6104689&apos;" target="_blank">Available banks</a>' +
+              '</span>' +
+              '</span>' +
               '</div>' +
               '</div>' +
               '<div id="secondModalCard">' +

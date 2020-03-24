@@ -327,6 +327,15 @@ div.datepicker.dropdown-menu.datepicker-orient-left.datepicker-orient-bottom {
 #payment-confirmation .bw-none {
   display: none !important;
 }
+#payment-confirmation #firstModalCard #bw-poliLinks {
+  float: right;
+  margin-right: 1rem;
+}
+
+#payment-confirmation #firstModalCard #bw-poliLinks #bw-banks {
+  margin-left: 1rem;
+}
+
 #payment-confirmation .bw-whitesmoke {
   background-color: whitesmoke;
 }
