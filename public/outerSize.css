@@ -496,6 +496,11 @@ div.datepicker.dropdown-menu.datepicker-orient-left.datepicker-orient-bottom {
     margin-right: auto;
 }
 
+#payment-confirmation #firstModalCard .modal-footer.bw-paddingMargin {
+    margin-left: 1rem;
+    padding-bottom: 1rem;
+}
+
 #payment-confirmation #secondModalCard {
   margin-left: calc(100% + 2px);
   transition: all 1s;
