@@ -5,13 +5,6 @@ var modal_body = BookingWidget.$('#payment-confirmation');
 var reviewDetailModal = BookingWidget.$('#secondModalCard');
 var bw = BookingWidget.$("#BookingWidget");
 
-import { createPopper } from '@popperjs/core';
-const popcorn = document.querySelector('#polipay');
-const tooltip = document.querySelector('#tooltip');
-createPopper(popcorn, tooltip, {
-  placement: 'bottom',
-});
-
 bw.on("click", "#bookNowButton", function(e) {
   // set height of hidden modal to same as first modal
   var maxBookings = bw.find("#maxBookingsWarning").attr("data-maxBookings");
