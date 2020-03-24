@@ -493,7 +493,12 @@ div.datepicker.dropdown-menu.datepicker-orient-left.datepicker-orient-bottom {
 #payment-confirmation #firstModalCard .modal-footer img {
     height: 2.5rem;
     margin-left: 1rem;
+}
+
+#payment-confirmation #firstModalCard .modal-footer i{
+    align-self: center;
     margin-right: auto;
+    margin-left: 1rem;
 }
 
 #payment-confirmation #firstModalCard .modal-footer.bw-paddingMargin {
