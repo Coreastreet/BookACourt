@@ -40,6 +40,26 @@ var numberOfCourts;
 
 startDate.val(dateString);
 mainClockCard.find("#dateHolder").val(`${dateString} ${now.getFullYear()}`);
+
+const circleHeight = parseFloat(radius*1.05).toFixed(2);
+const circleWidth = parseFloat(radius*0.8).toFixed(2);
+const circleRadius = parseFloat(radius*0.2).toFixed(2);
+console.log("Circle Width", circleWidth);
+const circles = [
+  {
+    x: -circleWidth,
+    y: circleHeight,
+    radius: circleRadius,
+    id: "AM"
+  },
+  {
+    x: circleWidth,
+    y: circleHeight,
+    radius: circleRadius,
+    id: "PM"
+  }
+];
+
 drawClock(ctx, radius);
 
 var startTimeInput = document.querySelector(".startTime");
@@ -141,25 +161,6 @@ function drawClock(ctx, radius) {
 function drawBottomButtons2(ctx, radius) {
   //ctx.moveTo(-radius, radius);
   // draw circle of left side;
-  var circleHeight = parseFloat(radius*1.05).toFixed(2);
-  var circleWidth = parseFloat(radius*0.8).toFixed(2);
-  var circleRadius = parseFloat(radius*0.2).toFixed(2);
-  console.log("Circle Width", circleWidth);
-  var circles = [
-    {
-      x: -circleWidth,
-      y: circleHeight,
-      radius: circleRadius,
-      id: "AM"
-    },
-    {
-      x: circleWidth,
-      y: circleHeight,
-      radius: circleRadius,
-      id: "PM"
-    }
-  ];
-
   console.log(circles);
   circles.forEach( circle => {
       ctx.beginPath();
@@ -177,19 +178,7 @@ function drawBottomButtons2(ctx, radius) {
       ctx.fillText(circle.id, circle.x, circle.y);
   });
 
-  // move to seperate function and only run once.
-  var canvas2 = document.querySelector("#BookingWidget #canvas")
-  canvas2.addEventListener('click', function(e) {
-    var boundingRect = canvas2.getBoundingClientRect();
-    var pos = getMousePos(canvas2, e);
-    //console.log(pos);
-    if (isIntersect(pos, circles[0])) {
-      alert('click on circle: ' + circles[0].id);
-    }
-    if (isIntersect(pos, circles[1])) {
-      alert('click on circle: ' + circles[1].id);
-    }
-  });
+  // move to seperate function and only run once
 }
 
 function getMousePos(canvas2, evt) {
@@ -647,13 +636,20 @@ function drawBookedTimes(ctx, radius, dateSelected, bookingSchedule, meridiem) {
 }
 
 function attachButtonFunctions(event, bookingSchedule, dateSelected) {
-  if (event.region == "AM") {
-      //alert('You clicked ' + event.region);
+    var canvas2 = document.querySelector("#BookingWidget #canvas")
+    canvas2.addEventListener('click', function(e) {
+    var boundingRect = canvas2.getBoundingClientRect();
+    var pos = getMousePos(canvas2, e);
+    //console.log(pos);
+    if (isIntersect(pos, circles[0])) {
+      alert('click on circle: ' + circles[0].id);
       drawBookedTimes(ctx, radius, dateSelected, bookingSchedule, 'AM');
-  } else if (event.region == "PM") {
-      //alert('You clicked ' + event.region);
+    }
+    if (isIntersect(pos, circles[1])) {
+      alert('click on circle: ' + circles[1].id);
       drawBookedTimes(ctx, radius, dateSelected, bookingSchedule, 'PM');
-  }
+    }
+  });
 }
 
 function convertTimeIntoString(number) {
