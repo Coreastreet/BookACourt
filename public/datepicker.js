@@ -177,12 +177,14 @@ function drawBottomButtons2(ctx, radius) {
       ctx.fillText(circle.id, circle.x, circle.y);
   });
 
+  // move to seperate function and only run once.
   var canvas2 = document.querySelector("#BookingWidget #canvas")
   canvas2.addEventListener('click', (e) => {
     var boundingRect = canvas2.getBoundingClientRect();
     var pos = getMousePos(canvas2, e);
     //console.log(pos);
     //console.log("canvas", canvas.width/2);
+    e.stopPropagation();
     circles.forEach(circle => {
       //console.log("width", canvas.width/2);
       if (isIntersect(pos, circle)) {
@@ -240,9 +242,9 @@ function drawNumbers(ctx, radius) {
     ctx.translate(0, radius*0.80);
     ctx.rotate(-ang);
   }
-  }
+}
 
-// old drawBottomButtons function using addHitRegion
+/* old drawBottomButtons function using addHitRegion
 function drawBottomButtons(ctx, radius) {
   //ctx.moveTo(-radius, radius);
   // draw circle of left side;
@@ -273,7 +275,7 @@ function drawBottomButtons(ctx, radius) {
   //ctx.moveTo(0,0);
   ctx.fillText("PM", radius*0.8, radius*1.05);
 
-}
+} */
 
 function drawTime(ctx, radius, now) {
   var hour = now.getHours();
