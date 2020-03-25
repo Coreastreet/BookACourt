@@ -24,6 +24,7 @@ class Api::V1::SportsCentresController < Api::V1::ApiController
     response = RestClient.get url, {Authorization: "Basic UzYxMDQ2ODk6RWQ2QCRNYjM0Z14="}
     parsed_response = JSON.parse(response)
 
+    current_sports_centre = SportsCentre.find(token_params[:id])
     # if the transaction is successful,
     # create the booking
     if (parsed_response["TransactionStatus"] == "Completed")
