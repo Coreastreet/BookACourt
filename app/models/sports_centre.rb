@@ -16,5 +16,6 @@ class SportsCentre < ApplicationRecord
   has_one_attached :logo
 
   has_many :contacts, dependent: :destroy
+  has_many :payments
   accepts_nested_attributes_for :contacts
 end
