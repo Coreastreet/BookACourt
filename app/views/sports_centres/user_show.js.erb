@@ -523,9 +523,10 @@ setPrices(prices, "full_court");
 document.querySelector('.casual').click();
 
 function setPrices(prices, court_type) {
-  var casual_prices = Object.values(prices["casual"][court_type]);
+  console.log(prices);
+  var casual_prices = Object.values(prices["basketball"]["casual"][court_type]);
   var elements = document.querySelectorAll(`.${court_type} .priceHolder`);
-  var regular_prices = Object.values(prices["regular"][court_type]);
+  var regular_prices = Object.values(prices["basketball"]["casual"][court_type]);
   var counter = 0;
   // console.log(`.${court_type} .priceHolder`);
   console.log(prices);

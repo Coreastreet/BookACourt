@@ -116,8 +116,7 @@ class SportsCentresController < ApplicationController
 
     @peak_hours = @sports_centre.peak_hours.to_json.html_safe
     @real_prices = @sports_centre.prices.to_json.html_safe
-
-    # debugger
+    
     respond_to do |format|
       format.js
       # format.html

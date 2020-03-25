@@ -131,10 +131,80 @@ function drawClock(ctx, radius) {
   //var smallerRadius = radius * 0.80; // make clock slightly smaller than container
   drawFace(ctx, radius);
   drawNumbers(ctx, radius);
-  drawBottomButtons(ctx, radius);
+  drawBottomButtons2(ctx, radius);
   drawTime(ctx, radius, now);
   //drawTime(ctx, radius);
 }
+
+// section for drawBottomButtons without addHitRegion -- start
+
+function drawBottomButtons2(ctx, radius) {
+  //ctx.moveTo(-radius, radius);
+  // draw circle of left side;
+  var circleHeight = parseFloat(radius*1.05).toFixed(2);
+  var circleWidth = parseFloat(radius*0.8).toFixed(2);
+  var circleRadius = parseFloat(radius*0.2).toFixed(2);
+  console.log("Circle Width", circleWidth);
+  var circles = [
+    {
+      x: -circleWidth,
+      y: circleHeight,
+      radius: circleRadius,
+      id: "AM"
+    },
+    {
+      x: circleWidth,
+      y: circleHeight,
+      radius: circleRadius,
+      id: "PM"
+    }
+  ];
+
+  console.log(circles);
+  circles.forEach( circle => {
+      ctx.beginPath();
+      ctx.arc(circle.x, circle.y, circle.radius, 0, 2*Math.PI);
+      ctx.strokeStyle = "white";
+      ctx.fillStyle = "white";
+      ctx.fill();
+      //ctx.addHitRegion({id: "AM"});
+      ctx.lineWidth = 2;
+      ctx.stroke();
+      //ctx.strokeStyle = "black";
+      ctx.fillStyle = "black";
+      //ctx.moveTo(0,0);
+      //console.log(circle.id);
+      ctx.fillText(circle.id, circle.x, circle.y);
+  });
+
+  canvas.addEventListener('click', (e) => {
+    var boundingRect = canvas.getBoundingClientRect();
+    var pos = getMousePos(canvas, e);
+    //console.log(pos);
+    //console.log("canvas", canvas.width/2);
+    circles.forEach(circle => {
+      //console.log("width", canvas.width/2);
+      if (isIntersect(pos, circle)) {
+        alert('click on circle: ' + circle.id);
+      }
+    });
+  });
+}
+
+function getMousePos(canvas, evt) {
+    var rect = canvas.getBoundingClientRect();
+    return {
+        x: ((evt.clientX - rect.left) / (rect.right - rect.left) * canvas.width) - (canvas.width/2),
+        y: ((evt.clientY - rect.top) / (rect.bottom - rect.top) * canvas.height) - (0.45 * canvas.height)
+    };
+}
+
+function isIntersect(point, circle) {
+  console.log("point", point);
+  console.log("circle", circle);
+  return Math.sqrt((point.x-circle.x) ** 2 + (point.y - circle.y) ** 2) < circle.radius;
+}
+// section for drawBottomButtons without addHitRegion -- end
 
 function drawFace(ctx, radius) {
   //var grad;
@@ -171,6 +241,7 @@ function drawNumbers(ctx, radius) {
   }
   }
 
+// old drawBottomButtons function using addHitRegion
 function drawBottomButtons(ctx, radius) {
   //ctx.moveTo(-radius, radius);
   // draw circle of left side;
