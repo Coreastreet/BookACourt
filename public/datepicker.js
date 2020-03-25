@@ -189,6 +189,7 @@ function drawBottomButtons2(ctx, radius) {
     if (isIntersect(pos, circles[1])) {
       alert('click on circle: ' + circles[1].id);
     }
+    e.stopPropagation();
   });
 }
 
