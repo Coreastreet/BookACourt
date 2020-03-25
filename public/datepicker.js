@@ -179,12 +179,11 @@ function drawBottomButtons2(ctx, radius) {
 
   // move to seperate function and only run once.
   var canvas2 = document.querySelector("#BookingWidget #canvas")
-  canvas2.addEventListener('click', (e) => {
+  canvas.one('click', function(e) {
     var boundingRect = canvas2.getBoundingClientRect();
     var pos = getMousePos(canvas2, e);
     //console.log(pos);
     //console.log("canvas", canvas.width/2);
-    e.stopPropagation();
     circles.forEach(circle => {
       //console.log("width", canvas.width/2);
       if (isIntersect(pos, circle)) {
