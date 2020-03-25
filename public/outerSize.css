@@ -281,6 +281,11 @@
   flex: 1 0 50%;
   min-width: 50%;
 }
+
+#BookingWidget #repeatBookingCard button.blackText {
+  color: black;
+}
+
 #BookingWidget #repeatBookingCard #endRow #endDateBottomRow {
   display: flex;
 }
@@ -574,10 +579,6 @@ div.datepicker.dropdown-menu.datepicker-orient-left.datepicker-orient-bottom {
   display: flex;
   justify-content: flex-end;
   border: none;
-}
-
-#payment-confirmation #repeatBookingCard button.blackText {
-  color: black;
 }
 
 #payment-confirmation #activityType {

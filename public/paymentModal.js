@@ -6,7 +6,7 @@ var reviewDetailModal = BookingWidget.$('#secondModalCard');
 var bw = BookingWidget.$("#BookingWidget");
 
 var timeHolder = bw.find("#timeHolder");
-var timeInput = timeHolder.find("input");
+var timeInputs = timeHolder.find("input");
 timeHolder.on("input", "input",  function() {
     $(this).css("border-color", "initial");
 });
@@ -17,7 +17,7 @@ bw.on("click", "#bookNowButton", function(e) {
   var bookingsRequested = bw.find(".number-of-bookings").text();
 
   if ((timeInput.eq(0).val() == '') || (timeInput.eq(1).val() == '')) {
-      inputs.each(function() {
+      timeInputs.each(function() {
         if ($(this).val() == "") {
           $(this).css("border-color", "red");
         }
