@@ -11,7 +11,7 @@ console.log("height", mainCardHeight);
 canvas.width(mainCardWidth);
 canvas.height(mainCardWidth);
 repeatCard.height(mainCardHeight);
-repeatCard.css("margin-top", `-${mainCardHeight-7.5}px`);
+repeatCard.css("margin-top", `-${mainCardHeight}px`);
 
 // format the datepicker and display the date selected
 var now = new Date();

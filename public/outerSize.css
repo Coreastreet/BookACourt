@@ -157,7 +157,9 @@
 #BookingWidget #repeatBookingCard #startRow #startLabel {
   width: 100%;
   display: block;
-  height: 2rem;
+  height: 1.5rem;
+  margin-bottom: none;
+  margin-top: 0.5rem;
 }
 #BookingWidget #repeatBookingCard #startRow #startDate {
   border: none;
@@ -175,13 +177,17 @@
 #BookingWidget #repeatBookingCard #frequencyRow #frequencyHeader {
   display: flex;
   justify-content: space-between;
+  margin-bottom: 0.5rem;
 }
 #BookingWidget #repeatBookingCard #frequencyRow #frequencyHeader #frequencyLabel {
   width: auto;
   display: block;
-  height: 2rem;
+  height: 1.5rem;
   padding-right: 1rem;
+  margin-bottom: 0;
+  margin-top: 0.5rem;
 }
+
 #BookingWidget #repeatBookingCard #frequencyRow #frequencyHeader #frequencyButtons {
   display: flex;
   flex: 1 0 40%;
@@ -191,6 +197,7 @@
   border: 1px solid #6c757d;
   background-color: white;
   border-radius: 4px 0 0 4px;
+  padding: 0.25rem 0;
 }
 #BookingWidget #repeatBookingCard #frequencyRow #frequencyHeader #frequencyButtons #daysButton.btn-selected {
   background-color: royalBlue !important;
@@ -199,7 +206,7 @@
   box-shadow: none;
 }
 #BookingWidget #repeatBookingCard #frequencyRow #frequencyHeader #frequencyButtons #daysButton:hover {
-  background-color: #6c757d;
+  background-color: blue;
   color: white;
 }
 #BookingWidget #repeatBookingCard #frequencyRow #frequencyHeader #frequencyButtons button.daysWeeks {
@@ -213,6 +220,7 @@
   background-color: white;
   border-left: none;
   border-radius: 0 4px 4px 0;
+  padding: 0.25rem 0;
 }
 #BookingWidget #repeatBookingCard #frequencyRow #frequencyHeader #frequencyButtons #weeksButton.btn-selected {
   background-color: royalBlue !important;
@@ -235,6 +243,7 @@
   border: none;
   height: 2rem;
   font-size: 1rem;
+  color: black;
 }
 #BookingWidget #repeatBookingCard .addAndMinus {
   display: flex;
@@ -246,10 +255,12 @@
 #BookingWidget #repeatBookingCard .addAndMinus .minus-button {
   border: none;
   border-radius: 50%;
-  background-color: #f8f9fa;
+  background-color: #E6E6E6;
   padding: 0.25rem 0.5rem;
   min-width: 0px;
+  color: black;
 }
+
 #BookingWidget #repeatBookingCard .addAndMinus .number {
   vertical-align: middle;
   align-self: center;
@@ -258,9 +269,10 @@
 #BookingWidget #repeatBookingCard .addAndMinus .plus-button {
   border: none;
   border-radius: 50%;
-  background-color: #007bff;
+  background-color: lightblue;
   padding: 0.25rem 0.5rem;
   min-width: 0px;
+  color: black;
 }
 #BookingWidget #repeatBookingCard #endRow {
   display: block;
@@ -272,7 +284,9 @@
 #BookingWidget #repeatBookingCard #endRow #endLabel {
   width: 100%;
   display: block;
-  height: 2rem;
+  height: 1.5rem;
+  margin-bottom: 0;
+  margin-top: 0.5rem;
 }
 #BookingWidget #repeatBookingCard #endRow #endDate {
   border: none;
@@ -280,9 +294,6 @@
   font-size: 1rem;
   flex: 1 0 50%;
   min-width: 50%;
-}
-
-#BookingWidget #repeatBookingCard button.blackText {
   color: black;
 }
 
