@@ -75,16 +75,16 @@ BookingWidget.html = (function() {
               '<div class="d-flex col-4" id="frequencyHeader">' +
               '<label class="text-left font-weight-normal mb-2" id="frequencyLabel">Frequency</label>' +
               '<div class="days-and-weeks" id="frequencyButtons" role="group">' +
-              '<button type="button" class="daysWeeks" data-frequency-type="Days" id="daysButton">Days</button>' +
-              '<button type="button" class="daysWeeks" data-frequency-type="Weeks" id="weeksButton">Weeks</button>' +
+              '<button type="button" class="daysWeeks blackText" data-frequency-type="Days" id="daysButton">Days</button>' +
+              '<button type="button" class="daysWeeks blackText" data-frequency-type="Weeks" id="weeksButton">Weeks</button>' +
               '</div>' +
               '</div>' +
               '<div id="frequencyBottomRow">' +
               '<input class="col-7 form-control" placeHolder = "Every Week" data-frequency-type="Weeks" id="frequencyRate"></input>' +
               '<div class="addAndMinus">' +
-              '<button type="button" class="rounded-circle minus-button"><i class="fas fa-minus fa-xs"></i></button>' +
+              '<button type="button" class="rounded-circle minus-button blackText"><i class="fas fa-minus fa-xs"></i></button>' +
               '<div class="frequency-in-days number" data-counter="" data-interval="">0</div>' +
-              '<button type="button" class="rounded-circle plus-button"><i class="fas fa-plus fa-xs"></i></button>' +
+              '<button type="button" class="rounded-circle plus-button blackText"><i class="fas fa-plus fa-xs"></i></button>' +
               '</div>' +
               '</div>' +
               '</div>' +

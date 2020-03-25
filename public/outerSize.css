@@ -576,6 +576,10 @@ div.datepicker.dropdown-menu.datepicker-orient-left.datepicker-orient-bottom {
   border: none;
 }
 
+#payment-confirmation #repeatBookingCard button.blackText {
+  color: black;
+}
+
 #payment-confirmation #activityType {
   text-transform: capitalize;
 }

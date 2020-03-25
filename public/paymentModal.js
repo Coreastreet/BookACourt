@@ -5,12 +5,25 @@ var modal_body = BookingWidget.$('#payment-confirmation');
 var reviewDetailModal = BookingWidget.$('#secondModalCard');
 var bw = BookingWidget.$("#BookingWidget");
 
+var timeHolder = bw.find("#timeHolder");
+var timeInput = timeHolder.find("input");
+timeHolder.on("input", "input",  function() {
+    $(this).css("border-color", "initial");
+});
+
 bw.on("click", "#bookNowButton", function(e) {
   // set height of hidden modal to same as first modal
   var maxBookings = bw.find("#maxBookingsWarning").attr("data-maxBookings");
   var bookingsRequested = bw.find(".number-of-bookings").text();
-  console.log(maxBookings);
-  console.log(bookingsRequested);
+
+  if ((timeInput.eq(0).val() == '') || (timeInput.eq(1).val() == '')) {
+      inputs.each(function() {
+        if ($(this).val() == "") {
+          $(this).css("border-color", "red");
+        }
+      });
+      e.stopPropagation();
+  }
   if (parseInt(bookingsRequested) <= parseInt(maxBookings)){
         modal_body[0].style.display='block';
         fillInPaymentModal();
