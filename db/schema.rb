@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_25_020051) do
+ActiveRecord::Schema.define(version: 2020_03_25_030558) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -103,7 +103,6 @@ ActiveRecord::Schema.define(version: 2020_03_25_020051) do
     t.string "planType"
     t.integer "numberOfBookingFeesPaid"
     t.bigint "sports_centre_id", null: false
-    t.string "status"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["sports_centre_id"], name: "index_payments_on_sports_centre_id"

@@ -35,8 +35,6 @@ class Api::V1::SportsCentresController < Api::V1::ApiController
         amountPaid = parsed_response["AmountPaid"].to_d
 
         numberOfBookingFeesPaid = current_sports_centre.bookings.where(created_at: (current_sports_centre.lastPayDate)...(Date.current)).count
-
-        current_sports_centre.bookings.where(created_at: )
         current_sports_centre.update!(yesterdayMoneyOwed: yesterdayMoneyOwed - amountPaid,
           moneyPaid: moneyPaid + amountPaid,
           moneyOwed: moneyOwed - amountPaid,
