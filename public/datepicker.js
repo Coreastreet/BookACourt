@@ -179,7 +179,7 @@ function drawBottomButtons2(ctx, radius) {
 
   // move to seperate function and only run once.
   var canvas2 = document.querySelector("#BookingWidget #canvas")
-  canvas.on('click', function(e) {
+  canvas.on('dblclick', function(e) {
     var boundingRect = canvas2.getBoundingClientRect();
     var pos = getMousePos(canvas2, e);
     //console.log(pos);
@@ -189,7 +189,6 @@ function drawBottomButtons2(ctx, radius) {
     if (isIntersect(pos, circles[1])) {
       alert('click on circle: ' + circles[1].id);
     }
-    e.stopPropagation();
   });
 }
 
