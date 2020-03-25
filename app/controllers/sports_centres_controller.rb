@@ -28,7 +28,7 @@ class SportsCentresController < ApplicationController
     combinedCode = "#{sports_centre_params[:merchantCode]}:#{sports_centre_params[:authenticationCode]}"
     encoded = Base64.encode64(combinedCode).chomp
     finalAuthCode = "Basic #{encoded}"
-    new_sports_centre.update(combinedCode: finalAuthCode)
+    new_sports_centre.update(combinedCode: finalAuthCode, lastPayDate: Date.current)
 
     #new_sports_centre.update(address: new_address)
     empty_opening_hours = {
@@ -159,7 +159,7 @@ class SportsCentresController < ApplicationController
   end
 
   def booking_failure
-    
+
   end
 
   private
