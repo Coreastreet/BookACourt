@@ -179,7 +179,7 @@ function drawBottomButtons2(ctx, radius) {
 
   var canvas2 = document.querySelector("#BookingWidget #canvas")
   canvas2.addEventListener('click', (e) => {
-    var boundingRect = canvas.getBoundingClientRect();
+    var boundingRect = canvas2.getBoundingClientRect();
     var pos = getMousePos(canvas, e);
     //console.log(pos);
     //console.log("canvas", canvas.width/2);
