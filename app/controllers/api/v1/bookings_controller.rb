@@ -152,7 +152,7 @@ class Api::V1::BookingsController < Api::V1::ApiController
             MerchantHomepageURL: sportsCentre_url, #sportsCentre_url,
             MerchantData: merchantDataString,
             SuccessURL: "https://weball.com.au/sports_centres/#{params[:sports_centre_id]}/booking_success",
-            FailureURL: "https://weball.com.au/sports_centres/#{params[:sports_centre_id]}/booking_failure", # redirect to page with failure message later on
+            FailureURL: sportsCentre_url, # redirect to page with failure message later on
             CancellationURL: sportsCentre_url,
             NotificationURL: "https://weball.com.au/api/v1/sports_centres/#{params[:sports_centre_id]}/bookings"},
             {Authorization: "#{sportsCentre.combinedCode}"}

@@ -61,6 +61,7 @@ Rails.application.routes.draw do
     namespace :v1, defaults: {format: 'json'} do
         resources :sports_centres, only: [:show] do
           get "confirm_email", on: :member
+          post "payment_nudge", on: :member
           resource :bookings, shallow: true, only: [:create] do
             post "initiate", on: :collection
             post "claim_booking", on: :collection

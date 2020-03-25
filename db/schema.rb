@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_20_043247) do
+ActiveRecord::Schema.define(version: 2020_03_25_020051) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -97,6 +97,18 @@ ActiveRecord::Schema.define(version: 2020_03_20_043247) do
     t.index ["user_id"], name: "index_orders_on_user_id"
   end
 
+  create_table "payments", force: :cascade do |t|
+    t.decimal "amountPaid"
+    t.bigint "poliId"
+    t.string "planType"
+    t.integer "numberOfBookingFeesPaid"
+    t.bigint "sports_centre_id", null: false
+    t.string "status"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["sports_centre_id"], name: "index_payments_on_sports_centre_id"
+  end
+
   create_table "prices", force: :cascade do |t|
     t.bigint "booking_id", null: false
     t.bigint "sports_centres_id", null: false
@@ -177,6 +189,7 @@ ActiveRecord::Schema.define(version: 2020_03_20_043247) do
   add_foreign_key "bookings", "sports_centres"
   add_foreign_key "contacts", "sports_centres"
   add_foreign_key "orders", "users"
+  add_foreign_key "payments", "sports_centres"
   add_foreign_key "prices", "bookings"
   add_foreign_key "prices", "sports_centres", column: "sports_centres_id"
   add_foreign_key "representatives", "sports_centres"

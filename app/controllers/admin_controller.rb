@@ -120,22 +120,8 @@ class AdminController < ApplicationController
 
     # if the transaction is successful,
     # create the booking
-    if (parsed_response["TransactionStatus"] == "Completed")
-        transactionRefNo = parsed_response["TransactionRefNo"]
-
-        moneyPaid = current_sports_centre.moneyPaid
-        moneyOwed = current_sports_centre.moneyOwed
-        yesterdayMoneyOwed = current_sports_centre.yesterdayMoneyOwed
-        amountPaid = parsed_response["AmountPaid"].to_d
-
-        current_sports_centre.update!(yesterdayMoneyOwed: yesterdayMoneyOwed - amountPaid,
-          moneyPaid: moneyPaid + amountPaid,
-          moneyOwed: moneyOwed - amountPaid,
-          lastPayDate: Date.current) # all fees paid up to but not inclusive of this date
-        # reset the money owed up to yesterday to Zero;
-        # increase the money paid by the amount paid;
-        # decrease the amount of money owed by the amount paid.
-    end
+    transactionRefNo = parsed_response["TransactionRefNo"]
+    amountPaid = parsed_response["AmountPaid"].to_d
 
     @sportsCentre = current_sports_centre;
     NotificationsMailer.with(sports_centre: current_sports_centre, amountPaid: amountPaid, poliId: transactionRefNo).transaction_fee_invoice.deliver_later
@@ -159,12 +145,12 @@ class AdminController < ApplicationController
     info = "#{current_sports_centre.title}: #{yesterdayMoneyOwed}AUD"
     response = RestClient.post "https://poliapi.apac.paywithpoli.com/api/v2/Transaction/Initiate",
           {Amount: yesterdayMoneyOwed, CurrencyCode: "AUD", MerchantReference: orderReference,
-            MerchantHomepageURL: "https://weball.com.au/api/v1/sports_centres", #sportsCentre_url,
+            MerchantHomepageURL: "https://weball.com.au", #sportsCentre_url,
             MerchantData: info,
             SuccessURL: "https://weball.com.au/admin/sports_centre/#{params[:id]}/payment_success",
-            FailureURL: "https://weball.com.au/sports_centres/failure", # redirect to page with failure message later on
-            CancellationURL: "https://weball.com.au/sports_centres/cancelled",
-            NotificationURL: "https://weball.com.au/api/v1/sports_centres/#{params[:id]}/bookings"},
+            FailureURL: "https://weball.com.au/sports_centre/#{params[:id]}", # redirect to page with failure message later on
+            CancellationURL: "https://weball.com.au/admin/sports_centre/#{params[:id]}",
+            NotificationURL: "https://weball.com.au/api/v1/sports_centres/#{params[:id]}/payment_nudge"},
             {Authorization: "Basic UzYxMDQ2ODk6RWQ2QCRNYjM0Z14="}
 
     parsedResponse = JSON.parse(response.body)

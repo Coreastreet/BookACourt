@@ -17,11 +17,49 @@ class Api::V1::SportsCentresController < Api::V1::ApiController
 
   end
 
+  def payment_nudge
+    require "json"
+    require "restclient"
+    url = "https://poliapi.apac.paywithpoli.com/api/v2/Transaction/GetTransaction?token=" + token_params[:token]
+    response = RestClient.get url, {Authorization: "Basic UzYxMDQ2ODk6RWQ2QCRNYjM0Z14="}
+    parsed_response = JSON.parse(response)
+
+    # if the transaction is successful,
+    # create the booking
+    if (parsed_response["TransactionStatus"] == "Completed")
+        transactionRefNo = parsed_response["TransactionRefNo"]
+
+        moneyPaid = current_sports_centre.moneyPaid
+        moneyOwed = current_sports_centre.moneyOwed
+        yesterdayMoneyOwed = current_sports_centre.yesterdayMoneyOwed
+        amountPaid = parsed_response["AmountPaid"].to_d
+
+        numberOfBookingFeesPaid = current_sports_centre.bookings.where(created_at: (current_sports_centre.lastPayDate)...(Date.current)).count
+
+        current_sports_centre.bookings.where(created_at: )
+        current_sports_centre.update!(yesterdayMoneyOwed: yesterdayMoneyOwed - amountPaid,
+          moneyPaid: moneyPaid + amountPaid,
+          moneyOwed: moneyOwed - amountPaid,
+          lastPayDate: Date.current) # all fees paid up to but not inclusive of this date
+        # reset the money owed up to yesterday to Zero;
+        # increase the money paid by the amount paid;
+        # decrease the amount of money owed by the amount paid.
+
+        Payment.create!(amountPaid: amountPaid, poliId: transactionRefNo, planType: current_sports_centre.plan,
+            numberOfBookingFeesPaid: numberOfBookingFeesPaid, sports_centre_id: current_sports_centre.id)
+    end
+  end
+
   private
 
   def key_params
     params.permit(:key)
   end
+
+  def token_params
+    params.permit(:token, :id)
+  end
+
 
   def random_password(length=10)
     CHARS.sort_by { rand }.join[0...length]
