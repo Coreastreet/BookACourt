@@ -180,7 +180,7 @@ function drawBottomButtons2(ctx, radius) {
   var canvas2 = document.querySelector("#BookingWidget #canvas")
   canvas2.addEventListener('click', (e) => {
     var boundingRect = canvas2.getBoundingClientRect();
-    var pos = getMousePos(canvas, e);
+    var pos = getMousePos(canvas2, e);
     //console.log(pos);
     //console.log("canvas", canvas.width/2);
     circles.forEach(circle => {
@@ -192,11 +192,11 @@ function drawBottomButtons2(ctx, radius) {
   });
 }
 
-function getMousePos(canvas, evt) {
-    var rect = canvas.getBoundingClientRect();
+function getMousePos(canvas2, evt) {
+    var rect = canvas2.getBoundingClientRect();
     return {
-        x: ((evt.clientX - rect.left) / (rect.right - rect.left) * canvas.width) - (canvas.width/2),
-        y: ((evt.clientY - rect.top) / (rect.bottom - rect.top) * canvas.height) - (0.45 * canvas.height)
+        x: ((evt.clientX - rect.left) / (rect.right - rect.left) * canvas2.width) - (canvas2.width/2),
+        y: ((evt.clientY - rect.top) / (rect.bottom - rect.top) * canvas2.height) - (0.45 * canvas2.height)
     };
 }
 
