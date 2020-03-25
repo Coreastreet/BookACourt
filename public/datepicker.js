@@ -184,12 +184,11 @@ function drawBottomButtons2(ctx, radius) {
     var pos = getMousePos(canvas2, e);
     //console.log(pos);
     if (isIntersect(pos, circles[0])) {
-      alert('click on circle: ' + circle[0].id);
+      alert('click on circle: ' + circles[0].id);
     }
     if (isIntersect(pos, circles[1])) {
-      alert('click on circle: ' + circle[1].id);
+      alert('click on circle: ' + circles[1].id);
     }
-
   });
 }
 
