@@ -124,7 +124,6 @@ class AdminController < ApplicationController
     amountPaid = parsed_response["AmountPaid"].to_d
 
     @sportsCentre = current_sports_centre;
-    NotificationsMailer.with(sports_centre: current_sports_centre, amountPaid: amountPaid, poliId: transactionRefNo).transaction_fee_invoice.deliver_later
     respond_to do |format|
       # format.js
       format.html

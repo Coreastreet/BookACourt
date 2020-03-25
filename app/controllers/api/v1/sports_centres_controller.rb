@@ -20,7 +20,7 @@ class Api::V1::SportsCentresController < Api::V1::ApiController
   def payment_nudge
     require "json"
     require "restclient"
-    url = "https://poliapi.apac.paywithpoli.com/api/v2/Transaction/GetTransaction?token=" + token_params[:token]
+    url = "https://poliapi.apac.paywithpoli.com/api/v2/Transaction/GetTransaction?token=" + token_params[:Token]
     response = RestClient.get url, {Authorization: "Basic UzYxMDQ2ODk6RWQ2QCRNYjM0Z14="}
     parsed_response = JSON.parse(response)
 
@@ -45,6 +45,9 @@ class Api::V1::SportsCentresController < Api::V1::ApiController
 
         Payment.create!(amountPaid: amountPaid, poliId: transactionRefNo, planType: current_sports_centre.plan,
             numberOfBookingFeesPaid: numberOfBookingFeesPaid, sports_centre_id: current_sports_centre.id)
+
+        NotificationsMailer.with(sports_centre: current_sports_centre, amountPaid: amountPaid, poliId: transactionRefNo).transaction_fee_invoice.deliver_later
+
     end
   end
 
@@ -55,7 +58,7 @@ class Api::V1::SportsCentresController < Api::V1::ApiController
   end
 
   def token_params
-    params.permit(:token, :id)
+    params.permit(:Token, :id)
   end
 
 
