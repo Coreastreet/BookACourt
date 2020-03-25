@@ -26,9 +26,9 @@ radius = radius * 0.8;
 
 var halfCourtTab = document.querySelector("#halfCourtTab");
 var fullCourtTab = document.querySelector("#fullCourtTab");
+dateString = now.toLocaleDateString('en-GB', {weekday: 'long', day: 'numeric', month: 'long'});
 
     // set initial date of regular booking
-dateString = now.toLocaleDateString('en-GB', {weekday: 'long', day: 'numeric', month: 'long'});
     //lastIndex = dateString.lastIndexOf(" ");
 var startDate = repeatCard.find("#startDate");
 var bookings_array;
@@ -179,7 +179,7 @@ function drawBottomButtons2(ctx, radius) {
 
   // move to seperate function and only run once.
   var canvas2 = document.querySelector("#BookingWidget #canvas")
-  canvas.on('dblclick', function(e) {
+  canvas2.addEventListener('click', function(e) {
     var boundingRect = canvas2.getBoundingClientRect();
     var pos = getMousePos(canvas2, e);
     //console.log(pos);
