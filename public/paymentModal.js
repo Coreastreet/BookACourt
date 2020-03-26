@@ -25,13 +25,13 @@ bw.on("click", "#bookNowButton", function(e) {
 
   var inputError = false;
   // check if both or one time inputs are empty and highlight red.
-  if (  ( firstInputValue == '') || ( (firstInputValue.substr(-2) != "30") || (firstInputValue.substr(-2) != "00") ) || (firstInputValue < firstInput.attr("min")) ||
+  if (  ( firstInputValue == '') || ( (parseInt(firstInputValue.substr(-2) % 30) != 0 ) || (firstInputValue < firstInput.attr("min")) ||
         (firstInputValue < nowHHSS) || (firstInputValue > firstInput.attr("max"))  ) {
 
         firstInput.css("border-color", "red");
         inputError = true;
   }
-  if (  ( secondInputValue == '') || ( (secondInputValue.substr(-2) != "30") || (secondInputValue.substr(-2) != "00") ) || (secondInputValue < secondInput.attr("min")) ||
+  if (  ( secondInputValue == '') || ( (parseInt(secondInputValue.substr(-2) % 30) != 0 ) || (secondInputValue.substr(-2) != "00") ) || (secondInputValue < secondInput.attr("min")) ||
         (secondInputValue < nowHHSS) || (secondInputValue > secondInput.attr("max")) ||
         (firstInputValue >= secondInputValue)  ) {
 
