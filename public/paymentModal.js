@@ -16,7 +16,7 @@ bw.on("click", "#bookNowButton", function(e) {
   var maxBookings = bw.find("#maxBookingsWarning").attr("data-maxBookings");
   var bookingsRequested = bw.find(".number-of-bookings").text();
 
-  if ((timeInput.eq(0).val() == '') || (timeInput.eq(1).val() == '')) {
+  if ((timeInputs.eq(0).val() == '') || (timeInputs.eq(1).val() == '')) {
       timeInputs.each(function() {
         if ($(this).val() == "") {
           $(this).css("border-color", "red");
