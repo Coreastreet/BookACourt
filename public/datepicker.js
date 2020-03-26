@@ -636,20 +636,23 @@ function drawBookedTimes(ctx, radius, dateSelected, bookingSchedule, meridiem) {
 }
 
 function attachButtonFunctions(event, bookingSchedule, dateSelected) {
-    var canvas2 = document.querySelector("#BookingWidget #canvas")
-    canvas2.addEventListener('click', function(e) {
-    var boundingRect = canvas2.getBoundingClientRect();
-    var pos = getMousePos(canvas2, e);
-    //console.log(pos);
-    if (isIntersect(pos, circles[0])) {
-      alert('click on circle: ' + circles[0].id);
-      drawBookedTimes(ctx, radius, dateSelected, bookingSchedule, 'AM');
-    }
-    if (isIntersect(pos, circles[1])) {
-      alert('click on circle: ' + circles[1].id);
-      drawBookedTimes(ctx, radius, dateSelected, bookingSchedule, 'PM');
-    }
-  });
+    var canvas2 = document.querySelector("#BookingWidget #canvas");
+    if (mainClockCard.attr("data-buttonsAttached") == false) {
+        canvas2.addEventListener('click', function(e) {
+              var boundingRect = canvas2.getBoundingClientRect();
+              var pos = getMousePos(canvas2, e);
+              //console.log(pos);
+              if (isIntersect(pos, circles[0]) && mainClockCard.attr()) {
+                alert('click on circle: ' + circles[0].id);
+                drawBookedTimes(ctx, radius, dateSelected, bookingSchedule, 'AM');
+              }
+              if (isIntersect(pos, circles[1])) {
+                alert('click on circle: ' + circles[1].id);
+                drawBookedTimes(ctx, radius, dateSelected, bookingSchedule, 'PM');
+              }
+        });
+        mainClockCard.attr("data-buttonsAttached", true);
+    };
 }
 
 function convertTimeIntoString(number) {

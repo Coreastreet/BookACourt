@@ -14,7 +14,7 @@ BookingWidget.html = (function() {
 
     var html;
     html = '<div id="BookingWidget">' +
-              '<div id="clockHolderCard">' +
+              '<div id="clockHolderCard" data-buttonHolder="false">' +
               '<div class="input-group date" data-provide="datepicker" id="calendar">' +
               '<input type="text" data-date="" id="dateHolder">' +
               '<div class="input-group-addon" id="dateButton">' +
