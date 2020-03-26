@@ -639,7 +639,7 @@ function drawBookedTimes(ctx, radius, dateSelected, bookingSchedule, meridiem) {
 
 function attachButtonFunctions(event, bookingSchedule, dateSelected) {
     var canvas2 = document.querySelector("#BookingWidget #canvas");
-    canvas.off();
+    //canvas.off();
     if (mainClockCard.attr("data-buttonsAttached") == "false") {
         canvas.on('click', function(e) {
               var boundingRect = canvas2.getBoundingClientRect();
