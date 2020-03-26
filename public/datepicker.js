@@ -681,15 +681,15 @@ request.onload = function(e) {
 
     // attach opening hours limits on inputs.
     var currentDayAbbr = document.querySelector("#dateHolder").value.substr(0,3);
-    console.log("abbr", currentDayAbbr);
+    //console.log("abbr", currentDayAbbr);
     var hoursToday = JSON.parse(response["opening_hours"])[currentDayAbbr];
-    console.log("hoursToday", hoursToday);
+    //console.log("hoursToday", hoursToday);
 
     startTimeInput.setAttribute("min", convertAMPMToString(hoursToday["openingHour"]));
     startTimeInput.setAttribute("max", convertAMPMToString(hoursToday["closingHour"]));
-    console.log("hoursToday openingHour", hoursToday["openingHour"]);
+    //console.log("hoursToday openingHour", hoursToday["openingHour"]);
 
-    endTimeInput.setAttribute("min", convertAMPMToString(hoursToday["startingHour"]));
+    endTimeInput.setAttribute("min", convertAMPMToString(hoursToday["openingHour"]));
     endTimeInput.setAttribute("max", convertAMPMToString(hoursToday["closingHour"]));
 
     // retrieve the opening and closing hour for the selected date
