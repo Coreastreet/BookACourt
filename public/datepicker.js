@@ -644,25 +644,28 @@ function drawBookedTimes(ctx, radius, dateSelected, bookingSchedule, meridiem) {
 
 function attachButtonFunctions(event, bookingSchedule, dateSelected) {
     //canvas.off();
-    canvas2.removeEventListener('click', attachCode);
+    canvas.off('click', attachCode);
     if (mainClockCard.attr("data-buttonsAttached") == "false") {
-        canvas2.addEventListener('click', attachCode);
+        canvas.on('click', {bookingSchedule: bookingSchedule, dateSelected: dateSelected}, attachCode);
         mainClockCard.attr("data-buttonsAttached", "true");
     };
+}
 
-    function attachCode(e) {
-          var boundingRect = canvas2.getBoundingClientRect();
-          var pos = getMousePos(canvas2, e);
-          //console.log(pos);
-          if (isIntersect(pos, circles[0])) {
-            alert(dateSelected);
-            drawBookedTimes(ctx, radius, dateSelected, bookingSchedule, 'AM');
-          }
-          if (isIntersect(pos, circles[1])) {
-            alert(dateSelected);
-            drawBookedTimes(ctx, radius, dateSelected, bookingSchedule, 'PM');
-          }
-    }
+function attachCode(e) {
+      var dateSelected = e.data.dateSelected;
+      var bookingSchedule = e.data.bookingSchedule;
+
+      var boundingRect = canvas2.getBoundingClientRect();
+      var pos = getMousePos(canvas2, e);
+      //console.log(pos);
+      if (isIntersect(pos, circles[0])) {
+        alert(dateSelected);
+        drawBookedTimes(ctx, radius, dateSelected, bookingSchedule, 'AM');
+      }
+      if (isIntersect(pos, circles[1])) {
+        alert(dateSelected);
+        drawBookedTimes(ctx, radius, dateSelected, bookingSchedule, 'PM');
+      }
 }
 
 function convertTimeIntoString(number) {
@@ -798,6 +801,7 @@ request.onload = function(e) {
     // set up the full court tab - am and pm buttons
     // right now, booking schedule only returns the array hash for half court availability.
     fullCourtTab.addEventListener( "click", function() {
+      canvas.off('click');
       mainClockCard.find("#tabHolder").attr("data-courtType", "fullCourt");
       //console.log(mainClockCard.find("#tabHolder")[0]);
       bookingSchedule = check_availability("fullCourt", bookingMatrix);
