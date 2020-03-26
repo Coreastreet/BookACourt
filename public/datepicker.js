@@ -644,7 +644,7 @@ function drawBookedTimes(ctx, radius, dateSelected, bookingSchedule, meridiem) {
 
 function attachButtonFunctions(event, bookingSchedule, dateSelected) {
     //canvas.off();
-    canvas2.removeEventListener('click', attachCode(e));
+    canvas2.removeEventListener('click', attachCode);
     if (mainClockCard.attr("data-buttonsAttached") == "false") {
         canvas2.addEventListener('click', attachCode(e));
         mainClockCard.attr("data-buttonsAttached", "true");
