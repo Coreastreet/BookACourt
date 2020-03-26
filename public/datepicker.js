@@ -642,7 +642,7 @@ function attachButtonFunctions(event, bookingSchedule, dateSelected) {
               var boundingRect = canvas2.getBoundingClientRect();
               var pos = getMousePos(canvas2, e);
               //console.log(pos);
-              if (isIntersect(pos, circles[0]) && mainClockCard.attr()) {
+              if (isIntersect(pos, circles[0])) {
                 alert('click on circle: ' + circles[0].id);
                 drawBookedTimes(ctx, radius, dateSelected, bookingSchedule, 'AM');
               }
