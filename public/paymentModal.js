@@ -30,15 +30,15 @@ bw.on("click", "#bookNowButton", function(e) {
 
         firstInput.css("border-color", "red");
         inputError = true;
-  } else if (  ( secondInputValue == '') || (secondInputValue < secondInput.attr("min")) ||
-               (secondInputValue < nowHHSS) || (secondInputValue > secondInput.attr("max")) ||
-               (firstInputValue <= secondInputValue)  ) {
+  }
+  if (  ( secondInputValue == '') || (secondInputValue < secondInput.attr("min")) ||
+        (secondInputValue < nowHHSS) || (secondInputValue > secondInput.attr("max")) ||
+        (firstInputValue >= secondInputValue)  ) {
 
         secondInput.css("border-color", "red");
         inputError = true;
-  } else {
   }
-    
+
   if (inputError) {
       return false;
   }

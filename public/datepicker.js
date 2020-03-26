@@ -777,6 +777,8 @@ clearTimeButton.addEventListener("click", function(event) {
   startTimeInput.setAttribute("data-interval", "");
   startTimeInput.value = "";
   endTimeInput.value = "";
+  startTimeInput.style.borderColor = "initial";
+  endTimeInput.style.borderColor = "initial";
 
   //bookingMatrix = createBookingMatrix(bookings_array, stringFormattedDate, numberOfCourts);
 
