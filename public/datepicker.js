@@ -102,6 +102,17 @@ BookingWidget.$('[data-provide="datepicker"]').datepicker({
    //console.log("Half-Court schedule", bookingSchedule);
    localStorage.setItem("BookingsMatrix", JSON.stringify(bookingMatrix));
 
+   // adjust the min and max of valid input depending on the date chosen.
+   var currentDayAbbr = dateString.substr(0,3);
+   //console.log("abbr", currentDayAbbr);
+   var hoursToday = JSON.parse(localStorage.getItem("opening_hours"))[currentDayAbbr];
+   //console.log("hoursToday", hoursToday);
+   startTimeInput.setAttribute("min", convertAMPMToString(hoursToday["openingHour"]));
+   startTimeInput.setAttribute("max", convertAMPMToString(hoursToday["closingHour"]));
+   //console.log("hoursToday openingHour", hoursToday["openingHour"]);
+   endTimeInput.setAttribute("min", convertAMPMToString(hoursToday["openingHour"]));
+   endTimeInput.setAttribute("max", convertAMPMToString(hoursToday["closingHour"]));
+
    halfCourtTab.addEventListener("click", function() {
      //drawClock(ctx, radius);
      mainClockCard.find("#tabHolder").attr("data-courtType", "halfCourt");
