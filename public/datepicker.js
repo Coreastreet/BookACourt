@@ -598,6 +598,7 @@ function convertTimeIntoString(number) {
 
 function convertAMPMToString(ampmTime) {
    var newTime;
+   console.log(ampmTime);
    var shortened = ampmTime.substring(0,(ampmTime.length - 2));
    var splitArray;
    var ampm = ampmTime.substr(-2);
