@@ -680,7 +680,7 @@ request.onload = function(e) {
 
     // attach opening hours limits on inputs.
     var currentDayAbbr = document.querySelector("#dateHolder").value.substr(0,3);
-    var hoursToday = JSON.parse(response["response_hours"])[currentDayAbbr];
+    var hoursToday = JSON.parse(response["opening_hours"])[currentDayAbbr];
 
     startTimeInput.attr("min", convertAMPMToString(hoursToday["openingHour"]));
     startTimeInput.attr("max", convertAMPMToString(hoursToday["closingHour"]));
