@@ -687,6 +687,7 @@ request.onload = function(e) {
 
     startTimeInput.setAttribute("min", convertAMPMToString(hoursToday["openingHour"]));
     startTimeInput.setAttribute("max", convertAMPMToString(hoursToday["closingHour"]));
+    console.log("hoursToday openingHour", hoursToday["openingHour"]);
 
     endTimeInput.setAttribute("min", convertAMPMToString(hoursToday["startingHour"]));
     endTimeInput.setAttribute("max", convertAMPMToString(hoursToday["closingHour"]));
