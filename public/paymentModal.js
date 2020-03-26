@@ -31,7 +31,7 @@ bw.on("click", "#bookNowButton", function(e) {
         firstInput.css("border-color", "red");
         inputError = true;
   }
-  if (  ( secondInputValue == '') || ( parseInt(secondInputValue.substr(-2)) % 30 != 0 ) || (secondInputValue.substr(-2) != "00") ||
+  if (  ( secondInputValue == '') || ( parseInt(secondInputValue.substr(-2)) % 30 != 0 ) ||
         (secondInputValue < secondInput.attr("min")) || (secondInputValue < nowHHSS) ||
         (secondInputValue > secondInput.attr("max")) || (firstInputValue >= secondInputValue)  ) {
 
