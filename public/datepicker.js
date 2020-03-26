@@ -637,7 +637,7 @@ function drawBookedTimes(ctx, radius, dateSelected, bookingSchedule, meridiem) {
 
 function attachButtonFunctions(event, bookingSchedule, dateSelected) {
     var canvas2 = document.querySelector("#BookingWidget #canvas");
-    if (mainClockCard.attr("data-buttonsAttached") == false) {
+    if (mainClockCard.attr("data-buttonsAttached") == "false") {
         canvas2.addEventListener('click', function(e) {
               var boundingRect = canvas2.getBoundingClientRect();
               var pos = getMousePos(canvas2, e);
@@ -651,7 +651,7 @@ function attachButtonFunctions(event, bookingSchedule, dateSelected) {
                 drawBookedTimes(ctx, radius, dateSelected, bookingSchedule, 'PM');
               }
         });
-        mainClockCard.attr("data-buttonsAttached", true);
+        mainClockCard.attr("data-buttonsAttached", "true");
     };
 }
 
