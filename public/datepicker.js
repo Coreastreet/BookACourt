@@ -111,11 +111,12 @@ BookingWidget.$('[data-provide="datepicker"]').datepicker({
         //console.log("PM now", now.getHours());
          drawBookedTimes(ctx, radius, stringFormattedDate, bookingSchedule, 'PM');
      };
-     canvas[0].addEventListener("click", function(event) {
+     //canvas[0].addEventListener("click", function(event) {
        //drawClock(ctx, radius);
+       canvas.off("click", "**");
        mainClockCard.attr("data-buttonsAttached", "false");
        attachButtonFunctions(event, bookingSchedule, stringFormattedDate);
-     });
+     //});
 
      fullCourtTab.classList.remove("active");
      halfCourtTab.classList.add("active");
@@ -134,11 +135,12 @@ BookingWidget.$('[data-provide="datepicker"]').datepicker({
         //console.log("PM now", now);
          drawBookedTimes(ctx, radius, stringFormattedDate, bookingSchedule, 'PM');
      };
-     canvas[0].addEventListener("click", function(event) {
+     //canvas[0].addEventListener("click", function(event) {
        //drawClock(ctx, radius);
+       canvas.off("click", "**");
        mainClockCard.attr("data-buttonsAttached", "false");
        attachButtonFunctions(event, bookingSchedule, stringFormattedDate);
-     });
+     //});
 
      halfCourtTab.classList.remove("active");
      fullCourtTab.classList.add("active");
@@ -775,11 +777,12 @@ request.onload = function(e) {
       } else {
           drawBookedTimes(ctx, radius, now, bookingSchedule, 'PM');
       };
-      canvas[0].addEventListener("click", function(event) {
+      //canvas[0].addEventListener("click", function(event) {
         //drawClock(ctx, radius);
+        canvas.off("click", "**");
         mainClockCard.attr("data-buttonsAttached", "false");
         attachButtonFunctions(event, bookingSchedule, now);
-      });
+      //});
 
       fullCourtTab.classList.remove("active");
       halfCourtTab.classList.add("active");
@@ -800,10 +803,11 @@ request.onload = function(e) {
       } else {
           drawBookedTimes(ctx, radius, now, bookingSchedule, 'PM');
       };
-      canvas[0].addEventListener("click", function(event) {
+      //canvas[0].addEventListener("click", function(event) {
+        canvas.off("click", "**");
         mainClockCard.attr("data-buttonsAttached", "false");
         attachButtonFunctions(event, bookingSchedule, now);
-      });
+      //});
 
       halfCourtTab.classList.remove("active");
       fullCourtTab.classList.add("active");
