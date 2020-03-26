@@ -18,8 +18,8 @@ bw.on("click", "#bookNowButton", function(e) {
 
   if ((timeInputs.eq(0).val() == '') || (timeInputs.eq(1).val() == '')) {
       timeInputs.each(function() {
-        if ($(this).val() == "") {
-          $(this).css("border-color", "red");
+        if (BookingWidget.$(this).val() == "") {
+          BookingWidget.$(this).css("border-color", "red");
         }
       });
       e.stopPropagation();
