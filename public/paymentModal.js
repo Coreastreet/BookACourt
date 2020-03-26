@@ -13,17 +13,37 @@ timeHolder.on("input", "input",  function() {
 
 bw.on("click", "#bookNowButton", function(e) {
   // set height of hidden modal to same as first modal
+  var rightNow = new Date();
+  var nowHHSS = rightNow.toLocaleTimeString().substr(0,5);
   var maxBookings = bw.find("#maxBookingsWarning").attr("data-maxBookings");
   var bookingsRequested = bw.find(".number-of-bookings").text();
 
-  if ((timeInputs.eq(0).val() == '') || (timeInputs.eq(1).val() == '')) {
-      timeInputs.each(function() {
-        if (BookingWidget.$(this).val() == "") {
-          BookingWidget.$(this).css("border-color", "red");
-        }
-      });
-      return "No Times Provided";
+  var firstInput = timeInputs.eq(0);
+  var secondInput = timeInputs.eq(1);
+  var firstInputValue = firstInput.val();
+  var secondInputValue = secondInput.val();
+
+  var inputError = false;
+  // check if both or one time inputs are empty and highlight red.
+  if (  ( firstInputValue == '') || (firstInputValue < firstInput.attr("min")) ||
+        (firstInputValue < nowHHSS) || (firstInputValue > firstInput.attr("max"))  ) {
+
+        firstInput.css("border-color", "red");
+        inputError = true;
+  } else if (  ( secondInputValue == '') || (secondInputValue < secondInput.attr("min")) ||
+               (secondInputValue < nowHHSS) || (secondInputValue > secondInput.attr("max")) ||
+               (firstInputValue <= secondInputValue)  ) {
+
+        secondInput.css("border-color", "red");
+        inputError = true;
+  } else {
   }
+    
+  if (inputError) {
+      return false;
+  }
+   // check first input value is out of range or is before the current time
+   // check second input value is out of range or is before the current time or is below the first input value
   if (parseInt(bookingsRequested) <= parseInt(maxBookings)){
         modal_body[0].style.display='block';
         fillInPaymentModal();
