@@ -8,7 +8,7 @@ var bw = BookingWidget.$("#BookingWidget");
 var timeHolder = bw.find("#timeHolder");
 var timeInputs = timeHolder.find("input");
 timeHolder.on("input", "input",  function() {
-    $(this).css("border-color", "initial");
+    BookingWidget.$(this).css("border-color", "initial");
 });
 
 bw.on("click", "#bookNowButton", function(e) {
