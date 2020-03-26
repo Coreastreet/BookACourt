@@ -65,9 +65,9 @@ const circles = [
 
 drawClock(ctx, radius);
 
-var startTimeInput = document.querySelector(".startTime");
-var endTimeInput = document.querySelector(".endTime");
-var clearTimeButton = document.querySelector(".clearTime");
+var startTimeInput = document.querySelector("#startTime");
+var endTimeInput = document.querySelector("#endTime");
+var clearTimeButton = document.querySelector("#clearButton");
 
     //alert("hey!");
 BookingWidget.$('[data-provide="datepicker"]').datepicker({
@@ -573,11 +573,11 @@ function attachCode(e) {
       var pos = getMousePos(canvas2, e);
       //console.log(pos);
       if (isIntersect(pos, circles[0])) {
-        alert(dateSelected);
+        //alert(dateSelected);
         drawBookedTimes(ctx, radius, dateSelected, bookingSchedule, 'AM');
       }
       if (isIntersect(pos, circles[1])) {
-        alert(dateSelected);
+        //alert(dateSelected);
         drawBookedTimes(ctx, radius, dateSelected, bookingSchedule, 'PM');
       }
 }
@@ -675,9 +675,20 @@ request.onload = function(e) {
     localStorage.setItem("bookings_array", response["json_bookings"]);
 
     // store the opening hours in local storage too.
-    console.log(response);
+    //console.log(response);
     localStorage.setItem("opening_hours", response["opening_hours"]);
 
+    // attach opening hours limits on inputs.
+    var currentDayAbbr = document.querySelector("#dateHolder").value.substr(0,3);
+    var hoursToday = JSON.parse(response["response_hours"])[currentDayAbbr];
+
+    startTimeInput.attr("min", convertAMPMToString(hoursToday["openingHour"]));
+    startTimeInput.attr("max", convertAMPMToString(hoursToday["closingHour"]));
+
+    endTimeInput.attr("min", convertAMPMToString(hoursToday["startingHour"]));
+    endTimeInput.attr("max", convertAMPMToString(hoursToday["closingHour"]));
+
+    // retrieve the opening and closing hour for the selected date
     // generate the bookings availability for todays date when page first loads.
     bookings_array = JSON.parse(response["json_bookings"]);
     bookingMatrix = createBookingMatrix(bookings_array, nowFormattedDate, numberOfCourts);

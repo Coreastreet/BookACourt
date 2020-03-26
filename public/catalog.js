@@ -41,8 +41,8 @@ BookingWidget.html = (function() {
               '<canvas id="canvas" width="270" height="270" style="background-color:lightgrey">' +
               '</canvas>' +
               '<div class="input-group" id="timeHolder">' +
-              '<input type="time" class="form-control startTime" id="startTime" data-counter="" data-interval="" required/>' +
-              '<input type="time" class="form-control endTime"  id="endTime" data-counter="" data-interval="" required/>' +
+              '<input type="time" class="form-control startTime" id="startTime" data-counter="" data-interval="" step="1800" required/>' +
+              '<input type="time" class="form-control endTime"  id="endTime" data-counter="" data-interval="" step="1800" required/>' +
               '<div class="input-group-append" id="timeButton">' +
               '<span class="input-group-text" id=""><i class="fa fa-clock-o"></i></span>' +
               '</div>' +
