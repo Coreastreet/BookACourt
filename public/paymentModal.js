@@ -22,7 +22,7 @@ bw.on("click", "#bookNowButton", function(e) {
           BookingWidget.$(this).css("border-color", "red");
         }
       });
-      e.stopPropagation();
+      return "No Times Provided";
   }
   if (parseInt(bookingsRequested) <= parseInt(maxBookings)){
         modal_body[0].style.display='block';
