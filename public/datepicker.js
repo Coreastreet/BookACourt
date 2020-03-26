@@ -113,7 +113,7 @@ BookingWidget.$('[data-provide="datepicker"]').datepicker({
      };
      canvas[0].addEventListener("click", function(event) {
        //drawClock(ctx, radius);
-       mainClockCard.attr("data-buttonsAttached") == "false";
+       mainClockCard.attr("data-buttonsAttached", "false");
        attachButtonFunctions(event, bookingSchedule, stringFormattedDate);
      });
 
@@ -136,7 +136,7 @@ BookingWidget.$('[data-provide="datepicker"]').datepicker({
      };
      canvas[0].addEventListener("click", function(event) {
        //drawClock(ctx, radius);
-       mainClockCard.attr("data-buttonsAttached") == "false";
+       mainClockCard.attr("data-buttonsAttached", "false");
        attachButtonFunctions(event, bookingSchedule, stringFormattedDate);
      });
 
@@ -777,7 +777,7 @@ request.onload = function(e) {
       };
       canvas[0].addEventListener("click", function(event) {
         //drawClock(ctx, radius);
-        mainClockCard.attr("data-buttonsAttached") == "false";
+        mainClockCard.attr("data-buttonsAttached", "false");
         attachButtonFunctions(event, bookingSchedule, now);
       });
 
@@ -801,7 +801,7 @@ request.onload = function(e) {
           drawBookedTimes(ctx, radius, now, bookingSchedule, 'PM');
       };
       canvas[0].addEventListener("click", function(event) {
-        mainClockCard.attr("data-buttonsAttached") == "false";
+        mainClockCard.attr("data-buttonsAttached", "false");
         attachButtonFunctions(event, bookingSchedule, now);
       });
 
