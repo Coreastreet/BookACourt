@@ -44,6 +44,9 @@ mainClockCard.find("#dateHolder").val(`${dateString} ${now.getFullYear()}`);
 const circleHeight = parseFloat(radius*1.05).toFixed(2);
 const circleWidth = parseFloat(radius*0.8).toFixed(2);
 const circleRadius = parseFloat(radius*0.2).toFixed(2);
+
+const canvas2 = document.querySelector("#BookingWidget #canvas");
+
 console.log("Circle Width", circleWidth);
 const circles = [
   {
@@ -113,7 +116,7 @@ BookingWidget.$('[data-provide="datepicker"]').datepicker({
      };
      //canvas[0].addEventListener("click", function(event) {
        //drawClock(ctx, radius);
-       canvas.off("click", "**");
+       //canvas.off("click", "**");
        mainClockCard.attr("data-buttonsAttached", "false");
        attachButtonFunctions(event, bookingSchedule, stringFormattedDate);
      //});
@@ -137,7 +140,7 @@ BookingWidget.$('[data-provide="datepicker"]').datepicker({
      };
      //canvas[0].addEventListener("click", function(event) {
        //drawClock(ctx, radius);
-       canvas.off("click", "**");
+       //canvas.off("click", "**");
        mainClockCard.attr("data-buttonsAttached", "false");
        attachButtonFunctions(event, bookingSchedule, stringFormattedDate);
      //});
@@ -640,24 +643,26 @@ function drawBookedTimes(ctx, radius, dateSelected, bookingSchedule, meridiem) {
 }
 
 function attachButtonFunctions(event, bookingSchedule, dateSelected) {
-    var canvas2 = document.querySelector("#BookingWidget #canvas");
     //canvas.off();
+    canva2.removeEventListener('click', attachCode(e));
     if (mainClockCard.attr("data-buttonsAttached") == "false") {
-        canvas.on('click', function(e) {
-              var boundingRect = canvas2.getBoundingClientRect();
-              var pos = getMousePos(canvas2, e);
-              //console.log(pos);
-              if (isIntersect(pos, circles[0])) {
-                alert(dateSelected);
-                drawBookedTimes(ctx, radius, dateSelected, bookingSchedule, 'AM');
-              }
-              if (isIntersect(pos, circles[1])) {
-                alert(dateSelected);
-                drawBookedTimes(ctx, radius, dateSelected, bookingSchedule, 'PM');
-              }
-        });
+        canvas2.addEventListener('click', attachCode(e));
         mainClockCard.attr("data-buttonsAttached", "true");
     };
+
+    function attachCode(e) {
+          var boundingRect = canvas2.getBoundingClientRect();
+          var pos = getMousePos(canvas2, e);
+          //console.log(pos);
+          if (isIntersect(pos, circles[0])) {
+            alert(dateSelected);
+            drawBookedTimes(ctx, radius, dateSelected, bookingSchedule, 'AM');
+          }
+          if (isIntersect(pos, circles[1])) {
+            alert(dateSelected);
+            drawBookedTimes(ctx, radius, dateSelected, bookingSchedule, 'PM');
+          }
+    }
 }
 
 function convertTimeIntoString(number) {
@@ -779,7 +784,7 @@ request.onload = function(e) {
       };
       //canvas[0].addEventListener("click", function(event) {
         //drawClock(ctx, radius);
-        canvas.off("click", "**");
+        //canvas.off("click", "**");
         mainClockCard.attr("data-buttonsAttached", "false");
         attachButtonFunctions(event, bookingSchedule, now);
       //});
@@ -804,7 +809,7 @@ request.onload = function(e) {
           drawBookedTimes(ctx, radius, now, bookingSchedule, 'PM');
       };
       //canvas[0].addEventListener("click", function(event) {
-        canvas.off("click", "**");
+        //canvas.off("click", "**");
         mainClockCard.attr("data-buttonsAttached", "false");
         attachButtonFunctions(event, bookingSchedule, now);
       //});
