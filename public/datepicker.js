@@ -682,11 +682,11 @@ request.onload = function(e) {
     var currentDayAbbr = document.querySelector("#dateHolder").value.substr(0,3);
     var hoursToday = JSON.parse(response["opening_hours"])[currentDayAbbr];
 
-    startTimeInput.attr("min", convertAMPMToString(hoursToday["openingHour"]));
-    startTimeInput.attr("max", convertAMPMToString(hoursToday["closingHour"]));
+    startTimeInput.setAttribute("min", convertAMPMToString(hoursToday["openingHour"]));
+    startTimeInput.setAttribute("max", convertAMPMToString(hoursToday["closingHour"]));
 
-    endTimeInput.attr("min", convertAMPMToString(hoursToday["startingHour"]));
-    endTimeInput.attr("max", convertAMPMToString(hoursToday["closingHour"]));
+    endTimeInput.setAttribute("min", convertAMPMToString(hoursToday["startingHour"]));
+    endTimeInput.setAttribute("max", convertAMPMToString(hoursToday["closingHour"]));
 
     // retrieve the opening and closing hour for the selected date
     // generate the bookings availability for todays date when page first loads.
