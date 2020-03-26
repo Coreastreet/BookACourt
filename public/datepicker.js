@@ -639,17 +639,18 @@ function drawBookedTimes(ctx, radius, dateSelected, bookingSchedule, meridiem) {
 
 function attachButtonFunctions(event, bookingSchedule, dateSelected) {
     var canvas2 = document.querySelector("#BookingWidget #canvas");
+    canvas.off();
     if (mainClockCard.attr("data-buttonsAttached") == "false") {
-        canvas2.addEventListener('click', function(e) {
+        canvas.on('click', function(e) {
               var boundingRect = canvas2.getBoundingClientRect();
               var pos = getMousePos(canvas2, e);
               //console.log(pos);
               if (isIntersect(pos, circles[0])) {
-                alert('click on circle: ' + circles[0].id);
+                alert(dateSelected);
                 drawBookedTimes(ctx, radius, dateSelected, bookingSchedule, 'AM');
               }
               if (isIntersect(pos, circles[1])) {
-                alert('click on circle: ' + circles[1].id);
+                alert(dateSelected);
                 drawBookedTimes(ctx, radius, dateSelected, bookingSchedule, 'PM');
               }
         });
