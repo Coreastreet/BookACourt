@@ -1,0 +1,325 @@
+#BookingWidget {
+  width: 100%;
+  max-width: 18rem;
+  overflow: hidden;
+}
+#BookingWidget div {
+  margin: 0;
+  padding: 0;
+}
+#BookingWidget #activitySelector {
+  height: 2rem;
+  display: flex;
+  margin: 0.5rem 0;
+  padding: 0 0.5rem;
+  border: 1px solid black;
+}
+
+#BookingWidget #activitySelector img {
+  width: 1rem;
+}
+
+#BookingWidget #activitySelector #activityHolder {
+  flex: 1 0 25%;
+  align-self: center;
+  text-transform: capitalize;
+}
+#BookingWidget #activitySelector .activityIcon {
+  flex: 0 1 10%;
+  object-fit: contain;
+  margin-left: 0.25rem;
+  filter: opacity(0.5);
+}
+#BookingWidget #activitySelector .activityIcon:hover {
+  filter: opacity(1);
+}
+#BookingWidget #activitySelector .activityIcon.selectedIcon {
+  filter: opacity(1);
+}
+#BookingWidget #clockHolderCard {
+  width: 100%;
+}
+#BookingWidget #clockHolderCard .bw-none {
+  display: none !important;
+}
+#BookingWidget #clockHolderCard #calendar {
+  display: flex;
+  height: 2rem;
+  margin: 0;
+}
+#BookingWidget #clockHolderCard #dateHolder {
+  flex: 1 0 70%;
+}
+#BookingWidget #clockHolderCard #dateButton {
+  flex: 0 0 2rem;
+  background-color: lightgray;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#BookingWidget #clockHolderCard #tabHolder {
+  display: flex;
+  height: 2rem;
+}
+#BookingWidget #clockHolderCard #tabHolder div.tab {
+  flex: 1 0 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#BookingWidget #clockHolderCard #tabHolder div.tab:hover {
+  background-color: lightcyan;
+}
+#BookingWidget #clockHolderCard #tabHolder .active {
+  background-color: lightgray;
+}
+#BookingWidget #clockHolderCard #timeHolder {
+  display: flex;
+}
+#BookingWidget #clockHolderCard #timeHolder #startTime, #BookingWidget #clockHolderCard #timeHolder #endTime {
+  flex: 1 0 35%;
+  height: 2rem;
+}
+#BookingWidget #clockHolderCard #timeHolder #timeButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 0 0 2rem;
+  background-color: lightgray;
+}
+#BookingWidget #clockHolderCard #buttomRow {
+  display: flex;
+  height: 2rem;
+  color: white;
+  margin-top: 8px;
+}
+#BookingWidget #clockHolderCard #buttomRow #repeatButton {
+  flex: 1 0 50%;
+  border: none;
+  background-color: blue;
+  color: white;
+}
+#BookingWidget #clockHolderCard #buttomRow #clearButton {
+  flex: 1 0 50%;
+  border: none;
+  background-color: grey;
+  color: white;
+}
+#BookingWidget #clockHolderCard #bookNowButton {
+  height: 2rem;
+  width: 100%;
+  margin-top: 4px;
+  border: none;
+  color: white;
+  background-color: green;
+}
+#BookingWidget #repeatBookingCard {
+  margin-left: 100%;
+  transition: all 1s;
+  z-index: 99;
+  margin-top: -50vh;
+  background-color: lightgray;
+  width: 100%;
+  position: relative;
+}
+#BookingWidget #repeatBookingCard #miniContainer {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+#BookingWidget #repeatBookingCard #checkAvailabilityButton {
+  border: none;
+  margin: 1rem;
+  margin-top: auto;
+  height: 2rem;
+  background-color: forestgreen;
+  color: white;
+}
+
+#BookingWidget #repeatBookingCard #returnToSingleButton {
+  border: none;
+  margin: 1rem;
+  margin-top: auto;
+  height: 2rem;
+  color: white;
+}
+
+#BookingWidget #repeatBookingCard #repeatHeader {
+  display: flex;
+  padding: 1rem;
+}
+#BookingWidget #repeatBookingCard #repeatHeader #repeatTitle {
+  margin: 0 0 0 1rem;
+  width: 100%;
+}
+#BookingWidget #repeatBookingCard #maxBookingRow {
+  background-color: white;
+  margin: 0.25rem 1rem;
+  padding: 0.5rem;
+  color: #dc3545;
+  font-weight: bold;
+}
+
+#BookingWidget #repeatBookingCard #vl {
+  border-left: 1px solid #6c757d;
+  height: 100%;
+}
+
+#BookingWidget #repeatBookingCard #startRow {
+  display: block;
+  border: 1px solid white;
+  margin: 0.25rem 1rem;
+  /* color: black; */
+  padding: 0.5rem;
+  background-color: white;
+}
+#BookingWidget #repeatBookingCard #startRow #startLabel {
+  width: 100%;
+  display: block;
+  height: 1.5rem;
+  margin-bottom: none;
+  margin-top: 0.5rem;
+}
+#BookingWidget #repeatBookingCard #startRow #startDate {
+  border: none;
+  height: 2rem;
+  font-size: 1rem;
+}
+#BookingWidget #repeatBookingCard #frequencyRow {
+  display: block;
+  border: 1px solid white;
+  margin: 0.25rem 1rem;
+  /* color: black; */
+  padding: 0.5rem;
+  background-color: white;
+}
+#BookingWidget #repeatBookingCard #frequencyRow #frequencyHeader {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+#BookingWidget #repeatBookingCard #frequencyRow #frequencyHeader #frequencyLabel {
+  width: auto;
+  display: block;
+  height: 1.5rem;
+  padding-right: 1rem;
+  margin-bottom: 0;
+  margin-top: 0.5rem;
+}
+
+#BookingWidget #repeatBookingCard #frequencyRow #frequencyHeader #frequencyButtons {
+  display: flex;
+  flex: 1 0 40%;
+}
+#BookingWidget #repeatBookingCard #frequencyRow #frequencyHeader #frequencyButtons #daysButton {
+  flex: 1 0 50%;
+  border: 1px solid #6c757d;
+  background-color: white;
+  border-radius: 4px 0 0 4px;
+  padding: 0.25rem 0;
+}
+#BookingWidget #repeatBookingCard #frequencyRow #frequencyHeader #frequencyButtons #daysButton.btn-selected {
+  background-color: royalBlue !important;
+  color: white;
+  outline: none;
+  box-shadow: none;
+}
+#BookingWidget #repeatBookingCard #frequencyRow #frequencyHeader #frequencyButtons #daysButton:hover {
+  background-color: blue;
+  color: white;
+}
+#BookingWidget #repeatBookingCard #frequencyRow #frequencyHeader #frequencyButtons button.daysWeeks {
+  padding: 1px 6px;
+  margin: 0px;
+  min-width: 0px;
+}
+#BookingWidget #repeatBookingCard #frequencyRow #frequencyHeader #frequencyButtons #weeksButton {
+  flex: 1 0 50%;
+  border: 1px solid #6c757d;
+  background-color: white;
+  border-left: none;
+  border-radius: 0 4px 4px 0;
+  padding: 0.25rem 0;
+}
+#BookingWidget #repeatBookingCard #frequencyRow #frequencyHeader #frequencyButtons #weeksButton.btn-selected {
+  background-color: royalBlue !important;
+  color: white;
+  outline: none;
+  box-shadow: none;
+}
+#BookingWidget #repeatBookingCard #frequencyRow #frequencyHeader #frequencyButtons #weeksButton:hover {
+  background-color: #6c757d;
+  color: white;
+}
+#BookingWidget #repeatBookingCard #frequencyRow #frequencyBottomRow {
+  display: flex;
+  width: 100%;
+  margin-top: 4px;
+}
+#BookingWidget #repeatBookingCard #frequencyRow #frequencyBottomRow #frequencyRate {
+  flex: 1 0 50%;
+  min-width: 50%;
+  border: none;
+  height: 2rem;
+  font-size: 1rem;
+  color: black;
+}
+#BookingWidget #repeatBookingCard .addAndMinus {
+  display: flex;
+  flex: 1 0 30%;
+  width: 100%;
+  justify-content: space-between;
+  justify-content: flex-end;
+}
+#BookingWidget #repeatBookingCard .addAndMinus .minus-button {
+  border: none;
+  border-radius: 50%;
+  background-color: #E6E6E6;
+  padding: 0.25rem 0.5rem;
+  min-width: 0px;
+  color: black;
+}
+
+#BookingWidget #repeatBookingCard .addAndMinus .number {
+  vertical-align: middle;
+  align-self: center;
+  padding: 0.25rem 0.5rem;
+}
+#BookingWidget #repeatBookingCard .addAndMinus .plus-button {
+  border: none;
+  border-radius: 50%;
+  background-color: lightblue;
+  padding: 0.25rem 0.5rem;
+  min-width: 0px;
+  color: black;
+}
+#BookingWidget #repeatBookingCard #endRow {
+  display: block;
+  border: 1px solid white;
+  margin: 0.25rem 1rem;
+  padding: 0.5rem;
+  background-color: white;
+}
+#BookingWidget #repeatBookingCard #endRow #endLabel {
+  width: 100%;
+  display: block;
+  height: 1.5rem;
+  margin-bottom: 0;
+  margin-top: 0.5rem;
+}
+#BookingWidget #repeatBookingCard #endRow #endDate {
+  border: none;
+  height: 2rem;
+  font-size: 1rem;
+  flex: 1 0 50%;
+  min-width: 50%;
+  color: black;
+}
+
+#BookingWidget #repeatBookingCard #endRow #endDateBottomRow {
+  display: flex;
+}
+
+div.datepicker.dropdown-menu.datepicker-orient-left.datepicker-orient-bottom {
+  margin-top: 1.2rem;
+}

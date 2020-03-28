@@ -6,6 +6,7 @@
           <ul class="navbar-nav ml-auto float-none justify-content-end">
               <li class="nav-item nav-grey d-none"><%= link_to '(Browse Sports Centres)', sports_centres_path, class: "nav-link" %></li>
               <% if logged_out? %>
+                <li class="nav-item nav-grey"><%= link_to 'Demo', home_demo_path, class: "nav-link" %></li>
                 <li class="nav-item nav-grey"><%= link_to 'Log In', login_path, class: "nav-link" %></li>
                 <li class="nav-item mr-md-2 nav-grey"><%= link_to 'Register', new_sports_centre_path, id: "register", class: "nav-link"%></li>
              <% else %>

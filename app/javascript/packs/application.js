@@ -24,6 +24,7 @@ require("packs/manage_peak_hours")
 require("packs/manage_bookings")
 require("packs/select_courts_table")
 require("packs/onBoardingBusinessDetails")
+require("packs/widget_demo")
 //= require jquery_ujs
 
 //require("packs/shortcut")

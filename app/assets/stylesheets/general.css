@@ -4,10 +4,13 @@
     background-color: blue;
 }
 
+#BookingWidget #clockHolderCard {
+    background-color: white;
+}
+
 #helloSeoul {
     background-color: red;
 }
-
 
 #wrapper {
   padding:5%;
