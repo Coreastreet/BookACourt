@@ -25,6 +25,7 @@ require("packs/manage_bookings")
 require("packs/select_courts_table")
 require("packs/onBoardingBusinessDetails")
 require("packs/widget_demo")
+//require("packs/datepicter_demo.js")
 //= require jquery_ujs
 
 //require("packs/shortcut")

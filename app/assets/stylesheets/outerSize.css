@@ -280,6 +280,11 @@
   color: black;
 }
 
+#BookingWidget #repeatBookingCard .addAndMinus button:focus, #BookingWidget #repeatBookingCard .addAndMinus button:active {
+   outline: none;
+   box-shadow: none;
+}
+
 #BookingWidget #repeatBookingCard .addAndMinus .number {
   vertical-align: middle;
   align-self: center;

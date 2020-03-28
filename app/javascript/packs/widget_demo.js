@@ -143,8 +143,9 @@ $(document).on('turbolinks:load', function ()  {
                              attachButtonFunctions(event, bookingSchedule, stringFormattedDate);
                            //});
 
-                           fullCourtTab.classList.remove("active");
-                           halfCourtTab.classList.add("active");
+                             fullCourtTab.classList.remove("active");
+                             halfCourtTab.classList.add("active");
+                             uncheckAvailability();
                          });
 
                          //console.log("full-Court schedule", bookingS);
@@ -167,8 +168,9 @@ $(document).on('turbolinks:load', function ()  {
                              attachButtonFunctions(event, bookingSchedule, stringFormattedDate);
                            //});
 
-                           halfCourtTab.classList.remove("active");
-                           fullCourtTab.classList.add("active");
+                             halfCourtTab.classList.remove("active");
+                             fullCourtTab.classList.add("active");
+                             uncheckAvailability();
                          });
 
                          halfCourtTab.click();
@@ -1741,6 +1743,7 @@ $(document).on('turbolinks:load', function ()  {
                           maxBookingsHolder.text("");
                           maxBookingsHolder.attr("data-arrayOfFreeCourtIds", "");
                           maxBookingsHolder.attr("data-maxBookings", "1");
+                          repeatCard.attr("data-availabilityChecked", "false");
                       }
 
                       // remove all the repeat booking details
@@ -1759,12 +1762,13 @@ $(document).on('turbolinks:load', function ()  {
 
                       bw.on("click", "#checkAvailabilityButton", function() {
                         // call functions to check 10 bookings ahead of time.
-                          var timeInputsAgain = timeHolder.find("input");
-                          var startTime = timeInputsAgain.eq(0).val();
-                          var endTime = timeInputsAgain.eq(1).val();
+                          //var timeInputsAgain = timeHolder.find("input");
+                          var startTime = bw.find("input#startTime").val();
+                          var endTime = bw.find("input#endTime").val();
+
                           var bookingNumber = parseInt(bw.find(".frequency-in-days").text());
                           var bookingRealNumber = parseInt(bw.find("#endDateBottomRow .number-of-bookings").text());
-                          if ((startTime == "") || (endTime = "") || (bookingNumber < 1) || (bookingRealNumber < 2)) {
+                          if ((startTime == "") || (endTime == "") || (bookingNumber < 1) || (bookingRealNumber < 2)) {
                               bw.find("#maxBookingsWarning").text("Incomplete Details");
                           } else {
                               var allBookings = JSON.parse(localStorage.getItem("bookings_array"));
