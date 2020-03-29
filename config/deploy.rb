@@ -11,7 +11,7 @@ set :bundle_without, %w{test}.join(' ')
 # ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
 
 # Default deploy_to directory is /var/www/my_app_name
-set :deploy_to, "/home/justin/rails/#{fetch :application}"
+set :deploy_to, "/home/deploy/rails/#{fetch :application}"
 
 # Default value for :format is :airbrussh.
 # set :format, :airbrussh
@@ -37,8 +37,12 @@ append :linked_dirs, "log", "tmp/pids", "tmp/cache", "tmp/sockets", "vendor/bund
 
 # Default value for keep_releases is 5
 set :keep_releases, 3
+
+set :pg_without_sudo, false
 set :pg_database, 'BookACourt'
 set :pg_username, 'justin'
+set :pg_ask_for_password, true
+
 # Uncomment the following to require manually verifying the host key before first deploy.
 # set :ssh_options, verify_host_key: :secure
 namespace :deploy do
