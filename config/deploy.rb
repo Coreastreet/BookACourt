@@ -38,12 +38,6 @@ append :linked_dirs, "log", "tmp/pids", "tmp/cache", "tmp/sockets", "vendor/bund
 # Default value for keep_releases is 5
 set :keep_releases, 3
 
-set :pg_without_sudo, false
-set :pg_host, 'localhost'
-set :pg_database, 'BookACourt_development'
-set :pg_username, 'justin'
-set :pg_ask_for_password, true
-
 # Uncomment the following to require manually verifying the host key before first deploy.
 # set :ssh_options, verify_host_key: :secure
 namespace :deploy do

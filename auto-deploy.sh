@@ -48,3 +48,7 @@ export ENV="CODE"
 logout
 login
 env
+
+database
+deploy cold uncomment the initdb method and
+convert the pg_hba.conf for local to md5
