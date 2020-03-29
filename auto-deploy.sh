@@ -52,3 +52,9 @@ env
 database
 deploy cold uncomment the initdb method and
 convert the pg_hba.conf for local to md5
+
+make sure that passenger friendly error pages is on in the server block
+
+after running deploy (no cold and removing migrations)
+the database should be loaded.
+then run the rails credentials:edit and update the master key locally.  
