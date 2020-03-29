@@ -10,13 +10,6 @@ namespace :deploy do
     on roles(:db) do
       within release_path do
         with rails_env: fetch(:rails_env) do
-          ActiveRecord::Base.establish_connection(
-            adapter: "postgresql",
-            encoding: "unicode",
-            username: "justin",
-            password: "Soba3724",
-            database: "BookACourt_development"
-          )
           execute :rails, "db:setup"
         end
       end
