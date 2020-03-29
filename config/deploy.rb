@@ -22,7 +22,7 @@ set :deploy_to, "/home/deploy/rails/#{fetch :application}"
 
 # Default value for :pty is false
 # set :pty, true
-set :linked_files, %w{config/master.key}
+# set :linked_files, %w{config/master.key}
 # Default value for :linked_files is []
 # append :linked_files, "config/database.yml"
 
