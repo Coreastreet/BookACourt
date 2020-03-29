@@ -1,6 +1,6 @@
 
-add deploy
-add deploy sudo
+add justin
+add justin sudo # never use deploy; name of user must match owner of the database.
 exit
 # add ssh key to local machine.
 # local machine
