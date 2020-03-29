@@ -37,7 +37,7 @@ require "capistrano/rails/db"
 
 # keep out migrations for initial db loading
 
-# require "capistrano/rails/migrations"
+require "capistrano/rails/migrations"
 # require "capistrano/passenger"
 #require 'capistrano/rails'
 require 'capistrano/passenger'
