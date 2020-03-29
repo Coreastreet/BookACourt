@@ -37,3 +37,14 @@ exec $SHELL
 rbenv install 2.7.0
 rbenv global 2.7.0
 ruby -v
+
+# bundler already installed by default
+
+# to migrate the environment variables including secret_key_base
+
+env
+sudo nano /etc/environment
+export ENV="CODE"
+logout
+login
+env
