@@ -9,6 +9,7 @@ set :bundle_without, %w{test}.join(' ')
 
 # Default branch is :master
 # ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
+Rake::Task["deploy:assets:backup_manifest"].clear_actions
 
 # Default deploy_to directory is /var/www/my_app_name
 set :deploy_to, "/home/deploy/rails/#{fetch :application}"
