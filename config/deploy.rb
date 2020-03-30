@@ -38,6 +38,9 @@ append :linked_dirs, "log", "tmp/pids", "tmp/cache", "tmp/sockets", "vendor/bund
 # Default value for keep_releases is 5
 set :keep_releases, 3
 
+set :default_env, {
+  'SECRET_KEY_BASE' => ENV["SECRET_KEY_BASE"]
+}
 # append the master key
 append :linked_files, "config/master.key"
 
