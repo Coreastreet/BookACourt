@@ -47,7 +47,14 @@ append :linked_files, "config/master.key"
 namespace :deploy do
   namespace :db do
     desc "Load the database schema if needed"
-    task load: [:set_rails_env] do
+    task load: [:production] do
+      ActiveRecord::Base.establish_connection(
+        adapter: "postgresql",
+        encoding: "unicode",
+        username: "justin",
+        password: "Soba3724",
+        database: "BookACourt_development"
+      )
       on primary :db do
         if not test(%Q[[ -e "#{shared_path.join(".schema_loaded")}" ]])
           within release_path do
