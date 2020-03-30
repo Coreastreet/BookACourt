@@ -23,7 +23,7 @@ set :deploy_to, "/home/deploy/rails/#{fetch :application}"
 # set :pty, true
 # set :linked_files, %w{config/master.key}
 # Default value for :linked_files is []
-append :linked_files, "config/database.yml"
+# append :linked_files, "config/database.yml"
 
 # Default value for linked_dirs is []
 append :linked_dirs, "log", "tmp/pids", "tmp/cache", "tmp/sockets", "vendor/bundle", ".bundle", "public/system", "public/uploads"
@@ -52,8 +52,8 @@ namespace :deploy do
         if not test(%Q[[ -e "#{shared_path.join(".schema_loaded")}" ]])
           within release_path do
             with rails_env: fetch(:rails_env) do
-              #execute :rake, "db:schema:load"
-              #execute :touch, shared_path.join(".schema_loaded")
+              execute :rake, "db:schema:load"
+              execute :touch, shared_path.join(".schema_loaded")
             end
           end
         end
