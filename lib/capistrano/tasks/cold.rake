@@ -13,7 +13,7 @@ namespace :deploy do
         if test(:psql, 'portal_production -c "SELECT table_name FROM information_schema.tables WHERE table_schema=\'public\' AND table_type=\'BASE TABLE\';"|grep schema_migrations')
           puts '*** THE PRODUCTION DATABASE IS ALREADY INITIALIZED, YOU IDIOT! ***'
         else
-          execute 'yarn install --check-files --skip-integrity-check'
+          #execute 'yarn install --check-files --skip-integrity-check'
           execute :rake, 'db:schema:load DISABLE_DATABASE_ENVIRONMENT_CHECK=true'
         end
       end
