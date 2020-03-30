@@ -2,7 +2,7 @@ namespace :deploy do
 
   desc "deploy app for the first time (expects pre-created but empty DB)"
   task :cold do
-    before 'deploy:migrate', 'deploy:initdb'
+    # before 'deploy:migrate', 'deploy:initdb'
     invoke 'deploy'
   end
 

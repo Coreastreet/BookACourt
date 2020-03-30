@@ -83,6 +83,6 @@ test:
 #
 production:
   <<: *default
-  database: BookACourt_production
+  database: bookacourt_production
   username: justin
   password: <%= ENV['BOOKACOURT_DATABASE_PASSWORD'] %>
