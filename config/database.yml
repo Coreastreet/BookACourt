@@ -86,4 +86,4 @@ production:
   adapter: postgresql
   encoding: unicode
   database: BookACourt_production
-  username: justin
+  username: deploy
