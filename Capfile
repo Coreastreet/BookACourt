@@ -34,11 +34,11 @@ install_plugin Capistrano::SCM::Git
 require "capistrano/bundler"
 require "capistrano/rails/assets"
 require "capistrano/rails/db"
-require 'capistrano/postgresql' 
+require 'capistrano/postgresql'
 # keep out migrations for initial db loading
 # require "capistrano/rails/migrations"
 # require "capistrano/passenger"
-#require 'capistrano/rails'
+require 'capistrano/rails'
 require 'capistrano/passenger'
 require 'capistrano/rbenv'
 
