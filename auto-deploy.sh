@@ -38,6 +38,7 @@ rbenv install 2.7.0
 rbenv global 2.7.0
 ruby -v
 
+copy the config for the nginx server from gorails exactly.
 # bundler already installed by default
 
 # to migrate the environment variables including secret_key_base
