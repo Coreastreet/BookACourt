@@ -56,6 +56,7 @@ convert the pg_hba.conf for local to md5
 
 set cap-postgres to ask for password
 manually create the database.yml file for auth in the shared/config directory
+add in the adapter and all other essential keys.
 
 make sure that passenger friendly error pages is on in the server block
 
