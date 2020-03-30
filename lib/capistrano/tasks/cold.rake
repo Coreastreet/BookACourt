@@ -2,7 +2,7 @@ namespace :deploy do
 
   desc "deploy app for the first time (expects pre-created but empty DB)"
   task :cold do
-    # before 'deploy:migrate', 'deploy:initdb'
+    before 'deploy:migrate', 'deploy:initdb'
     invoke 'deploy'
   end
 
@@ -14,7 +14,7 @@ namespace :deploy do
           puts '*** THE PRODUCTION DATABASE IS ALREADY INITIALIZED, YOU IDIOT! ***'
         else
           #execute 'yarn install --check-files --skip-integrity-check'
-          execute :rake, 'db:schema:load DISABLE_DATABASE_ENVIRONMENT_CHECK=true'
+          execute :rake, 'db:schema:load'
         end
       end
     end
