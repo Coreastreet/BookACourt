@@ -34,9 +34,7 @@ install_plugin Capistrano::SCM::Git
 require "capistrano/bundler"
 require "capistrano/rails/assets"
 require "capistrano/rails/db"
-
 # keep out migrations for initial db loading
-
 # require "capistrano/rails/migrations"
 # require "capistrano/passenger"
 #require 'capistrano/rails'
@@ -44,7 +42,7 @@ require 'capistrano/passenger'
 require 'capistrano/rbenv'
 
 set :rbenv_type, :user
-set :rbenv_ruby, '2.7.0'
+set :rbenv_ruby, '2.6.5'
 
 # Load custom tasks from `lib/capistrano/tasks` if you have any defined
 Dir.glob("lib/capistrano/tasks/*.rake").each { |r| import r }

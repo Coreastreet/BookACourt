@@ -33,7 +33,7 @@ echo 'export PATH="$HOME/.rbenv/plugins/ruby-build/bin:$PATH"' >> ~/.bashrc
 git clone https://github.com/rbenv/rbenv-vars.git ~/.rbenv/plugins/rbenv-vars
 exec $SHELL
 # put the following in a seperate shell script.
-
+# do not attempt to install a ruby version different to the one used when creating your rails app.
 rbenv install 2.7.0
 rbenv global 2.7.0
 ruby -v
@@ -57,4 +57,4 @@ make sure that passenger friendly error pages is on in the server block
 
 after running deploy (no cold and removing migrations)
 the database should be loaded.
-then run the rails credentials:edit and update the master key locally.  
+then run the rails credentials:edit and update the master key locally.
