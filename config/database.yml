@@ -82,11 +82,10 @@ test:
 #     url: <%= ENV['DATABASE_URL'] %>
 #
 production:
-  #<<: *default
+  <<: *default
   adapter: postgresql
   encoding: unicode
   database: bookacourt_production
   username: justin
   host: localhost
   password: <%= ENV['BOOKACOURT_DATABASE_PASSWORD'] %>
-  pool: 5

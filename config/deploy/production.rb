@@ -30,7 +30,8 @@ server "112.213.32.241", user: "deploy", roles: %w{app db web}# , my_property: :
 # For available Capistrano configuration variables see the documentation page.
 # http://capistranorb.com/documentation/getting-started/configuration/
 # Feel free to add new variables to customise your setup.
-
+# set :stage, :production
+set :rails_env, 'production'
 set :default_env, { 'PASSENGER_INSTANCE_REGISTRY_DIR' => '/home/deploy/rails/BookACourt/current/passenger_temp' }
 set :pg_ask_for_password, true
 # Custom SSH Options
