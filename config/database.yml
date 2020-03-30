@@ -85,6 +85,5 @@ production:
   <<: *default
   adapter: postgresql
   encoding: unicode
-  database: myapp
+  database: BookACourt_production
   username: justin
-  host: localhost
