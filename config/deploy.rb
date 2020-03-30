@@ -1,5 +1,6 @@
 # config valid for current version and patch releases of Capistrano
 lock "~> 3.12.0"
+require "bundler/capistrano"
 
 set :application, "BookACourt"
 set :repo_url, "https://Coreastreet:Soba3724@github.com/Coreastreet/BookACourt"
@@ -14,6 +15,50 @@ set :bundle_without, %w{test}.join(' ')
 set :deploy_to, "/home/deploy/rails/#{fetch :application}"
 # Default value for :format is :airbrussh.
 # set :format, :airbrussh
+set :rails_env, "production"
+
+before "deploy:setup", "db:configure"
+after  "deploy:update_code", "db:symlink"
+
+namespace :db do
+  desc "Create database yaml in shared path"
+  task :configure do
+    set :database_username do
+      "justin"
+    end
+
+    set :database_password do
+      Capistrano::CLI.password_prompt "Database Password: "
+    end
+
+    db_config = <<-EOF
+      base: &base
+        adapter: postgresql
+        encoding: unicode
+        reconnect: false
+        pool: 5
+        username: justin
+        password: Soba3724
+      development:
+        database: development
+        <<: *base
+      test:
+        database: test
+        <<: *base
+      production:
+        database: bookacourt_production
+        <<: *base
+    EOF
+
+    run "mkdir -p #{shared_path}/config"
+    put db_config, "#{shared_path}/config/database.yml"
+  end
+
+  desc "Make symlink for database yaml"
+  task :symlink do
+    run "ln -nfs #{shared_path}/config/database.yml #{latest_release}/config/database.yml"
+  end
+end
 
 # You can configure the Airbrussh format using :format_options.
 # These are the defaults.
@@ -23,7 +68,7 @@ set :deploy_to, "/home/deploy/rails/#{fetch :application}"
 # set :pty, true
 # set :linked_files, %w{config/master.key}
 # Default value for :linked_files is []
-append :linked_files, "config/database.yml"
+#append :linked_files, "config/database.yml"
 
 # Default value for linked_dirs is []
 append :linked_dirs, "log", "tmp/pids", "tmp/cache", "tmp/sockets", "vendor/bundle", ".bundle", "public/system", "public/uploads"
