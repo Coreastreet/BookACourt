@@ -12,7 +12,6 @@ set :bundle_without, %w{test}.join(' ')
 
 # Default deploy_to directory is /var/www/my_app_name
 set :deploy_to, "/home/deploy/rails/#{fetch :application}"
-
 # Default value for :format is :airbrussh.
 # set :format, :airbrussh
 
@@ -28,6 +27,7 @@ set :deploy_to, "/home/deploy/rails/#{fetch :application}"
 
 # Default value for linked_dirs is []
 append :linked_dirs, "log", "tmp/pids", "tmp/cache", "tmp/sockets", "vendor/bundle", ".bundle", "public/system", "public/uploads"
+set :linked_files, %w{config/database.yml}
 
 # Default value for default_env is {}
 # set :default_env, { path: "/opt/ruby/bin:$PATH" }
