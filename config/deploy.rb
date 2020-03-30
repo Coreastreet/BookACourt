@@ -14,10 +14,6 @@ set :bundle_without, %w{test}.join(' ')
 set :deploy_to, "/home/deploy/rails/#{fetch :application}"
 # Default value for :format is :airbrussh.
 # set :format, :airbrussh
-set :rails_env, "production"
-
-before "deploy:setup", "db:configure"
-after  "deploy:update_code", "db:symlink"
 
 # You can configure the Airbrussh format using :format_options.
 # These are the defaults.
