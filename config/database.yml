@@ -85,5 +85,5 @@ production:
   <<: *default
   adapter: postgresql
   encoding: unicode
-  database: BookACourt_production
+  database: bookacourt_production
   username: deploy
