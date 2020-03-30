@@ -54,6 +54,9 @@ database
 deploy cold uncomment the initdb method and
 convert the pg_hba.conf for local to md5
 
+set cap-postgres to ask for password
+manually create the database.yml file for auth in the shared/config directory
+
 make sure that passenger friendly error pages is on in the server block
 
 after running deploy (no cold and removing migrations)
