@@ -57,6 +57,8 @@ sudo apt-get install -y nginx-extras libnginx-mod-http-passenger
 
 must use 127.0.0.1 instead of localhost when connecting to database.
 
+touch in shared/config/master.key or set ENV variable for 'master.key' to enable access.
+
 database
 deploy cold uncomment the initdb method and
 convert the pg_hba.conf for local to md5
