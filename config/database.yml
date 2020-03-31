@@ -87,5 +87,5 @@ production:
   encoding: unicode
   database: BookACourt_production
   username: justin
-  host: 127.0.0.1
+  host: 127.0.0.1 
   password: Soba3724
