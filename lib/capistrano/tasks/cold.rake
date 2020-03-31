@@ -14,7 +14,7 @@ namespace :deploy do
           puts '*** THE PRODUCTION DATABASE IS ALREADY INITIALIZED, YOU IDIOT! ***'
         else
           #execute 'yarn install --check-files --skip-integrity-check'
-          execute :rake, 'db:schema:load'
+          execute :rake, 'db:schema:load DISABLE_DATABASE_ENVIRONMENT_CHECK=1'
         end
       end
     end
