@@ -88,4 +88,4 @@ production:
   database: BookACourt_production
   username: justin
   host: 127.0.0.1
-  password: <%= ENV['BOOKACOURT_DATABASE_PASSWORD'] %>
+  password: Soba3724
