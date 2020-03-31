@@ -24,7 +24,7 @@ set :deploy_to, "/home/justin/rails/#{fetch :application}"
 # set :linked_files, %w{config/master.key}
 # Default value for :linked_files is []
 # append :linked_files, "config/database.yml"
-set :linked_files, fetch(:linked_files, []).push('config/database.yml', 'config/application.yml')
+# set :linked_files, fetch(:linked_files, []).push('config/database.yml', 'config/application.yml')
 # append :linked_files, "config/database.yml"
 # Default value for linked_dirs is []
 append :linked_dirs, "log", "tmp/pids", "tmp/cache", "tmp/sockets", "vendor/bundle", ".bundle", "public/system", "public/uploads"
@@ -48,7 +48,7 @@ append :linked_files, "config/master.key"
 namespace :deploy do
   namespace :db do
     desc "Load the database schema if needed"
-    task load: [:production] do
+    task load: [:set_rails_env] do
       on primary :db do
         if not test(%Q[[ -e "#{shared_path.join(".schema_loaded")}" ]])
           within release_path do
