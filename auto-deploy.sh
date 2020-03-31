@@ -58,6 +58,13 @@ sudo apt-get install -y nginx-extras libnginx-mod-http-passenger
 must use 127.0.0.1 instead of localhost when connecting to database.
 
 touch in shared/config/master.key or set ENV variable for 'master.key' to enable access.
+in ENV["RAILS_MASTER_KEY"]
+
+do not use the old config, follow instructions for a fresh capistrano install.
+chown of app to justin/local user to allow mkdir
+rbenv var command will check if env variables are working; if not reinstall by deleting
+and running git clone https://github.com/rbenv/rbenv-vars.git $(rbenv root)/plugins/rbenv-vars
+
 
 database
 deploy cold uncomment the initdb method and

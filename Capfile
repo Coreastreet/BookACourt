@@ -34,7 +34,7 @@ require "capistrano/rbenv"
 set :rbenv_type, :justin
 set :rbenv_ruby, '2.6.5'
 # require "capistrano/chruby"
-# require "capistrano/bundler"
+require "capistrano/bundler"
 # require "capistrano/rails/assets"
 # require "capistrano/rails/migrations"
 
