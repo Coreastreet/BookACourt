@@ -3,7 +3,7 @@
 # Defines a single server with a list of roles and multiple properties.
 # You can define all roles on a single server, or split them:
 
-server "112.213.32.241", user: "justin", roles: %w{app db web}# , my_property: :my_value
+server "112.213.32.241", user: "justin", roles: %w{app db web}
 # server "example.com", user: "deploy", roles: %w{app web}, other_property: :other_value
 # server "db.example.com", user: "deploy", roles: %w{db}
 
@@ -30,10 +30,9 @@ server "112.213.32.241", user: "justin", roles: %w{app db web}# , my_property: :
 # For available Capistrano configuration variables see the documentation page.
 # http://capistranorb.com/documentation/getting-started/configuration/
 # Feel free to add new variables to customise your setup.
-# set :stage, :production
-# set :rails_env, 'production'
-set :default_env, { 'PASSENGER_INSTANCE_REGISTRY_DIR' => '/home/justin/rails/BookACourt/current/passenger_temp' }
-# set :pg_ask_for_password, true
+
+
+
 # Custom SSH Options
 # ==================
 # You may pass any option but keep in mind that net/ssh understands a
@@ -43,7 +42,7 @@ set :default_env, { 'PASSENGER_INSTANCE_REGISTRY_DIR' => '/home/justin/rails/Boo
 # Global options
 # --------------
 #  set :ssh_options, {
-#    keys: %w(/home/rlisowski/.ssh/id_rsa),
+#    keys: %w(/home/user_name/.ssh/id_rsa),
 #    forward_agent: false,
 #    auth_methods: %w(password)
 #  }

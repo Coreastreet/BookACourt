@@ -1,17 +1,15 @@
 # config valid for current version and patch releases of Capistrano
-lock "~> 3.12.0"
+lock "~> 3.12.1"
 
 set :application, "BookACourt"
-set :repo_url, "https://Coreastreet:Soba3724@github.com/Coreastreet/BookACourt"
-
-set :passenger_restart_with_touch, true
-set :bundle_without, %w{test}.join(' ')
+set :repo_url, "git@github.com:Coreastreet/BookACourt.git"
 
 # Default branch is :master
 # ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
 
 # Default deploy_to directory is /var/www/my_app_name
-set :deploy_to, "/home/justin/rails/#{fetch :application}"
+# set :deploy_to, "/var/www/my_app_name"
+
 # Default value for :format is :airbrussh.
 # set :format, :airbrussh
 
@@ -19,16 +17,25 @@ set :deploy_to, "/home/justin/rails/#{fetch :application}"
 # These are the defaults.
 # set :format_options, command_output: true, log_file: "log/capistrano.log", color: :auto, truncate: :auto
 
+set :deploy_to, "/home/justin/#{fetch :application}"
+
+append :linked_dirs, 'log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'vendor/bundle', '.bundle', 'public/system', 'public/uploads'
+
+# Only keep the last 5 releases to save disk space
+set :keep_releases, 3
+
+# Optionally, you can symlink your database.yml and/or secrets.yml file from the shared directory during deploy
+# This is useful if you don't want to use ENV variables
+# append :linked_files, 'config/database.yml', 'config/secrets.yml'
 # Default value for :pty is false
 # set :pty, true
-# set :linked_files, %w{config/master.key}
+
 # Default value for :linked_files is []
 # append :linked_files, "config/database.yml"
-# set :linked_files, fetch(:linked_files, []).push('config/database.yml', 'config/application.yml')
-# append :linked_files, "config/database.yml"
+
 # Default value for linked_dirs is []
-append :linked_dirs, "log", "tmp/pids", "tmp/cache", "tmp/sockets", "vendor/bundle", ".bundle", "public/system", "public/uploads"
-# set :linked_files, fetch(:linked_files, []).push('config/database.yml')
+# append :linked_dirs, "log", "tmp/pids", "tmp/cache", "tmp/sockets", "public/system"
+
 # Default value for default_env is {}
 # set :default_env, { path: "/opt/ruby/bin:$PATH" }
 
@@ -36,31 +43,7 @@ append :linked_dirs, "log", "tmp/pids", "tmp/cache", "tmp/sockets", "vendor/bund
 # set :local_user, -> { `git config user.name`.chomp }
 
 # Default value for keep_releases is 5
-set :keep_releases, 3
+# set :keep_releases, 5
 
-set :default_env, {
-  'SECRET_KEY_BASE' => ENV["SECRET_KEY_BASE"]
-}
-# append the master key
-append :linked_files, "config/master.key"
 # Uncomment the following to require manually verifying the host key before first deploy.
 # set :ssh_options, verify_host_key: :secure
-namespace :deploy do
-  namespace :db do
-    desc "Load the database schema if needed"
-    task load: [:set_rails_env] do
-      on primary :db do
-        if not test(%Q[[ -e "#{shared_path.join(".schema_loaded")}" ]])
-          within release_path do
-            with rails_env: fetch(:rails_env) do
-              execute :rake, "db:schema:load"
-              execute :touch, shared_path.join(".schema_loaded")
-            end
-          end
-        end
-      end
-    end
-  end
-
-  before "deploy:db:migrate", "deploy:db:load"
-end

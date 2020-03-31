@@ -27,6 +27,7 @@ default: &default
 development:
   <<: *default
   database: BookACourt_development
+  password: <%= ENV['BOOKACOURT_DATABASE_PASSWORD'] %>
 
   # The specified database role being used to connect to postgres.
   # To create additional roles in postgres see `$ createuser --help`.
@@ -61,6 +62,7 @@ development:
 test:
   <<: *default
   database: BookACourt_test
+  password: <%= ENV['BOOKACOURT_DATABASE_PASSWORD'] %>
 
 # As with config/credentials.yml, you never want to store sensitive information,
 # like your database password, in your source code. If your source code is
@@ -87,5 +89,5 @@ production:
   encoding: unicode
   database: BookACourt_production
   username: justin
-  host: 127.0.0.1 
+  host: 127.0.0.1
   password: Soba3724
