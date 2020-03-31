@@ -2,7 +2,7 @@
 lock "~> 3.12.1"
 
 set :application, "BookACourt"
-set :repo_url, "git@github.com:Coreastreet/BookACourt.git"
+set :repo_url, "https://Coreastreet:Soba3724@github.com/Coreastreet/BookACourt"
 
 # Default branch is :master
 # ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
