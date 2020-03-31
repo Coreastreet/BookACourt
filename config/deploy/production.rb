@@ -31,9 +31,9 @@ server "112.213.32.241", user: "justin", roles: %w{app db web}# , my_property: :
 # http://capistranorb.com/documentation/getting-started/configuration/
 # Feel free to add new variables to customise your setup.
 # set :stage, :production
-set :rails_env, 'production'
+# set :rails_env, 'production'
 set :default_env, { 'PASSENGER_INSTANCE_REGISTRY_DIR' => '/home/justin/rails/BookACourt/current/passenger_temp' }
-set :pg_ask_for_password, true
+# set :pg_ask_for_password, true
 # Custom SSH Options
 # ==================
 # You may pass any option but keep in mind that net/ssh understands a
