@@ -65,6 +65,7 @@ chown of app to justin/local user to allow mkdir
 rbenv var command will check if env variables are working; if not reinstall by deleting
 and running git clone https://github.com/rbenv/rbenv-vars.git $(rbenv root)/plugins/rbenv-vars
 
+require cap-bundler to ensure all gems are loaded via bundle:install on production server.
 
 database
 deploy cold uncomment the initdb method and
