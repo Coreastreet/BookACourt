@@ -41,7 +41,7 @@ set :default_env, {
   'SECRET_KEY_BASE' => ENV["SECRET_KEY_BASE"]
 }
 # append the master key
-append :linked_files, "config/master.key"
+# append :linked_files, "config/master.key"
 # Uncomment the following to require manually verifying the host key before first deploy.
 # set :ssh_options, verify_host_key: :secure
 namespace :deploy do
