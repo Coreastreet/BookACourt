@@ -31,6 +31,8 @@ echo 'eval "$(rbenv init -)"' >> ~/.bashrc
 git clone https://github.com/rbenv/ruby-build.git ~/.rbenv/plugins/ruby-build
 echo 'export PATH="$HOME/.rbenv/plugins/ruby-build/bin:$PATH"' >> ~/.bashrc
 git clone https://github.com/rbenv/rbenv-vars.git ~/.rbenv/plugins/rbenv-vars
+
+run the following command seperately or the rbenv command will not be found.
 exec $SHELL
 # put the following in a seperate shell script.
 # do not attempt to install a ruby version different to the one used when creating your rails app.
@@ -42,13 +44,18 @@ copy the config for the nginx server from gorails exactly.
 # bundler already installed by default
 
 # to migrate the environment variables including secret_key_base
+# avoid setting env variables via exports.
+#env
+#sudo nano /etc/environment
+#export ENV="CODE"
+#logout
+#login
+#env
+reboot may be need before the following line.
+sudo dpkg --configure -a
+sudo apt-get install -y nginx-extras libnginx-mod-http-passenger
 
-env
-sudo nano /etc/environment
-export ENV="CODE"
-logout
-login
-env
+must use 127.0.0.1 instead of localhost when connecting to database.
 
 database
 deploy cold uncomment the initdb method and
