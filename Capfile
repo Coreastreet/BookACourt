@@ -31,7 +31,7 @@ install_plugin Capistrano::SCM::Git
 # require "capistrano/rvm"
 # require "capistrano/rbenv"
 # require "capistrano/chruby"
-set :database_file, "home/deploy/rails/BookACourt/current/config/database.yml"
+# set :database_file, "home/deploy/rails/BookACourt/current/config/database.yml"
 
 require "capistrano/bundler"
 require 'capistrano/rails'
