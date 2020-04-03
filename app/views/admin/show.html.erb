@@ -152,20 +152,24 @@
                         <span class="tooltiptext">Copied!</span>
                       </button>
                     </div>
-                    <pre class='code code-html row mx-0 mt-2'>
-                      <label class="col-3">HTML</label>
-                      <code class="col-10"><input type="text" class="codeInput text-white w-100" id="scriptCode" value='<%= '<script async src="https://weball.com.au/demo_async.js"></script>' if @sports_centre.plan != "Basic" %> '></input></code>
-                    </pre>
+                    <code class="row mx-0 mt-2 mb-3">
+                      <span class="codeInput text-white p-3">HTML</span>
+                      <span class="codeInput text-white col p-3" id="scriptCode">
+                        <%= '<script async src="https://weball.com.au/demo_async.js"></script>' if @sports_centre.plan != "Basic" %>
+                      </span>
+                    </code>
                     <div class="row mx-0 d-flex justify-content-between"><p class="mb-0 h-contentFit align-self-end">Place this line of code where you would like the widget to appear</p>
                       <button class="tooltipTarget btn btn-primary" data-target="widgetCode">
                         <i class="fas fa-copy pr-3"></i>Copy
                         <span class="tooltiptext">Copied!</span>
                       </button>
                     </div>
-                    <pre class='code code-html row mx-0 mt-2'>
-                      <label class="col-3" data-toggle="tooltip" title="what" data-selector="true">HTML</label>
-                      <code class="col-10"><input type="text" class="codeInput text-white w-100" id="widgetCode" value='<%= "<div data-sportsCentreId=#{@sports_centre.id}></div>" if @sports_centre.plan != "Basic" %>'</input></code>
-                    </pre>
+                    <code class="row mx-0 mt-2">
+                      <span class="codeInput text-white p-3">HTML</span>
+                      <span class="codeInput text-white col p-3" id="widgetCode">
+                        <%= "<div data-sportsCentreId=#{@sports_centre.id}></div>" if @sports_centre.plan != "Basic" %>
+                      </span>
+                    </code>
                   </div>
               </div>
             </div>

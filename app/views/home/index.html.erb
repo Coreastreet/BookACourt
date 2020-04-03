@@ -1,114 +1,120 @@
-<section class="container-fluid bg-home-image-1">
-    <div class="container min-height d-flex flex-column justify-content-between">
-      <div class="row pt-5">
-        <div class="col-12 d-flex justify-content-center"><%= image_tag asset_path("weballTextLogo.png"), class: "max-logo" %></div>
-      </div>
-      <!-- <div class="row">
-        <div class="col-12 h2 text-center">
-          Less Work and More Play
-        </div>
-      </div> -->
+<section class="container-fluid bg-home-image-1 py-3">
+    <div class="container h-contentFit d-flex flex-column justify-content-between">
       <div class="row">
-        <div class="col-12 h2 text-center">
-          <button type="button" class="btn btn-primary btn-lg font-weight-bold">Get Started</button>
-          <button type="button" class="btn btn-lg border second-button rounded font-weight-bold">Learn More</button>
-        </div>
+        <div class="col-12 d-flex justify-content-center"><%= image_tag asset_path("mobileTopImage.png"), class: "max-logo" %></div>
+      </div>
+    </div>
+    <div class="row bg-aliceBlue pt-3">
+      <div class="col-12 h2 text-center font-weight-bold">
+        Online Booking for Sports Centres
+      </div>
+    </div>
+    <div class="row bg-aliceBlue">
+      <div class="col-12 h2 mt-2 text-center">
+        <button type="button" class="btn btn-success btn-lg font-weight-bold">Try Demo</button>
       </div>
     </div>
 </section>
 <section class="container-fluid bg-white px-0">
-  <div class="px-5 py-4">
-      <div class="row mx-5 mt-3 justify-content-center">
-        <p class="h1">An Automated Court Booking System</p>
-      </div>
-      <div class="row mx-5 mb-3">
-        <div class="p-0 h4 font-weight-bold col-6 d-flex flex-column justify-content-center">
-          <p class="h3">Reduce Staff Costs</p>
-          <p class="h5">Staff not productive enough? Our self-service system lets your customers check-in and
-          out with QR codes instantly and without the immediate need for front-desk staff.</p>
-          <button type="button" class="btn btn-primary btn-lg font-weight-bold mt-2 align-self-start">See Features</button>
-        </div>
-        <div class="col-5 offset-1">
-          <%= image_tag asset_path("QRscan.jpg") %>
-        </div>
-      </div>
-  </div>
-  <div class="px-5 py-4 whiteSmokeBG">
-      <div class="row mx-5 my-3">
-        <div class="col-4 pl-0 pr-5">
-          <div class="wistia_responsive_padding" style="padding:166.56% 0 0 0;position:relative;">
-            <div class="wistia_responsive_wrapper" style="height:100%;left:0;position:absolute;top:0;width:100%;">
-              <div class="wistia_embed wistia_async_by9e2m5uzk videoFoam=true" style="height:100%;position:relative;width:100%">&nbsp;
-              </div>
-            </div>
+  <div class="row pt-4 px-5">
+      <div class="col-md-5 offset-md-1 px-0">
+      <div class="wistia_responsive_padding" style="padding:166.56% 0 0 0;position:relative;">
+        <div class="wistia_responsive_wrapper" style="height:100%;left:0;position:absolute;top:0;width:100%;">
+          <div class="wistia_embed wistia_async_by9e2m5uzk videoFoam=true" style="height:100%;position:relative;width:100%">&nbsp;
           </div>
         </div>
-        <div class="p-0 h4 font-weight-bold col-8 d-flex flex-column justify-content-center">
-          <p class="h3">Increase online Bookings</p>
-          <p class="h5" >Customers book on <i>your</i> website; No account needed. They can make regular
-          bookings and even check for future court availability.</p>
-          <button type="button" class="btn btn-primary btn-lg align-self-start font-weight-bold mt-2 ">See Features</button>
-        </div>
+      </div>
+      </div>
+      <div class="px-0 pt-3 h4 font-weight-bold col-md-6 d-flex flex-column justify-content-center">
+        <p class="h3 font-weight-bold border-left-orange pl-2">Get more customers</p>
+        <p class="h5 ideal-line-height mt-1">
+          Convert your website's visitors into
+          customers in under 60 seconds with our unique booking widget,
+          custom designed for Australian sports centres.</p>
+          <%= link_to "#", class:"mt-auto ideal-line-spacing text-right" do %>
+            <span>Learn more &#10132;</span>
+          <% end %>
       </div>
   </div>
-  <div class="px-5 py-4">
-      <div class="row ml-5 mr-0 my-3">
-        <div class="p-0 col-6 d-flex flex-column justify-content-center">
-          <p class="h3">Lower Transaction Fees</p>
-          <p class="h5">1% and 30c per transaction*; No extra establishment or ongoing fees;
-            Integrated with polipay*.</p>
-          <button type="button" class="btn btn-primary btn-lg font-weight-bold mt-2 align-self-start">See Features</button>
-        </div>
-        <div class="col-6">
-          <%= image_tag asset_path("compareFees.png") %>
-        </div>
-      </div>
+  <div class="row px-5 pt-4 my-3">
+    <div class="col-md-4 pl-0">
+      <%= image_tag asset_path("laptopHalf.png") %>
+    </div>
+    <div class="px-0 pt-3 h4 font-weight-bold col-md-8 d-flex flex-column justify-content-center">
+      <p class="h3 border-left-orange pl-2 font-weight-bold">Get Paid Real-Time</p>
+      <p class="h5 mt-1 ideal-line-height">Money paid for bookings through your
+        website is transferred immediately into
+        your Bank Account.</p>
+      <%= link_to "#", class:"mt-auto ideal-line-spacing text-right" do %>
+        <span>Learn more &#10132;</span>
+      <% end %>
+    </div>
+  </div>
+  <div class="row px-5 pt-4 my-3">
+    <div class="col-md-6 px-0">
+      <%= image_tag asset_path("compareFees.png") %>
+    </div>
+    <div class="px-0 pt-3 col-md-6 h4 d-flex flex-column justify-content-center">
+      <p class="h3 border-left-orange pl-2 font-weight-bold">Get Lower Transaction Fees</p>
+      <p class="h5 mt-1 ideal-line-height">We charge 1.65% + 30c per each online transaction
+        for NGOs. Our pricing involves no additional fees.
+      </p>
+      <%= link_to "#", class:"mt-auto ideal-line-spacing text-right" do %>
+        <span>Learn more &#10132;</span>
+      <% end %>
+    </div>
   </div>
 </section>
-<section class="container-fluid orange-theme-color">
+<section class="container-fluid bg-aliceBlue">
   <div class="container top-section-margin">
     <div class="row">
-      <div class="col-12 text-white text-center mt-4 h3">
+      <div class="col-12 text-center mt-3 h3 mb-0">
         Ready to install?
       </div>
     </div>
-    <div class="row mx-0 full-width">
-      <div class="col-1 px-0">
-        <div class="row mx-0 display-3">
-          1
-        </div>
-        <div class="row mx-0 h5">
-          SignUp
-        </div>
+    <div class="row mx-0 full-width mt-4">
+      <div class="col-3 px-0">
+        <div class="display-3 text-center text-muted-opaque">1</div>
+        <div class="text-center h5">Sign Up</div>
       </div>
-      <div class="col-3 d-flex flex-column justify-content-center pl-0 pr-5">
-        <%= image_tag asset_path("signUpPicture.png"), class: "img-fluid" %>
+      <%= image_tag asset_path("signUp1.png"), class: "img-fluid col-8 offset-1 rounded border-orange px-0" %>
+    </div>
+    <div class="row mx-0 full-width mt-4">
+      <div class="col-3 px-0">
+        <div class="display-3 text-center text-muted-opaque">2</div>
+        <div class="text-center h5">Insert Code</div>
       </div>
-      <div class="col-1 px-0">
-        <div class="row mx-0 display-3">
-          2
-        </div>
-        <div class="row mx-0 h5">
-          Transfer Bookings
-        </div>
+      <%= image_tag asset_path("step2Install.png"), class: "img-fluid col-8 offset-1 rounded border-orange px-0" %>
+    </div>
+    <div class="row mx-0 full-width mt-4">
+      <div class="col-3 px-0">
+        <div class="display-3 text-center text-muted-opaque">3</div>
+        <div class="text-center h5">Use</div>
       </div>
-      <div class="col-3 d-flex flex-column justify-content-center pr-5">
-        <%= image_tag asset_path("timetable.png"), class: "img-fluid" %>
-      </div>
-      <div class="col-1 px-0">
-        <div class="row mx-0 display-3">
-          3
-        </div>
-        <div class="row mx-0 h5">
-          Insert Code
-        </div>
-      </div>
-      <div class="col-3 d-flex flex-column justify-content-center pl-0">
-        <%= image_tag asset_path("code2.png"), class: "img-fluid" %>
-      </div>
+      <%= image_tag asset_path("step3Use.png"), class: "img-fluid col-8 offset-1 rounded border-orange px-0" %>
     </div>
     <div class="row d-flex justify-content-center py-4">
-      <button type="button" class="btn btn-primary btn-lg font-weight-bold">Get Started</button>
+      <button type="button" class="btn btn-success btn-lg font-weight-bold">Sign Up</button>
+    </div>
+  </div>
+</section>
+<section>
+  <div class="container-fluid bg-weball">
+    <div class="row mx-0 pt-4 justify-content-around h5">
+          <%= link_to "Features", "#", class: 'text-white' %>
+          <%= link_to "Pricing", "#", class: 'text-white' %>
+          <%= link_to "Contact", "#", class: 'text-white' %>
+    </div>
+    <div class="row justify-content-center">
+        <%= link_to image_tag(asset_path("invertedWeballLogo.png"), class: "max-text-logo"), root_path, class: "navbar-brand pb-0" %>
+    </div>
+
+    <div class="row mx-0 pb-4 justify-content-center mx-2">
+          <%= link_to "Terms", "#", class: 'text-white px-2 mt-auto' %>
+          <%= link_to "Privacy", "#", class: 'text-white px-2 mt-auto' %>
+          <%= link_to "#", class: 'text-white px-2 ml-auto' do %>
+            <i class="fab fa-linkedin fa-2x"></i>
+          <% end %>
     </div>
   </div>
 </section>

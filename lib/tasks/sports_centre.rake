@@ -21,7 +21,7 @@ namespace :sports_centre do
       encoding: "unicode",
       username: "justin",
       password: "justin",
-      database: "BookACourt"
+      database: "BookACourt_development"
     )
     SportsCentre.all.each do |sports_centre|
       moneyOwed = sports_centre.moneyOwed

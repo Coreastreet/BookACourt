@@ -1,8 +1,4 @@
 // home#index page
-.bg-home-image-1 {
-  background-image: url(asset-path('homePage.png'));
-  background-size: 100% 25rem;
-}
 
 .btn.second-button {
   //color: royalBlue !important;
@@ -17,9 +13,34 @@
   border-color: #e96b1e !important;
 }
 
+.bg-aliceBlue {
+  background-color: #ebf5f7;
+}
+
+.bg-weball {
+  background-color: #FF5E0D;
+}
+
+.border-left-orange {
+  border-left: 4px solid #ff5e0d;
+}
+
+.border-orange {
+  border: 2px solid #ff5e0d;
+}
+
 .btn.second-button:hover {
   background-color: azure !important;
   border-color: royalBlue !important;
+}
+
+.ideal-line-height {
+  line-height: 140% !important;
+}
+
+.text-muted-opaque {
+  color: #6c757d;
+  opacity: 0.5;
 }
 
 .min-height {
@@ -47,11 +68,14 @@
 .top-section-margin {
   margin-top: 2rem;
 }
-
 // search-bar
 
 .form-control:focus {
   box-shadow: none;
+}
+
+.text-underline {
+  text-decoration: underline !important;
 }
 
 .form-control-underlined {
@@ -131,4 +155,19 @@ li.btn-custom:hover {
 
 .dropdown-margin-top {
   margin-top: 2.5rem;
+}
+
+@media only screen and (min-width: 768px) {
+  .bg-home-image-1 {
+    background-image: url(asset-path('homePage.png'));
+    background-size: 100% 25rem;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .bg-home-image-1 {
+    background-image: none;
+    background-color: #ebf5f7;
+    background-size: 100% auto;
+  }
 }

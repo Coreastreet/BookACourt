@@ -59,11 +59,15 @@ must use 127.0.0.1 instead of localhost when connecting to database.
 
 touch in shared/config/master.key or set ENV variable for 'master.key' to enable access.
 in ENV["RAILS_MASTER_KEY"]
+also set env RAILS_ENV = production in rbenv var to avoid listen gem error.
+first generate database empty with schema load in deploy:cold
 
 do not use the old config, follow instructions for a fresh capistrano install.
 chown of app to justin/local user to allow mkdir
+chown also of /tmp/passenger.* -R recursive
 rbenv var command will check if env variables are working; if not reinstall by deleting
 and running git clone https://github.com/rbenv/rbenv-vars.git $(rbenv root)/plugins/rbenv-vars
+only addition to capfile is capistrano/bundler
 
 require cap-bundler to ensure all gems are loaded via bundle:install on production server.
 
@@ -80,3 +84,6 @@ make sure that passenger friendly error pages is on in the server block
 after running deploy (no cold and removing migrations)
 the database should be loaded.
 then run the rails credentials:edit and update the master key locally.
+
+if creating a new server instance, be aware that this will can the public ip and thus the DNS must be
+reconfigured to point to this new ip address.
