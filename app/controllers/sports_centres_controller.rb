@@ -63,9 +63,9 @@ class SportsCentresController < ApplicationController
     # new_sports_centre.update(opening_hours: jsonAddress)
     #new_sports_centre.update(numberOfCourts: 6) # add form row for user to select number of courts
     # format the full_address from street_address, suburb, state and postcode
-    new_rep = Representative.create!(rep_params)
+    new_rep = Representative.new(rep_params)
     new_rep_address = Address.create(rep_address_params)
-    new_rep.update!(address: new_rep_address)
+    new_rep.update(address: new_rep_address)
     admin_password = pin4_generate.to_s
     new_rep.update!(password: admin_password)
 
@@ -116,7 +116,7 @@ class SportsCentresController < ApplicationController
 
     @peak_hours = @sports_centre.peak_hours.to_json.html_safe
     @real_prices = @sports_centre.prices.to_json.html_safe
-    
+
     respond_to do |format|
       format.js
       # format.html

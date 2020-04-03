@@ -1,0 +1,19 @@
+<div class="container-fluid bg-weball">
+  <div class="row mx-0 pt-4 h5">
+    <div class="col justify-content-around d-flex flex-column">
+      <%= link_to "Features", "#", class: 'text-white' %>
+      <%= link_to "Pricing", "#", class: 'text-white' %>
+      <%= link_to "Contact", "#", class: 'text-white' %>
+    </div>
+    <%= link_to "#", class: 'text-white px-2 ml-auto' do %>
+      <i class="fab fa-linkedin fa-2x"></i>
+    <% end %>
+  </div>
+  <div class="row mx-0 pb-4 justify-content-between ml-2">
+      <span class="mt-auto">
+        <%= link_to "Terms", "#", class: 'text-white px-2 mt-auto' %>
+        <%= link_to "Privacy", "#", class: 'text-white px-2 mt-auto' %>
+      </span>
+      <%= link_to image_tag(asset_path("invertedWeballLogo.png"), class: "max-text-logo"), root_path, class: "navbar-brand pb-0 mr-0" %>
+  </div>
+</div>

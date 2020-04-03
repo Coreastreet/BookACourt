@@ -75,6 +75,8 @@ database
 deploy cold uncomment the initdb method and
 convert the pg_hba.conf for local to md5
 
+<img src="<%= asset_path('polipayLogo.png') %>" class="col-md-6"/>
+
 set cap-postgres to ask for password
 manually create the database.yml file for auth in the shared/config directory
 add in the adapter and all other essential keys.

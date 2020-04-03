@@ -1,7 +1,4 @@
 // home#index page
-html {
-  width: -webkit-fill-available !important;
-}
 
 .btn.second-button {
   //color: royalBlue !important;
@@ -162,12 +159,30 @@ li.btn-custom:hover {
 
 @media only screen and (min-width: 768px) {
   .bg-home-image-1 {
-    background-image: url(asset-path('homePage.png'));
+    background-color: #ebf5f7;
     background-size: 100% 25rem;
+  }
+
+  #home-reverseRow {
+    flex-direction: row-reverse !important;
+    margin-top: 10rem;
+    margin-bottom: 10rem;
+  }
+
+  #home-compareFeesRow {
+    margin-bottom: 1.5rem;
   }
 }
 
 @media only screen and (max-width: 768px) {
+  html {
+    width: -webkit-fill-available !important;
+  }
+
+  .home-learnMore {
+    margin-top: auto;
+  }
+
   .bg-home-image-1 {
     background-image: none;
     background-color: #ebf5f7;

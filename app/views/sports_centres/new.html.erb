@@ -440,11 +440,15 @@
                 <div class="card-body">
                       <div class= "form-row contact-heading">
                         <p class="bold heading mb-1">Payment details</p>
-                        <p>In order to receive online payments from your customers, BookACourt requires that you
+                        <p class="mb-0">
+                          In order to receive online payments from your customers, BookACourt requires that you
                           <%= link_to "sign up with Polipay", "https://signup.apac.paywithpoli.com/", target: "_blank" %>
-                          and provide us with the Merchant Code and Authentication Code associated with your new account</p>
+                          and provide us with the Merchant Code and Authentication Code associated with your new account.
+                        </p>
                       </div>
-                      <img src="<%= asset_path('polipayLogo.png') %>" class="w-50"/>
+                      <div class="form-row py-2">
+                        <a href="http://www.polipayments.com/consumer" target="_blank" class="col-md-6"><img src="<%= asset_path('polipayLogo.png') %>"/></a>
+                      </div>
                       <div class="form-row nested">
                         <div class="col-md-12">
                           <div class="row pr-2 mb-2 rounded-top">
