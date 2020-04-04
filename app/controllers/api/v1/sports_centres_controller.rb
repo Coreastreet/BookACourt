@@ -10,9 +10,9 @@ class Api::V1::SportsCentresController < Api::V1::ApiController
         # confirm the email address and set confirmed to true
         sports_centre.update!(confirmed: true)
         session[:centre_id] = sports_centre.id#$redis.set("centre_id", sports_centre.id)
-        redirect_to login_path, notice: "Your Sports Centre account is now activated."
+        redirect_to admin_sports_centre_path(sports_centre)
     else
-        redirect_to login_path, alert: "Your Sports Centre account has already been activated."
+        redirect_to login_path
     end
 
   end
