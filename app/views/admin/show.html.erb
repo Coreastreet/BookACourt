@@ -241,8 +241,8 @@
                         <div class="row d-flex justify-content-start buttonRow" id="weekdaysButtonRow">
                           <% Date::DAYNAMES.each do |day| %>
                           <button type="button" class="btn border rounded border-dark hover-selected mr-3"
-                          data-day="<%=day%>" data-openingHour="<%= @sports_centre.opening_hours[day[0...3]]["openingHour"] %>"
-                          data-closingHour="<%= @sports_centre.opening_hours[day[0...3]]["closingHour"] %>"><%=day%></button>
+                          data-day="<%=day%>" data-openingHour="<%= @sports_centre.opening_hours[day[0...3].to_sym]["openingHour".to_sym] %>"
+                          data-closingHour="<%= @sports_centre.opening_hours[day[0...3].to_sym]["closingHour".to_sym] %>"><%=day%></button>
                           <% end %>
                         </div>
                         <%= f.hidden_field :opening_hours %>
@@ -262,8 +262,8 @@
                         <div class="row d-flex justify-content-start buttonRow" id="weekdaysButtonRow2">
                           <% Date::DAYNAMES.each do |day| %>
                           <button type="button" class="btn border rounded border-dark hover-selected mr-3"
-                          data-day="<%=day%>" data-peakHourStart="<%= @sports_centre.peak_hours[day[0...3]]["startingPeakHour"] %>"
-                          data-peakHourEnd="<%= @sports_centre.peak_hours[day[0...3]]["closingPeakHour"] %>"><%=day%></button>
+                          data-day="<%=day%>" data-peakHourStart="<%= @sports_centre.peak_hours[day[0...3].to_sym]["startingPeakHour".to_sym] %>"
+                          data-peakHourEnd="<%= @sports_centre.peak_hours[day[0...3].to_sym]["closingPeakHour".to_sym] %>"><%=day%></button>
                           <% end %>
                         </div>
                         <%= f.hidden_field :peak_hours %>
