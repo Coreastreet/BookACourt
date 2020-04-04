@@ -263,7 +263,7 @@
                           <% Date::DAYNAMES.each do |day| %>
                           <button type="button" class="btn border rounded border-dark hover-selected mr-3"
                           data-day="<%=day%>" data-peakHourStart="<%= @sports_centre.peak_hours[day[0...3].to_sym]["startingPeakHour".to_sym] %>"
-                          data-peakHourEnd="<%= @sports_centre.peak_hours[day[0...3].to_sym]["closingPeakHour".to_sym] %>"><%=day%></button>
+                          data-peakHourEnd="<%= @sports_centre.peak_hours[day[0...3].to_sym][ "closingPeakHour".to_sym] %>"><%=day%></button>
                           <% end %>
                         </div>
                         <%= f.hidden_field :peak_hours %>

@@ -15,6 +15,10 @@ class AdminController < ApplicationController
     require 'json'
     @sportsCentre = SportsCentre.find(sports_centre_peak_params[:id])
     peak_hours = JSON.parse(sports_centre_peak_params[:peak_hours])
+
+    peak_hours.transform_values!{ |h| h.transform_keys!{ |key| key.to_sym} }
+    peak_hours.transform_keys! { |key| key.to_sym }
+
     @sportsCentre.update!(peak_hours: peak_hours)
     respond_to do |format|
       format.js
@@ -211,20 +215,29 @@ class AdminController < ApplicationController
 
   def update_hours
     # update the sportsCentre with logo and new details
-    buttonRef = lock_params[:buttonRef].to_sym
+    buttonRef = lock_params[:buttonRef][1..].to_sym
     if session[buttonRef]
         require 'json'
         openHours = JSON.parse(hour_params[:opening_hours])
+        peakHours = JSON.parse(hour_params[:peak_hours])
+
+        openHours.transform_values!{ |h| h.transform_keys!{ |key| key.to_sym} }
+        openHours.transform_keys! { |key| key.to_sym }
+
+        peakHours.transform_values!{ |h| h.transform_keys!{ |key| key.to_sym} }
+        peakHours.transform_keys! { |key| key.to_sym }
+
         sports_centre = SportsCentre.find(id_params[:id])
+
+
         sports_centre.update!(opening_hours: openHours)
 
-        peakHours = JSON.parse(hour_params[:peak_hours])
         sports_centre.update!(peak_hours: peakHours)
     end
   end
 
   def update_logo
-    buttonRef = lock_params[:buttonRef].to_sym
+    buttonRef = lock_params[:buttonRef][1..].to_sym
     if session[buttonRef]
           sports_centre = SportsCentre.find(id_params[:id])
           sports_centre.update!(sports_centre_params)
@@ -232,7 +245,7 @@ class AdminController < ApplicationController
   end
 
   def update_prices
-    buttonRef = lock_params[:buttonRef].to_sym
+    buttonRef = lock_params[:buttonRef][1..].to_sym
     if session[buttonRef]
         require 'json'
         sports_centre = SportsCentre.find(id_params[:id])

@@ -400,7 +400,7 @@ document.addEventListener("turbolinks:load", function () {
           var dayID = $(this).attr("id");
           var openingHour = splitArray[0];
           var closingHour = splitArray[1];
-          jsonString  = `\"${dayID}\":{ \"openingHour\":\"${openingHour}\", \"closingHour\":\"${closingHour}\"}`;
+          jsonString  = `'${dayID}':{ 'openingHour':'${openingHour}', 'closingHour':'${closingHour}'}`;
           arr.push(jsonString);
           counter++;
       }

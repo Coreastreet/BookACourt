@@ -37,6 +37,8 @@
       <p class="alert alert-danger"><%= alert %></p>
     <% end %>
     <%= yield %>
-    <%= render "layouts/footer" %>
+    <% if params["controller"] != "admin" %>
+        <%= render "layouts/footer" %>
+    <% end %>
   </body>
 </html>
