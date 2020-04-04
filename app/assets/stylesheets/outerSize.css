@@ -1,6 +1,6 @@
 #BookingWidget {
   width: 100%;
-  max-width: 18rem;
+  max-width: 18em;
   overflow: hidden;
 }
 #BookingWidget div {

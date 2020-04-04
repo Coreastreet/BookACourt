@@ -11,9 +11,11 @@
     </div>
     <div class="row bg-aliceBlue">
       <div class="col-12 h2 mt-2 text-center">
-        <button type="button" class="btn btn-success btn-lg font-weight-bold">
-          <%= link_to "Try Demo", home_demo_path, class: "text-white" %>
-        </button>
+        <a href="<%= home_demo_path %>">
+          <button type="button" class="btn btn-success btn-lg font-weight-bold text-white">
+            Try Demo
+          </button>
+        </a>
       </div>
     </div>
 </section>
@@ -97,6 +99,8 @@
     </div>
   </div>
   <div class="row d-flex justify-content-center py-4">
-    <button type="button" class="btn btn-success btn-lg font-weight-bold">Sign Up</button>
+    <a href="<%= new_sports_centre_path %>">
+      <button type="button" class="btn btn-success btn-lg font-weight-bold">Sign Up</button>
+    </a>
   </div>
 </section>

@@ -1,5 +1,5 @@
-<section class="container-fluid h-100">
-  <div class="container py-4 d-flex flex-column loginContainer mt-20vh">
+<section class="container-fluid my-auto">
+  <div class="container py-4 d-flex flex-column loginContainer">
     <%= form_with scope: :user, url: login_path, class: 'd-none' do |f| %>
     <h1 class="">Log In</h1>
       <div>
@@ -33,4 +33,3 @@
     <% end %>
   </div>
 </section>
-<%= render "layouts/footer" %>
