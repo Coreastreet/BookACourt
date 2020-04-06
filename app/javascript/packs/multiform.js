@@ -252,7 +252,6 @@ document.addEventListener("turbolinks:load", function () {
           nextPrev(-1); // only owners more than one
           // show director page with one post only
         } else if ($("#inlineRadio3").is(":checked") && ($("#inlineRadio1").is(":checked") == "false")) {
-          alert("Hey!");
           nextPrev(-1); // only directors more than one
           // only show one
         } else {
