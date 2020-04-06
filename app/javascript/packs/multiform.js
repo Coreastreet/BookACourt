@@ -289,7 +289,13 @@ document.addEventListener("turbolinks:load", function () {
 
   function showCard(n) {
     var cards = $('.card');
+    // update the progress bar.
     cards.eq(n).show();
+    if ($('html, body').scrollTop() != 0) {
+      $('html, body').animate({scrollTop: '0px'}, 300);
+    }
+    var progressBarFilled = $("#registerProgressBar").children().eq(0);
+    progressBarFilled.css("width", `${(100.0*n)/(cards.length)}%`);
   }
 
   function nextPrev(n) {

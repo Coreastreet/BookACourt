@@ -1,11 +1,14 @@
 <section class="container-fluid bg-white my-auto">
-  <div class="container py-3" id="newCentreWrapper">
+  <div class="container" id="newCentreWrapper">
+    <div id="registerProgressBar" class="progress my-3">
+      <div class="progress-bar bg-success"></div>
+    </div>
     <%= form_with(model: @sports_centre, local: true, html: {novalidate: true, id: 'registerCentre',class: 'needs-validation business-registration', multipart: true }) do |f| %>
         <div class="row">
             <div class="mx-auto col-md-8">
               <fieldset class="card" id="first-card">
                 <div class="card-header">
-                  <h4 class="mb-0">Register your business</h4>
+                  <h4 class="mb-0 border-left-orange">Register your business</h4>
                 </div>
                 <div class="card-body">
                       <div class= "form-row">
@@ -61,7 +64,7 @@
             <div class="mx-auto col-md-8">
               <fieldset class="card">
                 <div class="card-header">
-                  <h4 class="mb-0">General information</h4>
+                  <h4 class="mb-0 border-left-orange">Register your business</h4>
                 </div>
                 <div class="card-body">
                     <div class= "form-row">
@@ -160,7 +163,7 @@
                       <div class= "form-row">
                         <p class="heading font-weight-normal mt-3">Number of half courts</p>
                       </div>
-                      <div class = "form-row mb-4 mx-0">
+                      <div class = "form-row mb-4 mx-0 justify-content-center">
                         <div class="btn-group bg-white form-control py-0 pl-0  mandatory" id = "courtSelection" role="group" aria-label="Basic example">
                           <button type="button" class="btn border-dark hover-selected rounded-0"
                           data-numberOfCourts="2">Two Courts</button>
@@ -185,7 +188,7 @@
             <div class="mx-auto col-md-8">
               <fieldset class="card rep" id="repCard">
                 <div class="card-header">
-                  <h4 class="mb-0">Business Representative</h4>
+                  <h4 class="mb-0 border-left-orange">Register your business</h4>
                 </div>
                 <div class="card-body">
                     <div class= "form-row">
@@ -354,7 +357,7 @@
             <div class="mx-auto col-md-8">
               <fieldset class="card contact" data-owner-form="false" data-director-form="false">
                 <div class="card-header">
-                  <h4 class="mb-0">Register your business</h4>
+                  <h4 class="mb-0 border-left-orange">Register your business</h4>
                 </div>
                 <div class="card-body">
                       <div class= "form-row contact-heading">
@@ -435,7 +438,7 @@
             <div class="mx-auto col-md-8">
               <fieldset class="card summary">
                 <div class="card-header">
-                  <h4 class="mb-0">Register your business</h4>
+                  <h4 class="mb-0 border-left-orange">Register your business</h4>
                 </div>
                 <div class="card-body">
                       <div class= "form-row contact-heading">
@@ -446,8 +449,8 @@
                           and provide us with the Merchant Code and Authentication Code associated with your new account.
                         </p>
                       </div>
-                      <div class="form-row py-2">
-                        <a href="http://www.polipayments.com/consumer" target="_blank" class="col-md-6 px-0 border-orange rounded"><img src="<%= asset_path('polipayLogo.png') %>"/></a>
+                      <div class="form-row py-4">
+                        <a href="http://www.polipayments.com/consumer" target="_blank" class="col-md-6 px-0 border border-dark rounded"><img src="<%= asset_path('polipayLogo.png') %>"/></a>
                       </div>
                       <div class="form-row nested">
                         <div class="col-md-12">
