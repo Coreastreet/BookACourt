@@ -1,5 +1,5 @@
 <section class="container-fluid bg-white my-auto">
-  <div class="container py-3">
+  <div class="container py-3" id="newCentreWrapper">
     <%= form_with(model: @sports_centre, local: true, html: {novalidate: true, id: 'registerCentre',class: 'needs-validation business-registration', multipart: true }) do |f| %>
         <div class="row">
             <div class="mx-auto col-md-8">
@@ -15,36 +15,35 @@
                       <div class="form-row nested">
                          <div class="col-md-12">
                               <div class="row pr-2 mb-2">
-                                <%= new_address.label :full_address, "Company Name", class: 'min-label col-4 mb-0 align-self-center text-right' %>
-                                <%= new_address.text_field :full_address, class: 'col-6 form-control mandatory white-box', placeholder: "Morris Iemma Sports Centre", id: "autocomplete", autocomplete: "on" %>
-                                <div class="invalid-feedback row"><span class='col offset-4'>This field must be filled out.</span></div>
+                                <%= new_address.label :full_address, "Company Name", class: 'min-label col-md-4 pl-0  align-self-center ' %>
+                                <%= new_address.text_field :full_address, class: 'col-md-6 form-control mandatory white-box ml-md', placeholder: "Morris Iemma Sports Centre", id: "autocomplete", autocomplete: "on" %>
+                                <div class="invalid-feedback row"><span class='col offset-md-4'>This field must be filled out.</span></div>
                               </div>
                           </div>
                       </div>
                        <div class="form-row nested">
                           <div class="col-md-12">
                                <div class="row pr-2 mb-2">
-                                 <%= f.label :email, "Company Email", class: 'min-label col-4 mb-0 align-self-center text-right' %>
-                                 <%= f.email_field :email, class: 'col-6 form-control mandatory white-box', required: true%>
-                                 <div class="invalid-feedback row"><span class='col offset-4'>Please enter a valid email address.</span></div>
+                                 <%= f.label :email, "Company Email", class: 'min-label col-md-4 pl-0  align-self-center ' %>
+                                 <%= f.email_field :email, class: 'col-md-6 form-control mandatory white-box ml-md', required: true%>
+                                 <div class="invalid-feedback row"><span class='col offset-md-4'>Please enter a valid email address.</span></div>
                                </div>
                            </div>
                        </div>
                        <div class="form-row nested">
                           <div class="col-md-12">
                                <div class="row pr-2 mb-2">
-                                 <%= f.label :password, "Password", class: 'col-4 min-label mb-0 align-self-center text-right' %>
-                                 <%= f.password_field :password, class: 'col-3 form-control mandatory white-box passwdTop', required: true%>
-                                 <div class="row w-100"><span class="hint col offset-4">Min. 8 characters.</span></div>
+                                 <%= f.label :password, "Password (Min. 8 characters)", class: 'col-md-4 min-label  pl-0  align-self-center ' %>
+                                 <%= f.password_field :password, class: 'col-md-3 col-7 form-control mandatory white-box ml-md passwdTop', required: true%>
                                </div>
                            </div>
                        </div>
                         <div class="form-row nested">
                            <div class="col-md-12">
                              <div class="row pr-2 mb-2">
-                               <%= f.label :password_confirmation, "Password Confirmation", class: 'col-4 min-label mb-0 align-self-center text-right' %>
-                               <%= f.password_field :password_confirmation, class: 'col-3 form-control mandatory white-box passwdConfirm', required: true%>
-                               <div class="invalid-feedback row"><span class='col offset-4'>Passwords do not match</span></div>
+                               <%= f.label :password_confirmation, "Password Confirmation", class: 'col-md-4 min-label  pl-0  align-self-center ' %>
+                               <%= f.password_field :password_confirmation, class: 'col-md-3 col-7 form-control mandatory white-box ml-md passwdConfirm', required: true%>
+                               <div class="invalid-feedback row"><span class='col offset-md-4'>Passwords do not match</span></div>
                              </div>
                            </div>
                          </div>
@@ -71,27 +70,27 @@
                     <div class="form-row nested">
                       <div class="col-md-12">
                         <div class="row pr-2 mb-2 rounded-top">
-                          <%= new_address.label :street_address, class: 'min-label col-4 mb-0 align-self-center text-right' %>
-                          <%= new_address.text_field :street_address, class: 'col-6 form-control mandatory white-box', id: "street_address", required: true %>
-                          <div class="invalid-feedback row"><span class='col offset-4'>Please enter a valid street address.</span></div>
+                          <%= new_address.label :street_address, class: 'min-label col-md-4 pl-0  align-self-center ' %>
+                          <%= new_address.text_field :street_address, class: 'col-md-6 form-control mandatory white-box ml-md', id: "street_address", required: true %>
+                          <div class="invalid-feedback row"><span class='col offset-md-4'>Please enter a valid street address.</span></div>
                         </div>
                       </div>
                     </div>
                     <div class="form-row nested">
                        <div class="col-md-12">
                             <div class="row pr-2 mb-2">
-                                <%= new_address.label :suburb, class: "min-label col-4 mb-0 align-self-center text-right" %>
-                                <%= new_address.text_field :suburb, class: "col-4 form-control mandatory white-box", id: 'locality', required: true %>
-                                <div class="invalid-feedback row"><span class='col offset-4'>Please enter a valid suburb.</span></div>
+                                <%= new_address.label :suburb, class: "min-label col-md-4 pl-0  align-self-center " %>
+                                <%= new_address.text_field :suburb, class: "col-md-4 col-8 form-control mandatory white-box ml-md", id: 'locality', required: true %>
+                                <div class="invalid-feedback row"><span class='col offset-md-4'>Please enter a valid suburb.</span></div>
                             </div>
                         </div>
                     </div>
                     <div class="form-row nested">
                         <div class="col-md-12">
                             <div class="row pr-2 mb-2">
-                                <%= new_address.label :state, class: "min-label col-4 mb-0 align-self-center text-right" %>
-                                <%= new_address.text_field :state, list: 'states', id: 'administrative_area_level_1', class: "col-2 form-control mandatory white-box", required: true %>
-                                <div class="invalid-feedback row"><span class='col offset-4'>Please enter a valid state.</span></div>
+                                <%= new_address.label :state, class: "min-label col-md-4 pl-0  align-self-center " %>
+                                <%= new_address.text_field :state, list: 'states', id: 'administrative_area_level_1', class: "col-md-2 col-4 form-control mandatory white-box ml-md", required: true %>
+                                <div class="invalid-feedback row"><span class='col offset-md-4'>Please enter a valid state.</span></div>
                                 <datalist id="states">
                                   <option value="NSW"></option>
                                   <option value="VIC"></option>
@@ -107,9 +106,9 @@
                      <div class="form-row nested rounded-bottom">
                         <div class="col-md-12">
                           <div class="row pr-2 mb-2">
-                              <%= new_address.label :postcode, class: "min-label col-4 mb-0 align-self-center text-right" %>
-                              <%= new_address.number_field :postcode, class: "col-2 form-control mandatory white-box", id: 'postal_code', required: true, max: "4" %>
-                              <div class="invalid-feedback row"><span class='col offset-4'>Please enter a valid postcode.</span></div>
+                              <%= new_address.label :postcode, class: "min-label col-md-4 pl-0  align-self-center" %>
+                              <%= new_address.number_field :postcode, class: "col-md-2 col-4 form-control mandatory white-box ml-md", id: 'postal_code', required: true, max: "4" %>
+                              <div class="invalid-feedback row"><span class='col offset-md-4'>Please enter a valid postcode.</span></div>
                           </div>
                         </div>
                     </div>
@@ -120,27 +119,27 @@
                     <div class="form-row nested">
                        <div class="col-md-12">
                          <div class="row pr-2 mb-2">
-                           <%= f.label :URL, "Website URL", class: 'min-label col-4 mb-0 align-self-center text-right' %>
-                           <%= f.url_field :URL, class: 'col-6 form-control mandatory white-box', required: true%>
-                           <div class="invalid-feedback row"><span class='col offset-4'>Please enter a valid website url.</span></div>
+                           <%= f.label :URL, "Website URL", class: 'min-label col-md-4 pl-0  align-self-center' %>
+                           <%= f.url_field :URL, class: 'col-md-6 form-control mandatory white-box ml-md', required: true%>
+                           <div class="invalid-feedback row"><span class='col offset-md-4'>Please enter a valid website url.</span></div>
                          </div>
                        </div>
                      </div>
                      <div class="form-row nested">
                        <div class="col-md-12">
                          <div class="row pr-2 mb-2">
-                           <%= f.label :phone, class: 'min-label col-4 mb-0 align-self-center text-right' %>
-                           <%= f.text_field :phone, class: 'col-3 form-control mandatory white-box', required: true, maxlength: 12%>
-                           <div class="invalid-feedback row"><span class='col offset-4'>Please enter a valid phone number.</span></div>
+                           <%= f.label :phone, class: 'min-label col-md-4  pl-0  align-self-center' %>
+                           <%= f.text_field :phone, class: 'col-md-3 col-7 form-control mandatory white-box ml-md', required: true, maxlength: 12%>
+                           <div class="invalid-feedback row"><span class='col offset-md-4'>Please enter a valid phone number.</span></div>
                          </div>
                        </div>
                      </div>
                       <div class="form-row nested">
                          <div class="col-md-12">
                            <div class="row pr-2 mb-2">
-                             <%= f.label :ABN, "ACN/ABN", class: 'min-label col-4 mb-0 align-self-center text-right' %>
-                             <%= f.text_field :ABN, class: 'col-3 form-control mandatory white-box', required: true, maxlength: 14 %>
-                             <div class="invalid-feedback row"><span class='col offset-4'>Please enter a valid ACN/ABN.</span></div>
+                             <%= f.label :ABN, "ACN/ABN", class: 'min-label col-md-4 pl-0  align-self-center' %>
+                             <%= f.text_field :ABN, class: 'col-md-3 col-7 form-control mandatory white-box ml-md', required: true, maxlength: 14 %>
+                             <div class="invalid-feedback row"><span class='col offset-md-4'>Please enter a valid ACN/ABN.</span></div>
                            </div>
                          </div>
                        </div>
@@ -161,7 +160,7 @@
                         <p class="heading font-weight-normal mt-3">Number of half courts</p>
                       </div>
                       <div class = "form-row mb-4 mx-0">
-                        <div class="btn-group bg-white form-control pl-0 py-0 mandatory" id = "courtSelection" role="group" aria-label="Basic example">
+                        <div class="btn-group bg-white form-control py-0 pl-0  mandatory" id = "courtSelection" role="group" aria-label="Basic example">
                           <button type="button" class="btn border-dark hover-selected rounded-0"
                           data-numberOfCourts="2">Two Courts</button>
                           <button type="button" class="btn border-dark hover-selected"
@@ -198,8 +197,8 @@
                     <div class="form-row nested">
                       <div class="col-md-12">
                         <div class="row pr-2 mb-2 rounded-top">
-                          <%= rep.label :name,"Full name", class: 'min-label col-4 mb-0 align-self-center text-right' %>
-                          <%= rep.text_field :name, class: 'col-4 form-control mandatory white-box', required: true %>
+                          <%= rep.label :name,"Full name", class: 'min-label col-md-4 align-self-center ' %>
+                          <%= rep.text_field :name, class: 'col-md-4 form-control mandatory white-box ml-md', required: true %>
                           <div class="valid-feedback">Looks good!</div>
                           <div class="invalid-feedback">Example invalid custom select feedback</div>
                         </div>
@@ -212,27 +211,27 @@
                     <div class="form-row nested">
                       <div class="col-md-12">
                         <div class="row pr-2 mb-2 rounded-top">
-                          <%= rep_address.label :street_address, class: 'min-label col-4 mb-0 align-self-center text-right' %>
-                          <%= rep_address.text_field :street_address, class: 'col-6 form-control mandatory white-box', required: true %>
-                          <div class="invalid-feedback row"><span class="col offset-4">Please enter a valid address line</span></div>
+                          <%= rep_address.label :street_address, class: 'min-label col-md-4 align-self-center ' %>
+                          <%= rep_address.text_field :street_address, class: 'col-md-6 form-control mandatory white-box ml-md', required: true %>
+                          <div class="invalid-feedback row"><span class="col offset-md-4">Please enter a valid address line</span></div>
                         </div>
                       </div>
                     </div>
                     <div class="form-row nested">
                        <div class="col-md-12">
                             <div class="row pr-2 mb-2">
-                                <%= rep_address.label :suburb, class: "min-label col-4 mb-0 align-self-center text-right" %>
-                                <%= rep_address.text_field :suburb, class: "col-4 form-control mandatory white-box", required: true %>
-                                <div class="invalid-feedback row"><span class="col offset-4">Please enter a valid suburb</span></div>
+                                <%= rep_address.label :suburb, class: "min-label col-md-4 align-self-center " %>
+                                <%= rep_address.text_field :suburb, class: "col-md-4 col-8 form-control mandatory white-box ml-md", required: true %>
+                                <div class="invalid-feedback row"><span class="col offset-md-4">Please enter a valid suburb</span></div>
                             </div>
                         </div>
                     </div>
                     <div class="form-row nested">
                         <div class="col-md-12">
                             <div class="row pr-2 mb-2">
-                                <%= rep_address.label :state, class: "min-label col-4 mb-0 align-self-center text-right" %>
-                                <%= rep_address.text_field :state, list: 'states', class: "col-2 form-control mandatory white-box", required: true %>
-                                <div class="invalid-feedback row"><span class="col offset-4">Please enter a valid state</span></div>
+                                <%= rep_address.label :state, class: "min-label col-md-4 align-self-center " %>
+                                <%= rep_address.text_field :state, list: 'states', class: "col-md-2 col-4 form-control mandatory white-box ml-md", required: true %>
+                                <div class="invalid-feedback row"><span class="col offset-md-4">Please enter a valid state</span></div>
                                 <datalist id="states">
                                   <option value="NSW"></option>
                                   <option value="VIC"></option>
@@ -248,9 +247,9 @@
                      <div class="form-row nested rounded-bottom">
                         <div class="col-md-12">
                           <div class="row pr-2 mb-2">
-                              <%= rep_address.label :postcode, class: "min-label col-4 mb-0 align-self-center text-right" %>
-                              <%= rep_address.number_field :postcode, class: "col-2 form-control mandatory white-box", required: true %>
-                              <div class="invalid-feedback row"><span class="col offset-4">Please enter a valid postcode</span></div>
+                              <%= rep_address.label :postcode, class: "min-label col-md-4 align-self-center " %>
+                              <%= rep_address.number_field :postcode, class: "col-md-2 col-4 form-control mandatory white-box ml-md", required: true %>
+                              <div class="invalid-feedback row"><span class="col offset-md-4">Please enter a valid postcode</span></div>
                           </div>
                         </div>
                     </div>
@@ -261,36 +260,36 @@
                     <div class="form-row nested">
                        <div class="col-md-12">
                             <div class="row pr-2 mb-2">
-                                <%= rep.label :email, class: "min-label col-4 mb-0 align-self-center text-right" %>
-                                <%= rep.email_field :email, class: "col-5 form-control mandatory white-box", required: true %>
-                                <div class="invalid-feedback row"><span class="col offset-4">Please enter a valid email address.</span></div>
+                                <%= rep.label :email, class: "min-label col-md-4 align-self-center " %>
+                                <%= rep.email_field :email, class: "col-md-5 form-control mandatory white-box ml-md", required: true %>
+                                <div class="invalid-feedback row"><span class="col offset-md-4">Please enter a valid email address.</span></div>
                             </div>
                         </div>
                     </div>
                     <div class="form-row nested">
                         <div class="col-md-12">
                             <div class="row pr-2 mb-2">
-                                <%= rep.label :title, "Job title", class: "min-label col-4 mb-0 align-self-center text-right" %>
-                                <%= rep.text_field :title, class: "col-4 form-control mandatory white-box", required: true %>
-                                <div class="invalid-feedback row"><span class="col offset-4">Please enter a valid job title.</span></div>
+                                <%= rep.label :title, "Job title", class: "min-label col-md-4 align-self-center " %>
+                                <%= rep.text_field :title, class: "col-md-4 col-10 form-control mandatory white-box ml-md", required: true %>
+                                <div class="invalid-feedback row"><span class="col offset-md-4">Please enter a valid job title.</span></div>
                             </div>
                         </div>
                      </div>
                      <div class="form-row nested">
                         <div class="col-md-12">
                           <div class="row pr-2 mb-2">
-                              <%= rep.label :dob, "Date of birth", class: "min-label col-4 mb-0 align-self-center text-right" %>
-                              <%= rep.date_field :dob, class: "col-3 form-control mandatory width-fit-content white-box", required: true %>
-                              <div class="invalid-feedback row"><span class="col offset-4">Please enter a valid date of birth.</span></div>
+                              <%= rep.label :dob, "Date of birth", class: "min-label col-md-4 align-self-center " %>
+                              <%= rep.date_field :dob, class: "col-md-3 form-control mandatory width-fit-content white-box ml-md", required: true %>
+                              <div class="invalid-feedback row"><span class="col offset-md-4">Please enter a valid date of birth.</span></div>
                           </div>
                         </div>
                     </div>
                     <div class="form-row nested rounded-bottom">
                        <div class="col-md-12">
                          <div class="row pr-2 mb-2">
-                           <%= rep.label :phone, class: 'min-label col-4 mb-0 align-self-center text-right' %>
-                           <%= rep.telephone_field :phone, class: 'col-3 form-control mandatory white-box', required: true, maxlength: 12 %>
-                           <div class="invalid-feedback row"><span class="col offset-4">Please enter a valid phone number.</span></div>
+                           <%= rep.label :phone, class: 'min-label col-md-4 align-self-center ' %>
+                           <%= rep.telephone_field :phone, class: 'col-md-3 col-7 form-control mandatory white-box ml-md', required: true, maxlength: 12 %>
+                           <div class="invalid-feedback row"><span class="col offset-md-4">Please enter a valid phone number.</span></div>
                          </div>
                        </div>
                      </div>
@@ -312,7 +311,7 @@
                          <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
                          <label class="form-check-label" for="inlineRadio1">Yes</label>
                        </div>
-                       <div class="form-check form-check-inline col-8">
+                       <div class="form-check form-check-inline col-md-8 pl-0">
                          <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
                          <label class="form-check-label" for="inlineRadio2">No</label>
                          <div class="invalid-feedback row"><span class="col offset-3">Please select an option.</span></div>
@@ -332,7 +331,7 @@
                             <input class="form-check-input" type="radio" name="inlineRadioOptions2" id="inlineRadio3" value="option1">
                             <label class="form-check-label" for="inlineRadio3">Yes</label>
                           </div>
-                          <div class="form-check form-check-inline col-8">
+                          <div class="form-check form-check-inline col-md-8 pl-0">
                             <input class="form-check-input" type="radio" name="inlineRadioOptions2" id="inlineRadio4" value="option2">
                             <label class="form-check-label" for="inlineRadio4">No</label>
                             <div class="invalid-feedback row"><span class="col offset-3">Please select an option.</span></div>
@@ -369,7 +368,7 @@
                         <div class="col-1 d-flex">
                           <i class="fa fa-user fa-lg align-self-center" aria-hidden="true"></i>
                         </div>
-                        <div class="col-9">
+                        <div class="col-md-9 col-7 pl-4 d-flex flex-column">
                           <div class="row">
                             <div class="col-12 contact-name">
                                 jj
@@ -381,7 +380,7 @@
                             </div>
                           </div>
                         </div>
-                        <div class="col-2 d-flex">
+                        <div class="col-md-2 col-4 d-flex">
                             <p class="align-self-center mb-0 remove-contact btn btn-link">Remove</p>
                         </div>
                       </div>
@@ -401,22 +400,22 @@
                   <div class="form-row nested">
                      <div class="col-md-12">
                           <div class="row pr-2 mb-2">
-                              <%= new_contact.label :name, class: "min-label col-4 mb-0 align-self-center text-right" %>
-                              <%= new_contact.text_field :name, class: "col-4 form-control new-contact-name white-box", required: true %>
+                              <%= new_contact.label :name, class: "min-label col-md-4 col-3 mb-0 align-self-center " %>
+                              <%= new_contact.text_field :name, class: "col-md-4 col-9 form-control new-contact-name white-box ml-md", required: true %>
                           </div>
                       </div>
                   </div>
                   <div class="form-row nested">
                      <div class="col-md-12">
                           <div class="row pr-2 mb-2">
-                              <%= new_contact.label :email, class: "min-label col-4 mb-0 align-self-center text-right" %>
-                              <%= new_contact.email_field :email, class: "col-6 form-control new-contact-email white-box", required: true %>
+                              <%= new_contact.label :email, class: "min-label col-md-4 col-3 mb-0 align-self-center " %>
+                              <%= new_contact.email_field :email, class: "col-md-6 col-9 form-control new-contact-email white-box ml-md", required: true %>
                           </div>
                       </div>
                   </div>
-                  <%= new_contact.check_box :isOwner, class: "min-label d-none col-4 mb-0 align-self-center text-right", id: "contactIsOwner" %>
-                  <%= new_contact.check_box :isDirector, class: "min-label d-none col-4 mb-0 align-self-center text-right", id: "contactIsDirector" %>
-                  <div class="form-row d-flex justify-content-end mt-3">
+                  <%= new_contact.check_box :isOwner, class: "min-label d-none col-4 mb-0 align-self-center ", id: "contactIsOwner" %>
+                  <%= new_contact.check_box :isDirector, class: "min-label d-none col-4 mb-0 align-self-center ", id: "contactIsDirector" %>
+                  <div class="form-row d-flex justify-content-end mt-3 mr-1">
                     <button type="button" class="btn btn-default return-previous-card border button-style bg-white">Cancel</button>
                     <button type="button" class="btn btn-primary ml-2 confirm-new-contact" id="addNewContact">Add</button>
                   </div>
@@ -447,21 +446,21 @@
                         </p>
                       </div>
                       <div class="form-row py-2">
-                        <a href="http://www.polipayments.com/consumer" target="_blank" class="col-md-6"><img src="<%= asset_path('polipayLogo.png') %>"/></a>
+                        <a href="http://www.polipayments.com/consumer" target="_blank" class="col-md-6 px-0 border-orange rounded"><img src="<%= asset_path('polipayLogo.png') %>"/></a>
                       </div>
                       <div class="form-row nested">
                         <div class="col-md-12">
                           <div class="row pr-2 mb-2 rounded-top">
-                            <%= f.label :merchantCode,"Merchant Code", class: 'col-4 min-label mb-0 align-self-center text-right' %>
-                            <%= f.text_field :merchantCode, class: 'col-6 form-control mandatory white-box', required: true %>
+                            <%= f.label :merchantCode,"Merchant Code", class: 'col-md-4 min-label pl-0  align-self-center ' %>
+                            <%= f.text_field :merchantCode, class: 'col-md-6 col-6 form-control mandatory white-box ml-md', required: true %>
                           </div>
                         </div>
                       </div>
                       <div class="form-row nested">
                         <div class="col-md-12">
                           <div class="row pr-2 mb-2 rounded-top">
-                            <%= f.label :authenticationCode,"Authentication Code", class: 'col-4 min-label mb-0 align-self-center text-right' %>
-                            <%= f.text_field :authenticationCode, class: 'col-6 form-control mandatory white-box', required: true %>
+                            <%= f.label :authenticationCode,"Authentication Code", class: 'col-md-4 min-label pl-0  align-self-center ' %>
+                            <%= f.text_field :authenticationCode, class: 'col-md-6 col-8 form-control mandatory white-box ml-md', required: true %>
                           </div>
                         </div>
                       </div>

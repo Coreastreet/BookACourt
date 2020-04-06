@@ -157,6 +157,32 @@ li.btn-custom:hover {
   margin-top: 2.5rem;
 }
 
+label.min-label {
+  text-align: right;
+}
+
+#registerCentre fieldset.card {
+  .card-header {
+    border-bottom: 0px;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .card-footer {
+    border-top: 0px;
+    padding-left: 0.5rem;
+    margin-left: 0.75rem;
+    margin-right: 0.5rem;
+  }
+}
+
+#courtSelection {
+  border: 0px;
+  button {
+    height: fit-content;
+  }
+}
+
 @media only screen and (min-width: 768px) {
   .bg-home-image-1 {
     background-color: #ebf5f7;
@@ -187,5 +213,23 @@ li.btn-custom:hover {
     background-image: none;
     background-color: #ebf5f7;
     background-size: 100% auto;
+  }
+
+  input.white-box {
+    margin-left: 0rem;
+  }
+
+  #registerCentre fieldset.card {
+    div.invalid-feedback.row span.offset-md-4 {
+        padding-left: 0px;
+    }
+    .card-body label.min-label {
+      text-align: left;
+      margin-bottom: 0.5rem;
+    }
+  }
+
+  #courtSelection {
+    margin-left: -1rem;
   }
 }

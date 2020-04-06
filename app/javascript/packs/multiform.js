@@ -129,7 +129,7 @@ document.addEventListener("turbolinks:load", function () {
       }
   });
 
-  $("body").on("change", "fieldset input[type=tel], fieldset #sports_centre_ABN", function() {
+    $("#registerCentre").on("change", "fieldset input[type=tel], fieldset #sports_centre_ABN, fieldset #sports_centre_phone, fieldset #sports_centre_representative_phone", function() {
       if ( /\s/.test($(this).val()) || /\-/.test($(this).val()) ) { // contains any whitespace
           var newVal = $(this).val().replace(/\s+/g, '').replace(/\-/g, "");
           $(this).val(newVal);
@@ -247,11 +247,14 @@ document.addEventListener("turbolinks:load", function () {
       var contactCard = $("fieldset.contact");
       if ((contactCard.attr("data-owner-form") == "true") && (contactCard.attr("data-director-form") == "true")) {
         if ($("#inlineRadio1").is(":checked") && $("#inlineRadio3").is(":checked")) {
-          nextPrev(-2);
-        } else if ($("#inlineRadio1").is(":checked") && ($("#inlineRadio3").is(":checked") != "false")) {
-          nextPrev(-1);
-        } else if ($("#inlineRadio3").is(":checked") && ($("#inlineRadio1").is(":checked") != "false")) {
-          nextPrev(-1);
+          nextPrev(-2); // case 1 both true / more than one
+        } else if ($("#inlineRadio1").is(":checked") && ($("#inlineRadio3").is(":checked") == "false")) {
+          nextPrev(-1); // only owners more than one
+          // show director page with one post only
+        } else if ($("#inlineRadio3").is(":checked") && ($("#inlineRadio1").is(":checked") == "false")) {
+          alert("Hey!");
+          nextPrev(-1); // only directors more than one
+          // only show one
         } else {
           nextPrev(-1);
         }

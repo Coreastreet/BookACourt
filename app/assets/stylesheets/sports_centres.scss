@@ -29,12 +29,15 @@ fieldset.card {
   background: white;
   border: 0 none;
   border-radius: 0px;
-  box-shadow: 0 0 15px 1px rgba(0, 0, 0, 0.4);
-  padding: 20px 30px;
+  //box-shadow: 0 0 15px 1px rgba(0, 0, 0, 0.4);
   box-sizing: border-box;
   width: 100%;
   margin: 0 0;
   display: none;
+
+  .card-header, .card-body, .card-footer {
+    background-color: white;
+  }
 }
 
 fieldset#first-card {
@@ -80,7 +83,7 @@ tr > th {
 }
 
 .nested .row label {
-  padding-left: 5px;
+  padding-left: 0px;
   padding-right: 5px;
 }
 
@@ -113,12 +116,42 @@ input::-webkit-calendar-picker-indicator {
   .dropdown-menu.container {
     width: 35rem;
   }
+
+  input.ml-md {
+    margin-left: 1rem;
+  }
+
+  label.mb-md {
+    margin-bottom: 0rem;
+  }
+
+  fieldset.card  {
+    padding: 20px 30px;
+  }
 }
 
 @media only screen and (max-width: 768px) {
   /* For mobile phones: */
   .dropdown-menu.container {
     width: 80vw;
+  }
+
+  input.ml-md {
+    margin-left: 0rem;
+  }
+
+  label.mb-md {
+    margin-bottom: 0.5rem;
+  }
+
+  span.hint {
+    padding-left: 0rem;
+    padding-top: 0.5rem;
+  }
+
+  div#newCentreWrapper {
+    padding-left: 0rem;
+    padding-right: 0rem;
   }
 }
 
@@ -147,18 +180,17 @@ input::-webkit-calendar-picker-indicator {
 
 // css format of card input fields
 
+.card-body {
+  background-color: rgba(154,195,231, 0.1); //skyblue
+  font-family: -apple-system, system-ui, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
 input.white-box {
   background-color: white;
   //border-radius: 5px;
   box-shadow: inset 2px 2px darkSlategray;
   padding: 0.5rem;
-  margin-left: 1rem;
   //padding: 12px 20px 13px;
-}
-
-.card-body {
-  background-color: rgba(154,195,231, 0.1); //skyblue
-  font-family: -apple-system, system-ui, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
 }
 
 .white-box label {
