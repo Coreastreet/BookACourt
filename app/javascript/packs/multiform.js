@@ -23,6 +23,18 @@ document.addEventListener("turbolinks:load", function () {
       return true;
   });
 
+  $("#registerCentre").on("change", "#sports_centre_representative_address_state", function() {
+      var long_state = $(this).val().toLowerCase();
+      console.log(long_state);
+      var arr_long_states = ["new south wales", "victoria", "queensland", "australian capital territory", "south australia", "western australia", "northern territory"];
+      if (arr_long_states.includes(long_state)) {
+        var position = arr_long_states.indexOf(long_state);
+        var new_val = $("#states").children().eq(position).val();
+        $(this).val(new_val);
+        $(this).removeClass("is-invalid");
+      }
+  });
+
   var owner_name = document.querySelector(".contact-name");
   var owner_email = document.querySelector(".contact-email");
   // var script = document.createElement('script');script.src = "https://code.jquery.com/jquery-3.4.1.min.js";document.getElementsByTagName('head')[0].appendChild(script);
@@ -252,7 +264,7 @@ document.addEventListener("turbolinks:load", function () {
           nextPrev(-1); // only owners more than one
           // show director page with one post only
         } else if ($("#inlineRadio3").is(":checked") && ($("#inlineRadio1").is(":checked") == "false")) {
-          nextPrev(-1); // only directors more than one
+            nextPrev(-1); // only directors more than one
           // only show one
         } else {
           nextPrev(-1);

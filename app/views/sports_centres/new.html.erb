@@ -89,7 +89,8 @@
                         <div class="col-md-12">
                             <div class="row pr-2 mb-2">
                                 <%= new_address.label :state, class: "min-label col-md-4 pl-0  align-self-center " %>
-                                <%= new_address.text_field :state, list: 'states', id: 'administrative_area_level_1', class: "col-md-2 col-4 form-control mandatory white-box ml-md", required: true %>
+                                <%= new_address.text_field :state, list: 'states', id: 'administrative_area_level_1',
+                                class: "col-md-2 col-4 form-control mandatory white-box ml-md", required: true %>
                                 <div class="invalid-feedback row"><span class='col offset-md-4'>Please enter a valid state.</span></div>
                                 <datalist id="states">
                                   <option value="NSW"></option>
