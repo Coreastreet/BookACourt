@@ -170,7 +170,7 @@
   grid-column-start: 1;
   grid-column-end: 2;
   grid-row-start: 2;
-  grid-row-end: 5;
+  grid-row-end: 4;
 }
 
 #payment-confirmation .paymentGrid .endCalendarDate {
@@ -178,6 +178,11 @@
   grid-column-end: 2;
   grid-row-start: 1;
   grid-row-end: 4;
+}
+
+#firstModalCard .paymentGrid .itemNewRow {
+    grid-row-start: 2;
+    grid-row-end: 4;
 }
 
 #payment-confirmation .paymentGrid .startCalendarDate .dayHolder, #payment-confirmation .paymentGrid .startCalendarDate .monthHolder, #payment-confirmation .paymentGrid .endCalendarDate .dayHolder, #payment-confirmation .paymentGrid .endCalendarDate .monthHolder {
