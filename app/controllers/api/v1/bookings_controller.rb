@@ -147,6 +147,11 @@ class Api::V1::BookingsController < Api::V1::ApiController
       #{}"{\"startTime\": \"#{booking_params[:startTime]}\"," +
       #{}"\"endTime\": \"#{booking_params[:endTime]}\"," +
     #binding.pry
+    # calculate the total amount again on the server side to ensure the total amount is not tampered with on client-side form
+    # use the sports centre object to reference opening hours, peak hours and prices.
+    # array of booked days; the start and endtime; the specific court ids used each week is irrelevant.
+    totalAmountServer = calculateTotalPriceServer(sportsCentre, JSON.parse(order_params[:bwFirstDayBookings]), allDates, booking_params[:startTime], booking_params[:endTime])
+
     response = RestClient.post "https://poliapi.apac.paywithpoli.com/api/v2/Transaction/Initiate",
           {Amount: amount, CurrencyCode: "AUD", MerchantReference: orderReference,
             MerchantHomepageURL: sportsCentre_url, #sportsCentre_url,
@@ -241,6 +246,13 @@ class Api::V1::BookingsController < Api::V1::ApiController
   end
 
 private
+
+  def calculateTotalPriceServer(sports_centre, firstDate, allOtherDates, startTime, endTime)
+    Rails.logger.info "#{firstDate}, #{firstDate.class}"
+    Rails.logger.info "#{allOtherDates}, #{allOtherDates.class}"
+    Rails.logger.info "#{startTime}, #{startTime.class}"
+    Rails.logger.info "#{endTime}, #{endTime.class}"
+  end
 
   def pin_generate
     require "securerandom"
