@@ -86,6 +86,10 @@ pre.code code {
   color: gainsboro;
 }
 
+.clickable:hover {
+  cursor: pointer;
+}
+
 .d-content {
   display: contents;
 }

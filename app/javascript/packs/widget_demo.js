@@ -1084,7 +1084,9 @@ $(document).on('turbolinks:load', function ()  {
                               //console.log("all_dates", all_dates);
                               //console.log("first_day", first_day_bookings);
                               //debugger
-                              $("#firstModalCard #polipayInfo").hover( showPolipayInfo, hidePolipayInfo );
+                              $("#firstModalCard").on("click", "#polipayInfo", function() {
+                                    $("#polipayFooter").toggle();
+                              });
                               //console.log(paramsText);
                               var sportsCentreId = document.querySelector("#weBallWidget").getAttribute("data-sportsCentreId");
                               modal_body.on("click", "#polipay", function() {
@@ -1124,13 +1126,14 @@ $(document).on('turbolinks:load', function ()  {
                         reviewDetailModal.css("margin-left", "0%");
                       });
                       // fill in payment details except for the cost
-                      function showPolipayInfo() {
+                      /* function showPolipayInfo() {
+
                           $("#firstModalCard #polipayFooter").removeClass("bw-none");
                       }
 
                       function hidePolipayInfo() {
                           $("#firstModalCard #polipayFooter").addClass("bw-none");
-                      }
+                      } */
 
                       function addParams(name, jsonParams) {
                         var newString;
@@ -1400,6 +1403,8 @@ $(document).on('turbolinks:load', function ()  {
                         // get number of bookings
                         var number_of_bookings = parseInt(bw.find(".number-of-bookings").text());
                         modal_body.attr("data-number-of-bookings", number_of_bookings);
+                        // also enter the number of bookings in subtotal.
+
                         var booking_type = (number_of_bookings > 1) ? "regular" : "casual";
                         modal_body.attr("data-booking-type", booking_type)
 
@@ -1446,6 +1451,8 @@ $(document).on('turbolinks:load', function ()  {
                         if (number_of_bookings > 1) { //** DO NOT DELETE
                           // This part of the code deals with court ids for future bookings; ignore for now
                           // if a regular booking, we want to add more rows to the court id body using the array stored
+                          modal_body.find("#subtotal-booking-text").text(`Subtotal (${number_of_bookings} bookings)`);
+
                           var arrayOfFreeCourtIds = bw.find("#maxBookingsWarning").attr("data-arrayOfFreeCourtIds");
                           arrayOfFreeCourtIds = JSON.parse(arrayOfFreeCourtIds);
                           var shortenedFreeCourtArray = arrayOfFreeCourtIds.slice(0,number_of_bookings-1);
@@ -1520,6 +1527,7 @@ $(document).on('turbolinks:load', function ()  {
 
                         } else if (number_of_bookings == 1){
                           // nothing
+                          modal_body.find("#subtotal-booking-text").text(`Subtotal (${number_of_bookings} booking)`);
                           booking_end_row.addClass("bw-none");
                           calendarDivider.addClass("bw-none");
                           singleReview.removeClass("bw-none");
