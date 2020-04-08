@@ -276,12 +276,13 @@ private
           Rails.logger.info "#{dayPeakStart}, #{dayPeakEnd}"
           if (bookingTime.between?(dayPeakStart, dayPeakEnd)) # must be charged at peak rate
               peakType = "peak_hour"
-              Rails.logger.info "#{bookingTime}, peak_hour, #{bookingDay}r"
+              Rails.logger.info "#{bookingTime}, peak_hour, #{bookingDay}"
           else
               peakType = "off_peak"
               Rails.logger.info "#{bookingTime}, off_peak, #{bookingDay}"
           end
-          totalCost += prices[activityType]["casual"]["#{courtType[0..3]}_court"][peakType].to_d
+          totalCost += ((prices[activityType]["casual"]["#{courtType[0..3]}_court"][peakType].to_d)/2)
+          # divide by two so it accounts for each half-hour
       end
 
       Rails.logger.info "#{totalCost}, #{totalCost.class}"
