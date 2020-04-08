@@ -150,7 +150,8 @@ class Api::V1::BookingsController < Api::V1::ApiController
     # calculate the total amount again on the server side to ensure the total amount is not tampered with on client-side form
     # use the sports centre object to reference opening hours, peak hours and prices.
     # array of booked days; the start and endtime; the specific court ids used each week is irrelevant.
-    totalAmountServer = calculateTotalPriceServer(sportsCentre, JSON.parse(order_params[:bwFirstDayBookings]), allDates, booking_params[:startTime], booking_params[:endTime])
+    totalAmountServer = calculateTotalPriceServer(sportsCentre, JSON.parse(order_params[:bwFirstDayBookings]), allDates,
+    booking_params[:startTime], booking_params[:endTime], booking_params[:activityType], booking_params[:courtType])
 
     response = RestClient.post "https://poliapi.apac.paywithpoli.com/api/v2/Transaction/Initiate",
           {Amount: amount, CurrencyCode: "AUD", MerchantReference: orderReference,
@@ -247,11 +248,42 @@ class Api::V1::BookingsController < Api::V1::ApiController
 
 private
 
-  def calculateTotalPriceServer(sports_centre, firstDate, allOtherDates, startTime, endTime)
+  def calculateTotalPriceServer(sports_centre, firstDate, allOtherDates, startTime, endTime, activityType, courtType)
     Rails.logger.info "#{firstDate}, #{firstDate.class}"
     Rails.logger.info "#{allOtherDates}, #{allOtherDates.class}"
     Rails.logger.info "#{startTime}, #{startTime.class}"
     Rails.logger.info "#{endTime}, #{endTime.class}"
+    allDates = firstDate + allOtherDates
+    startTimeHolder = Time.parse(startTime)
+    endTimeHolder = Time.parse(endTime)
+    bookingTimesArray = []
+    while (startTimeHolder != endTimeHolder) {
+        bookingTimesArray += startTimeHolder.strftime("%a")
+        startTimeHolder += 30.minutes
+    }
+
+    totalCost = 0
+    peak_hours = sports_centre.peak_hours
+    prices = sports_centre.prices
+    allDates.each do |bookingDate|
+      dateHolder = Date.parse(bookingDate)
+      bookingDay = dateHolder.strftime("%a").to_sym
+      dayPeakHours = peak_hours[bookingDay]
+
+      bookingsTimesArray.each do |bookingTime|
+          if (bookingTime.between?(dayPeakHours[:startingPeakHour], dayPeakHours[:startingPeakHour]))
+              # must be charged at peak rate
+              totalCost += prices[activityType]["casual"][courtType]["peak_hour"].to_d
+          else
+              totalCost += prices[activityType]["casual"][courtType]["off_peak"].to_d
+          end
+      end
+
+      Rails.logger.info "#{totalCost}"
+    end
+
+
+
   end
 
   def pin_generate
