@@ -258,7 +258,7 @@ private
     endTimeHolder = Time.parse(endTime)
     bookingTimesArray = []
     while (startTimeHolder != endTimeHolder) do
-        bookingTimesArray.push(startTimeHolder.strftime("%a"))
+        bookingTimesArray.push(startTimeHolder.strftime("%H:%M"))
         startTimeHolder += 30.minutes
     end
 
@@ -273,7 +273,7 @@ private
       bookingTimesArray.each do |bookingTime|
           if (bookingTime.between?(dayPeakHours[:startingPeakHour], dayPeakHours[:closingPeakHour])) # must be charged at peak rate
               peakType = "peak_hour"
-              Rails.logger.info "#{bookingTime}, peak_hou, #{bookingDay}r"
+              Rails.logger.info "#{bookingTime}, peak_hour, #{bookingDay}r"
           else
               peakType = "off_peak"
               Rails.logger.info "#{bookingTime}, off_peak, #{bookingDay}"
