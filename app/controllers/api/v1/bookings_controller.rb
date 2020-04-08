@@ -258,7 +258,7 @@ private
     endTimeHolder = Time.parse(endTime)
     bookingTimesArray = []
     while (startTimeHolder != endTimeHolder) do
-        bookingTimesArray += startTimeHolder.strftime("%a")
+        bookingTimesArray.push(startTimeHolder.strftime("%a"))
         startTimeHolder += 30.minutes
     end
 
@@ -281,9 +281,6 @@ private
 
       Rails.logger.info "#{totalCost}, #{totalCost.class}"
     end
-
-
-
   end
 
   def pin_generate
