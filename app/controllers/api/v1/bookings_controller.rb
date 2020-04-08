@@ -274,7 +274,7 @@ private
 
       bookingTimesArray.each do |bookingTime|
           Rails.logger.info "#{dayPeakStart}, #{dayPeakEnd}"
-          if (bookingTime.between?(dayPeakStart, dayPeakEnd)) # must be charged at peak rate
+          if (bookingTime.between?(dayPeakStart, dayPeakEnd) && (bookingTime != dayPeakEnd)) # must be charged at peak rate
               peakType = "peak_hour"
               Rails.logger.info "#{bookingTime}, peak_hour, #{bookingDay}"
           else
