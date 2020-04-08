@@ -271,7 +271,7 @@ private
       dayPeakHours = peak_hours[bookingDay]
 
       bookingTimesArray.each do |bookingTime|
-          if (bookingTime.between?(dayPeakHours[:startingPeakHour], dayPeakHours[:startingPeakHour])) # must be charged at peak rate
+          if (bookingTime.between?(dayPeakHours[:startingPeakHour], dayPeakHours[:closingPeakHour])) # must be charged at peak rate
               peakType = "peak_hour"
           else
               peakType = "off_peak"
