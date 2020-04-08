@@ -271,12 +271,12 @@ private
       dayPeakHours = peak_hours[bookingDay]
 
       bookingTimesArray.each do |bookingTime|
-          if (bookingTime.between?(dayPeakHours[:startingPeakHour], dayPeakHours[:startingPeakHour]))
-              # must be charged at peak rate
-              totalCost += prices[activityType]["casual"][courtType]["peak_hour"].to_d
+          if (bookingTime.between?(dayPeakHours[:startingPeakHour], dayPeakHours[:startingPeakHour])) # must be charged at peak rate
+              peakType = "peak_hour"
           else
-              totalCost += prices[activityType]["casual"][courtType]["off_peak"].to_d
+              peakType = "off_peak"
           end
+          totalCost += prices[activityType]["casual"]["#{courtType[0..3]}_court"][peakType].to_d
       end
 
       Rails.logger.info "#{totalCost}, #{totalCost.class}"
