@@ -269,10 +269,12 @@ private
       dateHolder = Date.parse(bookingDate)
       bookingDay = dateHolder.strftime("%a").to_sym
       dayPeakHours = peak_hours[bookingDay]
+      dayPeakStart = Time.parse(dayPeakHours[:startingPeakHour]).strftime("%H:%M")
+      dayPeakEnd = Time.parse(dayPeakHours[:closingPeakHour]).strftime("%H:%M")
 
       bookingTimesArray.each do |bookingTime|
-          Rails.logger.info "#{dayPeakHours[:startingPeakHour]}, #{dayPeakHours[:closingPeakHour]}"
-          if (bookingTime.between?(dayPeakHours[:startingPeakHour], dayPeakHours[:closingPeakHour])) # must be charged at peak rate
+          Rails.logger.info "#{dayPeakStart}, #{dayPeakEnd}"
+          if (bookingTime.between?(dayPeakStart, dayPeakEnd)) # must be charged at peak rate
               peakType = "peak_hour"
               Rails.logger.info "#{bookingTime}, peak_hour, #{bookingDay}r"
           else
