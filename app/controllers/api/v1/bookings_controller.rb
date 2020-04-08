@@ -279,7 +279,7 @@ private
           end
       end
 
-      Rails.logger.info "#{totalCost}"
+      Rails.logger.info "#{totalCost}, #{totalCost.class}"
     end
 
 
