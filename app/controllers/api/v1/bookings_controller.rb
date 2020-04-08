@@ -270,7 +270,7 @@ private
       bookingDay = dateHolder.strftime("%a").to_sym
       dayPeakHours = peak_hours[bookingDay]
 
-      bookingsTimesArray.each do |bookingTime|
+      bookingTimesArray.each do |bookingTime|
           if (bookingTime.between?(dayPeakHours[:startingPeakHour], dayPeakHours[:startingPeakHour]))
               # must be charged at peak rate
               totalCost += prices[activityType]["casual"][courtType]["peak_hour"].to_d
