@@ -257,10 +257,10 @@ private
     startTimeHolder = Time.parse(startTime)
     endTimeHolder = Time.parse(endTime)
     bookingTimesArray = []
-    while (startTimeHolder != endTimeHolder) {
+    while (startTimeHolder != endTimeHolder) do
         bookingTimesArray += startTimeHolder.strftime("%a")
         startTimeHolder += 30.minutes
-    }
+    end
 
     totalCost = 0
     peak_hours = sports_centre.peak_hours
