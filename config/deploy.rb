@@ -1,5 +1,5 @@
 # config valid for current version and patch releases of Capistrano
-lock "~> 3.12.1"
+lock "~> 3.13.0"
 
 set :application, "BookACourt"
 set :repo_url, "https://Coreastreet:Soba3724@github.com/Coreastreet/BookACourt"
