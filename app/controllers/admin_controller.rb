@@ -132,6 +132,7 @@ class AdminController < ApplicationController
 
     @sportsCentre = current_sports_centre;
     @poliMessage = "Your payment transaction has been successful!"
+    @sendInvoice = true
     @imageRef = "email-sent-icon.png"
     respond_to do |format|
       format.html { render :payment }
@@ -141,7 +142,7 @@ class AdminController < ApplicationController
 
   def payment_failure
     @sportsCentre = current_sports_centre;
-    @poliMessage = "Sorry, your payment transaction has been failed."
+    @poliMessage = "Sorry, your payment transaction has failed."
     @imageRef = "paymentFailed.png"
     respond_to do |format|
       format.html { render :payment }
@@ -151,7 +152,7 @@ class AdminController < ApplicationController
   def payment_cancelled
     @sportsCentre = current_sports_centre;
     @poliMessage = "Your payment transaction has been cancelled."
-    @imageRef = "paymentFailed.png"
+    @imageRef = "paymentCancelled.png"
     respond_to do |format|
       format.html { render :payment }
     end
