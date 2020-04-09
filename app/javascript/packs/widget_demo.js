@@ -11,7 +11,6 @@ $(document).on('turbolinks:load', function ()  {
                       var repeatCard = $("#BookingWidget #repeatBookingCard");
                       var canvas = mainClockCard.find("#canvas");
 
-
                       var mainCardWidth = mainClockCard.width();
                       var mainCardHeight = mainClockCard.outerHeight();
                       console.log("height", mainCardHeight);
@@ -20,7 +19,7 @@ $(document).on('turbolinks:load', function ()  {
                       canvas.height(mainCardWidth);
                       repeatCard.height(mainCardHeight);
                       repeatCard.css("margin-top", `-${mainCardHeight}px`);
-
+                      repeatCard.css("transition", "all 1s");
                       // format the datepicker and display the date selected
                       var now = new Date();
                       //now.setHours(now.getHours() - 8);
