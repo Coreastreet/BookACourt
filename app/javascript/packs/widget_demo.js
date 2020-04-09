@@ -179,6 +179,7 @@ $(document).on('turbolinks:load', function ()  {
                       // begin adding the drawClock functions.
                       function drawClock(ctx, radius) {
 
+                        console.log("radius", radius);
                         //var smallerRadius = radius * 0.80; // make clock slightly smaller than container
                         drawFace(ctx, radius);
                         drawNumbers(ctx, radius);
