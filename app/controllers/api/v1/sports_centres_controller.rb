@@ -43,12 +43,16 @@ class Api::V1::SportsCentresController < Api::V1::ApiController
         # reset the money owed up to yesterday to Zero;
         # increase the money paid by the amount paid;
         # decrease the amount of money owed by the amount paid.
+        # testing poli line
+        current_sports_centre.update!(yesterdayMoneyOwed: 60.0)
 
         Payment.create!(amountPaid: amountPaid, poliId: transactionRefNo, planType: current_sports_centre.plan,
             numberOfBookingFeesPaid: numberOfBookingFeesPaid, sports_centre_id: current_sports_centre.id)
 
         NotificationsMailer.with(sports_centre: current_sports_centre, amountPaid: amountPaid, poliId: transactionRefNo).transaction_fee_invoice.deliver_later
-
+    elsif (parsed_response["Transaction"] == "ReceiptUnverified")
+        redirect_to admin_payment_receipt_unverified_path(current_sports_centre)
+    else
     end
   end
 

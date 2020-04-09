@@ -158,6 +158,17 @@ class AdminController < ApplicationController
     end
   end
 
+  def payment_receipt_unverified
+    @sportsCentre = current_sports_centre;
+    @poliMessage = "Communications were lost at a crucial time." +
+    " As a result, you should check with your bank to check" +
+    " if they have processed the payment transaction successfully."
+    @imageRef = "paymentReceiptUnverified.png"
+    respond_to do |format|
+      format.html { render :payment }
+    end
+  end
+
   def lockPage
      buttonRef = lock_params[:buttonRef][1..].to_sym
      session[buttonRef] = false
