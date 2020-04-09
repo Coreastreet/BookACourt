@@ -416,11 +416,13 @@
                           <a href="https://transaction.apac.paywithpoli.com/POLiFISupported.aspx?merchantcode='S6104689'" target="_blank">Available Banks</a>
                         </span>
                       </p>
-                      <span class="align-self-center ml-auto width-fit-content" id="totalOwed_label">
-                        <span class="align-self-center">Total amount due: </span>
+                      <span class="align-self-center ml-auto width-fit-content text-right" id="totalOwed_label">
+                        <p class="h5 align-self-center text-muted">Last Payment Made: </p>
+                        <span class="align-self-center">Current amount due: </span>
                       </span>
-                      <span id="totalOwed_price" class="align-self-center mr-2 mb-0 ml-5">
-                        <span class="h3 mr-2 mb-0 align-self-center ml-5">$<%= '%.2f' % @sports_centre.yesterdayMoneyOwed %></span>
+                      <span id="totalOwed_price" class="align-self-center justify-content-center mr-2 mb-0 pl-5">
+                        <p class="h5 mr-2 mb-0 align-self-center ml-3 pl-1 text-muted"><%= @sports_centre.lastPayDate.strftime("%d %B %Y") %></p>
+                        <span class="h3 mr-2 mb-0 align-self-center ml-3 pl-1">$<%= '%.2f' % @sports_centre.yesterdayMoneyOwed %></span>
                       </span>
                       <a href="http://www.polipayments.com/consumer" id="polipayLogo" class="d-flex"><%= image_tag(asset_path("polipayLogo.png"), class: "mb-auto", alt:"POLi Logo") %></a>
                       <%= link_to "Pay now with POLi", "/admin/sports_centre/#{@sports_centre.id}/payMoneyOwed", class: "btn btn-primary mr-2 text-white width-fit-content ml-auto", id: "payTransactionFees" %>

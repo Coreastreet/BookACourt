@@ -952,11 +952,17 @@ $(document).on('turbolinks:load', function ()  {
                         }
                          // check first input value is out of range or is before the current time
                          // check second input value is out of range or is before the current time or is below the first input value
-                        if (parseInt(bookingsRequested) <= parseInt(maxBookings)){
+                        if (parseInt(bookingsRequested) <= parseInt(maxBookings)) {
+                              if (repeatCard.attr("data-availabilityChecked") == "false") {
+                                  alert("Check Availability again after changing times");
+                                  return false;
+                              }
                               modal_body[0].style.display='block';
                               fillInPaymentModal();
-                              var total_cost = calculateTotalPrice();
-                              //console.log("Total Cost", total_cost)
+                              var dateSelected = new Date(bw.find("#dateHolder").val());//.val().substr(0,3) // abbr
+
+                              var total_cost = calculateTotalPrice(dateSelected);
+                              console.log("Total Cost", total_cost)
                               var finalDetails = registerPeakHours(total_cost);
                               //console.log("final result", finalResult);
                               var clone;
@@ -977,7 +983,6 @@ $(document).on('turbolinks:load', function ()  {
                               //pricesHeader.removeClass("d-none");
                                 //pricesHeader.next().hide();
                                 //pricesHeader.empty();
-                              var total = 0;
                               for (var counter in jsonArray) {
                                 subJsonArray = jsonArray[counter];
                                 clone = pricesHeader.clone();
@@ -990,23 +995,31 @@ $(document).on('turbolinks:load', function ()  {
                                 clone.find(".bw-hours").addClass("bw-text-center");
                                 clone.find(".bw-cost").text(`$${subJsonArray["cost"]}`);
                                 //clone.find(".cost").addClass("cost-price");
-                                total += parseFloat(subJsonArray["cost"]);
+                                //total += parseFloat(subJsonArray["cost"]);
                                 // enter details from durations in payment modal
                                 $("<hr class='my-0 bw-margin0 bw-negRem'>").appendTo(pricesHeader.parent());
                                 clone.appendTo(pricesHeader.parent());
                               }
+                              var total = 0;
+                              var singleFloatPrice;
+                              var arraySingleDatePrices = modal_body.find("p.datePriceHolder").slice(1);
+                              arraySingleDatePrices.each( function() {
+                                  singleFloatPrice = parseFloat($(this).text().slice(1));
+                                  total += singleFloatPrice;
+                              });
 
-                              modal_body.find("#single-booking-price").text(`${total.toFixed(2)}`);
+                              modal_body.find("#single-booking-price").text(`$${(total/bookings_count).toFixed(2)}`);
                               //firstModal.find("#subtotal-booking-number").text(no_of_bookings);
                               if (parseInt(bookings_count) == 1) {
                                 var remove_plural = modal_body.find("#subtotal-booking-text").text().replace("bookings", "booking");
                                 modal_body.find("#subtotal-booking-text").text(remove_plural);
                               }
-                              modal_body.find("#subtotal").text(`$${(total * bookings_count).toFixed(2)}`);
-                              total *= bookings_count;
+                              console.log(total, bookings_count, "subtotal amount");
+                              modal_body.find("#subtotal").text(`$${total.toFixed(2)}`);
+                              //total *= bookings_count;
                               //console.log(parseFloat(total));
                               //console.log(parseFloat(modal_body.find("#discount").text().substr(2)));
-                              subtotal = parseFloat(total) - parseFloat(modal_body.find("#discount").text().substr(2));
+                              subtotal = total - parseFloat(modal_body.find("#discount").text().substr(2));
                               $("#totalAmount").text(`$${subtotal.toFixed(2)}`);
 
                               var heightModal = modal_body.find("#firstModalCard").outerHeight();
@@ -1227,11 +1240,12 @@ $(document).on('turbolinks:load', function ()  {
                           }
                       }
 
-                      function calculateTotalPrice() {
+                      function calculateTotalPrice(bookingDatesSelected) {
                         var peak_hours_text = bw.find("#peak-hour-holder").attr("data-peak-hours");
-                        var daySelected = bw.find("#dateHolder").val().substr(0,3); // abbr
                         var peak_hours_object = JSON.parse(peak_hours_text);
                         //console.log("peak_hours", peak_hours_object);
+                        daySelected = bookingDatesSelected.toLocaleDateString("en-au", {weekday:'short'});
+
                         var peak_starting_hour = convertAMPMToString(peak_hours_object[daySelected]["startingPeakHour"]);
                         var peak_closing_hour = convertAMPMToString(peak_hours_object[daySelected]["closingPeakHour"]);
                         var bookingStartTime = bw.find("input.startTime").val();
@@ -1498,10 +1512,22 @@ $(document).on('turbolinks:load', function ()  {
                           var intervalDateObject = new Date(startDate);
                           var i = 0;
                           var allDateHolder = [];
+                          var allPriceHolder = [];
+                          var peakIndicatorHolder = [];
+                          var containsPeakTimes;
+                          var singleBookingPrice;
+                          var casualBookingPrice;
                           while (i < number_of_bookings) {
+                            singleBookingPrice = calculateTotalPrice(intervalDateObject);
+                            //console.log(singleBookingPrice, "single booking price");
                             dateTextHolder = intervalDateObject.toLocaleDateString('en-GB', { weekday: 'long', day:'numeric', month: 'long', year:'numeric'});
                             //alert(dateTextHolder);
+                            // calculate individual price.
                             allDateHolder.push(dateTextHolder);
+                            allPriceHolder.push(`$${singleBookingPrice["Total"].toFixed(2)}`);
+
+                            containsPeakTimes = (singleBookingPrice["peak_hour"].length != 0);
+                            peakIndicatorHolder.push(`${containsPeakTimes}`);
                             intervalDateObject.setDate(intervalDateObject.getDate()+frequency);
                             i++;
                           }
@@ -1519,7 +1545,11 @@ $(document).on('turbolinks:load', function ()  {
                             copiedDivider.removeClass("bw-none");
                             copiedDateHolder = dateHolder.clone();
                             copiedDateHolder.removeClass("bw-none");
-                            copiedDateHolder.find("p").text(allDateHolder[j]); // insert the calculated Date
+                            copiedDateHolder.find("p.singleDateHolder").text(allDateHolder[j]); // insert the calculated Date
+                            copiedDateHolder.find("p.datePriceHolder").text(allPriceHolder[j]); // insert the calculated Date
+                            if (peakIndicatorHolder[j] == "true") {
+                              copiedDateHolder.addClass("bg-aliceBlue");
+                            } //console.log(peakIndicatorHolder[j], typeof(peakIndicatorHolder[j]), "peakness");
                             booking_dates_modal.append(copiedDateHolder);
                             booking_dates_modal.append(copiedDivider);
                             j++;
@@ -1537,7 +1567,10 @@ $(document).on('turbolinks:load', function ()  {
                           copiedDivider = divider.clone();
                           copiedDivider.removeClass("bw-none");
                           copiedDateHolder.removeClass("bw-none");
-                          copiedDateHolder.find("p").text(dateTextHolder); // insert the calculated Date
+
+                          casualBookingPrice = (calculateTotalPrice(startDateObject))["Total"];
+                          copiedDateHolder.find("p.singleDateHolder").text(dateTextHolder); // insert the calculated Date
+                          copiedDateHolder.find("p.datePriceHolder").text(`$${casualBookingPrice.toFixed(2)}`);
                           booking_dates_modal.append(copiedDateHolder);
                           booking_dates_modal.append(copiedDivider);
                         }
@@ -1788,7 +1821,7 @@ $(document).on('turbolinks:load', function ()  {
                               var numberOfCourts = parseInt(localStorage.getItem("numberOfCourts"));
                               var arrayOfFreeCourtIds = [];
 
-                              var arrayOfArrays = extract_relevant_days(allBookings, date, interval_in_days);
+                              var arrayOfArrays = extract_relevant_days(allBookings, date, interval_in_days, startTime, endTime);
                               console.log("selected days", arrayOfArrays);
                               // after extracting the relevant days; let us filter the bookings so that only bookings matching the relevant dates remain.
                               //console.log("all bookings", bookings);
@@ -1819,6 +1852,8 @@ $(document).on('turbolinks:load', function ()  {
 
                       function checkDayAvailability(arrayOfHash, startTime, endTime, numberOfCourts) {
                         console.log("arrayOFHash", arrayOfHash);
+                        console.log("start", startTime);
+                        console.log("end", endTime);
                         var arr = [...Array(numberOfCourts+1).keys()];
                         arr.shift();
                         var availabilityBoolean = false;
@@ -1860,19 +1895,28 @@ $(document).on('turbolinks:load', function ()  {
                         return courtFreeId; // null means no court available
                       }
 
-                      function extract_relevant_days(bookings, date, interval_in_days) {
+                      function extract_relevant_days(bookings, date, interval_in_days, startTime, endTime) {
                           var counter = 0;
                           var regularDate = new Date(date);
                           var stringDate;
                           var arrayOfDates = [];
                           var arrayOfArrays = [];
+                          var weekdayShort;
+                          var dayClosingHour;
+                          var openingHours = JSON.parse(localStorage.getItem("opening_hours"));
                           // check all dates for a regular booking up to ten bookings ahead
                           while (counter < 9) {
                             arrayOfDates = [];
                             regularDate.setDate(regularDate.getDate() + interval_in_days);
                             stringDate = regularDate.toLocaleString('en-us', {year: 'numeric', month: '2-digit', day: '2-digit'}).
                             replace(/(\d+)\/(\d+)\/(\d+)/, '$3-$1-$2');
-                            console.log(stringDate);
+                            weekdayShort = regularDate.toLocaleString('en-au', {weekday: 'short'});
+                            //console.log(stringDate);
+                            dayClosingHour = convertAMPMToString(openingHours[weekdayShort]["closingHour"]);
+
+                            if ((startTime > dayClosingHour) || (endTime > dayClosingHour)) {
+                               break;
+                            }
                             // iterate through all bookings and add those matching one day to a subarray
                             for (var jsonBooking in bookings) {
                                 if (bookings[jsonBooking]["date"] == stringDate) {

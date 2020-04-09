@@ -76,7 +76,10 @@ class AdminController < ApplicationController
     jsonDailyTransactions = RestClient.get("https://poliapi.apac.paywithpoli.com/api/v2/Transaction/GetDailyTransactions?date=#{formattedDate}&statuscodes=Completed",{Authorization: current_sports_centre.combinedCode})
     @arrayDailyTransactions = (JSON.parse(jsonDailyTransactions)).reverse()
     @arrayDailyTransactions.each do |transaction|
-      transaction["MerchantData"] = JSON.parse(transaction["MerchantData"])
+      data = transaction["MerchantData"]
+      if (data.starts_with?('{') && data.ends_with?('}'))
+          transaction["MerchantData"] = JSON.parse(data)
+      end
     end
     respond_to do |format|
       format.js
@@ -128,9 +131,29 @@ class AdminController < ApplicationController
     amountPaid = parsed_response["AmountPaid"].to_d
 
     @sportsCentre = current_sports_centre;
+    @poliMessage = "Your payment transaction has been successful!"
+    @imageRef = "email-sent-icon.png"
     respond_to do |format|
-      # format.js
-      format.html
+      format.html { render :payment }
+    end
+
+  end
+
+  def payment_failure
+    @sportsCentre = current_sports_centre;
+    @poliMessage = "Sorry, your payment transaction has been failed."
+    @imageRef = "paymentFailed.png"
+    respond_to do |format|
+      format.html { render :payment }
+    end
+  end
+
+  def payment_cancelled
+    @sportsCentre = current_sports_centre;
+    @poliMessage = "Your payment transaction has been cancelled."
+    @imageRef = "paymentFailed.png"
+    respond_to do |format|
+      format.html { render :payment }
     end
   end
 
@@ -151,8 +174,8 @@ class AdminController < ApplicationController
             MerchantHomepageURL: "https://weball.com.au", #sportsCentre_url,
             MerchantData: info,
             SuccessURL: "https://weball.com.au/admin/sports_centre/#{params[:id]}/payment_success",
-            FailureURL: "https://weball.com.au/sports_centre/#{params[:id]}", # redirect to page with failure message later on
-            CancellationURL: "https://weball.com.au/admin/sports_centre/#{params[:id]}",
+            FailureURL: "https://weball.com.au/sports_centre/#{params[:id]}/payment_failure", # redirect to page with failure message later on
+            CancellationURL: "https://weball.com.au/admin/sports_centre/#{params[:id]}/payment_cancelled",
             NotificationURL: "https://weball.com.au/api/v1/sports_centres/#{params[:id]}/payment_nudge"},
             {Authorization: "Basic UzYxMDQ2ODk6RWQ2QCRNYjM0Z14="}
 

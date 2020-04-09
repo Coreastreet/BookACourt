@@ -342,6 +342,13 @@
     padding-right: 1rem;
 }
 
+#payment-confirmation #secondModalCard .legend {
+  height: 1rem;
+  width: 1rem;
+  margin-top: 0.125rem;
+  border: 2px solid lightskyblue;
+}
+
 @media only screen and (max-width: 768px) {
     #payment-confirmation i.fa-info-circle#polipayInfo {
         margin-left: 0.25rem  ;

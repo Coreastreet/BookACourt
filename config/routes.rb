@@ -41,7 +41,11 @@ Rails.application.routes.draw do
   get 'admin/sports_centre/:id/date', to: "admin#show_again", as: 'admin_show_again'
   get 'admin/sports_centre/:id/payMoneyOwed', to: "admin#pay_money_owed", as: 'admin_pay_money_owed'
   get "admin/sports_centres/:id/getPastRecords", to: "admin#getPastRecords", as: "admin_get_past_records"
+
   get "admin/sports_centre/:id/payment_success", to: "admin#payment_success", as: "admin_payment_success"
+  get "admin/sports_centre/:id/payment_failure", to: "admin#payment_failure", as: "admin_payment_failure"
+  get "admin/sports_centre/:id/payment_cancelled", to: "admin#payment_cancelled", as: "admin_payment_cancelled"
+  get "admin/sports_centre/:id/payment_receipt_unverified", to: "admin#payment_receipt_unverified", as: "admin_payment_receipt_unverified"
 
   post "admin/sports_centre/:id/lockPage", to: "admin#lockPage", as: "admin_lock_page"
   post "admin/sports_centre/:id/checkAdminPin", to: "admin#check_admin_pin", as: "admin_check_admin_pin"

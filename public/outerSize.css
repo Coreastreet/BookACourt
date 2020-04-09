@@ -200,13 +200,13 @@
   padding: 0.25rem 0;
 }
 #BookingWidget #repeatBookingCard #frequencyRow #frequencyHeader #frequencyButtons #daysButton.btn-selected {
-  background-color: royalBlue !important;
+  background-color: #6c757d;
   color: white;
   outline: none;
   box-shadow: none;
 }
 #BookingWidget #repeatBookingCard #frequencyRow #frequencyHeader #frequencyButtons #daysButton:hover {
-  background-color: blue;
+  background-color: #6c757d;
   color: white;
 }
 #BookingWidget #repeatBookingCard #frequencyRow #frequencyHeader #frequencyButtons button.daysWeeks {
@@ -223,7 +223,7 @@
   padding: 0.25rem 0;
 }
 #BookingWidget #repeatBookingCard #frequencyRow #frequencyHeader #frequencyButtons #weeksButton.btn-selected {
-  background-color: royalBlue !important;
+  background-color: #6c757d;
   color: white;
   outline: none;
   box-shadow: none;
