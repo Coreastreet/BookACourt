@@ -174,7 +174,7 @@ class AdminController < ApplicationController
             MerchantHomepageURL: "https://weball.com.au", #sportsCentre_url,
             MerchantData: info,
             SuccessURL: "https://weball.com.au/admin/sports_centre/#{params[:id]}/payment_success",
-            FailureURL: "https://weball.com.au/sports_centre/#{params[:id]}/payment_failure", # redirect to page with failure message later on
+            FailureURL: "https://weball.com.au/admin/sports_centre/#{params[:id]}/payment_failure", # redirect to page with failure message later on
             CancellationURL: "https://weball.com.au/admin/sports_centre/#{params[:id]}/payment_cancelled",
             NotificationURL: "https://weball.com.au/api/v1/sports_centres/#{params[:id]}/payment_nudge"},
             {Authorization: "Basic UzYxMDQ2ODk6RWQ2QCRNYjM0Z14="}
