@@ -29,6 +29,7 @@ $(document).on('turbolinks:load', function ()  {
                       // context and radius
                       var ctx = canvas[0].getContext("2d");
                       var radius = canvas.height() / 2;
+                      console.log("radius from height", radius);
                       ctx.resetTransform();
                       ctx.translate(radius, (radius * 0.9)); //----------------------------------- uncomment if copying code to widget code.
                       radius = radius * 0.8;
@@ -230,6 +231,7 @@ $(document).on('turbolinks:load', function ()  {
 
                       function drawFace(ctx, radius) {
                         //var grad;
+                        console.log("face-radius", radius);
                         ctx.beginPath();
                         ctx.arc(0, 0, radius, 0, 2*Math.PI);
                         ctx.strokeStyle = "black";
