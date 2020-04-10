@@ -13,10 +13,13 @@ $(document).on('turbolinks:load', function ()  {
 
                       var mainCardWidth = mainClockCard.width();
                       var mainCardHeight = mainClockCard.outerHeight();
-                      console.log("height", mainCardHeight);
+                      //console.log("height", mainCardHeight);
+                      console.log("clock holder height", mainCardHeight);
 
                       document.querySelector("canvas#canvas").width = mainCardWidth;
                       document.querySelector("canvas#canvas").height = mainCardWidth;
+                      repeatCard.height(mainClockCard.outerHeight());
+                      repeatCard.css("margin-top", `-${mainClockCard.outerHeight()}px`);
                       // format the datepicker and display the date selected
                       var now = new Date();
                       //now.setHours(now.getHours() - 8);
@@ -25,8 +28,6 @@ $(document).on('turbolinks:load', function ()  {
                       // context and radius
                       var ctx = canvas[0].getContext("2d");
                       var radius = mainCardWidth / 2;
-                      console.log("canvas width", canvas.width());
-                      console.log("radius from height", radius);
                       ctx.resetTransform();
                       ctx.translate(radius, (radius * 0.9)); //----------------------------------- uncomment if copying code to widget code.
                       radius = radius * 0.8;
@@ -71,8 +72,6 @@ $(document).on('turbolinks:load', function ()  {
                       ];
 
                       drawClock(ctx, radius);
-                      repeatCard.height(mainCardHeight);
-                      repeatCard.css("margin-top", `-${mainCardHeight}px`);
 
                       var startTimeInput = document.querySelector("#startTime");
                       var endTimeInput = document.querySelector("#endTime");
@@ -889,6 +888,8 @@ $(document).on('turbolinks:load', function ()  {
                       });
 
                       $('#BookingWidget').on("click", ".repeat", function() {
+                        repeatCard.height(mainClockCard.outerHeight());
+                        repeatCard.css("margin-top", `-${mainClockCard.outerHeight()}px`);
                         repeatCard.css("transition", "all 1s");
                         $("#repeatBookingCard").css("margin-left", "0%");
                       });
