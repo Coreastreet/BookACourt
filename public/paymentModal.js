@@ -1,6 +1,5 @@
 
 
-
 var modal_body = BookingWidget.$('#payment-confirmation');
 var reviewDetailModal = BookingWidget.$('#secondModalCard');
 var bw = BookingWidget.$("#BookingWidget");
@@ -21,7 +20,9 @@ timeHolder.on("change", "input",  function() {
 bw.on("click", "#bookNowButton", function(e) {
   // set height of hidden modal to same as first modal
   var rightNow = new Date();
-  var nowHHSS = rightNow.toLocaleTimeString().substr(0,5);
+  var dateChosen = new Date(bw.find("#dateHolder").val());
+  var nowHHSS = (rightNow < dateChosen) ? "00:00" : rightNow.toLocaleTimeString().substr(0,5);
+  //var nowHHSS = rightNow.toLocaleTimeString().substr(0,5);
   var maxBookings = bw.find("#maxBookingsWarning").attr("data-maxBookings");
   var bookingsRequested = bw.find(".number-of-bookings").text();
 
