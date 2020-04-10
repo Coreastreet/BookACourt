@@ -887,10 +887,14 @@ $(document).on('turbolinks:load', function ()  {
                         //console.log(number);
                       });
 
-                      $('#BookingWidget').on("click", ".repeat", function() {
+                      $('#BookingWidget .repeat').one("click", function() {
                         repeatCard.height(mainClockCard.outerHeight());
                         repeatCard.css("margin-top", `-${mainClockCard.outerHeight()}px`);
                         repeatCard.css("transition", "all 1s");
+                        console.log("Adjust");
+                      });
+
+                      $('#BookingWidget').on("click", ".repeat", function() {
                         $("#repeatBookingCard").css("margin-left", "0%");
                       });
 
