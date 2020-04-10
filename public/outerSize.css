@@ -409,21 +409,27 @@ div.datepicker.dropdown-menu.datepicker-orient-left.datepicker-orient-bottom {
   margin: 0;
 }
 #payment-confirmation .paymentGrid .booking-time {
-  grid-row-start: 1;
-  grid-row-end: 2;
-  grid-column-start: 2;
-  grid-column-end: 3;
-}
-#payment-confirmation .paymentGrid .booking-order {
   grid-row-start: 2;
   grid-row-end: 3;
   grid-column-start: 2;
   grid-column-end: 3;
 }
-#payment-confirmation .paymentGrid .booking-location {
+
+#payment-confirmation .paymentGrid .booking-time #locationRow {
+  padding-bottom: 1rem;
+  padding-left: 0.5rem;
+}
+
+#payment-confirmation .paymentGrid .booking-order {
   grid-row-start: 3;
   grid-row-end: 4;
   grid-column-start: 2;
+  grid-column-end: 3;
+}
+#payment-confirmation .paymentGrid .booking-location {
+  grid-row-start: 1;
+  grid-row-end: 2;
+  grid-column-start: 1;
   grid-column-end: 3;
 }
 #payment-confirmation .paymentGrid .bw-emailLine {
