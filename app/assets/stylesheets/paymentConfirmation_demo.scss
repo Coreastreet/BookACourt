@@ -253,6 +253,10 @@
   position: relative;
 }
 
+#payment-confirmation #secondModalCard .templateDateRow {
+  justify-content: space-between;
+}
+
 #payment-confirmation #secondModalCard #bw-secondModalBody {
     overflow-x: hidden;
     overflow-y: scroll;
