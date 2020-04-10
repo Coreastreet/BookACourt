@@ -79,6 +79,7 @@ BookingWidget.$('[data-provide="datepicker"]').datepicker({
    maxViewMode: "years"
 }).on('changeDate', function(e) {
     //$(".startDate").val(($(this).datepicker('getFormattedDate')));
+   uncheckAvailability();
    var fullDateString = BookingWidget.$(this).datepicker('getFormattedDate');
    //console.log(dateString);
    lastIndex = fullDateString.lastIndexOf(" ");
@@ -134,6 +135,7 @@ BookingWidget.$('[data-provide="datepicker"]').datepicker({
 
      fullCourtTab.classList.remove("active");
      halfCourtTab.classList.add("active");
+     uncheckAvailability();
    });
 
    //console.log("full-Court schedule", bookingS);
@@ -158,10 +160,19 @@ BookingWidget.$('[data-provide="datepicker"]').datepicker({
 
      halfCourtTab.classList.remove("active");
      fullCourtTab.classList.add("active");
+     uncheckAvailability();
    });
 
    halfCourtTab.click();
 });
+
+function uncheckAvailability() {
+    var maxBookingsHolder = repeatCard.find("#maxBookingsWarning");
+    maxBookingsHolder.text("");
+    maxBookingsHolder.attr("data-arrayOfFreeCourtIds", "");
+    maxBookingsHolder.attr("data-maxBookings", "1");
+    repeatCard.attr("data-availabilityChecked", "false");
+}
 
 // begin adding the drawClock functions.
 function drawClock(ctx, radius) {

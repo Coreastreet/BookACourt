@@ -61,7 +61,7 @@ BookingWidget.html = (function() {
               'Book now</button>' +
               '</div>' +
               '</div>' +
-              '<div class="card repeat-card-body border-bottom-0 slideHolderModal w-100" id="repeatBookingCard">' +
+              '<div class="card repeat-card-body border-bottom-0 slideHolderModal w-100" id="repeatBookingCard" data-availabilityChecked="true" data-regularBooking="false">' +
               '<div class="card-body py-1" id="miniContainer">' +
               '<div class= "form-row mt-2" id="repeatHeader">' +
               '<i class="fas fa-arrow-left back-arrow hover-grey mr-2 p-2 align-self-center back-arrow-booking rounded" id="repeatArrow"></i>' +
@@ -103,6 +103,7 @@ BookingWidget.html = (function() {
               '<label id="maxBookingsWarning" data-maxBookings = "1" data-arrayOfFreeCourtIds = "" class="text-danger mx-1"></label>' +
               '</div>' +
               '<button type="button" class="below-clock" id="checkAvailabilityButton">Check Availability</button>' +
+              '<button type="button" class="below-clock mt-2 bg-secondary" id="returnToSingleButton">Return to single booking</button>' +
               '</div>' +
               '</div>' +
               '</div>' +

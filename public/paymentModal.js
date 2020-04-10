@@ -6,9 +6,16 @@ var reviewDetailModal = BookingWidget.$('#secondModalCard');
 var bw = BookingWidget.$("#BookingWidget");
 
 var timeHolder = bw.find("#timeHolder");
+var repeatCard = bw.find("#repeatBookingCard");
 var timeInputs = timeHolder.find("input");
 timeHolder.on("input", "input",  function() {
     BookingWidget.$(this).css("border-color", "initial");
+});
+
+timeHolder.on("change", "input",  function() {
+    if (repeatCard.attr("data-regularBooking") == "true") { // all details for regular booking entered
+        repeatCard.attr("data-availabilityChecked", "false");
+    }
 });
 
 bw.on("click", "#bookNowButton", function(e) {
@@ -45,6 +52,10 @@ bw.on("click", "#bookNowButton", function(e) {
    // check first input value is out of range or is before the current time
    // check second input value is out of range or is before the current time or is below the first input value
   if (parseInt(bookingsRequested) <= parseInt(maxBookings)){
+        if (repeatCard.attr("data-availabilityChecked") == "false") {
+            alert("Check Availability before making a regular booking.");
+            return false;
+        }
         modal_body[0].style.display='block';
         fillInPaymentModal();
         var total_cost = calculateTotalPrice();
@@ -189,7 +200,11 @@ bw.on("click", "#bookNowButton", function(e) {
           request.send(`${paramsOrderText}&${paramsBookingText}`);
         })
     } else {
-        alert("Not enough courts available!");
+        if (repeatCard.attr("data-availabilityChecked") == "false") {
+            alert("Check Availability before making a regular booking.");
+        } else { // availability checked; therefore must be due to requested bookings exceeding the number available.
+            alert("Not enough spaces available.");
+        }
         e.stopPropagation();
     }
 });
@@ -819,46 +834,80 @@ function assignDateToBox(booking_row, date) {
   booking_row.find(".dayHolder").text(numberDay);
 }
 
+function uncheckAvailability() {
+    var maxBookingsHolder = repeatCard.find("#maxBookingsWarning");
+    maxBookingsHolder.text("");
+    maxBookingsHolder.attr("data-arrayOfFreeCourtIds", "");
+    maxBookingsHolder.attr("data-maxBookings", "1");
+    repeatCard.attr("data-availabilityChecked", "false");
+}
+
+repeatCard.on("click", "#returnToSingleButton", function() {
+    //repeatCard.attr("data-availabilityChecked", "false");
+    repeatCard.find("#frequencyButtons button").removeClass("btn-selected");
+
+    repeatCard.find("#frequencyBottomRow .frequency-in-days").text("0");
+    repeatCard.find("#endDateBottomRow .number-of-bookings").text("1");
+    repeatCard.find("#frequencyRate").val("");
+    repeatCard.find("#endDate").val("");
+    repeatCard.css("margin-left", "100%");
+
+    uncheckAvailability();
+    repeatCard.attr("data-regularBooking", "false");
+});
+
 bw.on("click", "#checkAvailabilityButton", function() {
   // call functions to check 10 bookings ahead of time.
-  var allBookings = JSON.parse(localStorage.getItem("bookings_array"));
-  var date = bw.find("#dateHolder").val();
-  var bookingNumber = parseInt(bw.find(".frequency-in-days").text());
-  var bookingInput = bw.find("#frequencyRate").attr("data-frequency-type");
-  var interval_in_days = (bookingInput == "Days") ? bookingNumber : (bookingNumber * 7); // get interval in days
-  var startTime = bw.find("input.startTime").val();
-  var endTime = bw.find("input.endTime").val();
-  var courtType = bw.find("#tabHolder").attr("data-courtType"); // set courtType later on click
-  var numberOfCourts = parseInt(localStorage.getItem("numberOfCourts"));
-  var arrayOfFreeCourtIds = [];
-  /*
-  console.log(bookings);
-  console.log(date);
-  console.log(interval_in_days);
-  */
+      var startTime = bw.find("input#startTime").val();
+      var endTime = bw.find("input#endTime").val();
 
-  var arrayOfArrays = extract_relevant_days(allBookings, date, interval_in_days);
-  console.log("selected days", arrayOfArrays);
-  // after extracting the relevant days; let us filter the bookings so that only bookings matching the relevant dates remain.
-  //console.log("all bookings", bookings);
-  var courtIdFree = null;
-  for (var bookingsOfOneSelectedDate in arrayOfArrays) {
-    //if (arrayOfArrays[bookingsOfOneSelectedDate].length != 0) { an array containing all the bookings in one day, which matches a regular booking day
-      courtIdFree = checkDayAvailability(arrayOfArrays[bookingsOfOneSelectedDate], startTime, endTime, numberOfCourts) // return boolean depending on whether a court is free on that particular day
-      // add courtType later
-      if (courtIdFree == null) {
-        break
+      var bookingNumber = parseInt(bw.find(".frequency-in-days").text());
+      var bookingRealNumber = parseInt(bw.find("#endDateBottomRow .number-of-bookings").text());
+      if ((startTime == "") || (endTime == "") || (bookingNumber < 1) || (bookingRealNumber < 2)) {
+          bw.find("#maxBookingsWarning").text("Incomplete Details");
       } else {
-        arrayOfFreeCourtIds.push(courtIdFree);
+            var allBookings = JSON.parse(localStorage.getItem("bookings_array"));
+            var date = bw.find("#dateHolder").val();
+            var bookingNumber = parseInt(bw.find(".frequency-in-days").text());
+            var bookingInput = bw.find("#frequencyRate").attr("data-frequency-type");
+            var interval_in_days = (bookingInput == "Days") ? bookingNumber : (bookingNumber * 7); // get interval in days
+            var startTime = bw.find("input.startTime").val();
+            var endTime = bw.find("input.endTime").val();
+            var courtType = bw.find("#tabHolder").attr("data-courtType"); // set courtType later on click
+            var numberOfCourts = parseInt(localStorage.getItem("numberOfCourts"));
+            var arrayOfFreeCourtIds = [];
+            /*
+            console.log(bookings);
+            console.log(date);
+            console.log(interval_in_days);
+            */
+
+            var arrayOfArrays = extract_relevant_days(allBookings, date, interval_in_days);
+            console.log("selected days", arrayOfArrays);
+            // after extracting the relevant days; let us filter the bookings so that only bookings matching the relevant dates remain.
+            //console.log("all bookings", bookings);
+            var courtIdFree = null;
+            for (var bookingsOfOneSelectedDate in arrayOfArrays) {
+              //if (arrayOfArrays[bookingsOfOneSelectedDate].length != 0) { an array containing all the bookings in one day, which matches a regular booking day
+                courtIdFree = checkDayAvailability(arrayOfArrays[bookingsOfOneSelectedDate], startTime, endTime, numberOfCourts) // return boolean depending on whether a court is free on that particular day
+                // add courtType later
+                if (courtIdFree == null) {
+                  break
+                } else {
+                  arrayOfFreeCourtIds.push(courtIdFree);
+                }
+            }
+            console.log("free Court Ids", arrayOfFreeCourtIds);
+            var maxNoBookings = arrayOfFreeCourtIds.length + 1; // max-bookings, count the number of extra bookings ahead and include the current/first booking
+            var maxContainer = bw.find("#maxBookingsWarning");
+            maxContainer.text(`Max. ${maxNoBookings} bookings available`);
+            maxContainer.parent().removeClass("bw-none");
+            maxContainer.attr("data-maxBookings", maxNoBookings);
+            maxContainer.attr("data-arrayOfFreeCourtIds", JSON.stringify(arrayOfFreeCourtIds));
+
+            repeatCard.attr("data-availabilityChecked", "true");
+            repeatCard.attr("data-regularBooking", "true");
       }
-  }
-  console.log("free Court Ids", arrayOfFreeCourtIds);
-  var maxNoBookings = arrayOfFreeCourtIds.length + 1; // max-bookings, count the number of extra bookings ahead and include the current/first booking
-  var maxContainer = bw.find("#maxBookingsWarning");
-  maxContainer.text(`Max. ${maxNoBookings} bookings available`);
-  maxContainer.parent().removeClass("bw-none");
-  maxContainer.attr("data-maxBookings", maxNoBookings);
-  maxContainer.attr("data-arrayOfFreeCourtIds", JSON.stringify(arrayOfFreeCourtIds));
 });
 
 // add on click listener later.

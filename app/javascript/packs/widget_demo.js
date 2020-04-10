@@ -87,7 +87,7 @@ $(document).on('turbolinks:load', function ()  {
                          maxViewMode: "years"
                       }).on('changeDate', function(e) {
                           //$(".startDate").val(($(this).datepicker('getFormattedDate')));
-                         repeatCard.attr("data-availabilityChecked", "false");
+                         //repeatCard.attr("data-availabilityChecked", "false");
                          uncheckAvailability();
                          var fullDateString = $(this).datepicker('getFormattedDate');
                          //console.log(dateString);
@@ -920,7 +920,7 @@ $(document).on('turbolinks:load', function ()  {
                           $(this).css("border-color", "initial");
                       });
                       timeHolder.on("change", "input",  function() {
-                          if ($("#repeatBookingCard").attr("data-regularBooking") == "true") { // all details for regular booking entered
+                          if (repeatCard.attr("data-regularBooking") == "true") { // all details for regular booking entered
                               repeatCard.attr("data-availabilityChecked", "false");
                           }
                       });
@@ -1799,11 +1799,11 @@ $(document).on('turbolinks:load', function ()  {
                       // remove all the repeat booking details
                       // slide back to the first main card.
                       repeatCard.on("click", "#returnToSingleButton", function() {
-                          repeatCard.attr("data-availabilityChecked", "false");
+                          //repeatCard.attr("data-availabilityChecked", "false");
                           repeatCard.find("#frequencyButtons button").removeClass("btn-selected");
 
                           repeatCard.find("#frequencyBottomRow .frequency-in-days").text("0");
-                          repeatCard.find("#endDateBottomRow .number-of-bookings").text("0");
+                          repeatCard.find("#endDateBottomRow .number-of-bookings").text("1");
                           repeatCard.find("#frequencyRate").val("");
                           repeatCard.find("#endDate").val("");
                           repeatCard.css("margin-left", "100%");

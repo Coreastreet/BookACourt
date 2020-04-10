@@ -1,6 +1,7 @@
 
+var bw = BookingWidget.$('#BookingWidget');
 
-BookingWidget.$('#BookingWidget').on("click", ".days-and-weeks button", function() {
+bw.on("click", ".days-and-weeks button", function() {
   //var frequency_options = BookingWidget.$(this).find("button");
   var input = BookingWidget.$(this).closest(".form-row").find("input");
   var inputString = input.val();
@@ -21,7 +22,7 @@ BookingWidget.$('#BookingWidget').on("click", ".days-and-weeks button", function
   }
 });
 
-BookingWidget.$('#BookingWidget').on("click", ".addAndMinus .minus-button", function() {
+bw.on("click", ".addAndMinus .minus-button", function() {
   number = parseInt(BookingWidget.$(this).next().text());
   if (number > 0) {
     number -= 1;
@@ -45,7 +46,7 @@ BookingWidget.$('#BookingWidget').on("click", ".addAndMinus .minus-button", func
   //console.log(number);
 });
 
-BookingWidget.$('#BookingWidget').on("click", ".addAndMinus .plus-button", function() {
+bw.on("click", ".addAndMinus .plus-button", function() {
   number = parseInt(BookingWidget.$(this).prev().text());
   if (number < 52) {
     number += 1;
@@ -68,10 +69,24 @@ BookingWidget.$('#BookingWidget').on("click", ".addAndMinus .plus-button", funct
   //console.log(number);
 });
 
-BookingWidget.$('#BookingWidget').on("click", ".repeat", function() {
+bw.on("click", ".repeat", function() {
   BookingWidget.$("#repeatBookingCard").css("margin-left", "0%");
 });
 
-BookingWidget.$('#BookingWidget').on("click", ".back-arrow-booking", function() {
+bw.on("click", ".back-arrow-booking", function() {
   BookingWidget.$(this).closest(".card").css("margin-left", "100%");
 });
+
+var repeatCard = bw.find("#repeatBookingCard");
+
+repeatCard.on("click", "#frequencyRow button", function() {
+    uncheckAvailability();
+});
+
+function uncheckAvailability() {
+    var maxBookingsHolder = repeatCard.find("#maxBookingsWarning");
+    maxBookingsHolder.text("");
+    maxBookingsHolder.attr("data-arrayOfFreeCourtIds", "");
+    maxBookingsHolder.attr("data-maxBookings", "1");
+    repeatCard.attr("data-availabilityChecked", "false");
+}
