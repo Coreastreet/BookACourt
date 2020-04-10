@@ -1251,10 +1251,9 @@ $(document).on('turbolinks:load', function ()  {
 
                       function calculateTotalPrice(bookingDatesSelected) {
                         var peak_hours_text = bw.find("#peak-hour-holder").attr("data-peak-hours");
+                        var daySelected = bw.find("#dateHolder").val().substr(0,3); // abbr
                         var peak_hours_object = JSON.parse(peak_hours_text);
                         //console.log("peak_hours", peak_hours_object);
-                        daySelected = bookingDatesSelected.toLocaleDateString("en-au", {weekday:'short'});
-
                         var peak_starting_hour = convertAMPMToString(peak_hours_object[daySelected]["startingPeakHour"]);
                         var peak_closing_hour = convertAMPMToString(peak_hours_object[daySelected]["closingPeakHour"]);
                         var bookingStartTime = bw.find("input.startTime").val();

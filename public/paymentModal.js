@@ -58,7 +58,9 @@ bw.on("click", "#bookNowButton", function(e) {
         }
         modal_body[0].style.display='block';
         fillInPaymentModal();
-        var total_cost = calculateTotalPrice();
+        var dateSelected = new Date(bw.find("#dateHolder").val());//.val().substr(0,3) // abbr
+
+        var total_cost = calculateTotalPrice(dateSelected);
         //console.log("Total Cost", total_cost)
         var finalDetails = registerPeakHours(total_cost);
         //console.log("final result", finalResult);
@@ -321,7 +323,7 @@ function registerPeakHours(costAndTimes) {
     }
 }
 
-function calculateTotalPrice() {
+function calculateTotalPrice(bookingDatesSelected) {
   var peak_hours_text = bw.find("#peak-hour-holder").attr("data-peak-hours");
   var daySelected = bw.find("#dateHolder").val().substr(0,3); // abbr
   var peak_hours_object = JSON.parse(peak_hours_text);
@@ -587,10 +589,21 @@ function fillInPaymentModal() {
     var intervalDateObject = new Date(startDate);
     var i = 0;
     var allDateHolder = [];
+    var allPriceHolder = [];
+    var peakIndicatorHolder = [];
+    var containsPeakTimes;
+    var singleBookingPrice;
+    var casualBookingPrice;
     while (i < number_of_bookings) {
+      singleBookingPrice = calculateTotalPrice(intervalDateObject);
+
       dateTextHolder = intervalDateObject.toLocaleDateString('en-GB', { weekday: 'long', day:'numeric', month: 'long', year:'numeric'});
       //alert(dateTextHolder);
       allDateHolder.push(dateTextHolder);
+      allPriceHolder.push(`$${singleBookingPrice["Total"].toFixed(2)}`);
+
+      containsPeakTimes = (singleBookingPrice["peak_hour"].length != 0);
+      peakIndicatorHolder.push(`${containsPeakTimes}`);
       intervalDateObject.setDate(intervalDateObject.getDate()+frequency);
       i++;
     }
@@ -608,7 +621,12 @@ function fillInPaymentModal() {
       copiedDivider.removeClass("bw-none");
       copiedDateHolder = dateHolder.clone();
       copiedDateHolder.removeClass("bw-none");
-      copiedDateHolder.find("p").text(allDateHolder[j]); // insert the calculated Date
+      copiedDateHolder.find("p.singleDateHolder").text(allDateHolder[j]); // insert the calculated Date
+      copiedDateHolder.find("p.datePriceHolder").text(allPriceHolder[j]); // insert the calculated Date
+      if (peakIndicatorHolder[j] == "true") {
+        copiedDateHolder.addClass("bg-aliceBlue");
+      }
+      //copiedDateHolder.find("p").text(allDateHolder[j]); // insert the calculated Date
       booking_dates_modal.append(copiedDateHolder);
       booking_dates_modal.append(copiedDivider);
       j++;
@@ -616,6 +634,7 @@ function fillInPaymentModal() {
 
   } else if (number_of_bookings == 1){
     // nothing
+    modal_body.find("#subtotal-booking-text").text(`Subtotal (${number_of_bookings} booking)`);
     booking_end_row.addClass("bw-none");
     calendarDivider.addClass("bw-none");
     singleReview.removeClass("bw-none");
@@ -625,7 +644,10 @@ function fillInPaymentModal() {
     copiedDivider = divider.clone();
     copiedDivider.removeClass("bw-none");
     copiedDateHolder.removeClass("bw-none");
-    copiedDateHolder.find("p").text(dateTextHolder); // insert the calculated Date
+
+    casualBookingPrice = (calculateTotalPrice(startDateObject))["Total"];
+    copiedDateHolder.find("p.singleDateHolder").text(dateTextHolder); // insert the calculated Date
+    copiedDateHolder.find("p.datePriceHolder").text(`$${casualBookingPrice.toFixed(2)}`);
     booking_dates_modal.append(copiedDateHolder);
     booking_dates_modal.append(copiedDivider);
   }
