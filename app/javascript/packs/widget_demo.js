@@ -26,7 +26,8 @@ $(document).on('turbolinks:load', function ()  {
                       var lastIndex;
                       // context and radius
                       var ctx = canvas[0].getContext("2d");
-                      var radius = canvas.height() / 2;
+                      var radius = mainCardWidth / 2;
+                      console.log("canvas width", canvas.width());
                       console.log("radius from height", radius);
                       ctx.resetTransform();
                       ctx.translate(radius, (radius * 0.9)); //----------------------------------- uncomment if copying code to widget code.
