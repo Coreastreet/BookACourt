@@ -292,11 +292,11 @@ BookingWidget.html = (function() {
               '</div>' +
               '</div>' +
               '<hr class="my-0 bw-margin0 bw-negRem">' +
-              '<div class="row px-3 mx-0" id="dates-title">' +
+              '<div class="" id="dates-title">' +
               '<p class="font-weight-light mt-3 bw-margin0 bw-padding1 bw-largeFont">Dates:</p>' +
               '</div>' +
               '<hr class="my-0 bw-margin0 bw-negRem">' +
-              '<div class="row templateDateRow px-3 bw-none">' +
+              '<div class="templateDateRow bw-padding-horizontal bw-none">' +
               '<p class="my-2 bw-margin0 bw-padding-vert bw-textCenter singleDateHolder">Saturday, 3 March 2019</p>' +
               '<p class="bw-margin0 bw-padding-vert bw-containsPeakTimes"></p>' +
               '<p class="datePriceHolder bw-margin0 bw-padding-vert"></p>' +

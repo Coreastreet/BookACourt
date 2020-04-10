@@ -565,6 +565,21 @@ div.datepicker.dropdown-menu.datepicker-orient-left.datepicker-orient-bottom {
   width: 100%;
   position: relative;
 }
+
+#payment-confirmation #secondModalCard .templateDateRow {
+  justify-content: space-between;
+  display: flex;
+}
+
+#payment-confirmation #secondModalCard .bw-none {
+  display: none !important;
+}
+
+#payment-confirmation #secondModalCard #bw-secondModalBody {
+  overflow-x: hidden;
+  overflow-y: scroll;
+}
+
 #payment-confirmation #secondModalCard #allDatesModal {
   box-shadow: none;
   height: fit-content;
