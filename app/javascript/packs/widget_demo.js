@@ -891,7 +891,6 @@ $(document).on('turbolinks:load', function ()  {
                         repeatCard.height(mainClockCard.outerHeight());
                         repeatCard.css("margin-top", `-${mainClockCard.outerHeight()}px`);
                         repeatCard.css("transition", "all 1s");
-                        console.log("Adjust");
                       });
 
                       $('#BookingWidget').on("click", ".repeat", function() {
@@ -921,7 +920,9 @@ $(document).on('turbolinks:load', function ()  {
                           $(this).css("border-color", "initial");
                       });
                       timeHolder.on("change", "input",  function() {
-                          repeatCard.attr("data-availabilityChecked", "false");
+                          if ($("#repeatBookingCard").attr("data-regularBooking") == "true") { // all details for regular booking entered
+                              repeatCard.attr("data-availabilityChecked", "false");
+                          }
                       });
 
                       bw.on("click", "#bookNowButton", function(e) {
@@ -962,7 +963,7 @@ $(document).on('turbolinks:load', function ()  {
                          // check second input value is out of range or is before the current time or is below the first input value
                         if (parseInt(bookingsRequested) <= parseInt(maxBookings)) {
                               if (repeatCard.attr("data-availabilityChecked") == "false") {
-                                  alert("Check Availability again after changing times");
+                                  alert("Check Availability before making a regular booking.");
                                   return false;
                               }
                               modal_body[0].style.display='block';
@@ -1805,8 +1806,10 @@ $(document).on('turbolinks:load', function ()  {
                           repeatCard.find("#endDateBottomRow .number-of-bookings").text("0");
                           repeatCard.find("#frequencyRate").val("");
                           repeatCard.find("#endDate").val("");
-                          uncheckAvailability()
                           repeatCard.css("margin-left", "100%");
+
+                          uncheckAvailability();
+                          repeatCard.attr("data-regularBooking", "false");
                       });
 
                       bw.on("click", "#checkAvailabilityButton", function() {
@@ -1853,6 +1856,7 @@ $(document).on('turbolinks:load', function ()  {
                               maxContainer.attr("data-arrayOfFreeCourtIds", JSON.stringify(arrayOfFreeCourtIds));
 
                               repeatCard.attr("data-availabilityChecked", "true");
+                              repeatCard.attr("data-regularBooking", "true");
                           }
                       });
 
