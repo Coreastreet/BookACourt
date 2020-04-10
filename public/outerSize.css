@@ -415,7 +415,7 @@ div.datepicker.dropdown-menu.datepicker-orient-left.datepicker-orient-bottom {
   grid-column-end: 3;
 }
 
-#payment-confirmation .paymentGrid .booking-time #locationRow {
+#payment-confirmation .paymentGrid .booking-location #locationRow {
   padding-bottom: 1rem;
   padding-left: 0.5rem;
 }
@@ -594,17 +594,17 @@ div.datepicker.dropdown-menu.datepicker-orient-left.datepicker-orient-bottom {
 #payment-confirmation #secondModalCard .bw-alignCenter {
   align-items: center;
 }
-#payment-confirmation #secondModalCard .bw-time {
-  flex: 1 0 25%;
-}
+
 #payment-confirmation #secondModalCard .bw-rate {
-  flex: 1 0 41%;
+  flex: 1 0 33%;
 }
 #payment-confirmation #secondModalCard .bw-hours {
   flex: 1 0 17%;
+  text-align: center;
 }
 #payment-confirmation #secondModalCard .bw-cost {
-  flex: 1 0 25%;
+  flex: 1 0 17%;
+  text-align: right;
 }
 #payment-confirmation #secondModalCard .bw-negRem {
   margin-left: -1rem;
@@ -634,4 +634,24 @@ div.datepicker.dropdown-menu.datepicker-orient-left.datepicker-orient-bottom {
 
 #payment-confirmation #activityType {
   text-transform: capitalize;
+}
+
+@media only screen and (min-width: 768px) {
+    #payment-confirmation #secondModalCard .bw-time {
+      flex: 1 0 33%;
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    #payment-confirmation #secondModalCard .bw-time {
+      flex: 1 0 25%;
+    }
+
+    #payment-confirmation i.fa-info-circle#polipayInfo {
+        margin-left: 0.25rem  ;
+    }
+
+    #payment-confirmation #paymentCancel {
+        display: none;
+    }
 }
