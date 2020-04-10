@@ -124,11 +124,21 @@
 }
 #BookingWidget #repeatBookingCard #checkAvailabilityButton {
   border: none;
-  margin: 1rem;
-  justify-self: end;
+  margin-right: 1rem;
+  margin-left: 1rem;
   margin-top: auto;
   height: 2rem;
   background-color: forestgreen;
+  color: white;
+}
+#BookingWidget #repeatBookingCard #checkAvailabilityButton {
+  border: none;
+  margin-right: 1rem;
+  margin-left: 1rem;
+  margin-bottom: 1rem;
+  margin-top: 0.5rem;
+  height: 2rem;
+  background-color: #6c757d;
   color: white;
 }
 #BookingWidget #repeatBookingCard #repeatHeader {
