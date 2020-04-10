@@ -893,8 +893,9 @@ bw.on("click", "#checkAvailabilityButton", function() {
             var bookingNumber = parseInt(bw.find(".frequency-in-days").text());
             var bookingInput = bw.find("#frequencyRate").attr("data-frequency-type");
             var interval_in_days = (bookingInput == "Days") ? bookingNumber : (bookingNumber * 7); // get interval in days
-            var startTime = bw.find("input.startTime").val();
-            var endTime = bw.find("input.endTime").val();
+            //var startTime = bw.find("input.startTime").val();
+            //var endTime = bw.find("input.endTime").val();
+
             var courtType = bw.find("#tabHolder").attr("data-courtType"); // set courtType later on click
             var numberOfCourts = parseInt(localStorage.getItem("numberOfCourts"));
             var arrayOfFreeCourtIds = [];
@@ -904,7 +905,7 @@ bw.on("click", "#checkAvailabilityButton", function() {
             console.log(interval_in_days);
             */
 
-            var arrayOfArrays = extract_relevant_days(allBookings, date, interval_in_days);
+            var arrayOfArrays = extract_relevant_days(allBookings, date, interval_in_days, startTime, endTime);
             console.log("selected days", arrayOfArrays);
             // after extracting the relevant days; let us filter the bookings so that only bookings matching the relevant dates remain.
             //console.log("all bookings", bookings);
@@ -977,19 +978,27 @@ function checkDayAvailability(arrayOfHash, startTime, endTime, numberOfCourts) {
   return courtFreeId; // null means no court available
 }
 
-function extract_relevant_days(bookings, date, interval_in_days) {
+function extract_relevant_days(bookings, date, interval_in_days, startTime, endTime) {
     var counter = 0;
     var regularDate = new Date(date);
     var stringDate;
     var arrayOfDates = [];
     var arrayOfArrays = [];
+    var openingHours = JSON.parse(localStorage.getItem("opening_hours"));
+
     // check all dates for a regular booking up to ten bookings ahead
     while (counter < 9) {
       arrayOfDates = [];
       regularDate.setDate(regularDate.getDate() + interval_in_days);
       stringDate = regularDate.toLocaleString('en-us', {year: 'numeric', month: '2-digit', day: '2-digit'}).
       replace(/(\d+)\/(\d+)\/(\d+)/, '$3-$1-$2');
-      console.log(stringDate);
+      weekdayShort = regularDate.toLocaleString('en-au', {weekday: 'short'});
+
+      dayClosingHour = convertAMPMToString(openingHours[weekdayShort]["closingHour"]);
+
+      if ((startTime > dayClosingHour) || (endTime > dayClosingHour)) {
+         break;
+      }
       // iterate through all bookings and add those matching one day to a subarray
       for (var jsonBooking in bookings) {
           if (bookings[jsonBooking]["date"] == stringDate) {
