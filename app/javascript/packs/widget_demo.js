@@ -17,8 +17,6 @@ $(document).on('turbolinks:load', function ()  {
 
                       document.querySelector("canvas#canvas").width = mainCardWidth;
                       document.querySelector("canvas#canvas").height = mainCardWidth;
-                      repeatCard.height(mainCardHeight);
-                      repeatCard.css("margin-top", `-${mainCardHeight}px`);
                       // format the datepicker and display the date selected
                       var now = new Date();
                       //now.setHours(now.getHours() - 8);
@@ -73,6 +71,8 @@ $(document).on('turbolinks:load', function ()  {
                       ];
 
                       drawClock(ctx, radius);
+                      repeatCard.height(mainCardHeight);
+                      repeatCard.css("margin-top", `-${mainCardHeight}px`);
 
                       var startTimeInput = document.querySelector("#startTime");
                       var endTimeInput = document.querySelector("#endTime");
