@@ -15,8 +15,8 @@ $(document).on('turbolinks:load', function ()  {
                       var mainCardHeight = mainClockCard.outerHeight();
                       console.log("height", mainCardHeight);
 
-                      canvas.width(mainCardWidth);
-                      canvas.height(mainCardWidth);
+                      document.querySelector("canvas#canvas").width = mainCardWidth;
+                      document.querySelector("canvas#canvas").height = mainCardWidth;
                       repeatCard.height(mainCardHeight);
                       repeatCard.css("margin-top", `-${mainCardHeight}px`);
                       // format the datepicker and display the date selected
