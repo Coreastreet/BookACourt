@@ -962,7 +962,7 @@ $(document).on('turbolinks:load', function ()  {
                          // check first input value is out of range or is before the current time
                          // check second input value is out of range or is before the current time or is below the first input value
                         if (parseInt(bookingsRequested) <= parseInt(maxBookings)) {
-                              if (repeatCard.attr("data-availabilityChecked") == "false") {
+                              if ((repeatCard.attr("data-availabilityChecked") == "false") & (repeatCard.attr("data-regularBooking") == "true")) {
                                   alert("Check Availability before making a regular booking.");
                                   return false;
                               }

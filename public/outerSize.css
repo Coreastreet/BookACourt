@@ -479,15 +479,26 @@ div.datepicker.dropdown-menu.datepicker-orient-left.datepicker-orient-bottom {
   grid-row-end: 5;
 }
 #payment-confirmation .paymentGrid .startCalendarDate, #payment-confirmation .paymentGrid .endCalendarDate {
-  grid-column-start: 1;
-  grid-column-end: 2;
-  grid-row-start: 1;
-  grid-row-end: 4;
   display: flex;
   flex-direction: column;
   align-items: center;
   border: 1px solid black;
 }
+
+#payment-confirmation .paymentGrid .startCalendarDate {
+  grid-column-start: 1;
+  grid-column-end: 2;
+  grid-row-start: 2;
+  grid-row-end: 4;
+}
+
+#payment-confirmation .paymentGrid .endCalendarDate {
+  grid-column-start: 1;
+  grid-column-end: 2;
+  grid-row-start: 1;
+  grid-row-end: 4;
+}
+
 #payment-confirmation .paymentGrid .startCalendarDate .dayHolder, #payment-confirmation .paymentGrid .startCalendarDate .monthHolder, #payment-confirmation .paymentGrid .endCalendarDate .dayHolder, #payment-confirmation .paymentGrid .endCalendarDate .monthHolder {
   margin: 0.5rem 0;
 }
