@@ -531,6 +531,7 @@ div.datepicker.dropdown-menu.datepicker-orient-left.datepicker-orient-bottom {
   height: 1px;
   background-color: black;
   margin: 0px;
+  border-color: black;
 }
 #payment-confirmation .paymentGrid .reviewSingleBooking, #payment-confirmation .paymentGrid .reviewAllBookings {
   grid-column-start: 1;

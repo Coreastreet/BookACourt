@@ -1145,6 +1145,7 @@ $(document).on('turbolinks:load', function ()  {
                       });
 
                       modal_body.on("click", ".trigger-detail-modal", function() {
+                        modal_body.find("#polipayFooter").css("display", "none");
                         reviewDetailModal.css("margin-left", "0%");
                       });
                       // fill in payment details except for the cost
