@@ -230,7 +230,7 @@ BookingWidget.html = (function() {
               '</div>' +
               '<div class="col-8 bw-discount bw-flex">' +
               '<p class="mb-1 bw-margin0">Discount</p>' +
-              '<p class="mb-1 text-right bw-margin0" id="discount">-$10.00</p>' +
+              '<p class="mb-1 text-right bw-margin0" id="discount">-$0.00</p>' +
               '</div>' +
               '<div class="col-8 bw-orderTotal bw-flex">' +
               '<h5 class="font-weight-bold mb-0">Order Total</h5>' +
@@ -276,26 +276,26 @@ BookingWidget.html = (function() {
               '</div>' +
               '<hr class="my-0 bw-margin0 bw-negRem">' +
               '<div class="container-fluid prices-container">' +
-              '<div class="row prices-header mt-2 mb-2 d-none bw-justFlex bw-padding-vert">' +
-              '<div class="bw-time col-3">' +
+              '<div class="prices-header bw-justFlex bw-padding-vert">' +
+              '<div class="bw-time">' +
               '<p class="mb-0 bw-margin0">Time:</p>' +
               '</div>' +
-              '<div class="bw-rate col-5">' +
+              '<div class="bw-rate">' +
               '<p class="text-capitalize mb-0 bw-margin0">Rate:</p>' +
               '</div>' +
-              '<div class="bw-hours col-2">' +
+              '<div class="bw-hours">' +
               '<p class="mb-0 bw-margin0">Hours:</p>' +
               '</div>' +
-              '<div class="bw-cost col-2">' +
+              '<div class="bw-cost">' +
               '<p class="mb-0 bw-margin0">Cost:</p>' +
               '</div>' +
               '</div>' +
               '</div>' +
-              '<hr class="my-0 bw-margin0 bw-negRem">' +
+              '<hr class="bw-margin0 bw-negRem">' +
               '<div class="" id="dates-title">' +
               '<p class="font-weight-light mt-3 bw-margin0 bw-padding1 bw-largeFont">Dates:</p>' +
               '</div>' +
-              '<hr class="my-0 bw-margin0 bw-negRem">' +
+              '<hr class="bw-margin0 bw-negRem">' +
               '<div class="templateDateRow bw-padding-horizontal bw-none">' +
               '<p class="my-2 bw-margin0 bw-padding-vert bw-textCenter singleDateHolder">Saturday, 3 March 2019</p>' +
               '<p class="bw-margin0 bw-padding-vert bw-containsPeakTimes"></p>' +
@@ -306,7 +306,7 @@ BookingWidget.html = (function() {
               '</div>' +
               '</div>' +
               '<div class="modal-footer bw-footer bw-marginTop1 bw-marginBR1">' +
-              '<button type="button" class="btn btn-default bw-button bw-white bw-marginNone" data-dismiss="modal" id="paymentCancel">Close</button>' +
+              '<button type="button" id="paymentCancel" class="btn btn-default bw-button bw-white bw-marginNone" data-dismiss="modal">Close</button>' +
               '</div>' +
               '</div>' +
               '</div>' +

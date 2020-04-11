@@ -602,11 +602,13 @@ div.datepicker.dropdown-menu.datepicker-orient-left.datepicker-orient-bottom {
 
 #payment-confirmation #secondModalCard .bw-datesHeader .back-arrow {
   padding: 0.5rem;
+  margin: 0.25rem 0.5rem 0.25rem 0rem;
 }
 
 #payment-confirmation #secondModalCard .bw-datesHeader .modal-title {
-  margin-top: 0.5rem;
+  margin-top: 0rem;
   align-self: center;
+  margin-bottom: 0rem;
 }
 
 #payment-confirmation #secondModalCard .bw-rate {
@@ -668,6 +670,6 @@ div.datepicker.dropdown-menu.datepicker-orient-left.datepicker-orient-bottom {
     }
 
     #payment-confirmation #paymentCancel {
-        display: none;
+        display: none !important;
     }
 }

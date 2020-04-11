@@ -94,6 +94,7 @@ bw.on("click", "#bookNowButton", function(e) {
           clone.find(".bw-time").text(subJsonArray["time"]);
           clone.find(".bw-rate").text(`${newTypeString} ($${subJsonArray["rate"]}/hr)`);
           clone.find(".bw-hours").text(`${subJsonArray["duration"]}`);
+          clone.find(".bw-hours").addClass("bw-textCenter");
           clone.find(".bw-cost").text(`$${subJsonArray["cost"]}`);
           //clone.find(".cost").addClass("cost-price");
           total += parseFloat(subJsonArray["cost"]);
@@ -492,7 +493,7 @@ function fillInPaymentModal() {
 
   // get the span holder in the payment modal and fill it in with the start and endTime of booking.
   var bookingPeriod = modal_body.find("span.bookingPeriod");
-  bookingPeriod.text(`${startTimeAMPM}-${endTimeAMPM}`);
+  bookingPeriod.text(` ${startTimeAMPM}-${endTimeAMPM}`);
 
   // if the number of bookings under repeat booking is more than one
   // then create the regular booking format, otherwise leave casual as default.
