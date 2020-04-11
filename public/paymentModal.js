@@ -118,10 +118,10 @@ bw.on("click", "#bookNowButton", function(e) {
           modal_body.find("#subtotal-booking-text").text(remove_plural);
         }
         modal_body.find("#subtotal").text(`$${total.toFixed(2)}`);
-        total *= bookings_count;
-        console.log(parseFloat(total));
-        console.log(parseFloat(modal_body.find("#discount").text().substr(2)));
-        subtotal = parseFloat(total) - parseFloat(modal_body.find("#discount").text().substr(2));
+        //total *= bookings_count;
+        //console.log(parseFloat(total));
+        //console.log(parseFloat(modal_body.find("#discount").text().substr(2)));
+        var subtotal = parseFloat(total) - parseFloat(modal_body.find("#discount").text().substr(2));
         BookingWidget.$("#totalAmount").text(`$${subtotal.toFixed(2)}`);
 
         var heightModal = modal_body.find("#firstModalCard").outerHeight();
@@ -196,7 +196,10 @@ bw.on("click", "#bookNowButton", function(e) {
         //console.log("all_dates", all_dates);
         //console.log("first_day", first_day_bookings);
         //debugger
-        BookingWidget.$("#firstModalCard #polipayInfo").hover( showPolipayInfo, hidePolipayInfo );
+        //BookingWidget.$("#firstModalCard #polipayInfo").hover( showPolipayInfo, hidePolipayInfo );
+        BookingWidget.$("#firstModalCard").on("click", "#polipayInfo", function() {
+              $("#firstModalCard #polipayFooter").toggle();
+        });
         //console.log(paramsText);
         var sportsCentreId = document.querySelector("#weBallWidget").getAttribute("data-sportsCentreId");
         modal_body.on("click", "#polipay", function() {
