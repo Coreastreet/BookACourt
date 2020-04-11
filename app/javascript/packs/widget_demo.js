@@ -14,7 +14,7 @@ $(document).on('turbolinks:load', function ()  {
                       var mainCardWidth = mainClockCard.width();
                       var mainCardHeight = mainClockCard.outerHeight();
                       //console.log("height", mainCardHeight);
-                      console.log("clock holder height", mainCardHeight);
+                    //  console.log("clock holder height", mainCardHeight);
 
                       document.querySelector("canvas#canvas").width = mainCardWidth;
                       document.querySelector("canvas#canvas").height = mainCardWidth;
@@ -55,7 +55,7 @@ $(document).on('turbolinks:load', function ()  {
 
                       const canvas2 = document.querySelector("#BookingWidget #canvas");
 
-                      console.log("Circle Width", circleWidth);
+                    //  console.log("Circle Width", circleWidth);
                       const circles = [
                         {
                           x: -circleWidth,
@@ -178,7 +178,7 @@ $(document).on('turbolinks:load', function ()  {
                       // begin adding the drawClock functions.
                       function drawClock(ctx, radius) {
 
-                        console.log("radius", radius);
+                        //console.log("radius", radius);
                         //var smallerRadius = radius * 0.80; // make clock slightly smaller than container
                         drawFace(ctx, radius);
                         drawNumbers(ctx, radius);
@@ -192,7 +192,7 @@ $(document).on('turbolinks:load', function ()  {
                       function drawBottomButtons2(ctx, radius) {
                         //ctx.moveTo(-radius, radius);
                         // draw circle of left side;
-                        console.log(circles);
+                      //  console.log(circles);
                         circles.forEach( circle => {
                             ctx.beginPath();
                             ctx.arc(circle.x, circle.y, circle.radius, 0, 2*Math.PI);
@@ -221,15 +221,15 @@ $(document).on('turbolinks:load', function ()  {
                       }
 
                       function isIntersect(point, circle) {
-                        console.log("point", point);
-                        console.log("circle", circle);
+                      //  console.log("point", point);
+                      //  console.log("circle", circle);
                         return Math.sqrt((point.x-circle.x) ** 2 + (point.y - circle.y) ** 2) < circle.radius;
                       }
                       // section for drawBottomButtons without addHitRegion -- end
 
                       function drawFace(ctx, radius) {
                         //var grad;
-                        console.log("face-radius", radius);
+                      //  console.log("face-radius", radius);
                         ctx.beginPath();
                         ctx.arc(0, 0, radius, 0, 2*Math.PI);
                         ctx.strokeStyle = "black";
@@ -531,8 +531,8 @@ $(document).on('turbolinks:load', function ()  {
                         var openingHour = convertAMPMToString(jsonOpeningHours[weekDay]["openingHour"]);//sports_centre["opening_hours"][currentDay]["openingHour"];
                         var closingHour = convertAMPMToString(jsonOpeningHours[weekDay]["closingHour"]);//sports_centre["opening_hours"][currentDay]["closingHour"];
                         //console.log(JSON.stringify(jsonOpeningHours));
-                        console.log("open", openingHour);
-                        console.log("close", closingHour);
+                      //  console.log("open", openingHour);
+                      //  console.log("close", closingHour);
                         var currentTime = now.toTimeString().substring(0,5);
                         //console.log(halfCourtsBooked);
 
@@ -1251,7 +1251,7 @@ $(document).on('turbolinks:load', function ()  {
 
                       function calculateTotalPrice(bookingDatesSelected) {
                         var peak_hours_text = bw.find("#peak-hour-holder").attr("data-peak-hours");
-                        var daySelected = bw.find("#dateHolder").val().substr(0,3); // abbr
+                        var daySelected = bookingDatesSelected.toLocaleDateString("en-au", {weekday: "short"}); // abbr
                         var peak_hours_object = JSON.parse(peak_hours_text);
                         //console.log("peak_hours", peak_hours_object);
                         var peak_starting_hour = convertAMPMToString(peak_hours_object[daySelected]["startingPeakHour"]);
@@ -1526,6 +1526,7 @@ $(document).on('turbolinks:load', function ()  {
                           var singleBookingPrice;
                           var casualBookingPrice;
                           while (i < number_of_bookings) {
+                            //console.log(intervalDateObject, "intervalDateObject");
                             singleBookingPrice = calculateTotalPrice(intervalDateObject);
                             //console.log(singleBookingPrice, "single booking price");
                             dateTextHolder = intervalDateObject.toLocaleDateString('en-GB', { weekday: 'long', day:'numeric', month: 'long', year:'numeric'});
@@ -1688,8 +1689,8 @@ $(document).on('turbolinks:load', function ()  {
                             }
 
                             timesToBeFilled = Object.keys(hashSets).sort()[0];
-                            console.log("HashSets", hashSets);
-                            console.log("Times to be filled", timesToBeFilled);
+                            //console.log("HashSets", hashSets);
+                            //console.log("Times to be filled", timesToBeFilled);
                             //console.log("hash sets", hashSets);
                             //console.log("times to be filled", timesToBeFilled);
                             courtFreeIds.push(hashSets[timesToBeFilled][1]); // store the courtId of the court that is free for most of the booking
@@ -1832,7 +1833,7 @@ $(document).on('turbolinks:load', function ()  {
                               var arrayOfFreeCourtIds = [];
 
                               var arrayOfArrays = extract_relevant_days(allBookings, date, interval_in_days, startTime, endTime);
-                              console.log("selected days", arrayOfArrays);
+                              //console.log("selected days", arrayOfArrays);
                               // after extracting the relevant days; let us filter the bookings so that only bookings matching the relevant dates remain.
                               //console.log("all bookings", bookings);
                               var courtIdFree = null;
@@ -1846,7 +1847,7 @@ $(document).on('turbolinks:load', function ()  {
                                     arrayOfFreeCourtIds.push(courtIdFree);
                                   }
                               }
-                              console.log("free Court Ids", arrayOfFreeCourtIds);
+                              //console.log("free Court Ids", arrayOfFreeCourtIds);
                               var maxNoBookings = arrayOfFreeCourtIds.length + 1; // max-bookings, count the number of extra bookings ahead and include the current/first booking
                               var maxContainer = bw.find("#maxBookingsWarning");
                               maxContainer.text(`Max. ${maxNoBookings} bookings available`);
@@ -1862,9 +1863,9 @@ $(document).on('turbolinks:load', function ()  {
                       // add on click listener later.
 
                       function checkDayAvailability(arrayOfHash, startTime, endTime, numberOfCourts) {
-                        console.log("arrayOFHash", arrayOfHash);
-                        console.log("start", startTime);
-                        console.log("end", endTime);
+                      //  console.log("arrayOFHash", arrayOfHash);
+                      //  console.log("start", startTime);
+                      //  console.log("end", endTime);
                         var arr = [...Array(numberOfCourts+1).keys()];
                         arr.shift();
                         var availabilityBoolean = false;

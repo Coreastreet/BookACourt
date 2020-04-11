@@ -84,7 +84,7 @@ bw.on("click", "#bookNowButton", function(e) {
         //pricesHeader.removeClass("d-none");
           //pricesHeader.next().hide();
           //pricesHeader.empty();
-        var total = 0;
+        //var total = 0;
         for (var counter in jsonArray) {
           subJsonArray = jsonArray[counter];
           clone = pricesHeader.clone();
@@ -97,13 +97,21 @@ bw.on("click", "#bookNowButton", function(e) {
           clone.find(".bw-hours").addClass("bw-textCenter");
           clone.find(".bw-cost").text(`$${subJsonArray["cost"]}`);
           //clone.find(".cost").addClass("cost-price");
-          total += parseFloat(subJsonArray["cost"]);
+          //total += parseFloat(subJsonArray["cost"]);
           // enter details from durations in payment modal
           BookingWidget.$("<hr class='my-0 bw-margin0 bw-negRem'>").appendTo(pricesHeader.parent());
           clone.appendTo(pricesHeader.parent());
         }
 
-        modal_body.find("#single-booking-price").text(`${total.toFixed(2)}`);
+        var total = 0;
+        var singleFloatPrice;
+        var arraySingleDatePrices = modal_body.find("p.datePriceHolder").slice(1);
+        arraySingleDatePrices.each( function() {
+            singleFloatPrice = parseFloat($(this).text().slice(1));
+            total += singleFloatPrice;
+        });
+
+        modal_body.find("#single-booking-price").text(`${(total/bookings_count).toFixed(2)}`);
         //firstModal.find("#subtotal-booking-number").text(no_of_bookings);
         if (parseInt(bookings_count) == 1) {
           var remove_plural = modal_body.find("#subtotal-booking-text").text().replace("bookings", "booking");
@@ -328,7 +336,7 @@ function registerPeakHours(costAndTimes) {
 
 function calculateTotalPrice(bookingDatesSelected) {
   var peak_hours_text = bw.find("#peak-hour-holder").attr("data-peak-hours");
-  var daySelected = bw.find("#dateHolder").val().substr(0,3); // abbr
+  var daySelected = bookingDatesSelected.toLocaleDateString("en-au", {weekday: "short"}); // abbr
   var peak_hours_object = JSON.parse(peak_hours_text);
   //console.log("peak_hours", peak_hours_object);
   var peak_starting_hour = convertAMPMToString(peak_hours_object[daySelected]["startingPeakHour"]);
