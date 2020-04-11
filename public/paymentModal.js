@@ -198,7 +198,7 @@ bw.on("click", "#bookNowButton", function(e) {
         //debugger
         //BookingWidget.$("#firstModalCard #polipayInfo").hover( showPolipayInfo, hidePolipayInfo );
         BookingWidget.$("#bw-bookingSummary #firstModalCard").on("click", "#polipayInfo", function() {
-              BookingWidget.$("#firstModalCard#polipayFooter").toggle();
+              BookingWidget.$("#firstModalCard #polipayFooter").toggle();
               console.log("Toggle");
         });
         //console.log(paramsText);
