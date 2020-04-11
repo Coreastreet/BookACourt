@@ -356,6 +356,8 @@ div.datepicker.dropdown-menu.datepicker-orient-left.datepicker-orient-bottom {
 }
 #payment-confirmation #firstModalCard #bw-poliLinks {
   margin-right: 1rem;
+  display: flex;
+  justify-content: flex-end;
 }
 
 #payment-confirmation #firstModalCard #bw-poliLinks #bw-banks {
@@ -560,7 +562,7 @@ div.datepicker.dropdown-menu.datepicker-orient-left.datepicker-orient-bottom {
 
 #payment-confirmation #firstModalCard .modal-footer.bw-paddingMargin {
     margin-left: 1rem;
-    padding-bottom: 1rem;
+    padding-bottom: 0.5rem;
 }
 
 #payment-confirmation #secondModalCard {
@@ -680,5 +682,9 @@ div.datepicker.dropdown-menu.datepicker-orient-left.datepicker-orient-bottom {
 
     #payment-confirmation #paymentCancel {
         display: none !important;
+    }
+
+    #payment-confirmation #firstModalCard #bw-poliLinks {
+        margin-top: 0.5rem;
     }
 }
