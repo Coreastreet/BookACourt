@@ -305,8 +305,8 @@ BookingWidget.html = (function() {
               '<div class="container-fluid booking-dates">' +
               '</div>' +
               '<div class="bw-legendRow">' +
-              '<div class="bg-peaklegend"></div>' +
-              '<div class="bw-margin0 bw-padding-ver">Peak Times</div>' +
+              '<div class="bw-peaklegend"></div>' +
+              '<div class="">Peak Times</div>' +
               '</div>' +
               '</div>' +
               '<div class="modal-footer bw-footer bw-marginTop1 bw-marginBR1">' +
