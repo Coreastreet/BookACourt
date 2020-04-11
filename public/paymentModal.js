@@ -107,7 +107,7 @@ bw.on("click", "#bookNowButton", function(e) {
         var singleFloatPrice;
         var arraySingleDatePrices = modal_body.find("p.datePriceHolder").slice(1);
         arraySingleDatePrices.each( function() {
-            singleFloatPrice = parseFloat($(this).text().slice(1));
+            singleFloatPrice = parseFloat(BookingWidget.$(this).text().slice(1));
             total += singleFloatPrice;
         });
 
