@@ -197,8 +197,8 @@ bw.on("click", "#bookNowButton", function(e) {
         //console.log("first_day", first_day_bookings);
         //debugger
         //BookingWidget.$("#firstModalCard #polipayInfo").hover( showPolipayInfo, hidePolipayInfo );
-        BookingWidget.$("#firstModalCard").on("click", "#polipayInfo", function() {
-              $("#firstModalCard #polipayFooter").toggle();
+        modal_body.on("click", "#polipayInfo", function() {
+              modal_body.find("#firstModalCard #polipayFooter").toggle();
         });
         //console.log(paramsText);
         var sportsCentreId = document.querySelector("#weBallWidget").getAttribute("data-sportsCentreId");
