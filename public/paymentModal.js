@@ -199,6 +199,7 @@ bw.on("click", "#bookNowButton", function(e) {
         //BookingWidget.$("#firstModalCard #polipayInfo").hover( showPolipayInfo, hidePolipayInfo );
         BookingWidget.$("#bw-bookingSummary #firstModalCard").on("click", "#polipayInfo", function() {
               BookingWidget.$("#firstModalCard#polipayFooter").toggle();
+              console.log("Toggle");
         });
         //console.log(paramsText);
         var sportsCentreId = document.querySelector("#weBallWidget").getAttribute("data-sportsCentreId");
