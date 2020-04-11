@@ -659,9 +659,13 @@ function fillInPaymentModal() {
     copiedDivider.removeClass("bw-none");
     copiedDateHolder.removeClass("bw-none");
 
-    casualBookingPrice = (calculateTotalPrice(startDateObject))["Total"];
+    casualBookingPrice = calculateTotalPrice(startDateObject);
+    casualBookingPriceTotal = casualBookingPrice["Total"];
     copiedDateHolder.find("p.singleDateHolder").text(dateTextHolder); // insert the calculated Date
     copiedDateHolder.find("p.datePriceHolder").text(`$${casualBookingPrice.toFixed(2)}`);
+    if (casualBookingPrice["peak_hour"].length != 0) {
+      copiedDateHolder.addClass("bw-aliceBlue");
+    }
     booking_dates_modal.append(copiedDateHolder);
     booking_dates_modal.append(copiedDivider);
   }

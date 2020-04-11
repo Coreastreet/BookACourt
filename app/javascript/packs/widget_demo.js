@@ -1537,6 +1537,7 @@ $(document).on('turbolinks:load', function ()  {
                             allPriceHolder.push(`$${singleBookingPrice["Total"].toFixed(2)}`);
 
                             containsPeakTimes = (singleBookingPrice["peak_hour"].length != 0);
+                            console.log(containsPeakTimes, "isPeakTime");
                             peakIndicatorHolder.push(`${containsPeakTimes}`);
                             intervalDateObject.setDate(intervalDateObject.getDate()+frequency);
                             i++;
@@ -1578,9 +1579,13 @@ $(document).on('turbolinks:load', function ()  {
                           copiedDivider.removeClass("bw-none");
                           copiedDateHolder.removeClass("bw-none");
 
-                          casualBookingPrice = (calculateTotalPrice(startDateObject))["Total"];
+                          casualBookingPrice = calculateTotalPrice(startDateObject);
+                          casualBookingPriceTotal = casualBookingPrice["Total"];
                           copiedDateHolder.find("p.singleDateHolder").text(dateTextHolder); // insert the calculated Date
-                          copiedDateHolder.find("p.datePriceHolder").text(`$${casualBookingPrice.toFixed(2)}`);
+                          copiedDateHolder.find("p.datePriceHolder").text(`$${casualBookingPriceTotal.toFixed(2)}`);
+                          if (casualBookingPrice["peak_hour"].length != 0) {
+                            copiedDateHolder.addClass("bg-aliceBlue");
+                          }
                           booking_dates_modal.append(copiedDateHolder);
                           booking_dates_modal.append(copiedDivider);
                         }
