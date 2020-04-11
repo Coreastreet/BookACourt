@@ -236,14 +236,7 @@ modal_body.on("click", ".back-arrow-booking", function() {
 modal_body.on("click", ".trigger-detail-modal", function() {
   reviewDetailModal.css("margin-left", "0%");
 });
-// fill in payment details except for the cost
-function showPolipayInfo() {
-    BookingWidget.$("#firstModalCard #polipayFooter").removeClass("bw-none");
-}
-
-function hidePolipayInfo() {
-    BookingWidget.$("#firstModalCard #polipayFooter").addClass("bw-none");
-}
+// fill in payment details except for the
 
 function addParams(name, jsonParams) {
   var newString;

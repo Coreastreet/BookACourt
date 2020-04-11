@@ -363,6 +363,10 @@ div.datepicker.dropdown-menu.datepicker-orient-left.datepicker-orient-bottom {
   margin-left: 1rem;
 }
 
+#payment-confirmation #firstModalCard #polipayFooter {
+  display: none;
+}
+
 #payment-confirmation .bw-whitesmoke {
   background-color: whitesmoke;
 }
