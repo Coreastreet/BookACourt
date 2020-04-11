@@ -198,6 +198,11 @@ bw.on("click", "#bookNowButton", function(e) {
         //debugger
         //BookingWidget.$("#firstModalCard #polipayInfo").hover( showPolipayInfo, hidePolipayInfo );
         modal_body.on("click", "#polipayInfo", function() {
+              if (BookingWidget.$(this).css("color") == "rgb(0, 0, 0)") {
+                  BookingWidget.$(this).css("color", "grey");
+              } else {
+                  BookingWidget.$(this).css("color", "black");
+              }
               modal_body.find("#polipayFooter").toggle();
         });
         //console.log(paramsText);

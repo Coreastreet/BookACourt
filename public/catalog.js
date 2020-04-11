@@ -240,7 +240,7 @@ BookingWidget.html = (function() {
               '</div>' +
               '<div class="modal-footer bw-footer bw-marginTop1 bw-paddingBottom1">' +
               '<img src="https://weball.com.au/polipayLogo.png" class=""></img>' +
-              '<i class="fas fa-info-circle fa-lg" id="polipayInfo"></i>' +
+              '<i class="fas fa-info-circle fa-2x" id="polipayInfo"></i>' +
               '<button type="button" class="btn btn-primary bw-button bw-blue" id="polipay" data-dismiss="modal">Pay with POLi</button>' +
               '<button type="button" class="btn btn-default bw-button bw-white" data-dismiss="modal" id="paymentCancel">Close</button>' +
               '</div>' +
@@ -303,6 +303,10 @@ BookingWidget.html = (function() {
               '</div>' +
               '<hr class="my-0 bw-margin0 bw-negRem bw-none">' +
               '<div class="container-fluid booking-dates">' +
+              '</div>' +
+              '<div class="bw-legendRow">' +
+              '<div class="bg-peaklegend"></div>' +
+              '<div class="bw-margin0 bw-padding-ver">Peak Times</div>' +
               '</div>' +
               '</div>' +
               '<div class="modal-footer bw-footer bw-marginTop1 bw-marginBR1">' +

@@ -666,6 +666,10 @@ div.datepicker.dropdown-menu.datepicker-orient-left.datepicker-orient-bottom {
   text-transform: capitalize;
 }
 
+#payment-confirmation i.fa-info-circle#polipayInfo {
+    color: grey;
+}
+
 @media only screen and (min-width: 768px) {
     #payment-confirmation #secondModalCard .bw-time {
       flex: 1 0 33%;
@@ -678,7 +682,7 @@ div.datepicker.dropdown-menu.datepicker-orient-left.datepicker-orient-bottom {
     }
 
     #payment-confirmation i.fa-info-circle#polipayInfo {
-        margin-left: 0.25rem  ;
+        margin-left: 0.25rem;
     }
 
     #payment-confirmation #paymentCancel {
