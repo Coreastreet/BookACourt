@@ -605,6 +605,10 @@ div.datepicker.dropdown-menu.datepicker-orient-left.datepicker-orient-bottom {
   margin: 0.25rem 0.5rem 0.25rem 0rem;
 }
 
+#payment-confirmation #secondModalCard .bw-datesHeader .back-arrow:hover {
+  background-color: gainsboro;
+}
+
 #payment-confirmation #secondModalCard .bw-datesHeader .modal-title {
   margin-top: 0rem;
   align-self: center;
@@ -618,7 +622,6 @@ div.datepicker.dropdown-menu.datepicker-orient-left.datepicker-orient-bottom {
 }
 #payment-confirmation #secondModalCard .bw-hours {
   flex: 1 0 17%;
-  text-align: center;
 }
 #payment-confirmation #secondModalCard .bw-cost {
   flex: 1 0 17%;

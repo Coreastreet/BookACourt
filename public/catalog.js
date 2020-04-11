@@ -242,7 +242,7 @@ BookingWidget.html = (function() {
               '<img src="https://weball.com.au/polipayLogo.png" class=""></img>' +
               '<i class="fas fa-info-circle fa-lg" id="polipayInfo"></i>' +
               '<button type="button" class="btn btn-primary bw-button bw-blue" id="polipay" data-dismiss="modal">Pay with POLi</button>' +
-              '<button type="button" class="btn btn-default bw-button bw-white" data-dismiss="modal">Close</button>' +
+              '<button type="button" class="btn btn-default bw-button bw-white" data-dismiss="modal" id="paymentCancel">Close</button>' +
               '</div>' +
               '</div>' +
               '<div class="modal-footer bw-footer bw-paddingMargin bw-paddingBottom1 bw-none" id="polipayFooter">' +
@@ -306,7 +306,7 @@ BookingWidget.html = (function() {
               '</div>' +
               '</div>' +
               '<div class="modal-footer bw-footer bw-marginTop1 bw-marginBR1">' +
-              '<button type="button" id="paymentCancel" class="btn btn-default bw-button bw-white bw-marginNone" data-dismiss="modal">Close</button>' +
+              '<button type="button" class="btn btn-default bw-button bw-white bw-marginNone" data-dismiss="modal">Close</button>' +
               '</div>' +
               '</div>' +
               '</div>' +
