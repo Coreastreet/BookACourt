@@ -332,10 +332,13 @@ div.datepicker.dropdown-menu.datepicker-orient-left.datepicker-orient-bottom {
 }
 #payment-confirmation .range-divider {
   display: flex;
+  margin-left: 1rem;
+  margin-right: 1rem;
 }
 #payment-confirmation .range-divider .downCaret {
   flex: 0 0 25%;
   display: flex;
+  margin-top: 0.5rem;
   justify-content: center;
 }
 #payment-confirmation .bw-marginTop1 {

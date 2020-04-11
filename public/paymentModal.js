@@ -117,7 +117,7 @@ bw.on("click", "#bookNowButton", function(e) {
           var remove_plural = modal_body.find("#subtotal-booking-text").text().replace("bookings", "booking");
           modal_body.find("#subtotal-booking-text").text(remove_plural);
         }
-        modal_body.find("#subtotal").text(`$${(total * bookings_count).toFixed(2)}`);
+        modal_body.find("#subtotal").text(`$${total.toFixed(2)}`);
         total *= bookings_count;
         console.log(parseFloat(total));
         console.log(parseFloat(modal_body.find("#discount").text().substr(2)));
