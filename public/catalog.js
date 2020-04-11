@@ -305,7 +305,7 @@ BookingWidget.html = (function() {
               '<div class="container-fluid booking-dates">' +
               '</div>' +
               '<div class="bw-legendRow">' +
-              '<div class="bw-peaklegend"></div>' +
+              '<div class="bw-peakLegend"></div>' +
               '<div class="">Peak Times</div>' +
               '</div>' +
               '</div>' +

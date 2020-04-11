@@ -637,7 +637,8 @@ function fillInPaymentModal() {
       copiedDateHolder.find("p.singleDateHolder").text(allDateHolder[j]); // insert the calculated Date
       copiedDateHolder.find("p.datePriceHolder").text(allPriceHolder[j]); // insert the calculated Date
       if (peakIndicatorHolder[j] == "true") {
-        copiedDateHolder.addClass("bg-aliceBlue");
+        copiedDateHolder.addClass("bw-aliceBlue");
+        console.log("added alice");
       }
       //copiedDateHolder.find("p").text(allDateHolder[j]); // insert the calculated Date
       booking_dates_modal.append(copiedDateHolder);
