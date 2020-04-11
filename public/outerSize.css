@@ -471,6 +471,7 @@ div.datepicker.dropdown-menu.datepicker-orient-left.datepicker-orient-bottom {
   grid-column-end: 3;
   grid-row-start: 3;
   grid-row-end: 4;
+  color: #6c757d;
 }
 #payment-confirmation .paymentGrid .bw-orderTotal {
   grid-column-start: 2;
@@ -595,8 +596,23 @@ div.datepicker.dropdown-menu.datepicker-orient-left.datepicker-orient-bottom {
   align-items: center;
 }
 
+#payment-confirmation #secondModalCard .bw-datesHeader {
+  padding: 1rem 1rem 0rem 1rem;
+}
+
+#payment-confirmation #secondModalCard .bw-datesHeader .back-arrow {
+  padding: 0.5rem;
+}
+
+#payment-confirmation #secondModalCard .bw-datesHeader .modal-title {
+  margin-top: 0.5rem;
+  align-self: center;
+}
+
 #payment-confirmation #secondModalCard .bw-rate {
   flex: 1 0 33%;
+  padding-left: 0.5rem;
+  text-transform: capitalize;
 }
 #payment-confirmation #secondModalCard .bw-hours {
   flex: 1 0 17%;
