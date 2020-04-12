@@ -6,5 +6,5 @@ test:
 
 production:
   adapter: redis
-  url: redis://redis.weball.com.au:6379
+  url: redis://weball.com.au:6379
   #channel_prefix: BookACourt_production

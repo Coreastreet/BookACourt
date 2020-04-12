@@ -3,7 +3,7 @@ import consumer from "./consumer"
 consumer.subscriptions.create("WidgetChannel", {
   connected() {
     // Called when the subscription is ready for use on the server
-    console.log(`connected!`);
+    console.log("connected");
   },
 
   disconnected() {
