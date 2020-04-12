@@ -11,7 +11,7 @@ consumer.subscriptions.create("WidgetChannel", {
 
   received(data) {
     // Called when there's incoming data on the websocket for this channel
-      alert(`incoming data, ${data}`);
+      console.log(`incoming data, ${data}`);
   }
 });
 
@@ -21,18 +21,20 @@ function WebSocketTest() {
               alert("WebSocket is supported by your Browser!");
 
               // Let us open a web socket
-              let ws = new WebSocket('wss://weball.com.au/cable');
+              const ws = new WebSocket('wss://api.probit.com/api/exchange/v1/ws');
 
-              ws.onopen = function(){
-                //Subscribe to the channel
-                ws.send(JSON.stringify({"command": "subscribe","identifier":"{\"channel\":\"WidgetChannel\"}"}));
-                alert("ws is open...");
-              }
+              ws.onopen = () => {
+                const msg = {
+                  type: 'subscribe',
+                  identifier: '{\"channel\":\"WidgetChannel\"}',
+                };
+                ws.send(JSON.stringify(msg));
+              };
 
-              ws.onmessage = function(msg) {
-                  console.log(msg);
-                  alert(`Message is received...`);
-              }
+              ws.onmessage = (event) => {
+                console.log(event.data);
+                alert(event.data);
+              };
 
               ws.onclose = function() {
                  // websocket is closed.
