@@ -4,6 +4,8 @@ Rails.application.routes.draw do
   # home page
   root to: 'home#index'
 
+  mount ActionCable.server => '/cable'
+
   # browse listings of sports_centers and their courts
   resources :users, only: [:new, :create, :show] do
   end
