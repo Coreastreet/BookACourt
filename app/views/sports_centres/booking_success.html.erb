@@ -1,7 +1,11 @@
 <div class="container">
   <div class="row justify-content-center mt-3">
     <div class="col-8">
-      <%= image_tag((url_for @sports_centre.logo), class: "mx-auto d-block image-contain logo-height") %>
+      <% if @sportsCentre.logo.attached? %>
+        <%= image_tag((url_for @sports_centre.logo), class: "mx-auto d-block image-contain logo-height") %>
+      <% else %>
+        <%= image_tag((asset_path("no-logo-available.png")), class: "mx-auto d-block image-contain logo-height") %>
+      <% end %>
     </div>
   </div>
   <div class="row justify-content-center">
