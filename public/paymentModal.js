@@ -662,7 +662,7 @@ function fillInPaymentModal() {
     casualBookingPrice = calculateTotalPrice(startDateObject);
     casualBookingPriceTotal = casualBookingPrice["Total"];
     copiedDateHolder.find("p.singleDateHolder").text(dateTextHolder); // insert the calculated Date
-    copiedDateHolder.find("p.datePriceHolder").text(`$${casualBookingPrice.toFixed(2)}`);
+    copiedDateHolder.find("p.datePriceHolder").text(`$${casualBookingPriceTotal.toFixed(2)}`);
     if (casualBookingPrice["peak_hour"].length != 0) {
       copiedDateHolder.addClass("bw-aliceBlue");
     }
