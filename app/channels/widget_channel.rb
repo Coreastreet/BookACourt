@@ -5,7 +5,7 @@ class WidgetChannel < ApplicationCable::Channel
     Rails.logger.info("subscribed to widget channel")
   end
 
-  def update(data)
+  def join
     ActionCable.server.broadcast "updates_#{current_user}", {
       message: "Another booking has been made!",
     }

@@ -75,6 +75,7 @@ class Api::V1::BookingsController < Api::V1::ApiController
 
   def check_availability
     sportsCentre = SportsCentre.find(params[:sports_centre_id])
+    cookies.signed[:widget_centre_id] = sportsCentre.id #$redis.set("centre_id", sports_centre.id)
     interval_in_days = interval_params[:dayInterval]
     date = interval_params[:date]
     @json_bookings = sportsCentre.bookings.to_json
