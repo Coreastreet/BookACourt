@@ -2,7 +2,7 @@
 $(document).on('turbolinks:load', function ()  {
 
   if ($("#weBallWidget").length >= 1) {
-
+                      document.cookie = "widget_centre_id=John Doe";
                       //var greeting = $("#p1").text();
                       //alert(greeting);
                       //set the width and height of the canvas to match the parent
