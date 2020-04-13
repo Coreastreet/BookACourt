@@ -6,9 +6,10 @@ class WidgetChannel < ApplicationCable::Channel
   end
 
   def update(data)
-    ActionCable.server.broadcast "updates_#{data.current_user}", {
+    ActionCable.server.broadcast "updates_#{current_user}", {
       message: "Another booking has been made!",
     }
+    Rails.logger.info("update sent")
   end
 
   def unsubscribed
