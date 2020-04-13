@@ -1,15 +1,8 @@
 class WidgetChannel < ApplicationCable::Channel
   def subscribed
     # stream_from "some_channel"
-    stream_from "updates_#{current_user}"
+    stream_from "update_widget_#{current_user}"
     Rails.logger.info("subscribed to widget channel")
-  end
-
-  def join
-    ActionCable.server.broadcast "updates_#{current_user}", {
-      message: "Another booking has been made!",
-    }
-    Rails.logger.info("update sent")
   end
 
   def unsubscribed
