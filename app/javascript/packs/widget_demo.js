@@ -641,6 +641,43 @@ $(document).on('turbolinks:load', function ()  {
                          return newTime;
                       }
 
+                      function WebSocketTest() {
+
+                                 if ("WebSocket" in window) {
+                                    alert("WebSocket is supported by your Browser!");
+                                    // Let us open a web socket
+                                    const ws = new WebSocket('wss://weball.com.au/cable');
+                      	            var message;
+
+                                    ws.onopen = () => {
+                                      const msg = {
+                                        command: 'subscribe',
+                                        identifier: JSON.stringify({
+                                          channel: 'WidgetChannel'
+                                        }),
+                                      };
+                                      ws.send(JSON.stringify(msg));
+                                    };
+
+                                    ws.onmessage = function(event) {
+                                      	localStorage.setItem(`websocket_update`, `${event.data}`);
+                                        message = JSON.parse(localStorage.getItem(`websocket_update`));
+                      	                if (message.type != `ping`) {
+                      		                  alert(event.data);
+                      		                  };
+                                        };
+
+                                    ws.onclose = function() {
+                                       // websocket is closed.
+                                       alert("Connection is closed...");
+                                    };
+                                 } else {
+                                    // The browser doesn't support WebSocket
+                                    alert("WebSocket NOT supported by your Browser!");
+                                 }
+                      }
+
+
                       // enable the clear time button
                       // fetch booking data for a particular sports centre.
                       var sportsCentreId = document.querySelector("#weBallWidget").getAttribute("data-sportsCentreId");
@@ -726,6 +763,8 @@ $(document).on('turbolinks:load', function ()  {
                           // set up the half court tab - am and pm buttons
                           //console.log("halfCourt", bookingSchedule);
                           localStorage.setItem("BookingsMatrix", JSON.stringify(bookingMatrix));
+                          // create a continuous connection with the localhost
+                          WebSocketTest();
 
                           halfCourtTab.addEventListener( "click", function() {
                             //drawClock(ctx, radius);
