@@ -668,7 +668,6 @@ $(document).on('turbolinks:load', function ()  {
                                         messageArray = message.split(",");
                                         for (var msg in messageArray) {
                                           splitKeyValue = messageArray[msg].match(/{?"([^:]*)":"?(.*)(}|")/);
-                                          alert(splitKeyValue);
                                           if (splitKeyValue.length > 2) {
                                               newJson = {};
                                               newJson[splitKeyValue[1]] = JSON.parse(splitKeyValue[2]);
