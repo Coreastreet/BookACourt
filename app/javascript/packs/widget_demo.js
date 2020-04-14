@@ -692,8 +692,11 @@ $(document).on('turbolinks:load', function ()  {
                                               newJson[splitKeyValue[1]] = splitKeyValue[2];
                                               //newJson = JSON.parse(newJson);
                                               console.log(newJson);
-                                              if (("message" in newJson) & (newJson.message == "new booking")) {
-                                                 alert("Refresh Clock!");
+                                              if ("message" in newJson) {
+                                                 newJson = JSON.parse(newJson.message);
+                                                 if (newJson.message == "new booking") {
+                                                   alert("Refresh Clock!");
+                                                 }
                                               }
                                               //console.log(newjson
                                           }
