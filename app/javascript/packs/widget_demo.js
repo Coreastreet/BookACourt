@@ -651,6 +651,7 @@ $(document).on('turbolinks:load', function ()  {
                                     var messageArray;
                                     var splitKeyValue;
                                     var newJson;
+                                    var subJson;
 
                                     ws.onopen = () => {
                                       const msg = {
@@ -673,9 +674,12 @@ $(document).on('turbolinks:load', function ()  {
                                               newJson[splitKeyValue[1]] = splitKeyValue[2];
                                               //newJson = JSON.parse(newJson);
                                               console.log(newJson);
-                                              if (newJson.identifier.channel == "WidgetChannel") {
+                                              if ("identifier" in newJson) {
+                                                subJson = JSON.parse(splitKeyValue[2].replace(/\\/g, ''));
+                                                if (("channel" in subJson) && (subJson.channel == "WidgetChannel")) {
                                                 //console.log("update from widget channel");
-                                                alert("match");
+                                                    alert("match");
+                                                }
                                               }
                                               //console.log(newjson);
                                           }
