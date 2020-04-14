@@ -652,6 +652,7 @@ $(document).on('turbolinks:load', function ()  {
                                     var splitKeyValue;
                                     var newJson;
                                     var subJson;
+                                    var messageReceived;
 
                                     ws.onopen = () => {
                                       const msg = {
@@ -667,21 +668,34 @@ $(document).on('turbolinks:load', function ()  {
                                       	localStorage.setItem(`websocket_update`, `${event.data}`);
                                         message = localStorage.getItem(`websocket_update`);
                                         messageArray = message.split(",");
-                                        for (var msg in messageArray) {
-                                          splitKeyValue = messageArray[msg].match(/{?"([^:]*)":"?(.*)(}|")/);
+                                        splitKeyValue = messageArray[0].match(/{?"([^:]*)":"?(.*)(}|")/);
+                                        // console.log in json format;
+                                        if (splitKeyValue.length > 2) {
+                                            newJson = {};
+                                            newJson[splitKeyValue[1]] = splitKeyValue[2];
+                                            //newJson = JSON.parse(newJson);
+                                            console.log(newJson);
+                                            if ("identifier" in newJson) {
+                                              subJson = JSON.parse(splitKeyValue[2].replace(/\\/g, ''));
+                                              if (("channel" in subJson) && (subJson.channel == "WidgetChannel")) {
+                                              //console.log("update from widget channel");
+                                                  messageReceived = true;
+                                              }
+                                            }
+                                            //console.log(newjson
+                                        }
+
+                                        if (messageReceived && (messageArray.length > 1)) {
+                                          splitKeyValue = messageArray[0].match(/{?"([^:]*)":"?(.*)(}|")/);
                                           if (splitKeyValue.length > 2) {
                                               newJson = {};
                                               newJson[splitKeyValue[1]] = splitKeyValue[2];
                                               //newJson = JSON.parse(newJson);
                                               console.log(newJson);
-                                              if ("identifier" in newJson) {
-                                                subJson = JSON.parse(splitKeyValue[2].replace(/\\/g, ''));
-                                                if (("channel" in subJson) && (subJson.channel == "WidgetChannel")) {
-                                                //console.log("update from widget channel");
-                                                    alert("match");
-                                                }
+                                              if (("message" in newJson) & (newJson.message == "new booking")) {
+                                                 alert("Refresh Clock!");
                                               }
-                                              //console.log(newjson);
+                                              //console.log(newjson
                                           }
                                         }
 
