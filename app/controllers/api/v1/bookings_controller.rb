@@ -67,7 +67,7 @@ class Api::V1::BookingsController < Api::V1::ApiController
       #to notify in real time that a new booking has been made and update the dashboard.
       DashboardChannel.broadcast_to(sports_centre, new_order.bookings)
       ActionCable.server.broadcast "update_widget_#{sports_centre.id}", {
-        message: "Another booking has been made!",
+        "new booking"
       }
       Rails.logger.info("update sent")
 
