@@ -648,6 +648,9 @@ $(document).on('turbolinks:load', function ()  {
                                     // Let us open a web socket
                                     const ws = new WebSocket('wss://weball.com.au/cable');
                       	            var message;
+                                    var messageArray;
+                                    var splitKeyValue;
+                                    var newJson;
 
                                     ws.onopen = () => {
                                       const msg = {
@@ -661,11 +664,25 @@ $(document).on('turbolinks:load', function ()  {
 
                                     ws.onmessage = function(event) {
                                       	localStorage.setItem(`websocket_update`, `${event.data}`);
-                                        message = JSON.parse(localStorage.getItem(`websocket_update`));
-                      	                if (message.type != `ping`) {
-                      		                  alert(event.data);
-                      		                  };
-                                        };
+                                        message = localStorage.getItem(`websocket_update`);
+                                        messageArray = message.split(",");
+                                        for (var msg in messageArray) {
+                                          splitKeyValue = messageArray[msg].match(/{?"([^:]*)":"?(.*)(}|")/);
+                                          alert(splitKeyValue);
+                                          if (splitKeyValue.length > 2) {
+                                              newJson = {};
+                                              newJson[splitKeyValue[1]] = JSON.parse(splitKeyValue[2]);
+                                              //newJson = JSON.parse(newJson);
+                                              console.log(newJson);
+                                              if (newJson.identifier.channel == "WidgetChannel") {
+                                                //console.log("update from widget channel");
+                                                alert("match");
+                                              }
+                                              //console.log(newjson);
+                                          }
+                                        }
+
+                                    }
 
                                     ws.onclose = function() {
                                        // websocket is closed.

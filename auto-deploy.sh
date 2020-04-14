@@ -89,3 +89,7 @@ then run the rails credentials:edit and update the master key locally.
 
 if creating a new server instance, be aware that this will can the public ip and thus the DNS must be
 reconfigured to point to this new ip address.
+
+Do not install redis second hand; always use redis io instructions.
+No need to seperately install redis server.
+Turn protected mode off and bind 0.0.0.0 all interfaces in the config file.
