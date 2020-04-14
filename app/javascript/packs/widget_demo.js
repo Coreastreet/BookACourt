@@ -686,7 +686,7 @@ $(document).on('turbolinks:load', function ()  {
                                         }
 
                                         if (messageReceived && (messageArray.length > 1)) {
-                                          splitKeyValue = messageArray[0].match(/{?"([^:]*)":"?(.*)(}|")/);
+                                          splitKeyValue = messageArray[1].match(/{?"([^:]*)":"?(.*)(}|")/);
                                           if (splitKeyValue.length > 2) {
                                               newJson = {};
                                               newJson[splitKeyValue[1]] = splitKeyValue[2];
