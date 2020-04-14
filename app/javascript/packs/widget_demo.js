@@ -670,7 +670,7 @@ $(document).on('turbolinks:load', function ()  {
                                           splitKeyValue = messageArray[msg].match(/{?"([^:]*)":"?(.*)(}|")/);
                                           if (splitKeyValue.length > 2) {
                                               newJson = {};
-                                              newJson[splitKeyValue[1]] = JSON.parse(splitKeyValue[2]);
+                                              newJson[splitKeyValue[1]] = splitKeyValue[2];
                                               //newJson = JSON.parse(newJson);
                                               console.log(newJson);
                                               if (newJson.identifier.channel == "WidgetChannel") {
