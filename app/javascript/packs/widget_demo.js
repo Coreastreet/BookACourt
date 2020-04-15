@@ -646,7 +646,7 @@ $(document).on('turbolinks:load', function ()  {
                       }
 
                       function bookings_live_update() {
-                        var source = new EventSource('/demo_update');
+                        var source = new EventSource('https://weball.com.au/sports_centres/5/live_update');
                         var updated_bookings_array;
                         var no_courts;
                         var currentDate;

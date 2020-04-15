@@ -12,7 +12,6 @@ Rails.application.routes.draw do
 
   get '/demo', to: 'home#demo', as: "home_demo"
   # listen for sse on updates to demo centre
-  get '/demo_update', to: 'home#demo_update', as: "demo_update"
 
   get '/login', to: 'sessions#new'
   post '/login', to: 'sessions#create'
@@ -24,6 +23,8 @@ Rails.application.routes.draw do
   get "/sports_centres/:id/check_availability", to: "sports_centres#check_availability", as: "sports_centre_check_availability"
   # move to new admin controller later
   get "/sports_centres/:id/user_show", to: "sports_centres#user_show", as: "sports_centre_user"
+  # for sse updates when bookings are changed
+  get '/sports_centres/:id/live_update', to: 'sports_centres#live_update', as: "sports_centre_live_update"
 
   get "/sports_centres/:sports_centre_id/booking_success", to: "sports_centres#booking_success", as: "sports_centre_booking_success"
   get "/sports_centres/:id/booking_failure", to: "sports_centres#booking_failure", as: "sports_centre_booking_failure"
