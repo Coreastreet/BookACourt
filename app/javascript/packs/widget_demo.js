@@ -663,7 +663,7 @@ $(document).on('turbolinks:load', function ()  {
                           currentFormattedDate = currentDate.toLocaleString('en-us', {year: 'numeric', month: '2-digit', day: '2-digit'}).
                           replace(/(\d+)\/(\d+)\/(\d+)/, '$3-$1-$2');
 
-                          bookingMatrix = createBookingMatrix(updated_bookings_array, currentFormattedDate, no_courts);
+                          bookingMatrix = createBookingMatrix(JSON.parse(updated_bookings_array), currentFormattedDate, no_courts);
                           localStorage.setItem("BookingsMatrix", JSON.stringify(bookingMatrix));
                           console.log("updated EventSource");
                           activeTab.click();
