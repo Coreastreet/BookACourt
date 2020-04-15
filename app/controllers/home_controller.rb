@@ -1,5 +1,4 @@
 class HomeController < ApplicationController
-  include ActionController::Live
 
   def index
     # console
@@ -10,5 +9,5 @@ class HomeController < ApplicationController
 
   def demo
   end
-  
+
 end

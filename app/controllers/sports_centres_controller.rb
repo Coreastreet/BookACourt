@@ -1,4 +1,6 @@
 class SportsCentresController < ApplicationController
+  include ActionController::Live
+
   def new
     @sports_centre = SportsCentre.new
     @new_address = Address.new
