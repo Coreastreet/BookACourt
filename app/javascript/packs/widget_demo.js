@@ -651,7 +651,7 @@ $(document).on('turbolinks:load', function ()  {
                         var no_courts;
                         var currentDate;
                         var currentFormattedDate;
-                        var activeTab = $("#tabHolder .tab.active");
+                        var activeTab;
                         source.addEventListener('demo_update', function(event) {
                           //console.log(event.data);
                           updated_bookings_array = JSON.parse(event.data)["bookings"];
@@ -666,6 +666,7 @@ $(document).on('turbolinks:load', function ()  {
                           bookingMatrix = createBookingMatrix(JSON.parse(updated_bookings_array), currentFormattedDate, no_courts);
                           localStorage.setItem("BookingsMatrix", JSON.stringify(bookingMatrix));
                           console.log("updated EventSource");
+                          activeTab = document.querySelector("#tabHolder .tab.active");
                           activeTab.click();
                         });
                       }
