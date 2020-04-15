@@ -653,8 +653,8 @@ $(document).on('turbolinks:load', function ()  {
                         var currentFormattedDate;
                         var activeTab = $("#tabHolder .tab.active");
                         source.addEventListener('demo_update', function(event) {
-                          console.log(event.data);
-                          updated_bookings_array = JSON.stringify(JSON.parse(event.data["bookings"]));
+                          //console.log(event.data);
+                          updated_bookings_array = JSON.stringify((JSON.parse(event.data))["bookings"]);
                           localStorage.setItem("bookings_array", updated_bookings_array);
 
                           currentDate = new Date(document.querySelector("#dateHolder").value);
@@ -664,7 +664,6 @@ $(document).on('turbolinks:load', function ()  {
                           replace(/(\d+)\/(\d+)\/(\d+)/, '$3-$1-$2');
 
                           bookingMatrix = createBookingMatrix(bookings_array, currentFormattedDate, no_courts);
-
                           console.log("updated EventSource");
                           activeTab.click();
                         });
