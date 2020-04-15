@@ -105,6 +105,7 @@ $(document).on('turbolinks:load', function ()  {
                          replace(/(\d+)\/(\d+)\/(\d+)/, '$3-$1-$2');
 
                          //console.log(stringFormattedDate);
+                         bookings_array = JSON.parse(localStorage.getItem("bookings_array"));
                          bookingMatrix = createBookingMatrix(bookings_array, stringFormattedDate, numberOfCourts);
                          //console.log("matrix", bookingMatrix);
                          //console.log("date", stringFormattedDate);
@@ -124,6 +125,7 @@ $(document).on('turbolinks:load', function ()  {
 
                          halfCourtTab.addEventListener("click", function() {
                            //drawClock(ctx, radius);
+                           bookingMatrix = JSON.parse(localStorage.getItem("BookingsMatrix"));
                            mainClockCard.find("#tabHolder").attr("data-courtType", "halfCourt");
                            bookingSchedule = check_availability("halfCourt", bookingMatrix);
                            localStorage.setItem("currentBookings", JSON.stringify(bookingSchedule));
@@ -148,6 +150,8 @@ $(document).on('turbolinks:load', function ()  {
 
                          //console.log("full-Court schedule", bookingS);
                          fullCourtTab.addEventListener("click", function() {
+                           // refer to local storage booking matrix each time.
+                           bookingMatrix = JSON.parse(localStorage.getItem("BookingsMatrix"));
                            mainClockCard.find("#tabHolder").attr("data-courtType", "fullCourt");
                            bookingSchedule = check_availability("fullCourt", bookingMatrix);
                            //console.log("bookingSchedule", bookingSchedule);
@@ -593,8 +597,8 @@ $(document).on('turbolinks:load', function ()  {
                             var dateSelected = e.data.dateSelected;
                             var bookingSchedule = e.data.bookingSchedule;
 
-                            var boundingRect = canvas2.getBoundingClientRect();
                             var pos = getMousePos(canvas2, e);
+                            var boundingRect = canvas2.getBoundingClientRect();
                             //console.log(pos);
                             if (isIntersect(pos, circles[0])) {
                               //alert(dateSelected);
@@ -641,79 +645,29 @@ $(document).on('turbolinks:load', function ()  {
                          return newTime;
                       }
 
-                      function WebSocketTest() {
+                      function bookings_live_update() {
+                        var source = new EventSource('/demo_update');
+                        var updated_bookings_array;
+                        var no_courts;
+                        var currentDate;
+                        var currentFormattedDate;
+                        var activeTab = $("#tabHolder .tab.active");
+                        source.addEventListener('demo_update', function(event) {
+                          updated_bookings_array = JSON.stringify(JSON.parse(event.data[bookings]));
+                          localStorage.setItem("bookings_array", updated_bookings_array);
 
-                                 if ("WebSocket" in window) {
-                                    alert("WebSocket is supported by your Browser!");
-                                    // Let us open a web socket
-                                    const ws = new WebSocket('wss://weball.com.au/cable');
-                      	            var message;
-                                    var messageArray;
-                                    var splitKeyValue;
-                                    var newJson;
-                                    var subJson;
-                                    var messageReceived;
+                          currentDate = new Date(document.querySelector("#dateHolder").value);
 
-                                    ws.onopen = () => {
-                                      const msg = {
-                                        command: 'subscribe',
-                                        identifier: JSON.stringify({
-                                          channel: 'WidgetChannel'
-                                        }),
-                                      };
-                                      ws.send(JSON.stringify(msg));
-                                    };
+                          no_courts = localStorage.getItem("numberOfCourts");
+                          currentFormattedDate = currentDate.toLocaleString('en-us', {year: 'numeric', month: '2-digit', day: '2-digit'}).
+                          replace(/(\d+)\/(\d+)\/(\d+)/, '$3-$1-$2');
 
-                                    ws.onmessage = function(event) {
-                                      	localStorage.setItem(`websocket_update`, `${event.data}`);
-                                        message = localStorage.getItem(`websocket_update`);
-                                        messageArray = message.split(",");
-                                        splitKeyValue = messageArray[0].match(/{?"([^:]*)":"?(.*)(}|")/);
-                                        // console.log in json format;
-                                        if (splitKeyValue.length > 2) {
-                                            newJson = {};
-                                            newJson[splitKeyValue[1]] = splitKeyValue[2];
-                                            //newJson = JSON.parse(newJson);
-                                            console.log(newJson);
-                                            if ("identifier" in newJson) {
-                                              subJson = JSON.parse(splitKeyValue[2].replace(/\\/g, ''));
-                                              if (("channel" in subJson) && (subJson.channel == "WidgetChannel")) {
-                                              //console.log("update from widget channel");
-                                                  messageReceived = true;
-                                              }
-                                            }
-                                            //console.log(newjson
-                                        }
+                          bookingMatrix = createBookingMatrix(bookings_array, currentFormattedDate, no_courts);
 
-                                        if (messageReceived && (messageArray.length > 1)) {
-                                          splitKeyValue = messageArray[1].match(/{?"([^:]*)":"?(.*)(}|")/);
-                                          if (splitKeyValue.length > 2) {
-                                              newJson = {};
-                                              newJson[splitKeyValue[1]] = splitKeyValue[2];
-                                              //newJson = JSON.parse(newJson);
-                                              console.log(newJson);
-                                              if ("message" in newJson) {
-                                                 newJson = JSON.parse(newJson.message);
-                                                 if (newJson.message == "new booking") {
-                                                   alert("Refresh Clock!");
-                                                 }
-                                              }
-                                              //console.log(newjson
-                                          }
-                                        }
-
-                                    }
-
-                                    ws.onclose = function() {
-                                       // websocket is closed.
-                                       alert("Connection is closed...");
-                                    };
-                                 } else {
-                                    // The browser doesn't support WebSocket
-                                    alert("WebSocket NOT supported by your Browser!");
-                                 }
+                          console.log("updated EventSource");
+                          activeTab.click();
+                        });
                       }
-
 
                       // enable the clear time button
                       // fetch booking data for a particular sports centre.
@@ -801,11 +755,12 @@ $(document).on('turbolinks:load', function ()  {
                           //console.log("halfCourt", bookingSchedule);
                           localStorage.setItem("BookingsMatrix", JSON.stringify(bookingMatrix));
                           // create a continuous connection with the localhost
-                          WebSocketTest();
+                          bookings_live_update();
 
                           halfCourtTab.addEventListener( "click", function() {
                             //drawClock(ctx, radius);
                             //console.log("halfCourt", bookingSchedule);
+                            bookingMatrix = JSON.parse(localStorage.getItem("BookingsMatrix"));
                             mainClockCard.find("#tabHolder").attr("data-courtType", "halfCourt");
                             bookingSchedule = check_availability("halfCourt", bookingMatrix);
                             localStorage.setItem("currentBookings", JSON.stringify(bookingSchedule));
@@ -831,6 +786,8 @@ $(document).on('turbolinks:load', function ()  {
                           // set up the full court tab - am and pm buttons
                           // right now, booking schedule only returns the array hash for half court availability.
                           fullCourtTab.addEventListener( "click", function() {
+                            //
+                            bookingMatrix = JSON.parse(localStorage.getItem("BookingsMatrix"));
                             mainClockCard.find("#tabHolder").attr("data-courtType", "fullCourt");
                             //console.log(mainClockCard.find("#tabHolder")[0]);
                             bookingSchedule = check_availability("fullCourt", bookingMatrix);

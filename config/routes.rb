@@ -11,6 +11,9 @@ Rails.application.routes.draw do
   end
 
   get '/demo', to: 'home#demo', as: "home_demo"
+  # listen for sse on updates to demo centre
+  get '/demo_update', to: 'home#demo_update', as: "demo_update"
+
   get '/login', to: 'sessions#new'
   post '/login', to: 'sessions#create'
   delete '/logout', to: 'sessions#destroy'
