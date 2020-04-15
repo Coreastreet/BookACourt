@@ -24,7 +24,6 @@ Rails.application.routes.draw do
   # move to new admin controller later
   get "/sports_centres/:id/user_show", to: "sports_centres#user_show", as: "sports_centre_user"
   # for sse updates when bookings are changed
-  get '/sports_centres/:id/live_update', to: 'sports_centres#live_update', as: "sports_centre_live_update"
 
   get "/sports_centres/:sports_centre_id/booking_success", to: "sports_centres#booking_success", as: "sports_centre_booking_success"
   get "/sports_centres/:id/booking_failure", to: "sports_centres#booking_failure", as: "sports_centre_booking_failure"
@@ -68,10 +67,12 @@ Rails.application.routes.draw do
 
   post "admin/sports_centres/:id/check_pin", to: "admin#check_pin", as: "admin_check_pin"
   # api versioning
+
   namespace :api do
     namespace :v1, defaults: {format: 'json'} do
         resources :sports_centres, only: [:show] do
           get "confirm_email", on: :member
+          get "live_update", on: :member
           post "payment_nudge", on: :member
           resource :bookings, shallow: true, only: [:create] do
             post "initiate", on: :collection
