@@ -653,7 +653,8 @@ $(document).on('turbolinks:load', function ()  {
                         var currentFormattedDate;
                         var activeTab = $("#tabHolder .tab.active");
                         source.addEventListener('demo_update', function(event) {
-                          updated_bookings_array = JSON.stringify(JSON.parse(event.data[bookings]));
+                          console.log(event.data);
+                          updated_bookings_array = JSON.stringify(JSON.parse(event.data["bookings"]));
                           localStorage.setItem("bookings_array", updated_bookings_array);
 
                           currentDate = new Date(document.querySelector("#dateHolder").value);
