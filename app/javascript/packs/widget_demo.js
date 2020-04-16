@@ -759,6 +759,12 @@ $(document).on('turbolinks:load', function ()  {
                           // create a continuous connection with the localhost
                           bookings_live_update();
 
+                          if (now.getHours() < 12) {
+                               canvas.attr('data-ampm', 'AM');
+                          } else {
+                               canvas.attr('data-ampm', 'PM');
+                          };
+
                           halfCourtTab.addEventListener( "click", function() {
                             //drawClock(ctx, radius);
                             //console.log("halfCourt", bookingSchedule);

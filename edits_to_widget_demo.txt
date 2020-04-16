@@ -1,0 +1,5 @@
+
+1. Attach data-ampm to canvas element
+2. On first load attach the AM or PM setting based on current time.
+3. On selection of am pm button, change the data-ampm attribute accordingly.
+4. When loading new date or live update use the am pm data attribute not the current time.
