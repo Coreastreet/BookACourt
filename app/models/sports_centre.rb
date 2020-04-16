@@ -27,14 +27,17 @@ class SportsCentre < ApplicationRecord
   end
 
   def on_bookings_change
-    ActiveRecord::Base.connection_pool.with_connection do |connection|
-      begin
-        execute_query(connection, ["LISTEN sports_centre_?", id])
-        connection.raw_connection.wait_for_notify do |event, pid, status|
-          yield status
+    Thread.new do
+      ActiveRecord::Base.connection_pool.with_connection do |connection|
+        begin
+          execute_query(connection, ["LISTEN sports_centre_?", id])
+          connection.raw_connection.wait_for_notify do |event, pid, status|
+            yield status
+          end
+        ensure
+          execute_query(connection, ["UNLISTEN sports_centre_?", id])
+          ActiveRecord::Base.connection_pool.release_connection
         end
-      ensure
-        execute_query(connection, ["UNLISTEN sports_centre_?", id])
       end
     end
   end
