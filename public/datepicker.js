@@ -642,29 +642,40 @@ function convertAMPMToString(ampmTime) {
 }
 
 function bookings_live_update(sports_centre_id) {
-  var source = new EventSource(`https://weball.com.au/api/v1/sports_centres/${sports_centre_id}/live_update`);
+  var source = new EventSource(`https://weball.com.au/sub/${sports_centre_id}`);
   var updated_bookings_array;
   var no_courts;
   var currentDate;
   var currentFormattedDate;
   var activeTab;
-  source.addEventListener('live_update', function(event) {
-    //console.log(event.data);
-    updated_bookings_array = JSON.parse(event.data)["bookings"];
-    localStorage.setItem("bookings_array", updated_bookings_array);
+  var decodedData;
+  source.onopen = function() {
+     console.log('connection to stream has been opened');
+  };
+  source.onerror = function (error) {
+    console.log('An error has occurred while receiving stream', error);
+  };
+  source.onmessage = function (event) {
+    console.log('received stream');
+    console.log(event);
+    decodedData = JSON.parse(event.data);
+    if (decodedData.event == "live_update") {
+      updated_bookings_array = decodedData.bookings;
+      localStorage.setItem("bookings_array", updated_bookings_array);
 
-    currentDate = new Date(document.querySelector("#dateHolder").value);
+      currentDate = new Date(document.querySelector("#dateHolder").value);
 
-    no_courts = localStorage.getItem("numberOfCourts");
-    currentFormattedDate = currentDate.toLocaleString('en-us', {year: 'numeric', month: '2-digit', day: '2-digit'}).
-    replace(/(\d+)\/(\d+)\/(\d+)/, '$3-$1-$2');
+      no_courts = localStorage.getItem("numberOfCourts");
+      currentFormattedDate = currentDate.toLocaleString('en-us', {year: 'numeric', month: '2-digit', day: '2-digit'}).
+      replace(/(\d+)\/(\d+)\/(\d+)/, '$3-$1-$2');
 
-    bookingMatrix = createBookingMatrix(JSON.parse(updated_bookings_array), currentFormattedDate, no_courts);
-    localStorage.setItem("BookingsMatrix", JSON.stringify(bookingMatrix));
-    console.log("updated EventSource");
-    activeTab = document.querySelector("#tabHolder .tab.active");
-    activeTab.click();
-  });
+      bookingMatrix = createBookingMatrix(JSON.parse(updated_bookings_array), currentFormattedDate, no_courts);
+      localStorage.setItem("BookingsMatrix", JSON.stringify(bookingMatrix));
+      console.log("updated EventSource");
+      activeTab = document.querySelector("#tabHolder .tab.active");
+      activeTab.click();
+    }
+  };
 }
 
 // enable the clear time button
