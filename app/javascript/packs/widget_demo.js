@@ -648,7 +648,8 @@ $(document).on('turbolinks:load', function ()  {
                       }
 
                       function bookings_live_update(sports_centre_id) {
-                        var source = new EventSource(`https://weball.com.au/pub/${sports_centre_id}`);
+                        console.log(sports_centre_id);
+                        var source = new EventSource(`https://weball.com.au/sub/${sports_centre_id}`);
                         var updated_bookings_array;
                         var no_courts;
                         var currentDate;
@@ -662,11 +663,6 @@ $(document).on('turbolinks:load', function ()  {
                         };
                         source.onmessage = function (event) {
                           console.log('received stream');
-                          if (!event) {
-                            source.close();
-                          } else {
-                           console.log(event);
-                          }
                         };
                         source.addEventListener('live_update', function(event) {
                           //console.log(event.data);

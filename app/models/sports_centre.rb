@@ -22,7 +22,8 @@ class SportsCentre < ApplicationRecord
 
   def notify_bookings_changed
      require "rest-client"
-     response.headers['Content-Type'] = 'text/event-stream'
-     RestClient.post "https://weball.com.au/pub/#{id}", {data: bookings.to_json}, {content_type: "event-stream"}
+     #response.headers['Content-Type'] = 'text/event-stream'
+     logger.info "check id #{id}"
+     RestClient.post "https://weball.com.au/pub/#{id}", {data: bookings.to_json, event: "live_update"}
   end
 end
