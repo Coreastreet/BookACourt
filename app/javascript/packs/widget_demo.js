@@ -654,6 +654,20 @@ $(document).on('turbolinks:load', function ()  {
                         var currentDate;
                         var currentFormattedDate;
                         var activeTab;
+                        source.onopen = function() {
+                           console.log('connection to stream has been opened');
+                        };
+                        source.onerror = function (error) {
+                          console.log('An error has occurred while receiving stream', error);
+                        };
+                        source.onmessage = function (event) {
+                          console.log('received stream');
+                          if (!event) {
+                            source.close();
+                          } else {
+                           console.log(event);
+                          }
+                        };
                         source.addEventListener('live_update', function(event) {
                           //console.log(event.data);
                           updated_bookings_array = JSON.parse(event.data)["bookings"];
