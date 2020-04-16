@@ -12,7 +12,6 @@ Rails.application.routes.draw do
 
   get '/demo', to: 'home#demo', as: "home_demo"
   # listen for sse on updates to demo centre
-  get '/:id/live_update', to: 'home#live_update', as: "home_live_update"
 
   get '/login', to: 'sessions#new'
   post '/login', to: 'sessions#create'
@@ -73,6 +72,7 @@ Rails.application.routes.draw do
     namespace :v1, defaults: {format: 'json'} do
         resources :sports_centres, only: [:show] do
           get "confirm_email", on: :member
+          get "live_update", on: :member
           post "payment_nudge", on: :member
           resource :bookings, shallow: true, only: [:create] do
             post "initiate", on: :collection
