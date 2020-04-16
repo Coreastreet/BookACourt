@@ -16,7 +16,7 @@ class HomeController < ApplicationController
     response.headers['Content-Type'] = 'text/event-stream'
     sse = SSE.new(response.stream, retry: 5000)
     id = 0
-    sports_centre = SportsCentre.find(5)
+    sports_centre = SportsCentre.find(params[:id])
     begin
         sports_centre.on_bookings_change do |sports_centre_id|
           #if (status == "new_booking")
