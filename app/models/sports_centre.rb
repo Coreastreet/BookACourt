@@ -21,9 +21,8 @@ class SportsCentre < ApplicationRecord
   accepts_nested_attributes_for :contacts
 
   def notify_bookings_changed
-     require "rest-client"
      #response.headers['Content-Type'] = 'text/event-stream'
-     logger.info "check id #{id}"
-     RestClient.post "https://weball.com.au/pub/#{id}", {data: bookings.to_json, event: "live_update"}
+     #logger.info "check id #{id}"
+     RestClient.post "https://weball.com.au/pub/#{id}", {data: bookings.to_json.html_safe, event: "live_update"}
   end
 end
