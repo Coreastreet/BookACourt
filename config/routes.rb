@@ -12,7 +12,7 @@ Rails.application.routes.draw do
 
   get '/demo', to: 'home#demo', as: "home_demo"
   # listen for sse on updates to demo centre
-  get '/live_update', to: 'home#live_update', as: "home_live_update"
+  get '/:id/live_update', to: 'home#live_update', as: "home_live_update"
 
   get '/login', to: 'sessions#new'
   post '/login', to: 'sessions#create'
