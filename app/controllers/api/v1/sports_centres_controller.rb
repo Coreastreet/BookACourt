@@ -60,7 +60,7 @@ class Api::V1::SportsCentresController < Api::V1::ApiController
   def live_update
     logger.info "This is the session id #{session[:centre_id] if session[:centre_id].present?}"
     response.headers['Content-Type'] = 'text/event-stream'
-    sse = SSE.new(response.stream, retry: 5000)
+    sse = SSE.new(response.stream, retry: 300)
     id = 0
     sports_centre = SportsCentre.find(params[:id])
     begin
