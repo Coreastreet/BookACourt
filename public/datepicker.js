@@ -119,7 +119,7 @@ BookingWidget.$('[data-provide="datepicker"]').datepicker({
      mainClockCard.find("#tabHolder").attr("data-courtType", "halfCourt");
      bookingSchedule = check_availability("halfCourt", bookingMatrix);
      localStorage.setItem("currentBookings", JSON.stringify(bookingSchedule));
-     if (now.getHours() < 12) {
+     if (canvas.attr('data-ampm') == 'AM') {
         //console.log("AM now", now);
          drawBookedTimes(ctx, radius, stringFormattedDate, bookingSchedule, 'AM');
      } else {
@@ -144,7 +144,7 @@ BookingWidget.$('[data-provide="datepicker"]').datepicker({
      bookingSchedule = check_availability("fullCourt", bookingMatrix);
      //console.log("bookingSchedule", bookingSchedule);
      localStorage.setItem("currentBookings", JSON.stringify(bookingSchedule));
-     if (now.getHours() < 12) {
+     if (canvas.attr('data-ampm') == 'AM') {
          //console.log("AM now", now);
          drawBookedTimes(ctx, radius, stringFormattedDate, bookingSchedule, 'AM');
      } else {
@@ -597,10 +597,12 @@ function attachCode(e) {
       if (isIntersect(pos, circles[0])) {
         //alert(dateSelected);
         drawBookedTimes(ctx, radius, dateSelected, bookingSchedule, 'AM');
+        canvas.attr('data-ampm', 'AM');
       }
       if (isIntersect(pos, circles[1])) {
         //alert(dateSelected);
         drawBookedTimes(ctx, radius, dateSelected, bookingSchedule, 'PM');
+        canvas.attr('data-ampm', 'PM');
       }
 }
 
@@ -752,6 +754,12 @@ request.onload = function(e) {
 
     bookings_live_update(sportsCentreId);
 
+    if (now.getHours() < 12) {
+         canvas.attr('data-ampm', 'AM');
+    } else {
+         canvas.attr('data-ampm', 'PM');
+    };
+
     halfCourtTab.addEventListener( "click", function() {
       //drawClock(ctx, radius);
       //console.log("halfCourt", bookingSchedule);
@@ -759,7 +767,7 @@ request.onload = function(e) {
       bookingSchedule = check_availability("halfCourt", bookingMatrix);
       localStorage.setItem("currentBookings", JSON.stringify(bookingSchedule));
 
-      if (now.getHours() < 12) {
+      if (canvas.attr('data-ampm') == 'AM') {
           drawBookedTimes(ctx, radius, now, bookingSchedule, 'AM');
       } else {
           drawBookedTimes(ctx, radius, now, bookingSchedule, 'PM');
@@ -785,7 +793,7 @@ request.onload = function(e) {
       bookingSchedule = check_availability("fullCourt", bookingMatrix);
       localStorage.setItem("currentBookings", JSON.stringify(bookingSchedule));
 
-      if (now.getHours() < 12) {
+      if (canvas.attr('data-ampm') == 'AM') {
           drawBookedTimes(ctx, radius, now, bookingSchedule, 'AM');
       } else {
           drawBookedTimes(ctx, radius, now, bookingSchedule, 'PM');
@@ -827,7 +835,7 @@ clearTimeButton.addEventListener("click", function(event) {
   var bookingSchedule = JSON.parse(localStorage.getItem("currentBookings"));
   //console.log(bookingSchedule2);
   //drawClock(ctx, radius);
-  if (now.getHours() < 12) {
+  if (canvas.attr('data-ampm') == 'AM') {
     drawBookedTimes(ctx, radius, formattedCurrentDate, bookingSchedule, 'AM');
   } else {
     drawBookedTimes(ctx, radius, formattedCurrentDate, bookingSchedule, 'PM');
