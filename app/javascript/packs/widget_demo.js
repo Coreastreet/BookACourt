@@ -667,7 +667,7 @@ $(document).on('turbolinks:load', function ()  {
                           console.log(event);
                           decodedData = decodeLiveEvent(event.data);
                           if (decodedData.event == "live_update") {
-                            updated_bookings_array = decodedData.data;
+                            updated_bookings_array = decodedData.bookings;
                             localStorage.setItem("bookings_array", updated_bookings_array);
 
                             currentDate = new Date(document.querySelector("#dateHolder").value);
