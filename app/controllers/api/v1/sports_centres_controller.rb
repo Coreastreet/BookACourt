@@ -71,8 +71,11 @@ class Api::V1::SportsCentresController < Api::V1::ApiController
             id = id + 1
             #sse.write({ name: status }, id: 10, event: "demo_update")
         end
+    rescue IOError
+        logger.info "client disconnected"
+    # client disconnected
     ensure
-      sse.close
+        sse.close
     end
   end
 
