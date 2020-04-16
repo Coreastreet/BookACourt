@@ -640,7 +640,7 @@ function convertAMPMToString(ampmTime) {
 }
 
 function bookings_live_update(sports_centre_id) {
-  var source = new EventSource(`https://weball.com.au/api/v1/${sports_centre_id}/5/live_update`);
+  var source = new EventSource(`https://weball.com.au/api/v1/${sports_centre_id}/live_update`);
   var updated_bookings_array;
   var no_courts;
   var currentDate;
