@@ -639,6 +639,32 @@ function convertAMPMToString(ampmTime) {
    return newTime;
 }
 
+function bookings_live_update(sports_centre_id) {
+  var source = new EventSource(`https://weball.com.au/api/v1/${sports_centre_id}/5/live_update`);
+  var updated_bookings_array;
+  var no_courts;
+  var currentDate;
+  var currentFormattedDate;
+  var activeTab;
+  source.addEventListener('live_update', function(event) {
+    //console.log(event.data);
+    updated_bookings_array = JSON.parse(event.data)["bookings"];
+    localStorage.setItem("bookings_array", updated_bookings_array);
+
+    currentDate = new Date(document.querySelector("#dateHolder").value);
+
+    no_courts = localStorage.getItem("numberOfCourts");
+    currentFormattedDate = currentDate.toLocaleString('en-us', {year: 'numeric', month: '2-digit', day: '2-digit'}).
+    replace(/(\d+)\/(\d+)\/(\d+)/, '$3-$1-$2');
+
+    bookingMatrix = createBookingMatrix(JSON.parse(updated_bookings_array), currentFormattedDate, no_courts);
+    localStorage.setItem("BookingsMatrix", JSON.stringify(bookingMatrix));
+    console.log("updated EventSource");
+    activeTab = document.querySelector("#tabHolder .tab.active");
+    activeTab.click();
+  });
+}
+
 // enable the clear time button
 // fetch booking data for a particular sports centre.
 var sportsCentreId = document.querySelector("#weBallWidget").getAttribute("data-sportsCentreId");
@@ -723,6 +749,8 @@ request.onload = function(e) {
     // set up the half court tab - am and pm buttons
     //console.log("halfCourt", bookingSchedule);
     localStorage.setItem("BookingsMatrix", JSON.stringify(bookingMatrix));
+
+    bookings_live_update(sportsCentreId);
 
     halfCourtTab.addEventListener( "click", function() {
       //drawClock(ctx, radius);

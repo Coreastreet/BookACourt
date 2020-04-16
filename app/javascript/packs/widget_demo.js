@@ -129,7 +129,7 @@ $(document).on('turbolinks:load', function ()  {
                            mainClockCard.find("#tabHolder").attr("data-courtType", "halfCourt");
                            bookingSchedule = check_availability("halfCourt", bookingMatrix);
                            localStorage.setItem("currentBookings", JSON.stringify(bookingSchedule));
-                           if (now.getHours() < 12) {
+                           if (canvas.attr('data-ampm') == 'AM') {
                               //console.log("AM now", now);
                                drawBookedTimes(ctx, radius, stringFormattedDate, bookingSchedule, 'AM');
                            } else {
@@ -156,7 +156,7 @@ $(document).on('turbolinks:load', function ()  {
                            bookingSchedule = check_availability("fullCourt", bookingMatrix);
                            //console.log("bookingSchedule", bookingSchedule);
                            localStorage.setItem("currentBookings", JSON.stringify(bookingSchedule));
-                           if (now.getHours() < 12) {
+                           if (canvas.attr('data-ampm') == 'AM') {
                                //console.log("AM now", now);
                                drawBookedTimes(ctx, radius, stringFormattedDate, bookingSchedule, 'AM');
                            } else {
@@ -603,10 +603,12 @@ $(document).on('turbolinks:load', function ()  {
                             if (isIntersect(pos, circles[0])) {
                               //alert(dateSelected);
                               drawBookedTimes(ctx, radius, dateSelected, bookingSchedule, 'AM');
+                              canvas.attr('data-ampm', 'AM');
                             }
                             if (isIntersect(pos, circles[1])) {
                               //alert(dateSelected);
                               drawBookedTimes(ctx, radius, dateSelected, bookingSchedule, 'PM');
+                              canvas.attr('data-ampm', 'PM');
                             }
                       }
 
@@ -773,7 +775,7 @@ $(document).on('turbolinks:load', function ()  {
                             bookingSchedule = check_availability("halfCourt", bookingMatrix);
                             localStorage.setItem("currentBookings", JSON.stringify(bookingSchedule));
 
-                            if (now.getHours() < 12) {
+                            if (canvas.attr('data-ampm') == 'AM') {
                                 drawBookedTimes(ctx, radius, now, bookingSchedule, 'AM');
                             } else {
                                 drawBookedTimes(ctx, radius, now, bookingSchedule, 'PM');
@@ -801,7 +803,7 @@ $(document).on('turbolinks:load', function ()  {
                             bookingSchedule = check_availability("fullCourt", bookingMatrix);
                             localStorage.setItem("currentBookings", JSON.stringify(bookingSchedule));
 
-                            if (now.getHours() < 12) {
+                            if (canvas.attr('data-ampm') == 'AM') {
                                 drawBookedTimes(ctx, radius, now, bookingSchedule, 'AM');
                             } else {
                                 drawBookedTimes(ctx, radius, now, bookingSchedule, 'PM');
@@ -843,7 +845,7 @@ $(document).on('turbolinks:load', function ()  {
                         var bookingSchedule = JSON.parse(localStorage.getItem("currentBookings"));
                         //console.log(bookingSchedule2);
                         //drawClock(ctx, radius);
-                        if (now.getHours() < 12) {
+                        if (canvas.attr('data-ampm') == 'AM') {
                           drawBookedTimes(ctx, radius, formattedCurrentDate, bookingSchedule, 'AM');
                         } else {
                           drawBookedTimes(ctx, radius, formattedCurrentDate, bookingSchedule, 'PM');
