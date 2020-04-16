@@ -57,28 +57,6 @@ class Api::V1::SportsCentresController < Api::V1::ApiController
     end
   end
 
-  def live_update
-    logger.info "This is the session id #{session[:centre_id] if session[:centre_id].present?}"
-    response.headers['Content-Type'] = 'text/event-stream'
-    sse = SSE.new(response.stream, retry: 300)
-    id = 0
-    sports_centre = SportsCentre.find(params[:id])
-    begin
-        sports_centre.on_bookings_change do |sports_centre_id|
-          #if (status == "new_booking")
-            @bookings = sports_centre.bookings.to_json.html_safe
-            sse.write({ bookings: @bookings }, id: id, event: "live_update")
-            id = id + 1
-            #sse.write({ name: status }, id: 10, event: "demo_update")
-        end
-    rescue IOError
-        logger.info "client disconnected"
-    # client disconnected
-    ensure
-        sse.close
-    end
-  end
-
   private
 
   def key_params
