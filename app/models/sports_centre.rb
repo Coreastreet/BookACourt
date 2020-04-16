@@ -19,4 +19,10 @@ class SportsCentre < ApplicationRecord
   has_many :contacts, dependent: :destroy
   has_many :payments
   accepts_nested_attributes_for :contacts
+
+  def notify_bookings_changed
+     require "rest-client"
+     response.headers['Content-Type'] = 'text/event-stream'
+     RestClient.post "https://weball.com.au/pub/#{id}", {data: bookings.to_json}, {content_type: "event-stream"}
+  end
 end

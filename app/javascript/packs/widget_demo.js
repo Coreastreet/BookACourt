@@ -647,8 +647,8 @@ $(document).on('turbolinks:load', function ()  {
                          return newTime;
                       }
 
-                      function bookings_live_update() {
-                        var source = new EventSource('https://weball.com.au/api/v1/sports_centres/5/live_update');
+                      function bookings_live_update(sports_centre_id) {
+                        var source = new EventSource(`https://weball.com.au/pub/${sports_centre_id}`);
                         var updated_bookings_array;
                         var no_courts;
                         var currentDate;
@@ -773,7 +773,7 @@ $(document).on('turbolinks:load', function ()  {
                           //console.log("halfCourt", bookingSchedule);
                           localStorage.setItem("BookingsMatrix", JSON.stringify(bookingMatrix));
                           // create a continuous connection with the localhost
-                          bookings_live_update();
+                          bookings_live_update(sportsCentreId);
 
                           if (now.getHours() < 12) {
                                canvas.attr('data-ampm', 'AM');
