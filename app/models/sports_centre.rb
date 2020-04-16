@@ -24,6 +24,6 @@ class SportsCentre < ApplicationRecord
      require "json"
      #response.headers['Content-Type'] = 'text/event-stream'
      #logger.info "check id #{id}"
-     RestClient.post "https://weball.com.au/pub/#{id}", {bookings: bookings.to_json.html_safe, event: "live_update"}
+     RestClient.post "https://weball.com.au/pub/#{id}",  {event: "live_update", bookings: bookings.to_json.html_safe}.to_json, {content_type: :json, accept: :json}
   end
 end
