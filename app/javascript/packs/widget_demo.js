@@ -652,7 +652,7 @@ $(document).on('turbolinks:load', function ()  {
                         var currentDate;
                         var currentFormattedDate;
                         var activeTab;
-                        source.addEventListener('demo_update', function(event) {
+                        source.addEventListener('live_update', function(event) {
                           //console.log(event.data);
                           updated_bookings_array = JSON.parse(event.data)["bookings"];
                           localStorage.setItem("bookings_array", updated_bookings_array);
