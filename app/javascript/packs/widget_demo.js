@@ -655,6 +655,7 @@ $(document).on('turbolinks:load', function ()  {
                         var currentDate;
                         var currentFormattedDate;
                         var activeTab;
+                        var decodedData;
                         source.onopen = function() {
                            console.log('connection to stream has been opened');
                         };
@@ -664,24 +665,33 @@ $(document).on('turbolinks:load', function ()  {
                         source.onmessage = function (event) {
                           console.log('received stream');
                           console.log(event);
+                          decodedData = decodeLiveEvent(event.data);
+                          if (decodedData.event == "live_update") {
+                            updated_bookings_array = decodedData.data;
+                            localStorage.setItem("bookings_array", updated_bookings_array);
+
+                            currentDate = new Date(document.querySelector("#dateHolder").value);
+
+                            no_courts = localStorage.getItem("numberOfCourts");
+                            currentFormattedDate = currentDate.toLocaleString('en-us', {year: 'numeric', month: '2-digit', day: '2-digit'}).
+                            replace(/(\d+)\/(\d+)\/(\d+)/, '$3-$1-$2');
+
+                            bookingMatrix = createBookingMatrix(JSON.parse(updated_bookings_array), currentFormattedDate, no_courts);
+                            localStorage.setItem("BookingsMatrix", JSON.stringify(bookingMatrix));
+                            console.log("updated EventSource");
+                            activeTab = document.querySelector("#tabHolder .tab.active");
+                            activeTab.click();
+                          }
                         };
-                        source.addEventListener('live_update', function(event) {
-                          //console.log(event.data);
-                          updated_bookings_array = JSON.parse(event.data)["bookings"];
-                          localStorage.setItem("bookings_array", updated_bookings_array);
+                      }
 
-                          currentDate = new Date(document.querySelector("#dateHolder").value);
-
-                          no_courts = localStorage.getItem("numberOfCourts");
-                          currentFormattedDate = currentDate.toLocaleString('en-us', {year: 'numeric', month: '2-digit', day: '2-digit'}).
-                          replace(/(\d+)\/(\d+)\/(\d+)/, '$3-$1-$2');
-
-                          bookingMatrix = createBookingMatrix(JSON.parse(updated_bookings_array), currentFormattedDate, no_courts);
-                          localStorage.setItem("BookingsMatrix", JSON.stringify(bookingMatrix));
-                          console.log("updated EventSource");
-                          activeTab = document.querySelector("#tabHolder .tab.active");
-                          activeTab.click();
-                        });
+                      function decodeLiveEvent(params) {
+                        params.split('&').map(function(i) {
+                            return i.split('=');
+                        }).reduce(function(memo, i) {
+                            memo[i[0]] = i[1] == +i[1] ? parseFloat(i[1],10) : decodeURIComponent(i[1]);
+                            return memo;
+                        }, {});
                       }
 
                       // enable the clear time button
