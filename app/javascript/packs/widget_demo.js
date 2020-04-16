@@ -665,7 +665,7 @@ $(document).on('turbolinks:load', function ()  {
                         source.onmessage = function (event) {
                           console.log('received stream');
                           console.log(event);
-                          decodedData = decodeLiveEvent(event.data);
+                          decodedData = JSON.parse(event.data);
                           if (decodedData.event == "live_update") {
                             updated_bookings_array = decodedData.bookings;
                             localStorage.setItem("bookings_array", updated_bookings_array);
@@ -683,15 +683,6 @@ $(document).on('turbolinks:load', function ()  {
                             activeTab.click();
                           }
                         };
-                      }
-
-                      function decodeLiveEvent(params) {
-                        params.split('&').map(function(i) {
-                            return i.split('=');
-                        }).reduce(function(memo, i) {
-                            memo[i[0]] = i[1] == +i[1] ? parseFloat(i[1],10) : decodeURIComponent(i[1]);
-                            return memo;
-                        }, {});
                       }
 
                       // enable the clear time button
