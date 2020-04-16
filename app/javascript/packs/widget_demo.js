@@ -663,6 +663,7 @@ $(document).on('turbolinks:load', function ()  {
                         };
                         source.onmessage = function (event) {
                           console.log('received stream');
+                          console.log(event);
                         };
                         source.addEventListener('live_update', function(event) {
                           //console.log(event.data);
