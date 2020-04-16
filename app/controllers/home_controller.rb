@@ -12,10 +12,11 @@ class HomeController < ApplicationController
   end
 
   def live_update
+    logger.info "This is the session id #{session[:centre_id] if session[:centre_id].present?}"
     response.headers['Content-Type'] = 'text/event-stream'
     sse = SSE.new(response.stream, retry: 5000)
     id = 0
-    sports_centre = SportsCentre.find(params[:id])
+    sports_centre = SportsCentre.find(5)
     begin
         sports_centre.on_bookings_change do |sports_centre_id|
           #if (status == "new_booking")
