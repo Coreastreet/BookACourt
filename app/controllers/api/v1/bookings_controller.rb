@@ -84,6 +84,8 @@ class Api::V1::BookingsController < Api::V1::ApiController
     temp_reservations = $redis.get("booking_reservations_#{params[:sports_centre_id]}")
     if !temp_reservations.nil?
         temp_reservations_array = JSON.parse(temp_reservations)
+        temp_reservations_array.select!{ |booking| (Time.now - booking.created_at) < 2.minutes } # remove those reservations stored longer than 2mins to prevent clogging up redis.
+        $redis.set("booking_reservations_#{params[:sports_centre_id]}", JSON.stringify(temp_reservations_array))
         @json_bookings = (sportsCentre.bookings + temp_reservations_array).to_json
     else
         @json_bookings = sportsCentre.bookings.to_json
@@ -188,7 +190,7 @@ class Api::V1::BookingsController < Api::V1::ApiController
     else # if an array is already set i.e. reservations already exist.
         newTempBookingArray = JSON.parse(temp_reservations) + bookingArray # current reservation array.
         # remove all reservations where time.now is greater than created_at time  by 10 mins
-        newTempBookingArray.select!{ |booking| (Time.now - booking.created_at) < 10.minutes }
+        # newTempBookingArray.select!{ |booking| (Time.now - booking.created_at) < 10.minutes }
         $redis.set("booking_reservations_#{id}", newTempBookingArray.to_json.html_safe)
     end
 
