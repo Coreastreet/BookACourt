@@ -3,3 +3,8 @@
 2. On first load attach the AM or PM setting based on current time.
 3. On selection of am pm button, change the data-ampm attribute accordingly.
 4. When loading new date or live update use the am pm data attribute not the current time.
+
+
+1. Convert matrix to booking array and store locally in the live update.
+2. Bundle check_availability to a seperate function.
+3. Call the seperate function in the original check button and on clicking the polipay button.

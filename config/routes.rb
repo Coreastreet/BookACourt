@@ -74,6 +74,7 @@ Rails.application.routes.draw do
           get "confirm_email", on: :member
           post "payment_nudge", on: :member
           resource :bookings, shallow: true, only: [:create] do
+            post "reserve", on: :collection
             post "initiate", on: :collection
             post "claim_booking", on: :collection
             get "check_availability", on: :collection

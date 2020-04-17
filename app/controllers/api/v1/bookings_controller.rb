@@ -94,6 +94,85 @@ class Api::V1::BookingsController < Api::V1::ApiController
     end
   end
 
+  def reserve
+
+    sportsCentre = SportsCentre.find(114)  #^^^^params[:sports_centre_id])
+    sportsCentre_url = sportsCentre.URL
+
+    amount = order_params[:totalAmount].to_f
+    # get the amount, merchant id and customer email in the params
+    # look up the authorisation code for the related merchant.
+    # get the relevant url for transaction and send back.
+    # create a new string for later conversion into booking and order conversion
+    # store the string in merchantData
+    # calculate the start and end Date later
+    # if guest transaction, leave user_id as nil
+    isBWrequest = !order_params[:bwFirstDayBookings].nil?
+    # account for possibility that request is sent by third party widget
+    if (order_params[:allDates].nil?)
+        allDates = (isBWrequest) ? JSON.parse(order_params[:bwAllDates]) : []
+    else
+        allDates = order_params[:allDates]
+    end
+    if (order_params[:allDates].nil?)
+        arrayOfRegularCourtIds = (isBWrequest) ? JSON.parse(order_params[:bwArrayOfRegularCourtIds]) : []
+    else
+        arrayOfRegularCourtIds = order_params[:arrayOfRegularCourtIds]
+    end
+    # arrayOfRegularCourtIds = (order_params[:allDates].nil?) ? [] :
+
+    courtIdTimesArray = (booking_params[:courtIdTimesArray].nil?) ? JSON.parse(booking_params[:bwCourtIdTimesArray]) : booking_params[:courtIdTimesArray]
+    #binding.pry
+    merchantDataString = '{"order":' +
+      "{\"allDates\": #{allDates.compact}," +
+      "\"totalAmount\": \"#{order_params[:totalAmount]}\"," +
+      "\"plan\": \"#{sportsCentre.plan}\"," +
+      "\"totalCommission\": \"#{order_params[:totalAmount].to_i * sportsCentre.transactionRate}\"," +
+      "\"daysInBetween\": \"#{order_params[:daysInBetween]}\"," +
+      "\"firstDayBookings\": #{order_params[:bwFirstDayBookings]}," +
+      "\"arrayOfRegularCourtIds\": #{arrayOfRegularCourtIds}," +
+      "\"customerEmail\": \"#{order_params[:customerEmail]}\"}" +
+      ",\"booking\":" +
+      "{\"courtIdTimesArray\": #{courtIdTimesArray}," +
+      "\"startTime\": \"#{booking_params[:startTime]}\"," +
+      "\"endTime\": \"#{booking_params[:endTime]}\"," +
+      "\"bookingType\": \"#{booking_params[:bookingType]}\"," +
+      "\"activityType\": \"#{booking_params[:activityType].capitalize}\"," +
+      "\"courtType\": \"#{booking_params[:courtType]}\"}}"
+
+    data = JSON.parse(merchantDataString)
+
+    bookingType = data["booking"]["bookingType"]
+    id = params[:sports_centre_id]
+    bookingArray = []
+
+    data["booking"]["courtIdTimesArray"].each do |booking|
+      idTimesArray = booking.split("-")
+      booking1 = Booking.new(startTime: idTimesArray[1], endTime: idTimesArray[2],
+        courtType: data["booking"]["courtType"], sports_centre_id: params[:sports_centre_id],
+        date: data["order"]["firstDayBookings"][0], bookingType: bookingType,
+        court_no: idTimesArray[0], sportsType: data["booking"]["activityType"] ) # later calculate the courtNumber
+      bookingArray << booking1
+    end
+
+
+    start = data["booking"]["startTime"]
+    endTime = data["booking"]["endTime"]
+    regularIds = data["order"]["arrayOfRegularCourtIds"]
+
+    if (!(data["order"]["allDates"].empty?)) # if the extra regular dates are not empty?
+      data["order"]["allDates"].each_with_index do |date, index|
+          regBooking = Booking.new(startTime: start, endTime: endTime,
+            courtType: data["booking"]["courtType"], sports_centre_id: params[:sports_centre_id],
+            date: date, bookingType: bookingType,
+            court_no: regularIds[index], sportsType: data["booking"]["activityType"])
+          bookingArray << regBooking
+      end
+    end
+
+    RestClient.post "https://weball.com.au/pub/#{id}",  {event: "live_reservation_update", bookings: bookingArray.to_json.html_safe}.to_json, {content_type: :json, accept: :json}
+  end
+
   def initiate
     # to check the params
     require "rest-client"

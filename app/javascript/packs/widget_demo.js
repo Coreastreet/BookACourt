@@ -666,22 +666,33 @@ $(document).on('turbolinks:load', function ()  {
                           console.log('received stream');
                           console.log(event);
                           decodedData = JSON.parse(event.data);
+                          no_courts = localStorage.getItem("numberOfCourts");
+                          currentDate = new Date(document.querySelector("#dateHolder").value);
+                          currentFormattedDate = currentDate.toLocaleString('en-us', {year: 'numeric', month: '2-digit', day: '2-digit'}).
+                          replace(/(\d+)\/(\d+)\/(\d+)/, '$3-$1-$2');
+                          activeTab = document.querySelector("#tabHolder .tab.active");
+
                           if (decodedData.event == "live_update") {
                             updated_bookings_array = decodedData.bookings;
                             localStorage.setItem("bookings_array", updated_bookings_array);
-
-                            currentDate = new Date(document.querySelector("#dateHolder").value);
-
-                            no_courts = localStorage.getItem("numberOfCourts");
-                            currentFormattedDate = currentDate.toLocaleString('en-us', {year: 'numeric', month: '2-digit', day: '2-digit'}).
-                            replace(/(\d+)\/(\d+)\/(\d+)/, '$3-$1-$2');
-
                             bookingMatrix = createBookingMatrix(JSON.parse(updated_bookings_array), currentFormattedDate, no_courts);
                             localStorage.setItem("BookingsMatrix", JSON.stringify(bookingMatrix));
                             console.log("updated EventSource");
-                            activeTab = document.querySelector("#tabHolder .tab.active");
-                            activeTab.click();
+                          } else if (decodedData.event == "live_reservation_update") {
+
+                            var reserved_bookings = JSON.parse(decodedData.bookings);
+                            var current_bookings = JSON.parse(localStorage.getItem("bookings_array"));
+                            for (var reservation in reserved_bookings) {
+                                current_bookings.push(reserved_bookings[reservation]);
+                            }
+                            localStorage.setItem("bookings_array", JSON.stringify(current_bookings));
+                            bookingMatrix = createBookingMatrix(current_bookings, currentFormattedDate, no_courts);
+                            localStorage.setItem("BookingsMatrix", JSON.stringify(bookingMatrix));
+                            console.log("reservation_update!");
+
+                          } else {
                           }
+                          activeTab.click();
                         };
                       }
 
@@ -1167,15 +1178,23 @@ $(document).on('turbolinks:load', function ()  {
                               //console.log(paramsText);
                               var sportsCentreId = document.querySelector("#weBallWidget").getAttribute("data-sportsCentreId");
                               modal_body.on("click", "#polipay", function() {
-                                var request = makeCORSRequest(`https://weball.com.au/api/v1/sports_centres/${sportsCentreId}/bookings/initiate`, "POST");
+                                var freeCourtIdsReview = checkAvailability(daysInBetween, startTime, endTime);
+                                if ((freeCourtIdsReview.length + 1) < parseInt(bookings_count)) {
+                                    console.log(freeCourtIdsReview, bookings_count);
+                                    alert("Your preferred booking time is no longer available. Please try again.");
+                                    return false;
+                                }
+                                var request = makeCORSRequest(`http://localhost:3000/api/v1/sports_centres/${sportsCentreId}/bookings/reserve`, "POST");
+                                //*****var request = makeCORSRequest(`https://weball.com.au/api/v1/sports_centres/${sportsCentreId}/bookings/initiate`, "POST");
                                 request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
                                 request.onload = function(e) {
                                   var response = request.response;
                                   //var redirect_url = response["redirect_url"];
-                                  var parsedResponse = JSON.parse(response);
-                                  var redirect_url = parsedResponse["redirect_url"];
+                                  console.log(response);
+                                  //*****var parsedResponse = JSON.parse(response);
+                                  //*****var redirect_url = parsedResponse["redirect_url"];
                                   //window.location.href = redirect_url;
-                                  window.location.replace(redirect_url);
+                                  //*****window.location.replace(redirect_url);
                                 }
                                 request.send(`${paramsOrderText}&${paramsBookingText}`);
                               })
@@ -1857,6 +1876,34 @@ $(document).on('turbolinks:load', function ()  {
                           repeatCard.attr("data-availabilityChecked", "false");
                       }
 
+                      function checkAvailability(daysInterval, startTime, endTime) {
+                          console.log("logging the args", daysInterval, startTime, endTime);
+                          var allBookings = JSON.parse(localStorage.getItem("bookings_array"));
+                          var date = bw.find("#dateHolder").val();
+
+                          var courtType = bw.find("#tabHolder").attr("data-courtType"); // set courtType later on click
+                          var numberOfCourts = parseInt(localStorage.getItem("numberOfCourts"));
+                          var arrayOfFreeCourtIds = [];
+
+                          //console.log(allBookings);
+                          var arrayOfArrays = extract_relevant_days(allBookings, date, daysInterval, startTime, endTime);
+                          // after extracting the relevant days; let us filter the bookings so that only bookings matching the relevant dates remain.
+                          var courtIdFree = null;
+                          for (var bookingsOfOneSelectedDate in arrayOfArrays) {
+                            //if (arrayOfArrays[bookingsOfOneSelectedDate].length != 0) { an array containing all the bookings in one day, which matches a regular booking day
+                              courtIdFree = checkDayAvailability(arrayOfArrays[bookingsOfOneSelectedDate], startTime, endTime, numberOfCourts) // return boolean depending on whether a court is free on that particular day
+                              // add courtType later
+                              console.log("selected days", courtIdFree);
+                              if (courtIdFree == null) {
+                                break
+                              } else {
+                                arrayOfFreeCourtIds.push(courtIdFree);
+                              }
+                          }
+                          console.log("free Court Ids", arrayOfFreeCourtIds);
+                          return arrayOfFreeCourtIds;
+                      }
+
                       // remove all the repeat booking details
                       // slide back to the first main card.
                       repeatCard.on("click", "#returnToSingleButton", function() {
@@ -1884,37 +1931,15 @@ $(document).on('turbolinks:load', function ()  {
                           if ((startTime == "") || (endTime == "") || (bookingNumber < 1) || (bookingRealNumber < 2)) {
                               bw.find("#maxBookingsWarning").text("Incomplete Details");
                           } else {
-                              var allBookings = JSON.parse(localStorage.getItem("bookings_array"));
-                              var date = bw.find("#dateHolder").val();
                               var bookingInput = bw.find("#frequencyRate").attr("data-frequency-type");
                               var interval_in_days = (bookingInput == "Days") ? bookingNumber : (bookingNumber * 7); // get interval in days
-
-                              var courtType = bw.find("#tabHolder").attr("data-courtType"); // set courtType later on click
-                              var numberOfCourts = parseInt(localStorage.getItem("numberOfCourts"));
-                              var arrayOfFreeCourtIds = [];
-
-                              var arrayOfArrays = extract_relevant_days(allBookings, date, interval_in_days, startTime, endTime);
-                              //console.log("selected days", arrayOfArrays);
-                              // after extracting the relevant days; let us filter the bookings so that only bookings matching the relevant dates remain.
-                              //console.log("all bookings", bookings);
-                              var courtIdFree = null;
-                              for (var bookingsOfOneSelectedDate in arrayOfArrays) {
-                                //if (arrayOfArrays[bookingsOfOneSelectedDate].length != 0) { an array containing all the bookings in one day, which matches a regular booking day
-                                  courtIdFree = checkDayAvailability(arrayOfArrays[bookingsOfOneSelectedDate], startTime, endTime, numberOfCourts) // return boolean depending on whether a court is free on that particular day
-                                  // add courtType later
-                                  if (courtIdFree == null) {
-                                    break
-                                  } else {
-                                    arrayOfFreeCourtIds.push(courtIdFree);
-                                  }
-                              }
-                              //console.log("free Court Ids", arrayOfFreeCourtIds);
-                              var maxNoBookings = arrayOfFreeCourtIds.length + 1; // max-bookings, count the number of extra bookings ahead and include the current/first booking
+                              var freeCourtIds = checkAvailability(interval_in_days, startTime, endTime);
+                              var maxNoBookings = freeCourtIds.length + 1; // max-bookings, count the number of extra bookings ahead and include the current/first booking
                               var maxContainer = bw.find("#maxBookingsWarning");
                               maxContainer.text(`Max. ${maxNoBookings} bookings available`);
                               maxContainer.parent().removeClass("bw-none");
                               maxContainer.attr("data-maxBookings", maxNoBookings);
-                              maxContainer.attr("data-arrayOfFreeCourtIds", JSON.stringify(arrayOfFreeCourtIds));
+                              maxContainer.attr("data-arrayOfFreeCourtIds", JSON.stringify(freeCourtIds));
 
                               repeatCard.attr("data-availabilityChecked", "true");
                               repeatCard.attr("data-regularBooking", "true");
@@ -1980,9 +2005,10 @@ $(document).on('turbolinks:load', function ()  {
                           // check all dates for a regular booking up to ten bookings ahead
                           while (counter < 9) {
                             arrayOfDates = [];
-                            regularDate.setDate(regularDate.getDate() + interval_in_days);
+                            regularDate.setDate(regularDate.getDate() + parseInt(interval_in_days));
                             stringDate = regularDate.toLocaleString('en-us', {year: 'numeric', month: '2-digit', day: '2-digit'}).
                             replace(/(\d+)\/(\d+)\/(\d+)/, '$3-$1-$2');
+                            //console.log("missing link stringDate", stringDate);
                             weekdayShort = regularDate.toLocaleString('en-au', {weekday: 'short'});
                             //console.log(stringDate);
                             dayClosingHour = convertAMPMToString(openingHours[weekdayShort]["closingHour"]);
