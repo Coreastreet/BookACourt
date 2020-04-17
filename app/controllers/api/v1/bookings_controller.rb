@@ -95,6 +95,8 @@ class Api::V1::BookingsController < Api::V1::ApiController
   end
 
   def reserve
+    require "rest-client"
+    require "json"
 
     sportsCentre = SportsCentre.find(114)  #^^^^params[:sports_centre_id])
     sportsCentre_url = sportsCentre.URL
@@ -171,6 +173,7 @@ class Api::V1::BookingsController < Api::V1::ApiController
     end
 
     RestClient.post "https://weball.com.au/pub/#{id}",  {event: "live_reservation_update", bookings: bookingArray.to_json.html_safe}.to_json, {content_type: :json, accept: :json}
+    render :json => {success: true, content_type: 'application/json'}.to_json, :status => 200
   end
 
   def initiate
