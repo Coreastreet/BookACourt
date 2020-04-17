@@ -81,11 +81,18 @@ class Api::V1::BookingsController < Api::V1::ApiController
     sportsCentre = SportsCentre.find(params[:sports_centre_id])
     interval_in_days = interval_params[:dayInterval]
     date = interval_params[:date]
-    @json_bookings = sportsCentre.bookings.to_json
+    temp_reservations = $redis.get("booking_reservations_#{params[:sports_centre_id]}")
+    if !temp_reservations.nil?
+        temp_reservations_array = JSON.parse(temp_reservations)
+        @json_bookings = (sportsCentre.bookings + temp_reservations_array).to_json
+    else
+        @json_bookings = sportsCentre.bookings.to_json
+    end
     @numberOfCourts = sportsCentre.numberOfCourts
     @prices = sportsCentre.prices
     @peak_hours = sportsCentre.peak_hours
     @opening_hours = sportsCentre.opening_hours.to_json
+
     if @json_bookings
       render :json => {json_bookings: @json_bookings, number_of_courts: @numberOfCourts, opening_hours: @opening_hours,
       prices: @prices, peak_hours: @peak_hours, success: true, content_type: 'application/json'}.to_json, status: 200
@@ -147,12 +154,13 @@ class Api::V1::BookingsController < Api::V1::ApiController
     bookingType = data["booking"]["bookingType"]
     id = params[:sports_centre_id]
     bookingArray = []
+    t = Time.now
 
     data["booking"]["courtIdTimesArray"].each do |booking|
       idTimesArray = booking.split("-")
       booking1 = Booking.new(startTime: idTimesArray[1], endTime: idTimesArray[2],
         courtType: data["booking"]["courtType"], sports_centre_id: params[:sports_centre_id],
-        date: data["order"]["firstDayBookings"][0], bookingType: bookingType,
+        date: data["order"]["firstDayBookings"][0], bookingType: bookingType, created_at: t,
         court_no: idTimesArray[0], sportsType: data["booking"]["activityType"] ) # later calculate the courtNumber
       bookingArray << booking1
     end
@@ -166,13 +174,25 @@ class Api::V1::BookingsController < Api::V1::ApiController
       data["order"]["allDates"].each_with_index do |date, index|
           regBooking = Booking.new(startTime: start, endTime: endTime,
             courtType: data["booking"]["courtType"], sports_centre_id: params[:sports_centre_id],
-            date: date, bookingType: bookingType,
+            date: date, bookingType: bookingType, created_at: t,
             court_no: regularIds[index], sportsType: data["booking"]["activityType"])
           bookingArray << regBooking
       end
     end
 
-    RestClient.post "https://weball.com.au/pub/#{id}",  {event: "live_reservation_update", bookings: bookingArray.to_json.html_safe}.to_json, {content_type: :json, accept: :json}
+    jsonBookingArray = bookingArray.to_json.html_safe
+    # store the reservation temporariliy in redis. Check all that are older than 10 minutes and remove them.
+    temp_reservations = $redis.get("booking_reservations_#{id}")
+    if temp_reservations.nil? # then set to the current array of reservations
+        $redis.set("booking_reservations_#{id}", jsonBookingArray)
+    else # if an array is already set i.e. reservations already exist.
+        newTempBookingArray = JSON.parse(temp_reservations) + bookingArray # current reservation array.
+        # remove all reservations where time.now is greater than created_at time  by 10 mins
+        newTempBookingArray.select!{ |booking| (Time.now - booking.created_at) < 10.minutes }
+        $redis.set("booking_reservations_#{id}", newTempBookingArray.to_json.html_safe)
+    end
+
+    RestClient.post "https://weball.com.au/pub/#{id}",  {event: "live_reservation_update", bookings: jsonBookingArray}.to_json, {content_type: :json, accept: :json}
     if bookingArray.any?
       render :json => {success: true, content_type: 'application/json'}.to_json, :status => 200
     else
