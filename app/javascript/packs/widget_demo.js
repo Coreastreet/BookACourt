@@ -1208,9 +1208,13 @@ $(document).on('turbolinks:load', function ()  {
                               $("#firstModalCard").on("click", "#polipayInfo", function() {
                                     $("#polipayFooter").toggle();
                               });
+
+                              $("#firstModalCard").on("click", "#reservationInfo", function() {
+                                    $("#reservationFooter").toggle();
+                              });
                               //console.log(paramsText);
                               var sportsCentreId = document.querySelector("#weBallWidget").getAttribute("data-sportsCentreId");
-                              modal_body.on("click", "#polipay", function() {
+                              modal_body.on("click", "#bw-reservation", function() {
                                 var freeCourtIdsReview = checkAvailability(daysInBetween, startTime, endTime);
                                 if ((freeCourtIdsReview.length + 1) < parseInt(bookings_count)) {
                                     console.log(freeCourtIdsReview, bookings_count);
@@ -1223,11 +1227,37 @@ $(document).on('turbolinks:load', function ()  {
                                 request.onload = function(e) {
                                   var response = request.response;
                                   //var redirect_url = response["redirect_url"];
-                                  console.log(response);
-                                  //*****var parsedResponse = JSON.parse(response);
+                                  var parsedResponse = JSON.parse(response);
+                                  if (parsedResponse.success) {
+                                    console.log("Success");
+                                      $("#firstModalCard #bw-reservationPreFooter").addClass("bw-none");
+                                      $("#firstModalCard #bw-polipayPreFooter").removeClass("bw-none");
+                                  }
                                   //*****var redirect_url = parsedResponse["redirect_url"];
                                   //window.location.href = redirect_url;
                                   //*****window.location.replace(redirect_url);
+                                }
+                                request.send(`${paramsOrderText}&${paramsBookingText}`);
+                              })
+
+                              modal_body.on("click", "#polipay", function() {
+                                var freeCourtIdsReview = checkAvailability(daysInBetween, startTime, endTime);
+                                if ((freeCourtIdsReview.length + 1) < parseInt(bookings_count)) {
+                                    console.log(freeCourtIdsReview, bookings_count);
+                                    alert("Your preferred booking time is no longer available. Please try again.");
+                                    return false;
+                                }
+                                //var request = makeCORSRequest(`https://weball.com.au/api/v1/sports_centres/${sportsCentreId}/bookings/reserve`, "POST");
+                                var request = makeCORSRequest(`https://weball.com.au/api/v1/sports_centres/${sportsCentreId}/bookings/initiate`, "POST");
+                                request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                                request.onload = function(e) {
+                                  var response = request.response;
+                                  //var redirect_url = response["redirect_url"];
+                                  console.log(response);
+                                  var parsedResponse = JSON.parse(response);
+                                  var redirect_url = parsedResponse["redirect_url"];
+                                  window.location.href = redirect_url;
+                                  window.location.replace(redirect_url);
                                 }
                                 request.send(`${paramsOrderText}&${paramsBookingText}`);
                               })

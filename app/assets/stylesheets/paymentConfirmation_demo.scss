@@ -325,20 +325,20 @@
   text-transform: capitalize;
 }
 
-#payment-confirmation #polipayInfo {
+#payment-confirmation #polipayInfo, #payment-confirmation #reservationInfo {
     color: grey;
 }
 
-#payment-confirmation #polipayInfo:active {
+#payment-confirmation #polipayInfo:active, #payment-confirmation #reservationInfo:active {
      color: black;
 }
 
-#payment-confirmation #polipayInfo:hover {
+#payment-confirmation #polipayInfo:hover, #payment-confirmation #reservationInfo:hover {
      color: black;
      cursor: pointer;
 }
 
-#payment-confirmation #polipayFooter {
+#payment-confirmation #polipayFooter, #payment-confirmation #reservationFooter {
     display: none;
     position: fixed;
     background-color: white;
@@ -359,7 +359,7 @@
         margin-left: 0.25rem  ;
     }
 
-    #payment-confirmation #paymentCancel {
+    #payment-confirmation #paymentCancel, #payment-confirmation #reservationCancel {
         display: none;
     }
 }

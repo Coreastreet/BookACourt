@@ -8,3 +8,10 @@
 1. Convert matrix to booking array and store locally in the live update.
 2. Bundle check_availability to a seperate function.
 3. Call the seperate function in the original check button and on clicking the polipay button.
+
+1. Add code to create matrix to only select those that are not expired reservations.
+2. Create a listener for live reservations
+3. On connection remove any expired reservations.
+4. Insert another modal footer for the info and reservation button.
+5. Transfer css by adding the id/class for reservationInfo, reservationPreFooter, reservationCancel.
+6. Transfer JS for the info button and onclick of bw-reservation only on success of reserve.
