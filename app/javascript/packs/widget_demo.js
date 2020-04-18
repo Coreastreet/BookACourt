@@ -661,9 +661,6 @@ $(document).on('turbolinks:load', function ()  {
                         var updated_bookings_array;
                         var clean_bookings_array;
                         var no_courts;
-                        var isExpiredReservation;
-                        var nowDate;
-                        var minutesSinceBooked;
                         var currentDate;
                         var currentFormattedDate;
                         var activeTab;
@@ -671,7 +668,6 @@ $(document).on('turbolinks:load', function ()  {
                         source.onopen = function() {
                            activeTab = document.querySelector("#tabHolder .tab.active");
                            console.log('connection to stream has been opened');
-                           nowDate = new Date();
 
                            no_courts = localStorage.getItem("numberOfCourts");
                            currentDate = new Date(document.querySelector("#dateHolder").value);
@@ -705,6 +701,9 @@ $(document).on('turbolinks:load', function ()  {
                           activeTab = document.querySelector("#tabHolder .tab.active");
                           var reserved_bookings;
                           var current_bookings;
+                          var isExpiredReservation;
+                          var minutesSinceBooked;
+                          var nowDate;
 
                           if (decodedData.event == "live_update") {
                             updated_bookings_array = decodedData.bookings;
@@ -713,11 +712,23 @@ $(document).on('turbolinks:load', function ()  {
                             localStorage.setItem("BookingsMatrix", JSON.stringify(bookingMatrix));
                             console.log("updated EventSource");
                           } else if (decodedData.event == "live_reservation_update") {
+                            nowDate = new Date();
+
                             reserved_bookings = (decodedData.bookings === Array) ? decodedData.bookings : JSON.parse(decodedData.bookings);
                             current_bookings = JSON.parse(localStorage.getItem("bookings_array"));
+                            // filter out the old bookings.
                             for (var reservation in reserved_bookings) {
                                 current_bookings.push(reserved_bookings[reservation]);
                             }
+
+                            console.log(current_bookings);
+                            current_bookings = current_bookings.filter(function(booking) {
+                             minutesSinceBooked = (nowDate - Date.parse(booking.created_at))/60000;
+                             isExpiredReservation = (minutesSinceBooked > 2) && (booking.id == null);
+                             return !isExpiredReservation;
+                            });
+                            console.log(current_bookings);
+
                             localStorage.setItem("bookings_array", JSON.stringify(current_bookings));
                             bookingMatrix = createBookingMatrix(current_bookings, currentFormattedDate, no_courts);
                             localStorage.setItem("BookingsMatrix", JSON.stringify(bookingMatrix));
@@ -1216,8 +1227,8 @@ $(document).on('turbolinks:load', function ()  {
                               var sportsCentreId = document.querySelector("#weBallWidget").getAttribute("data-sportsCentreId");
                               modal_body.on("click", "#bw-reservation", function() {
                                 var freeCourtIdsReview = checkAvailability(daysInBetween, startTime, endTime);
-                                if ((freeCourtIdsReview.length + 1) < parseInt(bookings_count)) {
-                                    console.log(freeCourtIdsReview, bookings_count);
+                                console.log(freeCourtIdsReview, bookings_count);
+                                if (freeCourtIdsReview.length < parseInt(bookings_count)) {
                                     alert("Your preferred booking time is no longer available. Please try again.");
                                     return false;
                                 }
@@ -1242,8 +1253,8 @@ $(document).on('turbolinks:load', function ()  {
 
                               modal_body.on("click", "#polipay", function() {
                                 var freeCourtIdsReview = checkAvailability(daysInBetween, startTime, endTime);
-                                if ((freeCourtIdsReview.length + 1) < parseInt(bookings_count)) {
-                                    console.log(freeCourtIdsReview, bookings_count);
+                                console.log(freeCourtIdsReview, bookings_count);
+                                if (freeCourtIdsReview.length < parseInt(bookings_count)) {
                                     alert("Your preferred booking time is no longer available. Please try again.");
                                     return false;
                                 }
@@ -1591,6 +1602,10 @@ $(document).on('turbolinks:load', function ()  {
                         var bookingMatrix = JSON.parse(localStorage.getItem("BookingsMatrix"));
                         //console.log(bookingMatrix);
                         var bookingCourtIds = (courtType == "halfCourt") ? calculateCourtIds(startTime, endTime, bookingMatrix) : calculateFullCourtIds(startTime, endTime, bookingMatrix);
+                        if (bookingCourtIds == false) {
+                            alert("Booking is invalid");
+                            return false
+                        }
                         //console.log("Court Ids", bookingCourtIds);
                         // assign court ids and period to the rows in details modal
                         var courtIdBody = reviewDetailModal.find("#courtIdBody");
@@ -1754,6 +1769,7 @@ $(document).on('turbolinks:load', function ()  {
                         var courtFreePeriods = [];
                         var arrayBookedSets = [];
                         var finalHash = {};
+                        var validBooking;
                         for (var item in courtArrays) {
                           arrayBookedSets.push(new Set(courtArrays[item]));
                         }
@@ -1780,13 +1796,19 @@ $(document).on('turbolinks:load', function ()  {
                             setBooking = newSetBooking;
 
                         //} while (intersection.size != 0);
-                            courtFreePeriods.push(getLargestSubArray(courtTimeDifference));
+                            validBooking = getLargestSubArray(courtTimeDifference);
+                            if (validBooking != false) {
+                                courtFreePeriods.push(validBooking);
+                            } else {
+                                return false;
+                            }
                         //return courtFreeIds;
                         /*console.log("Times that still need filling", timesToBeFilled);
                         console.log("id of the best matching court", courtFreeIds);
                         console.log("Times that still need a court to accomodate", setBooking);
                         *///console.log("HashSets", hashSets);
                       } while(timesToBeFilled != 0);
+                        console.log("court free periods", courtFreePeriods)
                         for (var i in courtFreeIds) {
                             finalHash[parseInt(courtFreeIds[i])+1] = courtFreePeriods[i];
                         }
@@ -1811,6 +1833,7 @@ $(document).on('turbolinks:load', function ()  {
                         var courtFreePeriods = [];
                         var arrayBookedSets = [];
                         var finalHash = {};
+                        var validBooking;
                         for (var item in courtArrays) {
                           arrayBookedSets.push(new Set(courtArrays[item]));
                         }
@@ -1836,15 +1859,20 @@ $(document).on('turbolinks:load', function ()  {
                             timesToBeFilled = Object.keys(hashSets).sort()[0];
                             //console.log("HashSets", hashSets);
                             //console.log("Times to be filled", timesToBeFilled);
-                            //console.log("hash sets", hashSets);
-                            //console.log("times to be filled", timesToBeFilled);
+                            console.log("hash sets", hashSets);
+                            console.log("times to be filled", timesToBeFilled);
                             courtFreeIds.push(hashSets[timesToBeFilled][1]); // store the courtId of the court that is free for most of the booking
                             newSetBooking = hashSets[timesToBeFilled][0]; // get the set which will contain the times which still need a courtId for.
                             courtTimeDifference = [...setBooking].filter(x => !newSetBooking.has(x)); // array
                             setBooking = newSetBooking;
 
                         //} while (intersection.size != 0);
-                            courtFreePeriods.push(getLargestSubArray(courtTimeDifference));
+                            validBooking = getLargestSubArray(courtTimeDifference);
+                            if (validBooking != false) {
+                                courtFreePeriods.push(validBooking);
+                            } else {
+                                return false;
+                            }
                         //return courtFreeIds;
                         /*console.log("Times that still need filling", timesToBeFilled);
                         console.log("id of the best matching court", courtFreeIds);
@@ -1900,10 +1928,16 @@ $(document).on('turbolinks:load', function ()  {
                           }
                           shiftsArray.push(holderArray);
                         }
-                        var startSubBooking = convertToAMPM(convertTimeIntoString(longestSubBooking[0]));
-                        var endSubBooking = convertToAMPM(convertTimeIntoString(longestSubBooking[longestSubBooking.length - 1] + 0.5));
-                        finalString = `${startSubBooking}-${endSubBooking}`
-                        return finalString
+                        //console.log(longestSubBooking);
+                        if (longestSubBooking.length >= 1) {
+                          var startSubBooking = convertToAMPM(convertTimeIntoString(longestSubBooking[0]));
+                          var endSubBooking = convertToAMPM(convertTimeIntoString(longestSubBooking[longestSubBooking.length - 1] + 0.5));
+                          finalString = `${startSubBooking}-${endSubBooking}`
+                          return finalString
+                        } else {
+                          //alert("Booking not valid");
+                          return false;
+                        }
                       }
 
                       function assignCourtIdToBox(courtBody, hashIds) {
@@ -1944,6 +1978,8 @@ $(document).on('turbolinks:load', function ()  {
                       function checkAvailability(daysInterval, startTime, endTime) {
                           console.log("logging the args", daysInterval, startTime, endTime);
                           var allBookings = JSON.parse(localStorage.getItem("bookings_array"));
+                          //console.log(allBookings);
+
                           var date = bw.find("#dateHolder").val();
 
                           var courtType = bw.find("#tabHolder").attr("data-courtType"); // set courtType later on click
@@ -1999,7 +2035,7 @@ $(document).on('turbolinks:load', function ()  {
                               var bookingInput = bw.find("#frequencyRate").attr("data-frequency-type");
                               var interval_in_days = (bookingInput == "Days") ? bookingNumber : (bookingNumber * 7); // get interval in days
                               var freeCourtIds = checkAvailability(interval_in_days, startTime, endTime);
-                              var maxNoBookings = freeCourtIds.length + 1; // max-bookings, count the number of extra bookings ahead and include the current/first booking
+                              var maxNoBookings = freeCourtIds.length; // max-bookings, count the number of extra bookings ahead and include the current/first booking
                               var maxContainer = bw.find("#maxBookingsWarning");
                               maxContainer.text(`Max. ${maxNoBookings} bookings available`);
                               maxContainer.parent().removeClass("bw-none");
@@ -2014,7 +2050,6 @@ $(document).on('turbolinks:load', function ()  {
                       // add on click listener later.
 
                       function checkDayAvailability(arrayOfHash, startTime, endTime, numberOfCourts) {
-                      //  console.log("arrayOFHash", arrayOfHash);
                       //  console.log("start", startTime);
                       //  console.log("end", endTime);
                         var arr = [...Array(numberOfCourts+1).keys()];
@@ -2040,6 +2075,7 @@ $(document).on('turbolinks:load', function ()  {
                               endTimeEdited = hashSet.endTime.split("T")[1].substr(0,5);
                               //console.log(hashSet, startTimeEdited, endTimeEdited);
                               hashSetTime = new Set(getIntervals(startTimeEdited, endTimeEdited));
+                              console.log("hash", hashSetTime, arrayOfHash[hashBooking]);
                               intersection = new Set([...intervalTimes].filter(x => hashSetTime.has(x)));
                               // if intersection.size == 0, then bookingOverlapCounter remains 0 or no difference
                               if (intersection.size != 0) { // meaning the court is free during the time in question
@@ -2068,9 +2104,8 @@ $(document).on('turbolinks:load', function ()  {
                           var dayClosingHour;
                           var openingHours = JSON.parse(localStorage.getItem("opening_hours"));
                           // check all dates for a regular booking up to ten bookings ahead
-                          while (counter < 9) {
+                          while (counter < 10) {
                             arrayOfDates = [];
-                            regularDate.setDate(regularDate.getDate() + parseInt(interval_in_days));
                             stringDate = regularDate.toLocaleString('en-us', {year: 'numeric', month: '2-digit', day: '2-digit'}).
                             replace(/(\d+)\/(\d+)\/(\d+)/, '$3-$1-$2');
                             //console.log("missing link stringDate", stringDate);
@@ -2089,6 +2124,7 @@ $(document).on('turbolinks:load', function ()  {
                             }
                             arrayOfArrays.push(arrayOfDates); // add to larger array if found
                             //arrayOfDates.push(stringDate);
+                            regularDate.setDate(regularDate.getDate() + parseInt(interval_in_days));
                             counter++;
                           }
                           // returns array of Arrays aka (where all days that have bookings on the same as the regular booking appear).
