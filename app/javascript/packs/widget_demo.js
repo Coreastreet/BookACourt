@@ -345,7 +345,15 @@ $(document).on('turbolinks:load', function ()  {
                       function createBookingMatrix(bookedArray, date, numberOfCourts) {
                         // cut down the array of bookings to contain only those bookings that match the selected date.
                         // no distinction made between fullCourt and halfCourt bookings
-                        var bookingsByDate = bookedArray.filter(booking => booking.date == date);
+                        // filter out all the reservations with null id and longer than 2min creation time
+                        var isExpiredReservation2;
+                        var currentTime = new Date();
+                        var minutesPastReservation;
+                        var bookingsByDate = bookedArray.filter(function(booking) {
+                           minutesPastReservation = (currentTime - Date.parse(booking.created_at))/60000;
+                           isExpiredReservation2 = ((booking.id == null) && (minutesPastReservation > 2));
+                           return ((booking.date == date) && !isExpiredReservation2);
+                        });
 
                         var outerArray = [];
                         var subArray;
@@ -651,13 +659,37 @@ $(document).on('turbolinks:load', function ()  {
                         console.log(sports_centre_id);
                         var source = new EventSource(`https://weball.com.au/sub/${sports_centre_id}`);
                         var updated_bookings_array;
+                        var clean_bookings_array;
                         var no_courts;
+                        var isExpiredReservation;
+                        var nowDate;
+                        var minutesSinceBooked;
                         var currentDate;
                         var currentFormattedDate;
                         var activeTab;
                         var decodedData;
                         source.onopen = function() {
+                           activeTab = document.querySelector("#tabHolder .tab.active");
                            console.log('connection to stream has been opened');
+                           nowDate = new Date();
+
+                           no_courts = localStorage.getItem("numberOfCourts");
+                           currentDate = new Date(document.querySelector("#dateHolder").value);
+                           currentFormattedDate = currentDate.toLocaleString('en-us', {year: 'numeric', month: '2-digit', day: '2-digit'}).
+                           replace(/(\d+)\/(\d+)\/(\d+)/, '$3-$1-$2');
+
+                           clean_bookings_array = JSON.parse(localStorage.getItem("bookings_array"));
+                           /* clean_bookings_array = clean_bookings_array.filter(function(booking) {
+                             minutesSinceBooked = (nowDate - Date.parse(booking.created_at))/60000;
+                             isExpiredReservation = (minutesSinceBooked > 2) && (booking.id == null);
+                             return !isExpiredReservation;
+                           }); */
+
+                           //localStorage.setItem("bookings_array", JSON.stringify(clean_bookings_array));
+                           bookingMatrix = createBookingMatrix(clean_bookings_array, currentFormattedDate, no_courts);
+                           localStorage.setItem("BookingsMatrix", JSON.stringify(bookingMatrix));
+
+                           activeTab.click();
                         };
                         source.onerror = function (error) {
                           console.log('An error has occurred while receiving stream', error);
