@@ -712,7 +712,7 @@ $(document).on('turbolinks:load', function ()  {
                             console.log("updated EventSource");
                           } else if (decodedData.event == "live_reservation_update") {
 
-                            var reserved_bookings = JSON.parse(decodedData.bookings);
+                            var reserved_bookings = decodedData.bookings;
                             var current_bookings = JSON.parse(localStorage.getItem("bookings_array"));
                             for (var reservation in reserved_bookings) {
                                 current_bookings.push(reserved_bookings[reservation]);
