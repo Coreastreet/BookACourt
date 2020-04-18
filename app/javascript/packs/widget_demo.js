@@ -703,6 +703,8 @@ $(document).on('turbolinks:load', function ()  {
                           currentFormattedDate = currentDate.toLocaleString('en-us', {year: 'numeric', month: '2-digit', day: '2-digit'}).
                           replace(/(\d+)\/(\d+)\/(\d+)/, '$3-$1-$2');
                           activeTab = document.querySelector("#tabHolder .tab.active");
+                          var reserved_bookings;
+                          var current_bookings;
 
                           if (decodedData.event == "live_update") {
                             updated_bookings_array = decodedData.bookings;
@@ -711,9 +713,8 @@ $(document).on('turbolinks:load', function ()  {
                             localStorage.setItem("BookingsMatrix", JSON.stringify(bookingMatrix));
                             console.log("updated EventSource");
                           } else if (decodedData.event == "live_reservation_update") {
-
-                            var reserved_bookings = JSON.parse(decodedData.bookings);
-                            var current_bookings = JSON.parse(localStorage.getItem("bookings_array"));
+                            reserved_bookings = (decodedData.bookings === Array) ? decodedData.bookings : JSON.parse(decodedData.bookings);
+                            current_bookings = JSON.parse(localStorage.getItem("bookings_array"));
                             for (var reservation in reserved_bookings) {
                                 current_bookings.push(reserved_bookings[reservation]);
                             }
