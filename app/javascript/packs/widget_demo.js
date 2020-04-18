@@ -1274,6 +1274,8 @@ $(document).on('turbolinks:load', function ()  {
                       });
 
                       modal_body.on("click", "#modalClose", function() {
+                        modal_body.find("#bw-polipayPreFooter").addClass("bw-none");
+                        modal_body.find("#bw-reservationPreFooter").removeClass("bw-none");
                         modal_body[0].style.display='none';
                       })
 
