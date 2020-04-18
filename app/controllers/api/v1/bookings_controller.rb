@@ -181,8 +181,6 @@ class Api::V1::BookingsController < Api::V1::ApiController
           bookingArray << regBooking
       end
     end
-
-    jsonBookingArray = bookingArray.to_json.html_safe
     # store the reservation temporariliy in redis. Check all that are older than 10 minutes and remove them.
     temp_reservations = $redis.get("booking_reservations_#{id}")
     if !temp_reservations.nil? # then set to the current array of reservations
@@ -191,11 +189,11 @@ class Api::V1::BookingsController < Api::V1::ApiController
         # newTempBookingArray.select!{ |booking| (Time.now - booking.created_at) < 10.minutes }
         $redis.set("booking_reservations_#{id}", newTempBookingArray.to_json.html_safe)
     else # if an array is already set i.e. reservations already exist.
-        $redis.set("booking_reservations_#{id}", jsonBookingArray)
-        newTempBookingArray = jsonBookingArray
+        $redis.set("booking_reservations_#{id}", bookingArray.to_json.html_safe)
+        newTempBookingArray = bookingArray
     end
 
-    RestClient.post "https://weball.com.au/pub/#{id}",  {event: "live_reservation_update", bookings: newTempBookingArray}.to_json, {content_type: :json, accept: :json}
+    RestClient.post "https://weball.com.au/pub/#{id}",  {event: "live_reservation_update", bookings: newTempBookingArray.to_json.html_safe}.to_json, {content_type: :json, accept: :json}
     if bookingArray.any?
       render :json => {success: true, content_type: 'application/json'}.to_json, :status => 200
     else
