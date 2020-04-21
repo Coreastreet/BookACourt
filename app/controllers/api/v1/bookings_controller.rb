@@ -106,7 +106,7 @@ class Api::V1::BookingsController < Api::V1::ApiController
   def reserve
     require "rest-client"
     require "json"
-
+    
     sportsCentre = SportsCentre.find(params[:sports_centre_id])
     sportsCentre_url = sportsCentre.URL
 
@@ -209,7 +209,6 @@ class Api::V1::BookingsController < Api::V1::ApiController
     sportsCentre = SportsCentre.find(params[:sports_centre_id])
     sportsCentre_url = sportsCentre.URL
 
-
     attemptedBookings = sportsCentre.attemptedBookings
     orderReference = "#{params[:sports_centre_id]}_Order_#{attemptedBookings}" # dummy reference; not useful
     attemptedBookings += 1;
@@ -239,6 +238,9 @@ class Api::V1::BookingsController < Api::V1::ApiController
     courtIdTimesArray = (booking_params[:courtIdTimesArray].nil?) ? JSON.parse(booking_params[:bwCourtIdTimesArray]) : booking_params[:courtIdTimesArray]
     #binding.pry
 
+    reservationTime = myIdentity_params[:reservation_time]
+    # ensure the myIdentity data is sent with merchant data.
+
     merchantDataString = '{"order":' +
       "{\"allDates\": #{allDates}," +
       "\"totalAmount\": \"#{order_params[:totalAmount]}\"," +
@@ -247,8 +249,10 @@ class Api::V1::BookingsController < Api::V1::ApiController
       "\"daysInBetween\": \"#{order_params[:daysInBetween]}\"," +
       "\"firstDayBookings\": #{order_params[:bwFirstDayBookings]}," +
       "\"arrayOfRegularCourtIds\": #{arrayOfRegularCourtIds}," +
-      "\"customerEmail\": \"#{order_params[:customerEmail]}\"}" +
-      ",\"booking\":" +
+      "\"customerEmail\": \"#{order_params[:customerEmail]}\"}," +
+      "\"myIdentity\":" +
+      "{\"reservationTime\": \"#{myIdentity_params[:reservation_time]}\"}," +
+      "\"booking\":" +
       "{\"courtIdTimesArray\": #{courtIdTimesArray}," +
       "\"startTime\": \"#{booking_params[:startTime]}\"," +
       "\"endTime\": \"#{booking_params[:endTime]}\"," +
@@ -427,6 +431,10 @@ private
 
   def booking_params
     params.require(:booking).permit(:courtType, :bookingType, :activityType, :startTime, :endTime, :bwCourtIdTimesArray, courtIdTimesArray: [])
+  end
+
+  def myIdentity_params
+    params.require(:myIdentity).permit(:reservation_time)
   end
 
 end

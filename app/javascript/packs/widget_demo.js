@@ -1235,10 +1235,18 @@ $(document).on('turbolinks:load', function ()  {
                                 var request = makeCORSRequest(`https://weball.com.au/api/v1/sports_centres/${sportsCentreId}/bookings/reserve`, "POST");
                                 //*****var request = makeCORSRequest(`https://weball.com.au/api/v1/sports_centres/${sportsCentreId}/bookings/initiate`, "POST");
                                 request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                                // store reservation time so you identify the bookings the customer personally makes.
+                                var reservationTime = Date.parse(new Date());
+                                var reservationTimeParams = { reservation_time: reservationTime };
+                                var myIdentityText = addParams( "myIdentity", reservationTimeParams );
+                                localStorage.setItem("reservationTime", reservationTime);
+
+                                request.send(`${paramsOrderText}&${paramsBookingText}&${myIdentityText}`);
                                 request.onload = function(e) {
                                   var response = request.response;
                                   //var redirect_url = response["redirect_url"];
                                   var parsedResponse = JSON.parse(response);
+                                  console.log("parsed reservation response", parsedResponse);
                                   if (parsedResponse.success) {
                                     console.log("Success");
                                       $("#firstModalCard #bw-reservationPreFooter").addClass("bw-none");
@@ -1248,7 +1256,6 @@ $(document).on('turbolinks:load', function ()  {
                                   //window.location.href = redirect_url;
                                   //*****window.location.replace(redirect_url);
                                 }
-                                request.send(`${paramsOrderText}&${paramsBookingText}`);
                               })
 
                               modal_body.on("click", "#polipay", function() {
