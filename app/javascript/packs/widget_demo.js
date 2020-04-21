@@ -1232,6 +1232,7 @@ $(document).on('turbolinks:load', function ()  {
                                     alert("Your preferred booking time is no longer available. Please try again.");
                                     return false;
                                 }
+                                //var request = makeCORSRequest(`http://localhost/api/v1/sports_centres/114/bookings/reserve`, "POST");
                                 var request = makeCORSRequest(`https://weball.com.au/api/v1/sports_centres/${sportsCentreId}/bookings/reserve`, "POST");
                                 //*****var request = makeCORSRequest(`https://weball.com.au/api/v1/sports_centres/${sportsCentreId}/bookings/initiate`, "POST");
                                 request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
