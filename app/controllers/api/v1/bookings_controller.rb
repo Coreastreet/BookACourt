@@ -106,7 +106,7 @@ class Api::V1::BookingsController < Api::V1::ApiController
   def reserve
     require "rest-client"
     require "json"
-    
+
     sportsCentre = SportsCentre.find(params[:sports_centre_id])
     sportsCentre_url = sportsCentre.URL
 
@@ -157,16 +157,17 @@ class Api::V1::BookingsController < Api::V1::ApiController
     id = params[:sports_centre_id]
     bookingArray = []
     t = Time.now
+    # get the time of reservation click time and store in updated_at, proxy for when clicked
+    reservationTime = Time.strptime(myIdentity_params[:reservation_time], "%Q")
 
     data["booking"]["courtIdTimesArray"].each do |booking|
       idTimesArray = booking.split("-")
       booking1 = Booking.new(startTime: idTimesArray[1], endTime: idTimesArray[2],
         courtType: data["booking"]["courtType"], sports_centre_id: params[:sports_centre_id],
         date: data["order"]["firstDayBookings"][0], bookingType: bookingType, created_at: t,
-        court_no: idTimesArray[0], sportsType: data["booking"]["activityType"] ) # later calculate the courtNumber
+        updated_at: reservationTime, court_no: idTimesArray[0], sportsType: data["booking"]["activityType"] ) # later calculate the courtNumber
       bookingArray << booking1
     end
-
 
     start = data["booking"]["startTime"]
     endTime = data["booking"]["endTime"]
@@ -176,7 +177,7 @@ class Api::V1::BookingsController < Api::V1::ApiController
       data["order"]["allDates"].each_with_index do |date, index|
           regBooking = Booking.new(startTime: start, endTime: endTime,
             courtType: data["booking"]["courtType"], sports_centre_id: params[:sports_centre_id],
-            date: date, bookingType: bookingType, created_at: t,
+            date: date, bookingType: bookingType, created_at: t, updated_at: reservationTime,
             court_no: regularIds[index], sportsType: data["booking"]["activityType"])
           bookingArray << regBooking
       end
@@ -239,7 +240,9 @@ class Api::V1::BookingsController < Api::V1::ApiController
     #binding.pry
 
     reservationTime = myIdentity_params[:reservation_time]
-    # ensure the myIdentity data is sent with merchant data.
+    # ensure the time created is sent with merchant data.
+    # "\"myIdentity\":" +
+    # "{\"reservationTime\": \"#{myIdentity_params[:reservation_time]}\"}," +
 
     merchantDataString = '{"order":' +
       "{\"allDates\": #{allDates}," +
@@ -250,8 +253,6 @@ class Api::V1::BookingsController < Api::V1::ApiController
       "\"firstDayBookings\": #{order_params[:bwFirstDayBookings]}," +
       "\"arrayOfRegularCourtIds\": #{arrayOfRegularCourtIds}," +
       "\"customerEmail\": \"#{order_params[:customerEmail]}\"}," +
-      "\"myIdentity\":" +
-      "{\"reservationTime\": \"#{myIdentity_params[:reservation_time]}\"}," +
       "\"booking\":" +
       "{\"courtIdTimesArray\": #{courtIdTimesArray}," +
       "\"startTime\": \"#{booking_params[:startTime]}\"," +

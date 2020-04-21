@@ -715,6 +715,7 @@ $(document).on('turbolinks:load', function ()  {
                             nowDate = new Date();
 
                             reserved_bookings = (decodedData.bookings === Array) ? decodedData.bookings : JSON.parse(decodedData.bookings);
+                            //console.log("" reserved_bookings);
                             current_bookings = JSON.parse(localStorage.getItem("bookings_array"));
                             // filter out the old bookings.
                             for (var reservation in reserved_bookings) {
@@ -1232,7 +1233,7 @@ $(document).on('turbolinks:load', function ()  {
                                     alert("Your preferred booking time is no longer available. Please try again.");
                                     return false;
                                 }
-                                //var request = makeCORSRequest(`http://localhost/api/v1/sports_centres/114/bookings/reserve`, "POST");
+                                //var request = makeCORSRequest(`http://localhost:3000/api/v1/sports_centres/114/bookings/reserve`, "POST");
                                 var request = makeCORSRequest(`https://weball.com.au/api/v1/sports_centres/${sportsCentreId}/bookings/reserve`, "POST");
                                 //*****var request = makeCORSRequest(`https://weball.com.au/api/v1/sports_centres/${sportsCentreId}/bookings/initiate`, "POST");
                                 request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
