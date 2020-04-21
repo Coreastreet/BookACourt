@@ -141,11 +141,26 @@ class AdminController < ApplicationController
   end
 
   def payment_failure
+    url = "https://poliapi.apac.paywithpoli.com/api/v2/Transaction/GetTransaction?token=" + token_params[:token]
+    response = RestClient.get url, {Authorization: "Basic UzYxMDQ2ODk6RWQ2QCRNYjM0Z14="}
+    parsed_response = JSON.parse(response)
+
     @sportsCentre = current_sports_centre;
-    @poliMessage = "Sorry, your payment transaction has failed."
-    @imageRef = "paymentFailed.png"
-    respond_to do |format|
-      format.html { render :payment }
+
+    if (parsed_response["TransactionStatus"] == "ReceiptUnverified")
+      @poliMessage = "Communications were lost at a crucial time." +
+      " As a result, you should check with your bank to check" +
+      " if they have processed the payment transaction successfully."
+      @imageRef = "paymentReceiptUnverified.png"
+      respond_to do |format|
+        format.html { render :payment }
+      end
+    else
+      @poliMessage = "Sorry, your payment transaction has failed."
+      @imageRef = "paymentFailed.png"
+      respond_to do |format|
+        format.html { render :payment }
+      end
     end
   end
 
@@ -159,14 +174,6 @@ class AdminController < ApplicationController
   end
 
   def payment_receipt_unverified
-    @sportsCentre = current_sports_centre;
-    @poliMessage = "Communications were lost at a crucial time." +
-    " As a result, you should check with your bank to check" +
-    " if they have processed the payment transaction successfully."
-    @imageRef = "paymentReceiptUnverified.png"
-    respond_to do |format|
-      format.html { render :payment }
-    end
   end
 
   def lockPage

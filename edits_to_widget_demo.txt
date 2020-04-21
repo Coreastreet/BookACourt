@@ -15,3 +15,7 @@
 4. Insert another modal footer for the info and reservation button.
 5. Transfer css by adding the id/class for reservationInfo, reservationPreFooter, reservationCancel.
 6. Transfer JS for the info button and onclick of bw-reservation only on success of reserve.
+
+1. Detect error if not longestSubBooking.length >= 1 in getLargestSubArray function then return false. Ie. booking is invalid overlapping booked times.
+2. Alter the checkAvailability function via the extract_relevant_days function, counter < 10 and move the set date to the bottom of loop. Remove +1 later on.
+3. Clean the array on message of expired reservations.

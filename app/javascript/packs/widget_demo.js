@@ -1859,8 +1859,8 @@ $(document).on('turbolinks:load', function ()  {
                             timesToBeFilled = Object.keys(hashSets).sort()[0];
                             //console.log("HashSets", hashSets);
                             //console.log("Times to be filled", timesToBeFilled);
-                            console.log("hash sets", hashSets);
-                            console.log("times to be filled", timesToBeFilled);
+                            //console.log("hash sets", hashSets);
+                            //console.log("times to be filled", timesToBeFilled);
                             courtFreeIds.push(hashSets[timesToBeFilled][1]); // store the courtId of the court that is free for most of the booking
                             newSetBooking = hashSets[timesToBeFilled][0]; // get the set which will contain the times which still need a courtId for.
                             courtTimeDifference = [...setBooking].filter(x => !newSetBooking.has(x)); // array
@@ -2075,7 +2075,7 @@ $(document).on('turbolinks:load', function ()  {
                               endTimeEdited = hashSet.endTime.split("T")[1].substr(0,5);
                               //console.log(hashSet, startTimeEdited, endTimeEdited);
                               hashSetTime = new Set(getIntervals(startTimeEdited, endTimeEdited));
-                              console.log("hash", hashSetTime, arrayOfHash[hashBooking]);
+                              //console.log("hash", hashSetTime, arrayOfHash[hashBooking]);
                               intersection = new Set([...intervalTimes].filter(x => hashSetTime.has(x)));
                               // if intersection.size == 0, then bookingOverlapCounter remains 0 or no difference
                               if (intersection.size != 0) { // meaning the court is free during the time in question
