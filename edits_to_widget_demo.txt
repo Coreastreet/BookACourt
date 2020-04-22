@@ -19,3 +19,8 @@
 1. Detect error if not longestSubBooking.length >= 1 in getLargestSubArray function then return false. Ie. booking is invalid overlapping booked times.
 2. Alter the checkAvailability function via the extract_relevant_days function, counter < 10 and move the set date to the bottom of loop. Remove +1 later on.
 3. Clean the array on message of expired reservations.
+
+1. Save the time when the reservation button is clicked in localstorage as "reservation_time".
+2. Add if else clause to check on message received if the reservation matches the same updated_at time. If so, don't add to bookings_array.
+3. On close or exit via top-right cross icon, send a message to delete the reservation.
+4. Compare time on reservation click with time on pay poli click and if > 2mins, then close the modal and delete the reservation.

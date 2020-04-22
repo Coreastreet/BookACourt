@@ -713,6 +713,9 @@ $(document).on('turbolinks:load', function ()  {
                             bookingMatrix = createBookingMatrix(JSON.parse(updated_bookings_array), currentFormattedDate, no_courts);
                             localStorage.setItem("BookingsMatrix", JSON.stringify(bookingMatrix));
                             console.log("updated EventSource");
+                          } else if (decodedData.event == "live_reservation_remove") {
+                            console.log(decodedData);
+                            console.log("live_reservation_remove!");
                           } else if (decodedData.event == "live_reservation_update") {
                             nowDate = new Date();
 
@@ -1314,6 +1317,11 @@ $(document).on('turbolinks:load', function ()  {
                         modal_body.find("#bw-polipayPreFooter").addClass("bw-none");
                         modal_body.find("#bw-reservationPreFooter").removeClass("bw-none");
                         modal_body[0].style.display='none';
+                        var reservationTimeNumber = parseInt(localStorage.getItem("reservationTime"));
+                        $.post(`https://weball.com.au/pub/${sports_centre_id}`, {
+                          event: "live_reservation_remove",
+                          reservationTime: reservationTimeNumber,
+                        });
                       })
 
                       modal_body.on("click", ".back-arrow", function() {
