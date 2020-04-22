@@ -351,7 +351,7 @@ $(document).on('turbolinks:load', function ()  {
                         var minutesPastReservation;
                         var bookingsByDate = bookedArray.filter(function(booking) {
                            minutesPastReservation = (currentTime - Date.parse(booking.created_at))/60000;
-                           isExpiredReservation2 = ((booking.id == null) && (minutesPastReservation > 2));
+                           isExpiredReservation2 = ((booking.id == null) && (minutesPastReservation > 15));
                            return ((booking.date == date) && !isExpiredReservation2);
                         });
 
@@ -752,7 +752,7 @@ $(document).on('turbolinks:load', function ()  {
                             console.log(current_bookings);
                             current_bookings = current_bookings.filter(function(booking) {
                                minutesSinceBooked = (nowDate - Date.parse(booking.created_at))/60000;
-                               isExpiredReservation = (minutesSinceBooked > 2) && (booking.id == null);
+                               isExpiredReservation = (minutesSinceBooked > 15) && (booking.id == null);
                                return !isExpiredReservation;
                             });
                             console.log("updated! current_bookings", current_bookings);
@@ -1064,10 +1064,24 @@ $(document).on('turbolinks:load', function ()  {
                           }
                       });
 
+                      var dateHolder = bw.find("#dateHolder");
+                      bw.on("change", "#dateHolder", function() {
+                            if ($(this).val() != "") {
+                                $(this).css("border-color", "initial");
+                            }
+                      });
+
                       bw.on("click", "#bookNowButton", function(e) {
                         // set height of hidden modal to same as first modal
+
                         var rightNow = new Date();
-                        var dateChosen = new Date($("#dateHolder").val());
+
+                        if (dateHolder.val() == "") {
+                            dateHolder.css("border-color", "red");
+                            return false;
+                        }
+
+                        var dateChosen = new Date(dateHolder.val());
                         var nowHHSS = (rightNow < dateChosen) ? "00:00" : rightNow.toLocaleTimeString().substr(0,5);
                         // if current time is less than chosen date, remove constraint
                         // if greater or equal, dateChosen must be today so add constraint.
@@ -1079,8 +1093,9 @@ $(document).on('turbolinks:load', function ()  {
                         var firstInputValue = firstInput.val();
                         var secondInputValue = secondInput.val();
 
-                        var inputError = false;
                         // check if both or one time inputs are empty and highlight red.
+                        var inputError = false;
+
                         if (  ( firstInputValue == '') || ( parseInt(firstInputValue.substr(-2)) % 30 != 0 ) || (firstInputValue < firstInput.attr("min")) ||
                               (firstInputValue < nowHHSS) || (firstInputValue > firstInput.attr("max"))  ) {
 
@@ -1105,8 +1120,8 @@ $(document).on('turbolinks:load', function ()  {
                                   alert("Check Availability before making a regular booking.");
                                   return false;
                               }
-                              modal_body[0].style.display='block';
                               fillInPaymentModal();
+
                               var dateSelected = new Date(bw.find("#dateHolder").val());//.val().substr(0,3) // abbr
 
                               var total_cost = calculateTotalPrice(dateSelected);
@@ -1291,8 +1306,18 @@ $(document).on('turbolinks:load', function ()  {
                               modal_body.on("click", "#polipay", function() {
                                 var freeCourtIdsReview = checkAvailability(daysInBetween, startTime, endTime);
                                 console.log(freeCourtIdsReview, bookings_count);
+                                var nowPayTime = Date.now(); // current time in milliseconds
+                                var clickedReservationTime = parseInt(localStorage.getItem("reservationTime"));
+                                var tooLong = (((nowPayTime - clickedReservationTime)/60000) > 2);
                                 if (freeCourtIdsReview.length < parseInt(bookings_count)) {
-                                    alert("Your preferred booking time is no longer available. Please try again.");
+                                    alert("Your preferred booking time is no longer available. Please select another time to book.");
+                                    $("#modalClose").trigger("click");
+                                    return false;
+                                }
+                                if (tooLong) {
+                                    console.log("Difference in times clicked", ((nowPayTime-clickedReservationTime)/60000));
+                                    alert("Time (2 minutes) taken to proceed to the next step has elapsed. Try again.");
+                                    $("#modalClose").trigger("click");
                                     return false;
                                 }
                                 //var request = makeCORSRequest(`https://weball.com.au/api/v1/sports_centres/${sportsCentreId}/bookings/reserve`, "POST");
@@ -1343,12 +1368,12 @@ $(document).on('turbolinks:load', function ()  {
                       // fill in payment details except for the cost
                       /* function showPolipayInfo() {
 
-                          $("#firstModalCard #polipayFooter").removeClass("bw-none");
-                      }
+                          $("#firstModalCard #polipayFooter").removeClass("bw-non
 
                       function hidePolipayInfo() {
                           $("#firstModalCard #polipayFooter").addClass("bw-none");
                       } */
+
                       function decodeUrlData(urlData) {
                         var jsonHolder = {};
                         var subJsonHolder;
@@ -1658,6 +1683,8 @@ $(document).on('turbolinks:load', function ()  {
                         if (bookingCourtIds == false) {
                             alert("Booking is invalid");
                             return false
+                        } else { // no overlap
+                            modal_body[0].style.display='block';
                         }
                         //console.log("Court Ids", bookingCourtIds);
                         // assign court ids and period to the rows in details modal
@@ -2079,10 +2106,11 @@ $(document).on('turbolinks:load', function ()  {
                           //var timeInputsAgain = timeHolder.find("input");
                           var startTime = bw.find("input#startTime").val();
                           var endTime = bw.find("input#endTime").val();
+                          var dateValue = bw.find("#dateHolder").val();
 
                           var bookingNumber = parseInt(bw.find(".frequency-in-days").text());
                           var bookingRealNumber = parseInt(bw.find("#endDateBottomRow .number-of-bookings").text());
-                          if ((startTime == "") || (endTime == "") || (bookingNumber < 1) || (bookingRealNumber < 2)) {
+                          if ((startTime == "") || (endTime == "") || (bookingNumber < 1) || (bookingRealNumber < 2) || (dateValue == "")) {
                               bw.find("#maxBookingsWarning").text("Incomplete Details");
                           } else {
                               var bookingInput = bw.find("#frequencyRate").attr("data-frequency-type");

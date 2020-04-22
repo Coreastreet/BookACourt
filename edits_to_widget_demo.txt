@@ -27,3 +27,7 @@
 
 1. Close the modal window and send a remove_live event
 2. Uncomment the select < 10min in reserve controller action.
+3. Adjust the dateHolder for error when attempting to book now and make dissapear after input change.
+4. If booking is invalid; i.e. overlaps with red bookedout spot, return false and prevent modal from appearing.
+
+1. tooLong on click of polipay pay button.
