@@ -24,3 +24,6 @@
 2. Add if else clause to check on message received if the reservation matches the same updated_at time. If so, don't add to bookings_array.
 3. On close or exit via top-right cross icon, send a message to delete the reservation.
 4. Compare time on reservation click with time on pay poli click and if > 2mins, then close the modal and delete the reservation.
+
+1. Close the modal window and send a remove_live event
+2. Uncomment the select < 10min in reserve controller action.
