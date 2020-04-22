@@ -751,13 +751,14 @@ $(document).on('turbolinks:load', function ()  {
 
                             console.log(current_bookings);
                             current_bookings = current_bookings.filter(function(booking) {
-                             minutesSinceBooked = (nowDate - Date.parse(booking.created_at))/60000;
-                             isExpiredReservation = (minutesSinceBooked > 2) && (booking.id == null);
-                             return !isExpiredReservation;
-                            console.log(current_bookings);
+                               minutesSinceBooked = (nowDate - Date.parse(booking.created_at))/60000;
+                               isExpiredReservation = (minutesSinceBooked > 2) && (booking.id == null);
+                               return !isExpiredReservation;
+                            });
+                            console.log("updated! current_bookings", current_bookings);
 
                             localStorage.setItem("bookings_array", JSON.stringify(current_bookings));
-                          });
+
                             bookingMatrix = createBookingMatrix(current_bookings, currentFormattedDate, no_courts);
                             localStorage.setItem("BookingsMatrix", JSON.stringify(bookingMatrix));
                             console.log("reservation_update!");
