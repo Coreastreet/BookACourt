@@ -1318,8 +1318,8 @@ $(document).on('turbolinks:load', function ()  {
                         modal_body[0].style.display='none';
                         var reservationTimeNumber = parseInt(localStorage.getItem("reservationTime"));
                         $.post(`https://weball.com.au/pub/${sportsCentreId}`, JSON.stringify({
-                          JSON.stringify({event: "live_reservation_remove"},
-                          JSON.stringify({reservationTime: reservationTimeNumber}),
+                          event: "live_reservation_remove",
+                          reservationTime: reservationTimeNumber,
                         }));
                       })
 
