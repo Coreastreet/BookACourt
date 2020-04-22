@@ -1318,7 +1318,7 @@ $(document).on('turbolinks:load', function ()  {
                         modal_body.find("#bw-reservationPreFooter").removeClass("bw-none");
                         modal_body[0].style.display='none';
                         var reservationTimeNumber = parseInt(localStorage.getItem("reservationTime"));
-                        $.post(`https://weball.com.au/pub/${sports_centre_id}`, {
+                        $.post(`https://weball.com.au/pub/${sportsCentreId}`, {
                           event: "live_reservation_remove",
                           reservationTime: reservationTimeNumber,
                         });
