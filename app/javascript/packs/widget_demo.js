@@ -706,21 +706,29 @@ $(document).on('turbolinks:load', function ()  {
                           var nowDate;
                           var utcDate;
                           var reservationTimeLocalSecs;
+                          current_bookings = JSON.parse(localStorage.getItem("bookings_array"));
 
                           if (decodedData.event == "live_update") {
                             updated_bookings_array = decodedData.bookings;
                             localStorage.setItem("bookings_array", updated_bookings_array);
                             bookingMatrix = createBookingMatrix(JSON.parse(updated_bookings_array), currentFormattedDate, no_courts);
                             localStorage.setItem("BookingsMatrix", JSON.stringify(bookingMatrix));
-                            console.log("updated EventSource");
+                            console.log("updated EventSource check stringify bookings_array", updated_bookings_array);
                           } else if (decodedData.event == "live_reservation_remove") {
                             console.log("live_remove");
+                            utcDate = new Date(decodedData.reservationTime).toISOString();
+                            current_bookings = current_bookings.filter( function(booking) {
+                                return booking.updated_at != utcDate;
+                            });
+                            console.log("removed reservation!", current_bookings);
+                            localStorage.setItem("bookings_array", JSON.stringify(current_bookings));
+                            bookingMatrix = createBookingMatrix(current_bookings, currentFormattedDate, no_courts);
+                            localStorage.setItem("BookingsMatrix", JSON.stringify(bookingMatrix));
                           } else if (decodedData.event == "live_reservation_update") {
                             nowDate = new Date();
 
                             reserved_bookings = (decodedData.bookings === Array) ? decodedData.bookings : JSON.parse(decodedData.bookings);
                             //console.log("" reserved_bookings);
-                            current_bookings = JSON.parse(localStorage.getItem("bookings_array"));
                             // check if the user just clicked on the reserve button, if so do not add this reservation to the bookings array
                             reservationTimeLocalSecs = JSON.parse(localStorage.getItem("reservationTime"));
                             if (reservationTimeLocalSecs != null) {
