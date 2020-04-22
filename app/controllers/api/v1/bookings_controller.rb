@@ -239,7 +239,6 @@ class Api::V1::BookingsController < Api::V1::ApiController
     courtIdTimesArray = (booking_params[:courtIdTimesArray].nil?) ? JSON.parse(booking_params[:bwCourtIdTimesArray]) : booking_params[:courtIdTimesArray]
     #binding.pry
 
-    reservationTime = myIdentity_params[:reservation_time]
     # ensure the time created is sent with merchant data.
     # "\"myIdentity\":" +
     # "{\"reservationTime\": \"#{myIdentity_params[:reservation_time]}\"}," +
