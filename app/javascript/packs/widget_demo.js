@@ -723,12 +723,15 @@ $(document).on('turbolinks:load', function ()  {
                             reservationTimeLocalSecs = parseInt(JSON.parse(localStorage.getItem("reservationTime")));
                             utcDate = new Date(reservationTimeLocalSecs).toISOString();
                             // filter out the old bookings.
+                            console.log("reservationTime", utcDate);
                             for (var reservation in reserved_bookings) {
                                 if (reserved_bookings[reservation].updated_at != utcDate) {
+
                                     current_bookings.push(reserved_bookings[reservation]);
                                 } else {
-                                    console.log(reserved_bookings[reservation]);
+                                   console.log("match! My booking");
                                 }
+                                console.log(reserved_bookings[reservation]);
                             }
 
                             console.log(current_bookings);
