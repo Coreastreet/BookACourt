@@ -704,6 +704,8 @@ $(document).on('turbolinks:load', function ()  {
                           var isExpiredReservation;
                           var minutesSinceBooked;
                           var nowDate;
+                          var utcDate;
+                          var reservationTimeLocalSecs;
 
                           if (decodedData.event == "live_update") {
                             updated_bookings_array = decodedData.bookings;
@@ -717,9 +719,16 @@ $(document).on('turbolinks:load', function ()  {
                             reserved_bookings = (decodedData.bookings === Array) ? decodedData.bookings : JSON.parse(decodedData.bookings);
                             //console.log("" reserved_bookings);
                             current_bookings = JSON.parse(localStorage.getItem("bookings_array"));
+                            // check if the user just clicked on the reserve button, if so do not add this reservation to the bookings array
+                            reservationTimeLocalSecs = parseInt(JSON.parse(localStorage.getItem("reservationTime")));
+                            utcDate = new Date(reservationTimeLocalSecs).toISOString();
                             // filter out the old bookings.
                             for (var reservation in reserved_bookings) {
-                                current_bookings.push(reserved_bookings[reservation]);
+                                if (reserved_bookings[reservation].updated_at != utcDate) {
+                                    current_bookings.push(reserved_bookings[reservation]);
+                                } else {
+                                    console.log(reserved_bookings[reservation]);
+                                }
                             }
 
                             console.log(current_bookings);
