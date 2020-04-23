@@ -793,7 +793,12 @@ $(document).on('turbolinks:load', function ()  {
                           // store the prices in a div for reference in the widget sinces its easier.
                           //var real_price_holder = mainClockCard.find("#real-price-holder");
                           //real_price_holder.attr("data-prices", JSON.stringify(response["prices"]));
-
+                          console.log("This is the plan type", response["plan_type"]);
+                          var plan_type = response["plan_type"];
+                          if (plan_type == 0) { // free plan
+                              mainClockCard.find("#timeHolder").toggle();
+                              mainClockCard.find("#bookNowButton").toggle();
+                          }
                           // copy and insert more image icons in the activity selection bar depending on the number of activities in prices.
                           //var jsonPrices = JSON.parse(response["prices"]);
                           var cloneIcon;

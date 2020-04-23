@@ -94,10 +94,12 @@ class Api::V1::BookingsController < Api::V1::ApiController
     @prices = sportsCentre.prices
     @peak_hours = sportsCentre.peak_hours
     @opening_hours = sportsCentre.opening_hours.to_json
+    # send an int in the response to signal which plan the sportsCentre is on.
+    @planInt = sportsCentre.plan_before_type_cast
 
     if @json_bookings
       render :json => {json_bookings: @json_bookings, number_of_courts: @numberOfCourts, opening_hours: @opening_hours,
-      prices: @prices, peak_hours: @peak_hours, success: true, content_type: 'application/json'}.to_json, status: 200
+      prices: @prices, peak_hours: @peak_hours, plan_type: @planInt, success: true, content_type: 'application/json'}.to_json, status: 200
     else
       render :json => {:error => "not-found", success: false, content_type: 'application/json'}.to_json, :status => 404
     end
