@@ -37,7 +37,7 @@
 #BookingWidget #clockHolderCard .bw-none {
   display: none !important;
 }
-#BookingWidget #clockHolderCard #calendar {
+#BookingWidget #clockHolderCard #bw-calendar {
   display: flex;
   height: 2rem;
   margin: 0;
