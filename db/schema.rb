@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_25_030558) do
+ActiveRecord::Schema.define(version: 2020_04_23_103417) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -166,12 +166,12 @@ ActiveRecord::Schema.define(version: 2020_03_25_030558) do
     t.string "authenticationCode"
     t.boolean "confirmed", default: false
     t.string "combinedCode"
-    t.string "plan", default: "Basic"
     t.decimal "moneyOwed", default: "0.0"
     t.decimal "transactionRate", precision: 10, scale: 4, default: "0.0"
     t.decimal "moneyPaid", default: "0.0"
     t.decimal "yesterdayMoneyOwed", default: "0.0"
     t.date "lastPayDate"
+    t.integer "plan", default: 0
   end
 
   create_table "users", force: :cascade do |t|
