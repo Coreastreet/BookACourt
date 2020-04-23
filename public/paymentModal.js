@@ -233,7 +233,7 @@ bw.on("click", "#bookNowButton", function(e) {
           var myIdentityText = addParams( "myIdentity", reservationTimeParams );
           localStorage.setItem("reservationTime", reservationTime);
 
-          var request = makeCORSRequest(`https://weball.com.au/api/v1/sports_centres/${sportsCentreId}/bookings/initiate`, "POST");
+          var request = makeCORSRequest(`https://weball.com.au/api/v1/sports_centres/${sportsCentreId}/bookings/reserve`, "POST");
           request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
           request.send(`${paramsOrderText}&${paramsBookingText}&${myIdentityText}`);
 
