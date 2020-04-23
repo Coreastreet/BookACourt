@@ -16,7 +16,6 @@
 5. Transfer css by adding the id/class for reservationInfo, reservationPreFooter, reservationCancel.
 6. Transfer JS for the info button and onclick of bw-reservation only on success of reserve.
 
-
 1. Detect error if not longestSubBooking.length >= 1 in getLargestSubArray function then return false. Ie. booking is invalid overlapping booked times.
 2. Alter the checkAvailability function via the extract_relevant_days function, counter < 10 and move the set date to the bottom of loop. Remove +1 later on.
 3. Clean the array on message of expired reservations.
@@ -26,9 +25,12 @@
 3. On close or exit via top-right cross icon, send a message to delete the reservation.
 4. Compare time on reservation click with time on pay poli click and if > 2mins, then close the modal and delete the reservation.
 
+----- good ------
+
 1. Close the modal window and send a remove_live event
 2. Uncomment the select < 10min in reserve controller action.
 3. Adjust the dateHolder for error when attempting to book now and make dissapear after input change.
 4. If booking is invalid; i.e. overlaps with red bookedout spot, return false and prevent modal from appearing.
 
 1. tooLong on click of polipay pay button.
+2. Adjust dateHolder to bw-dateHolder to prevent clashes.

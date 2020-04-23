@@ -364,8 +364,20 @@ div.datepicker.dropdown-menu.datepicker-orient-left.datepicker-orient-bottom {
   margin-left: 1rem;
 }
 
-#payment-confirmation #firstModalCard #polipayFooter {
+#payment-confirmation #firstModalCard #polipayFooter, #payment-confirmation #reservationFooter {
   display: none;
+  position: fixed;
+  background-color: white;
+  max-width: 500px;
+  padding-left: 1.25rem;
+  padding-right: 1rem;
+}
+
+#payment-confirmation #secondModalCard .legend {
+  height: 1rem;
+  width: 1rem;
+  margin-top: 0.125rem;
+  border: 2px solid lightskyblue;
 }
 
 #payment-confirmation .bw-whitesmoke {
@@ -685,8 +697,17 @@ div.datepicker.dropdown-menu.datepicker-orient-left.datepicker-orient-bottom {
   text-transform: capitalize;
 }
 
-#payment-confirmation i.fa-info-circle#polipayInfo {
+#payment-confirmation i.fa-info-circle#polipayInfo, #payment-confirmation #reservationInfo {
     color: grey;
+}
+
+#payment-confirmation #polipayInfo:active, #payment-confirmation #reservationInfo:active {
+     color: black;
+}
+
+#payment-confirmation #polipayInfo:hover, #payment-confirmation #reservationInfo:hover {
+     color: black;
+     cursor: pointer;
 }
 
 @media only screen and (min-width: 768px) {
@@ -704,8 +725,8 @@ div.datepicker.dropdown-menu.datepicker-orient-left.datepicker-orient-bottom {
         margin-left: 0.25rem;
     }
 
-    #payment-confirmation #paymentCancel {
-        display: none !important;
+    #payment-confirmation #paymentCancel, #payment-confirmation #reservationCancel {
+        display: none;
     }
 
     #payment-confirmation #firstModalCard #bw-poliLinks {

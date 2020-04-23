@@ -7,6 +7,9 @@ var bw = BookingWidget.$("#BookingWidget");
 var timeHolder = bw.find("#timeHolder");
 var repeatCard = bw.find("#repeatBookingCard");
 var timeInputs = timeHolder.find("input");
+
+var sportsCentreId = document.querySelector("#weBallWidget").getAttribute("data-sportsCentreId");
+
 timeHolder.on("input", "input",  function() {
     BookingWidget.$(this).css("border-color", "initial");
 });
@@ -17,9 +20,22 @@ timeHolder.on("change", "input",  function() {
     }
 });
 
+var dateHolder = bw.find("#dateHolder");
+bw.on("change", "#dateHolder", function() {
+      if ($(this).val() != "") {
+          $(this).css("border-color", "initial");
+      }
+});
+
 bw.on("click", "#bookNowButton", function(e) {
   // set height of hidden modal to same as first modal
   var rightNow = new Date();
+
+  if (dateHolder.val() == "") {
+      dateHolder.css("border-color", "red");
+      return false;
+  }
+
   var dateChosen = new Date(bw.find("#dateHolder").val());
   var nowHHSS = (rightNow < dateChosen) ? "00:00" : rightNow.toLocaleTimeString().substr(0,5);
   //var nowHHSS = rightNow.toLocaleTimeString().substr(0,5);
@@ -58,7 +74,7 @@ bw.on("click", "#bookNowButton", function(e) {
             alert("Check Availability before making a regular booking.");
             return false;
         }
-        modal_body[0].style.display='block';
+        //modal_body[0].style.display='block';
         fillInPaymentModal();
         var dateSelected = new Date(bw.find("#dateHolder").val());//.val().substr(0,3) // abbr
 
@@ -198,16 +214,57 @@ bw.on("click", "#bookNowButton", function(e) {
         //debugger
         //BookingWidget.$("#firstModalCard #polipayInfo").hover( showPolipayInfo, hidePolipayInfo );
         modal_body.on("click", "#polipayInfo", function() {
-              if (BookingWidget.$(this).css("color") == "rgb(0, 0, 0)") {
-                  BookingWidget.$(this).css("color", "grey");
-              } else {
-                  BookingWidget.$(this).css("color", "black");
-              }
               modal_body.find("#polipayFooter").toggle();
         });
+
+        modal_body.on("click", "#reservationInfo", function() {
+              modal_body.find("#reservationFooter").toggle();
+        });
         //console.log(paramsText);
-        var sportsCentreId = document.querySelector("#weBallWidget").getAttribute("data-sportsCentreId");
+        modal_body.on("click", "#bw-reservation", function() {
+          var freeCourtIdsReview = checkAvailability(daysInBetween, startTime, endTime);
+          //console.log(freeCourtIdsReview, bookings_count);
+          if (freeCourtIdsReview.length < parseInt(bookings_count)) {
+              alert("Your preferred booking time is no longer available. Please try again.");
+              return false;
+          }
+          var reservationTime = Date.parse(new Date());
+          var reservationTimeParams = { reservation_time: reservationTime };
+          var myIdentityText = addParams( "myIdentity", reservationTimeParams );
+          localStorage.setItem("reservationTime", reservationTime);
+
+          var request = makeCORSRequest(`https://weball.com.au/api/v1/sports_centres/${sportsCentreId}/bookings/initiate`, "POST");
+          request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+          request.send(`${paramsOrderText}&${paramsBookingText}&${myIdentityText}`);
+
+          request.onload = function(e) {
+            var response = request.response;
+            var parsedResponse = JSON.parse(response);
+            if (parsedResponse.success) {
+              modal_body.find("#bw-reservationPreFooter").addClass("bw-none");
+              modal_body.find("#bw-polipayPreFooter").removeClass("bw-none");
+            }
+          }
+        })
+
         modal_body.on("click", "#polipay", function() {
+          var freeCourtIdsReview = checkAvailability(daysInBetween, startTime, endTime);
+          //console.log(freeCourtIdsReview, bookings_count);
+          var nowPayTime = Date.now(); // current time in milliseconds
+          var clickedReservationTime = parseInt(localStorage.getItem("reservationTime"));
+          var tooLong = (((nowPayTime - clickedReservationTime)/60000) > 2);
+          if (freeCourtIdsReview.length < parseInt(bookings_count)) {
+              alert("Your preferred booking time is no longer available. Please select another time to book.");
+              modal_body.find("#modalClose").trigger("click");
+              return false;
+          }
+          if (tooLong) {
+              //console.log("Difference in times clicked", ((nowPayTime-clickedReservationTime)/60000));
+              alert("Time (2 minutes) taken to proceed to the next step has elapsed. Try again.");
+              modal_body.find("#modalClose").trigger("click");
+              return false;
+          }
+
           var request = makeCORSRequest(`https://weball.com.au/api/v1/sports_centres/${sportsCentreId}/bookings/initiate`, "POST");
           request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
           request.onload = function(e) {
@@ -216,6 +273,7 @@ bw.on("click", "#bookNowButton", function(e) {
             var parsedResponse = JSON.parse(response);
             var redirect_url = parsedResponse["redirect_url"];
             //window.location.href = redirect_url;
+            window.location.href = redirect_url;
             window.location.replace(redirect_url);
           }
           request.send(`${paramsOrderText}&${paramsBookingText}`);
@@ -231,7 +289,14 @@ bw.on("click", "#bookNowButton", function(e) {
 });
 
 modal_body.on("click", "#modalClose", function() {
+  modal_body.find("#bw-polipayPreFooter").addClass("bw-none");
+  modal_body.find("#bw-reservationPreFooter").removeClass("bw-none");
   modal_body[0].style.display='none';
+  var reservationTimeNumber = parseInt(localStorage.getItem("reservationTime"));
+  $.post(`https://weball.com.au/pub/${sportsCentreId}`, JSON.stringify({
+    event: "live_reservation_remove",
+    reservationTime: reservationTimeNumber,
+  }));
 })
 
 modal_body.on("click", ".back-arrow-booking", function() {
@@ -535,6 +600,13 @@ function fillInPaymentModal() {
   var bookingMatrix = JSON.parse(localStorage.getItem("BookingsMatrix"));
   //console.log(bookingMatrix);
   var bookingCourtIds = (courtType == "halfCourt") ? calculateCourtIds(startTime, endTime, bookingMatrix) : calculateFullCourtIds(startTime, endTime, bookingMatrix);
+
+  if (bookingCourtIds == false) {
+      alert("Booking is invalid");
+      return false
+  } else { // no overlap
+      modal_body[0].style.display='block';
+  }
   //console.log("Court Ids", bookingCourtIds);
   // assign court ids and period to the rows in details modal
   var courtIdBody = reviewDetailModal.find("#courtIdBody");
@@ -695,6 +767,7 @@ function calculateCourtIds(startTime, endTime, courtArrays) {
   var courtFreePeriods = [];
   var arrayBookedSets = [];
   var finalHash = {};
+  var validBooking;
   for (var item in courtArrays) {
     arrayBookedSets.push(new Set(courtArrays[item]));
   }
@@ -721,12 +794,13 @@ function calculateCourtIds(startTime, endTime, courtArrays) {
       setBooking = newSetBooking;
 
   //} while (intersection.size != 0);
-      courtFreePeriods.push(getLargestSubArray(courtTimeDifference));
-  //return courtFreeIds;
-  /*console.log("Times that still need filling", timesToBeFilled);
-  console.log("id of the best matching court", courtFreeIds);
-  console.log("Times that still need a court to accomodate", setBooking);
-  *///console.log("HashSets", hashSets);
+      validBooking = getLargestSubArray(courtTimeDifference);
+      if (validBooking != false) {
+          courtFreePeriods.push(validBooking);
+      } else {
+          return false;
+      }
+      //    courtFreePeriods.push(getLargestSubArray(courtTimeDifference));
 } while(timesToBeFilled != 0);
   for (var i in courtFreeIds) {
       finalHash[parseInt(courtFreeIds[i])+1] = courtFreePeriods[i];
@@ -752,6 +826,7 @@ function calculateFullCourtIds(startTime, endTime, courtArrays) {
   var courtFreePeriods = [];
   var arrayBookedSets = [];
   var finalHash = {};
+  var validBooking;
   for (var item in courtArrays) {
     arrayBookedSets.push(new Set(courtArrays[item]));
   }
@@ -766,32 +841,22 @@ function calculateFullCourtIds(startTime, endTime, courtArrays) {
         if (isSetsEqual(intersection, intersection2)) {
           hashSets[intersection.size] = [intersection, courtTimes];
         }
-        /* if (intersection.size == 0) {
-          courtFreeIds.push(courtTimes + 1);
-          break
-        } */// if no overlapping times, then this court is available to be booked. return the court id.
-        //intersectionMatrix.push(intersection); use hash instead of array
-        //console.log("Intersection", intersection);
       }
 
       timesToBeFilled = Object.keys(hashSets).sort()[0];
-      console.log("HashSets", hashSets);
-      console.log("Times to be filled", timesToBeFilled);
-      //console.log("hash sets", hashSets);
-      //console.log("times to be filled", timesToBeFilled);
+
       courtFreeIds.push(hashSets[timesToBeFilled][1]); // store the courtId of the court that is free for most of the booking
       newSetBooking = hashSets[timesToBeFilled][0]; // get the set which will contain the times which still need a courtId for.
       courtTimeDifference = [...setBooking].filter(x => !newSetBooking.has(x)); // array
       setBooking = newSetBooking;
 
-  //} while (intersection.size != 0);
-      courtFreePeriods.push(getLargestSubArray(courtTimeDifference));
-  //return courtFreeIds;
-  /*console.log("Times that still need filling", timesToBeFilled);
-  console.log("id of the best matching court", courtFreeIds);
-  console.log("Times that still need a court to accomodate", setBooking);
-  *///console.log("HashSets", hashSets);
-  //console.log(timesToBeFilled);
+      validBooking = getLargestSubArray(courtTimeDifference);
+      if (validBooking != false) {
+          courtFreePeriods.push(validBooking);
+      } else {
+          return false;
+      }
+
 } while(timesToBeFilled != 0);
   for (var i in courtFreeIds) {
       finalHash[parseInt(courtFreeIds[i])+1] = courtFreePeriods[i];
@@ -841,10 +906,14 @@ function getLargestSubArray(array) {
     }
     shiftsArray.push(holderArray);
   }
-  var startSubBooking = convertToAMPM(convertTimeIntoString(longestSubBooking[0]));
-  var endSubBooking = convertToAMPM(convertTimeIntoString(longestSubBooking[longestSubBooking.length - 1] + 0.5));
-  finalString = `${startSubBooking}-${endSubBooking}`
-  return finalString
+  if (longestSubBooking.length >= 1) {
+      var startSubBooking = convertToAMPM(convertTimeIntoString(longestSubBooking[0]));
+      var endSubBooking = convertToAMPM(convertTimeIntoString(longestSubBooking[longestSubBooking.length - 1] + 0.5));
+      finalString = `${startSubBooking}-${endSubBooking}`
+      return finalString
+  } else {
+      return false;
+  }
 }
 
 function assignCourtIdToBox(courtBody, hashIds) {
@@ -882,6 +951,31 @@ function uncheckAvailability() {
     repeatCard.attr("data-availabilityChecked", "false");
 }
 
+function checkAvailability(daysInterval, startTime, endTime) {
+    var allBookings = JSON.parse(localStorage.getItem("bookings_array"));
+    var date = bw.find("#dateHolder").val();
+
+    var courtType = bw.find("#tabHolder").attr("data-courtType"); // set courtType later on click
+    var numberOfCourts = parseInt(localStorage.getItem("numberOfCourts"));
+    var arrayOfFreeCourtIds = [];
+
+    var arrayOfArrays = extract_relevant_days(allBookings, date, daysInterval, startTime, endTime);
+    var courtIdFree = null;
+    for (var bookingsOfOneSelectedDate in arrayOfArrays) {
+      //if (arrayOfArrays[bookingsOfOneSelectedDate].length != 0) { an array containing all the bookings in one day, which matches a regular booking day
+        courtIdFree = checkDayAvailability(arrayOfArrays[bookingsOfOneSelectedDate], startTime, endTime, numberOfCourts) // return boolean depending on whether a court is free on that particular day
+        // add courtType later
+        //console.log("selected days", courtIdFree);
+        if (courtIdFree == null) {
+          break
+        } else {
+          arrayOfFreeCourtIds.push(courtIdFree);
+        }
+    }
+    //console.log("free Court Ids", arrayOfFreeCourtIds);
+    return arrayOfFreeCourtIds;
+}
+
 repeatCard.on("click", "#returnToSingleButton", function() {
     //repeatCard.attr("data-availabilityChecked", "false");
     repeatCard.find("#frequencyButtons button").removeClass("btn-selected");
@@ -900,51 +994,25 @@ bw.on("click", "#checkAvailabilityButton", function() {
   // call functions to check 10 bookings ahead of time.
       var startTime = bw.find("input#startTime").val();
       var endTime = bw.find("input#endTime").val();
+      var dateValue = bw.find("#dateHolder").val();
 
       var bookingNumber = parseInt(bw.find(".frequency-in-days").text());
       var bookingRealNumber = parseInt(bw.find("#endDateBottomRow .number-of-bookings").text());
-      if ((startTime == "") || (endTime == "") || (bookingNumber < 1) || (bookingRealNumber < 2)) {
+      if ((startTime == "") || (endTime == "") || (bookingNumber < 1) || (bookingRealNumber < 2) || (dateValue == "")) {
           bw.find("#maxBookingsWarning").text("Incomplete Details");
       } else {
-            var allBookings = JSON.parse(localStorage.getItem("bookings_array"));
-            var date = bw.find("#dateHolder").val();
-            var bookingNumber = parseInt(bw.find(".frequency-in-days").text());
+            //var allBookings = JSON.parse(localStorage.getItem("bookings_array"));
+            //var date = bw.find("#dateHolder").val();
+            //var bookingNumber = parseInt(bw.find(".frequency-in-days").text());
             var bookingInput = bw.find("#frequencyRate").attr("data-frequency-type");
             var interval_in_days = (bookingInput == "Days") ? bookingNumber : (bookingNumber * 7); // get interval in days
-            //var startTime = bw.find("input.startTime").val();
-            //var endTime = bw.find("input.endTime").val();
-
-            var courtType = bw.find("#tabHolder").attr("data-courtType"); // set courtType later on click
-            var numberOfCourts = parseInt(localStorage.getItem("numberOfCourts"));
-            var arrayOfFreeCourtIds = [];
-            /*
-            console.log(bookings);
-            console.log(date);
-            console.log(interval_in_days);
-            */
-
-            var arrayOfArrays = extract_relevant_days(allBookings, date, interval_in_days, startTime, endTime);
-            console.log("selected days", arrayOfArrays);
-            // after extracting the relevant days; let us filter the bookings so that only bookings matching the relevant dates remain.
-            //console.log("all bookings", bookings);
-            var courtIdFree = null;
-            for (var bookingsOfOneSelectedDate in arrayOfArrays) {
-              //if (arrayOfArrays[bookingsOfOneSelectedDate].length != 0) { an array containing all the bookings in one day, which matches a regular booking day
-                courtIdFree = checkDayAvailability(arrayOfArrays[bookingsOfOneSelectedDate], startTime, endTime, numberOfCourts) // return boolean depending on whether a court is free on that particular day
-                // add courtType later
-                if (courtIdFree == null) {
-                  break
-                } else {
-                  arrayOfFreeCourtIds.push(courtIdFree);
-                }
-            }
-            console.log("free Court Ids", arrayOfFreeCourtIds);
-            var maxNoBookings = arrayOfFreeCourtIds.length + 1; // max-bookings, count the number of extra bookings ahead and include the current/first booking
+            var freeCourtIds = checkAvailability(interval_in_days, startTime, endTime);
+            var maxNoBookings = freeCourtIds.length; // max-bookings, count the number of extra bookings ahead and include the current/first booking
             var maxContainer = bw.find("#maxBookingsWarning");
             maxContainer.text(`Max. ${maxNoBookings} bookings available`);
             maxContainer.parent().removeClass("bw-none");
             maxContainer.attr("data-maxBookings", maxNoBookings);
-            maxContainer.attr("data-arrayOfFreeCourtIds", JSON.stringify(arrayOfFreeCourtIds));
+            maxContainer.attr("data-arrayOfFreeCourtIds", JSON.stringify(freeCourtIds));
 
             repeatCard.attr("data-availabilityChecked", "true");
             repeatCard.attr("data-regularBooking", "true");
@@ -1002,12 +1070,12 @@ function extract_relevant_days(bookings, date, interval_in_days, startTime, endT
     var stringDate;
     var arrayOfDates = [];
     var arrayOfArrays = [];
+    var weekdayShort;
+    var dayClosingHour;
     var openingHours = JSON.parse(localStorage.getItem("opening_hours"));
-
     // check all dates for a regular booking up to ten bookings ahead
-    while (counter < 9) {
+    while (counter < 10) {
       arrayOfDates = [];
-      regularDate.setDate(regularDate.getDate() + interval_in_days);
       stringDate = regularDate.toLocaleString('en-us', {year: 'numeric', month: '2-digit', day: '2-digit'}).
       replace(/(\d+)\/(\d+)\/(\d+)/, '$3-$1-$2');
       weekdayShort = regularDate.toLocaleString('en-au', {weekday: 'short'});
@@ -1025,6 +1093,7 @@ function extract_relevant_days(bookings, date, interval_in_days, startTime, endT
       }
       arrayOfArrays.push(arrayOfDates); // add to larger array if found
       //arrayOfDates.push(stringDate);
+      regularDate.setDate(regularDate.getDate() + parseInt(interval_in_days));
       counter++;
     }
     // returns array of Arrays aka (where all days that have bookings on the same as the regular booking appear).

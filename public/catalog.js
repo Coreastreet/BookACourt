@@ -238,7 +238,16 @@ BookingWidget.html = (function() {
               '</div>' +
               '</div>' +
               '</div>' +
-              '<div class="modal-footer bw-footer bw-marginTop1 bw-paddingBottom1">' +
+              '<div class="modal-footer bw-footer bw-marginTop1 bw-paddingBottom1" id="bw-reservationPreFooter">' +
+              '<i class="fas fa-info-circle fa-2x" id="reservationInfo"></i>' +
+              '<button type="button" class="btn btn-primary bw-button bw-blue" id="bw-reservation" data-dismiss="modal">Make a reservation</button>' +
+              '<button type="button" class="btn btn-default bw-button bw-white" id="reservationCancel" data-dismiss="modal">Close</button>' +
+              '</div>' +
+              '<div class="modal-footer bw-footer bw-paddingMargin bw-paddingBottom1 ml-0" id="reservationFooter">' +
+              '<span class="mx-0">After making a reservation, you will have a 15 minute window during which you may complete your payment.' +
+              '</span>' +
+              '</div>' +
+              '<div class="modal-footer bw-footer bw-marginTop1 bw-paddingBottom1 bw-none" id="bw-polipayPreFooter">' +
               '<img src="https://weball.com.au/polipayLogo.png" class=""></img>' +
               '<i class="fas fa-info-circle fa-2x" id="polipayInfo"></i>' +
               '<button type="button" class="btn btn-primary bw-button bw-blue" id="polipay" data-dismiss="modal">Pay with POLi</button>' +

@@ -339,7 +339,15 @@ function makeCORSRequest(url, method) {
 function createBookingMatrix(bookedArray, date, numberOfCourts) {
   // cut down the array of bookings to contain only those bookings that match the selected date.
   // no distinction made between fullCourt and halfCourt bookings
-  var bookingsByDate = bookedArray.filter(booking => booking.date == date);
+  //var bookingsByDate = bookedArray.filter(booking => booking.date == date);
+  var isExpiredReservation2;
+  var currentTime = new Date();
+  var minutesPastReservation;
+  var bookingsByDate = bookedArray.filter(function(booking) {
+     minutesPastReservation = (currentTime - Date.parse(booking.created_at))/60000;
+     isExpiredReservation2 = ((booking.id == null) && (minutesPastReservation > 15));
+     return ((booking.date == date) && !isExpiredReservation2);
+  });
 
   var outerArray = [];
   var subArray;
@@ -649,8 +657,23 @@ function bookings_live_update(sports_centre_id) {
   var currentFormattedDate;
   var activeTab;
   var decodedData;
+  var clean_bookings_array;
+
   source.onopen = function() {
+     activeTab = document.querySelector("#tabHolder .tab.active");
      console.log('connection to stream has been opened');
+
+     no_courts = localStorage.getItem("numberOfCourts");
+     currentDate = new Date(document.querySelector("#dateHolder").value);
+     currentFormattedDate = currentDate.toLocaleString('en-us', {year: 'numeric', month: '2-digit', day: '2-digit'}).
+     replace(/(\d+)\/(\d+)\/(\d+)/, '$3-$1-$2');
+
+     clean_bookings_array = JSON.parse(localStorage.getItem("bookings_array"));
+
+     bookingMatrix = createBookingMatrix(clean_bookings_array, currentFormattedDate, no_courts);
+     localStorage.setItem("BookingsMatrix", JSON.stringify(bookingMatrix));
+
+     activeTab.click();
   };
   source.onerror = function (error) {
     console.log('An error has occurred while receiving stream', error);
@@ -659,23 +682,73 @@ function bookings_live_update(sports_centre_id) {
     console.log('received stream');
     console.log(event);
     decodedData = JSON.parse(event.data);
+    no_courts = localStorage.getItem("numberOfCourts");
+    currentDate = new Date(document.querySelector("#dateHolder").value);
+    currentFormattedDate = currentDate.toLocaleString('en-us', {year: 'numeric', month: '2-digit', day: '2-digit'}).
+    replace(/(\d+)\/(\d+)\/(\d+)/, '$3-$1-$2');
+    activeTab = document.querySelector("#tabHolder .tab.active");
+    var reserved_bookings;
+    var current_bookings;
+    var isExpiredReservation;
+    var minutesSinceBooked;
+    var nowDate;
+    var utcDate;
+    var reservationTimeLocalSecs;
+    current_bookings = JSON.parse(localStorage.getItem("bookings_array"));
+
     if (decodedData.event == "live_update") {
       updated_bookings_array = decodedData.bookings;
       localStorage.setItem("bookings_array", updated_bookings_array);
-
-      currentDate = new Date(document.querySelector("#dateHolder").value);
-
-      no_courts = localStorage.getItem("numberOfCourts");
-      currentFormattedDate = currentDate.toLocaleString('en-us', {year: 'numeric', month: '2-digit', day: '2-digit'}).
-      replace(/(\d+)\/(\d+)\/(\d+)/, '$3-$1-$2');
-
       bookingMatrix = createBookingMatrix(JSON.parse(updated_bookings_array), currentFormattedDate, no_courts);
       localStorage.setItem("BookingsMatrix", JSON.stringify(bookingMatrix));
       console.log("updated EventSource");
-      activeTab = document.querySelector("#tabHolder .tab.active");
-      activeTab.click();
+
+   } else if (decodedData.event == "live_reservation_remove") {
+      console.log("live_remove");
+       utcDate = new Date(decodedData.reservationTime).toISOString();
+       current_bookings = current_bookings.filter( function(booking) {
+           return booking.updated_at != utcDate;
+       });
+       //console.log(    "removed reservation!", current_bookings);
+       localStorage.setItem("bookings_array", JSON.stringify(current_bookings));
+       bookingMatrix = createBookingMatrix(current_bookings, currentFormattedDate, no_courts);
+       localStorage.setItem("BookingsMatrix", JSON.stringify(bookingMatrix));
+      //currentDate = new Date(document.querySelector("#dateHolder").value);
+    } else if (decodedData.event == "live_reservation_update") {
+          console.log("reservation_update!");
+          nowDate = new Date();
+          reserved_bookings = (decodedData.bookings === Array) ? decodedData.bookings : JSON.parse(decodedData.bookings);
+          // check if the user just clicked on the reserve button, if so do not add this reservation to the bookings array
+          reservationTimeLocalSecs = JSON.parse(localStorage.getItem("reservationTime"));
+          if (reservationTimeLocalSecs != null) {
+              utcDate = new Date(parseInt(reservationTimeLocalSecs)).toISOString();
+              // filter out the old bookings.
+              //console.log("reservationTime", utcDate);
+              for (var reservation in reserved_bookings) {
+                  if (reserved_bookings[reservation].updated_at != utcDate) {
+                      current_bookings.push(reserved_bookings[reservation]);
+                  }
+              }
+          } else { // no reservation time is set, meaning the user running this website did not recently just make a reservation
+              for (var reservation in reserved_bookings) {
+                  current_bookings.push(reserved_bookings[reservation]);
+              }
+          }
+          current_bookings = current_bookings.filter(function(booking) {
+             minutesSinceBooked = (nowDate - Date.parse(booking.created_at))/60000;
+             isExpiredReservation = (minutesSinceBooked > 15) && (booking.id == null);
+             return !isExpiredReservation;
+          });
+          //console.log("updated! current_bookings", current_bookings);
+
+          localStorage.setItem("bookings_array", JSON.stringify(current_bookings));
+
+          bookingMatrix = createBookingMatrix(current_bookings, currentFormattedDate, no_courts);
+          localStorage.setItem("BookingsMatrix", JSON.stringify(bookingMatrix));
+    } else {
     }
-  };
+    activeTab.click();
+    }
 }
 
 // enable the clear time button
