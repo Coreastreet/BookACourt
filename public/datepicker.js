@@ -81,6 +81,10 @@ BookingWidget.$('[data-provide="datepicker"]').datepicker({
     //$(".startDate").val(($(this).datepicker('getFormattedDate')));
    uncheckAvailability();
    var fullDateString = BookingWidget.$(this).datepicker('getFormattedDate');
+   if (fullDateString == "") {
+     console.log("empty date!");
+     return false;
+   }
    //console.log(dateString);
    lastIndex = fullDateString.lastIndexOf(" ");
    dateString = fullDateString.substring(0, lastIndex);

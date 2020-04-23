@@ -89,7 +89,10 @@ $(document).on('turbolinks:load', function ()  {
                          //repeatCard.attr("data-availabilityChecked", "false");
                          uncheckAvailability();
                          var fullDateString = $(this).datepicker('getFormattedDate');
-                         //console.log(dateString);
+                         if (fullDateString == "") {
+                           console.log("empty date!");
+                           return false;
+                         }
                          lastIndex = fullDateString.lastIndexOf(" ");
                          dateString = fullDateString.substring(0, lastIndex);
                          startDate.val(dateString);
