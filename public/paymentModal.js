@@ -293,7 +293,7 @@ modal_body.on("click", "#modalClose", function() {
   modal_body.find("#bw-reservationPreFooter").removeClass("bw-none");
   modal_body[0].style.display='none';
   var reservationTimeNumber = parseInt(localStorage.getItem("reservationTime"));
-  $.post(`https://weball.com.au/pub/${sportsCentreId}`, JSON.stringify({
+  BookingWidget.$.post(`https://weball.com.au/pub/${sportsCentreId}`, JSON.stringify({
     event: "live_reservation_remove",
     reservationTime: reservationTimeNumber,
   }));
