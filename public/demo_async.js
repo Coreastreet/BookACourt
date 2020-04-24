@@ -60,6 +60,7 @@ var BookingWidget = (function(window, undefined) {
                                `  <p>${sportsCentreData.price}</p>` +
                                "</div>"; */
                     var div = document.createElement("div");
+                    div.id = "bw-outside-wrapper"; // for oranger border and padding
                     div.innerHTML = BookingWidget.html;
                     anchorTag.parentNode.insertBefore(div, anchorTag);
                 }
