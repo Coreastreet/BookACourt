@@ -134,7 +134,7 @@
 }
 #BookingWidget #repeatBookingCard {
   margin-left: 100%;
-/*  transition: all 1s; */
+  transition: all 1s;
   z-index: 99;
   margin-top: -50vh;
   background-color: lightgray;
