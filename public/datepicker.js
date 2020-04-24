@@ -789,8 +789,8 @@ request.onload = function(e) {
         mainClockCard.find("#timeHolder").toggle();
         mainClockCard.find("#bookNowButton").toggle();
         mainClockCard.find("#clearButton").toggle();
-        repeatCard.height(mainClockCard.outerHeight());
-        repeatCard.css("margin-top", `-${mainClockCard.outerHeight()}px`);
+        //repeatCard.height(mainClockCard.outerHeight());
+        //repeatCard.css("margin-top", `-${mainClockCard.outerHeight()}px`);
     }
     // copy and insert more image icons in the activity selection bar depending on the number of activities in prices.
     //var jsonPrices = JSON.parse(response["prices"]);

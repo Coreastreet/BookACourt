@@ -4,8 +4,10 @@ var mainClockCard = BookingWidget.$("#BookingWidget #clockHolderCard");
 var repeatCard = BookingWidget.$("#BookingWidget #repeatBookingCard");
 
 mainClockCard.find("#bw-brand").on("load", function() {
-    repeatCard.height(mainClockCard.outerHeight());
-    repeatCard.css("margin-top", `-${mainClockCard.outerHeight()}px`);
+    // 3rem the height of the bw-brand logo
+    var repeatHeight = mainClockCard.outerHeight()-45;
+    repeatCard.height(repeatHeight);
+    repeatCard.css("margin-top", `-${repeatHeight}px`);
 })
 
 bw.on("click", ".days-and-weeks button", function() {
@@ -76,9 +78,9 @@ bw.on("click", ".addAndMinus .plus-button", function() {
   //console.log(number);
 });
 
-bw.on("click", ".repeat", function() {
-  repeatCard.height(mainClockCard.outerHeight());
-  repeatCard.css("margin-top", `-${mainClockCard.outerHeight()}px`);
+bw.one("click", ".repeat", function() {
+  //repeatCard.height(mainClockCard.outerHeight());
+  //repeatCard.css("margin-top", `-${mainClockCard.outerHeight()}px`);
   //repeatCard.css("transition", "all 1s")
   repeatCard.css("margin-left", "0%");
 });
