@@ -33,11 +33,14 @@
 1. tooLong on click of polipay pay button.
 2. Adjust dateHolder to bw-dateHolder to prevent clashes.
 
------ good ------
-
 1. Change vl to vl-border
 2. Add weball and brand logo to top left corner of widget. Also transfer css.
 3. remove bottom timeholder, cancel time and book now button and col-6 from the repear booking
 for those on the free plan on response onload.
 4. padding-left for dateholder
 5. also remove the col-6 of cancel and regular buttons
+
+----- good ------
+
+1. change the margin top of repeat booking button to 0 and
+2. Create a class wrapper for the div around the widget

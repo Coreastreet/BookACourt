@@ -1,3 +1,9 @@
+#bw-outside-wrapper {
+  border: 2px solid #ff5e0d;
+  padding: 1rem;
+  border-radius: 0.25rem;
+}
+
 #BookingWidget {
   width: 100%;
   max-width: 18rem;
@@ -59,6 +65,7 @@
 }
 #BookingWidget #clockHolderCard #dateHolder {
   flex: 1 0 70%;
+  margin-left: 0.5rem;
 }
 #BookingWidget #clockHolderCard #dateButton {
   flex: 0 0 2rem;
@@ -101,8 +108,9 @@
   display: flex;
   height: 2rem;
   color: white;
-  margin-top: 8px;
+  margin: 0px;
 }
+
 #BookingWidget #clockHolderCard #buttomRow #repeatButton {
   flex: 1 0 50%;
   border: none;

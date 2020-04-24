@@ -59,7 +59,7 @@ BookingWidget.html = (function() {
               '</div>' +
               '</div>' +
               '<div class="card-footer pt-0">' +
-              '<div class="row mt-2 mx-0" id="buttomRow">' +
+              '<div class="row m-0" id="buttomRow">' +
               '<button type="button" class="btn btn-primary btn-sm repeat" id="repeatButton">Repeat booking</button>' +
               '<button type="button" class="btn btn-secondary btn-block btn-sm clearTime" id="clearButton">Clear Time</button>' +
               '</div>' +
