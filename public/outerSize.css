@@ -2,6 +2,7 @@
   border: 2px solid #ff5e0d;
   padding: 1rem;
   border-radius: 0.25rem;
+  width: fit-content;
 }
 
 #BookingWidget {
@@ -49,7 +50,7 @@
 
 #BookingWidget #clockHolderCard #bw-brand {
   max-width: 65%;
-  max-height: 3rem;
+  height: 2rem;
   align-self: center;
   margin-left: auto;
   margin-right: auto;
@@ -60,7 +61,7 @@
 }
 #BookingWidget #clockHolderCard #bw-calendar {
   display: flex;
-  height: 2rem;
+  height: 2.5rem;
   margin: 0;
 }
 #BookingWidget #clockHolderCard #dateHolder {
