@@ -4,8 +4,9 @@ var mainClockCard = BookingWidget.$("#BookingWidget #clockHolderCard");
 var repeatCard = BookingWidget.$("#BookingWidget #repeatBookingCard");
 
 mainClockCard.find("#bw-brand").on("load", function() {
-    // 3rem the height of the bw-brand logo
-    var repeatHeight = mainClockCard.outerHeight()-45;
+    // 3.5rem the height of the bw-brand logo
+    var brandRowHeight = mainClockCard.find("#bw-brandRow").innerHeight();
+    var repeatHeight = mainClockCard.outerHeight()-brandRowHeight;
     repeatCard.height(repeatHeight);
     repeatCard.css("margin-top", `-${repeatHeight}px`);
 })
@@ -78,7 +79,7 @@ bw.on("click", ".addAndMinus .plus-button", function() {
   //console.log(number);
 });
 
-bw.one("click", ".repeat", function() {
+bw.on("click", ".repeat", function() {
   //repeatCard.height(mainClockCard.outerHeight());
   //repeatCard.css("margin-top", `-${mainClockCard.outerHeight()}px`);
   //repeatCard.css("transition", "all 1s")
