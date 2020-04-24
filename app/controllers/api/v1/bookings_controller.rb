@@ -96,13 +96,8 @@ class Api::V1::BookingsController < Api::V1::ApiController
     @opening_hours = sportsCentre.opening_hours.to_json
     # send an int in the response to signal which plan the sportsCentre is on.
     @planInt = sportsCentre.plan_before_type_cast
-
-    if (sportsCentre.logo.attached?)
-      logo_url = sportsCentre.logo.blob.key
-      @full_logo_url = "https://f000.backblazeb2.com/file/weball/#{logo_url}"
-    else
-      @full_logo_url = false
-    end
+    
+    @full_logo_url = (sportsCentre.logo.attached?) ? true : false
 
     @sportsCentreTitle = sportsCentre.title
 

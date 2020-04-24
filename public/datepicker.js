@@ -69,6 +69,9 @@ var startTimeInput = document.querySelector("#startTime");
 var endTimeInput = document.querySelector("#endTime");
 var clearTimeButton = document.querySelector("#clearButton");
 
+// assign the src url of the sportsCentre logo.
+var sportsCentreLogoUrl = document.querySelector("#weBallWidget").getAttribute("data-logoRef");
+mainClockCard.find("#bw-brand").attr("src", `https://f000.backblazeb2.com/file/weball/${sportsCentreLogoUrl}`);
     //alert("hey!");
 BookingWidget.$('[data-provide="datepicker"]').datepicker({
    format: "DD, d MM yyyy",
@@ -772,10 +775,9 @@ request.onload = function(e) {
     var peak_hour_holder = mainClockCard.find("#peak-hour-holder");
     peak_hour_holder.attr("data-peak-hours", JSON.stringify(response["peak_hours"]));
     // display a logo if logo is set otherwise defer to the sports centre title.
-    if (response["logo_url"] != false) { // the sports centre uploaded a logo
-      mainClockCard.find("#bw-brand").attr("src", response["logo_url"]);
-    } else { // no logo so use the title of the sports centre instead
-      mainClockCard.find("img#bw-brand").addClass("d-none");
+
+    if (response["logo_attached"] == false) { // the sports centre has not uploaded a logo
+      mainClockCard.find("#bw-brand").addClass("d-none");
       mainClockCard.find("#bw-brandRow .bw-sportsCentreTitle").text(response["sports_centre_title"])
       mainClockCard.find("#bw-brandRow .bw-sportsCentreTitle").removeClass("d-none");
     }
