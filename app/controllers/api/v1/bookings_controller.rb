@@ -98,7 +98,7 @@ class Api::V1::BookingsController < Api::V1::ApiController
     @planInt = sportsCentre.plan_before_type_cast
 
     if (sportsCentre.logo.attached?)
-      logo_url = sports_centre.logo.blob.key
+      logo_url = sportsCentre.logo.blob.key
       @full_logo_url = "https://f000.backblazeb2.com/file/weball/#{logo_url}"
     else
       @full_logo_url = false

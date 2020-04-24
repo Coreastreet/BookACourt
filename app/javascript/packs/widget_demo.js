@@ -791,9 +791,14 @@ $(document).on('turbolinks:load', function ()  {
                           //console.log("peakHours", response["peak_hours"]);
                           peak_hour_holder.attr("data-peak-hours", JSON.stringify(response["peak_hours"]));
                           // store the prices in a div for reference in the widget sinces its easier.
-                          console.log("logoURL", response["logo_url"]);
-                          if (response["logoURL"] != false) {
+                          console.log("logo_url", response["logo_url"]);
+                          if (response["logo_url"] != false) { // the sports centre uploaded a logo
                             mainClockCard.find("#bw-brand").attr("src", response["logo_url"]);
+                          } else { // no logo so use the title of the sports centre instead
+                            console.log("bw-brand", mainClockCard.find("img#bw-brand"));
+                            mainClockCard.find("img#bw-brand").addClass("d-none");
+                            mainClockCard.find("#bw-brandRow .bw-sportsCentreTitle").text(response["sports_centre_title"])
+                            mainClockCard.find("#bw-brandRow .bw-sportsCentreTitle").removeClass("d-none");
                           }
                           console.log("sports centre title", response["sports_centre_title"])
                           //var real_price_holder = mainClockCard.find("#real-price-holder");

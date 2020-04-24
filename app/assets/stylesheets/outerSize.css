@@ -184,6 +184,11 @@
   margin-right: 2.5%;
 }
 
+#BookingWidget #clockHolderCard #bw-brandRow .bw-sportsCentreTitle {
+  max-width: 64%;
+  word-break: break-word;
+}
+
 #BookingWidget #repeatBookingCard #startRow {
   display: block;
   border: 1px solid white;
