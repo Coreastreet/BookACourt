@@ -50,7 +50,7 @@
 
 #BookingWidget #clockHolderCard #bw-brand {
   max-width: 65%;
-  height: 2rem;
+  max-height: 2rem;
   align-self: center;
   margin-left: auto;
   margin-right: auto;
@@ -61,7 +61,7 @@
 }
 #BookingWidget #clockHolderCard #bw-calendar {
   display: flex;
-  height: 2.5rem;
+  height: 2rem;
   margin: 0;
 }
 #BookingWidget #clockHolderCard #dateHolder {

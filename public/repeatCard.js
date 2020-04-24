@@ -1,5 +1,7 @@
 
 var bw = BookingWidget.$('#BookingWidget');
+var mainClockCard = BookingWidget.$("#BookingWidget #clockHolderCard");
+var repeatCard = BookingWidget.$("#BookingWidget #repeatBookingCard");
 
 bw.on("click", ".days-and-weeks button", function() {
   //var frequency_options = BookingWidget.$(this).find("button");
@@ -70,7 +72,9 @@ bw.on("click", ".addAndMinus .plus-button", function() {
 });
 
 bw.on("click", ".repeat", function() {
-  BookingWidget.$("#repeatBookingCard").css("margin-left", "0%");
+  repeatCard.height(mainClockCard.outerHeight());
+  repeatCard.css("margin-top", `-${mainClockCard.outerHeight()}px`);
+  repeatCard.css("margin-left", "0%");
 });
 
 bw.on("click", ".back-arrow-booking", function() {
