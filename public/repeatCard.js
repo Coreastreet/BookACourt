@@ -74,6 +74,7 @@ bw.on("click", ".addAndMinus .plus-button", function() {
 bw.on("click", ".repeat", function() {
   repeatCard.height(mainClockCard.outerHeight());
   repeatCard.css("margin-top", `-${mainClockCard.outerHeight()}px`);
+  repeatCard.css("transition", "all 1s")
   repeatCard.css("margin-left", "0%");
 });
 
