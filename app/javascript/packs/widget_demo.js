@@ -788,9 +788,14 @@ $(document).on('turbolinks:load', function ()  {
                           //console.log(response); // get response["prices"]
                           // store the peak hour times in a div above book-now for reference.
                           var peak_hour_holder = mainClockCard.find("#peak-hour-holder");
-                          console.log("peakHours", response["peak_hours"]);
+                          //console.log("peakHours", response["peak_hours"]);
                           peak_hour_holder.attr("data-peak-hours", JSON.stringify(response["peak_hours"]));
                           // store the prices in a div for reference in the widget sinces its easier.
+                          console.log("logoURL", response["logo_url"]);
+                          if (response["logoURL"] != false) {
+                            mainClockCard.find("#bw-brand").attr("src", response["logo_url"]);
+                          }
+                          console.log("sports centre title", response["sports_centre_title"])
                           //var real_price_holder = mainClockCard.find("#real-price-holder");
                           //real_price_holder.attr("data-prices", JSON.stringify(response["prices"]));
                           console.log("This is the plan type", response["plan_type"]);
@@ -798,6 +803,9 @@ $(document).on('turbolinks:load', function ()  {
                           if (plan_type == 0) { // free plan
                               mainClockCard.find("#timeHolder").toggle();
                               mainClockCard.find("#bookNowButton").toggle();
+                              mainClockCard.find("#clearButton").toggle();
+                              repeatCard.height(mainClockCard.outerHeight());
+                              repeatCard.css("margin-top", `-${mainClockCard.outerHeight()}px`);
                           }
                           // copy and insert more image icons in the activity selection bar depending on the number of activities in prices.
                           //var jsonPrices = JSON.parse(response["prices"]);
