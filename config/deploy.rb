@@ -19,7 +19,7 @@ set :repo_url, "https://Coreastreet:Soba3724@github.com/Coreastreet/BookACourt"
 
 set :deploy_to, "/home/justin/#{fetch :application}"
 
-append :linked_dirs, 'log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'vendor/bundle', '.bundle', 'public/system', 'public/uploads'
+append :linked_dirs, 'log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'vendor/bundle', '.bundle', 'public/system', 'public/uploads', 'public/logos'
 
 # Only keep the last 5 releases to save disk space
 set :keep_releases, 3
