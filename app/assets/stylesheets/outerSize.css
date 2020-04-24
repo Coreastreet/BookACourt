@@ -64,6 +64,7 @@
 }
 #BookingWidget #clockHolderCard #dateHolder {
   flex: 1 0 70%;
+  padding-left: 0.5rem;
 }
 #BookingWidget #clockHolderCard #dateButton {
   flex: 0 0 2rem;

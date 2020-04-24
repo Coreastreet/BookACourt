@@ -770,8 +770,15 @@ request.onload = function(e) {
     //console.log(response); // get response["prices"]
     // store the peak hour times in a div above book-now for reference.
     var peak_hour_holder = mainClockCard.find("#peak-hour-holder");
-    console.log("peakHours", response["peak_hours"]);
     peak_hour_holder.attr("data-peak-hours", JSON.stringify(response["peak_hours"]));
+    // display a logo if logo is set otherwise defer to the sports centre title.
+    if (response["logo_url"] != false) { // the sports centre uploaded a logo
+      mainClockCard.find("#bw-brand").attr("src", response["logo_url"]);
+    } else { // no logo so use the title of the sports centre instead
+      mainClockCard.find("img#bw-brand").addClass("d-none");
+      mainClockCard.find("#bw-brandRow .bw-sportsCentreTitle").text(response["sports_centre_title"])
+      mainClockCard.find("#bw-brandRow .bw-sportsCentreTitle").removeClass("d-none");
+    }
     // store the prices in a div for reference in the widget sinces its easier.
     //var real_price_holder = mainClockCard.find("#real-price-holder");
     //real_price_holder.attr("data-prices", JSON.stringify(response["prices"]));
@@ -779,6 +786,9 @@ request.onload = function(e) {
     if (plan_type == 0) { // free plan
         mainClockCard.find("#timeHolder").toggle();
         mainClockCard.find("#bookNowButton").toggle();
+        mainClockCard.find("#clearButton").toggle();
+        repeatCard.height(mainClockCard.outerHeight());
+        repeatCard.css("margin-top", `-${mainClockCard.outerHeight()}px`);
     }
     // copy and insert more image icons in the activity selection bar depending on the number of activities in prices.
     //var jsonPrices = JSON.parse(response["prices"]);

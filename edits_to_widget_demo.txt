@@ -25,8 +25,6 @@
 3. On close or exit via top-right cross icon, send a message to delete the reservation.
 4. Compare time on reservation click with time on pay poli click and if > 2mins, then close the modal and delete the reservation.
 
------ good ------
-
 1. Close the modal window and send a remove_live event
 2. Uncomment the select < 10min in reserve controller action.
 3. Adjust the dateHolder for error when attempting to book now and make dissapear after input change.
@@ -35,8 +33,11 @@
 1. tooLong on click of polipay pay button.
 2. Adjust dateHolder to bw-dateHolder to prevent clashes.
 
+----- good ------
+
 1. Change vl to vl-border
 2. Add weball and brand logo to top left corner of widget. Also transfer css.
 3. remove bottom timeholder, cancel time and book now button and col-6 from the repear booking
 for those on the free plan on response onload.
-4. 
+4. padding-left for dateholder
+5. also remove the col-6 of cancel and regular buttons

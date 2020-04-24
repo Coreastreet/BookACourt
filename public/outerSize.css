@@ -34,6 +34,21 @@
 #BookingWidget #clockHolderCard {
   width: 100%;
 }
+
+#BookingWidget #clockHolderCard #bw-weBallBrand {
+  max-width: 30%;
+  height: 1.8rem;
+  align-self: center;
+}
+
+#BookingWidget #clockHolderCard #bw-brand {
+  max-width: 65%;
+  max-height: 3rem;
+  align-self: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 #BookingWidget #clockHolderCard .bw-none {
   display: none !important;
 }
@@ -156,6 +171,21 @@
   color: #dc3545;
   font-weight: bold;
 }
+
+#BookingWidget .vl-border {
+  border-left: 1px solid #6c757d;
+}
+
+#BookingWidget #clockHolderCard #bw-brandRow .vl-border {
+  margin-left: 2.5%;
+  margin-right: 2.5%;
+}
+
+#BookingWidget #clockHolderCard #bw-brandRow .bw-sportsCentreTitle {
+  max-width: 64%;
+  word-break: break-word;
+}
+
 #BookingWidget #repeatBookingCard #startRow {
   display: block;
   border: 1px solid white;

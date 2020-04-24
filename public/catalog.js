@@ -15,6 +15,12 @@ BookingWidget.html = (function() {
     var html;
     html = '<div id="BookingWidget">' +
               '<div id="clockHolderCard" data-buttonsAttached="false">' +
+              '<div class="row mb-3 mx-0" id="bw-brandRow">' +
+              '<img src="https://weball.com.au/orangeWeballCropped.png" id: "bw-weBallBrand"></img>' +
+              '<div class="vl-border"></div>' +
+              '<div class="h5 d-none bw-sportsCentreTitle"></div>' +
+              '<img src="#" id="bw-brand">' +
+              '</div>' +
               '<div class="input-group date" data-provide="datepicker" id="bw-calendar">' +
               '<input type="text" data-date="" id="dateHolder">' +
               '<div class="input-group-addon" id="dateButton">' +
@@ -54,8 +60,8 @@ BookingWidget.html = (function() {
               '</div>' +
               '<div class="card-footer pt-0">' +
               '<div class="row mt-2 mx-0" id="buttomRow">' +
-              '<button type="button" class="btn btn-primary btn-sm col-6 repeat" id="repeatButton">Repeat booking</button>' +
-              '<button type="button" class="btn btn-secondary btn-block btn-sm col-6 clearTime" id="clearButton">Clear Time</button>' +
+              '<button type="button" class="btn btn-primary btn-sm repeat" id="repeatButton">Repeat booking</button>' +
+              '<button type="button" class="btn btn-secondary btn-block btn-sm clearTime" id="clearButton">Clear Time</button>' +
               '</div>' +
               '<button type="button" id="bookNowButton" class="btn btn-success btn-block book-now mt-2 below-clock" data-toggle="modal" data-target="#bw-payment-confirmation">' +
               'Book now</button>' +
@@ -76,6 +82,7 @@ BookingWidget.html = (function() {
               '<label class="text-left font-weight-normal mb-2" id="frequencyLabel">Frequency</label>' +
               '<div class="days-and-weeks" id="frequencyButtons" role="group">' +
               '<button type="button" class="daysWeeks blackText" data-frequency-type="Days" id="daysButton">Days</button>' +
+              '<div class="bw-vl-border"></div>' +
               '<button type="button" class="daysWeeks blackText" data-frequency-type="Weeks" id="weeksButton">Weeks</button>' +
               '</div>' +
               '</div>' +
