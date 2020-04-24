@@ -167,7 +167,7 @@
                     <code class="row mx-0 mt-2">
                       <span class="codeInput text-white p-3">HTML</span>
                       <span class="codeInput text-white col p-3" id="widgetCode">
-                        <%= "<div id='weBallWidget' data-sportsCentreId=#{@sports_centre.id} data-logoRef='#{@sports_centre.logo.blob.key}'></div>" if @sports_centre.plan != "Basic" %>
+                        <%= "<div id='weBallWidget' data-sportsCentreId=#{@sports_centre.id} ></div>" if @sports_centre.plan != "Basic" %>
                       </span>
                     </code>
                   </div>

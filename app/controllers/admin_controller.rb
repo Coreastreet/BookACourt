@@ -1,6 +1,5 @@
 class AdminController < ApplicationController
-  include ActiveStorage::Downloading
-  
+#  include ActiveStorage::Downloading
   before_action :check_logged_in
   before_action :admin_pin_access, only: [:update_logo, :update_prices, :update_hours]
 
@@ -285,7 +284,11 @@ class AdminController < ApplicationController
           id = id_params[:id]
           sports_centre = SportsCentre.find(id)
           sports_centre.update!(sports_centre_params)
-          sports_centre.logo.download_blob_to("/assets/images/logos/sports_centre_logo_#{id}.png")
+          sports_centre.logo.blob.open do |image|
+            File.open("#{Rails.root}/public/logos/sports_centre_logo_#{id}", "wb") do |f|
+                f.write(image.read)
+            end
+          end
     end
   end
 

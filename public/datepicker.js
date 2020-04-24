@@ -69,9 +69,10 @@ var startTimeInput = document.querySelector("#startTime");
 var endTimeInput = document.querySelector("#endTime");
 var clearTimeButton = document.querySelector("#clearButton");
 
+// fetch booking data for a particular sports centre.
+var sportsCentreId = document.querySelector("#weBallWidget").getAttribute("data-sportsCentreId");
 // assign the src url of the sportsCentre logo.
-var sportsCentreLogoUrl = document.querySelector("#weBallWidget").getAttribute("data-logoRef");
-mainClockCard.find("#bw-brand").attr("src", `https://f000.backblazeb2.com/file/weball/${sportsCentreLogoUrl}`);
+mainClockCard.find("#bw-brand").attr("src", `https://weball.com.au/logos/sports_centre_logo_${sportsCentreId}`);
     //alert("hey!");
 BookingWidget.$('[data-provide="datepicker"]').datepicker({
    format: "DD, d MM yyyy",
@@ -759,8 +760,7 @@ function bookings_live_update(sports_centre_id) {
 }
 
 // enable the clear time button
-// fetch booking data for a particular sports centre.
-var sportsCentreId = document.querySelector("#weBallWidget").getAttribute("data-sportsCentreId");
+// sportsCentreId moved to top
 var request = makeCORSRequest(`https://weball.com.au/api/v1/sports_centres/${sportsCentreId}/bookings/check_availability`, "GET");
 //request.responseType = "json";
 request.responseType = "json";
