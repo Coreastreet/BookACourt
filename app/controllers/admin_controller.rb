@@ -1,5 +1,4 @@
 class AdminController < ApplicationController
-#  include ActiveStorage::Downloading
   before_action :check_logged_in
   before_action :admin_pin_access, only: [:update_logo, :update_prices, :update_hours]
 
