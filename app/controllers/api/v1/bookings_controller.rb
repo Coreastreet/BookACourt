@@ -96,14 +96,14 @@ class Api::V1::BookingsController < Api::V1::ApiController
     @opening_hours = sportsCentre.opening_hours.to_json
     # send an int in the response to signal which plan the sportsCentre is on.
     @planInt = sportsCentre.plan_before_type_cast
-    
-    @full_logo_url = (sportsCentre.logo.attached?) ? true : false
+
+    @logo_attached = (sportsCentre.logo.attached?) ? true : false
 
     @sportsCentreTitle = sportsCentre.title
 
     if @json_bookings
       render :json => {json_bookings: @json_bookings, number_of_courts: @numberOfCourts, opening_hours: @opening_hours,
-      prices: @prices, peak_hours: @peak_hours, plan_type: @planInt, logo_url: @full_logo_url,
+      prices: @prices, peak_hours: @peak_hours, plan_type: @planInt, logo_attached: @logo_attached,
       sports_centre_title: @sportsCentreTitle, success: true, content_type: 'application/json'}.to_json, status: 200
     else
       render :json => {:error => "not-found", success: false, content_type: 'application/json'}.to_json, :status => 404

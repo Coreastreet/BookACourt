@@ -279,10 +279,13 @@ class AdminController < ApplicationController
   end
 
   def update_logo
+    include ActiveStorage::Downloading
     buttonRef = lock_params[:buttonRef][1..].to_sym
     if session[buttonRef]
-          sports_centre = SportsCentre.find(id_params[:id])
+          id = id_params[:id]
+          sports_centre = SportsCentre.find(id)
           sports_centre.update!(sports_centre_params)
+          sports_centre.logo.download_blob_to("/assets/images/logos/sports_centre_logo_#{id}.png")
     end
   end
 
