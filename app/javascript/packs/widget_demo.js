@@ -811,8 +811,8 @@ $(document).on('turbolinks:load', function ()  {
                               mainClockCard.find("#timeHolder").toggle();
                               mainClockCard.find("#bookNowButton").toggle();
                               mainClockCard.find("#clearButton").toggle();
-                              repeatCard.height(mainClockCard.outerHeight());
-                              repeatCard.css("margin-top", `-${mainClockCard.outerHeight()}px`);
+                              //repeatCard.height(mainClockCard.outerHeight());
+                              //repeatCard.css("margin-top", `-${mainClockCard.outerHeight()}px`);
                           }
                           // copy and insert more image icons in the activity selection bar depending on the number of activities in prices.
                           //var jsonPrices = JSON.parse(response["prices"]);
@@ -975,6 +975,14 @@ $(document).on('turbolinks:load', function ()  {
 
   //------------------------------------ start repeatCard.js  --------------------//
 
+                      mainClockCard.find("#bw-brand").on("load", function() {
+                          // 3.5rem the height of the bw-brand logo
+                          var brandRowHeight = mainClockCard.find("#bw-brandRow").innerHeight();
+                          var repeatHeight = mainClockCard.outerHeight()-brandRowHeight;
+                          repeatCard.height(repeatHeight);
+                          repeatCard.css("margin-top", `-${repeatHeight}px`);
+                      })
+
                       $('#BookingWidget').on("click", ".days-and-weeks button", function() {
                         //var frequency_options = $(this).find("button");
                         var input = $(this).closest(".form-row").find("input");
@@ -1047,14 +1055,13 @@ $(document).on('turbolinks:load', function ()  {
                           input.val(inputString);
                         }
                         //console.log(number);
-                      });
-
+                      }); /*
                       $('#BookingWidget .repeat').one("click", function() {
                         repeatCard.height(mainClockCard.outerHeight());
                         repeatCard.css("margin-top", `-${mainClockCard.outerHeight()}px`);
                         repeatCard.css("transition", "all 1s");
                       });
-
+*/
                       $('#BookingWidget').on("click", ".repeat", function() {
                         $("#repeatBookingCard").css("margin-left", "0%");
                       });

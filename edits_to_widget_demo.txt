@@ -40,8 +40,6 @@ for those on the free plan on response onload.
 4. padding-left for dateholder
 5. also remove the col-6 of cancel and regular buttons
 
------ good ------
-
 1. change the margin top of repeat booking button to 0 and
 2. Create a class wrapper for the div around the widget
 
@@ -49,3 +47,5 @@ for those on the free plan on response onload.
 2. remove adjust height on load and instead add a load listener to the brand logo.
 3. Add height adjust to the load listener and remove from on repeat button.
 4. add the 0.5rem padding bottom to brandRow and bottom repeatBookingFooter.
+
+----- good ------
