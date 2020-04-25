@@ -12,7 +12,10 @@ mainClockCard.find("#bw-brand").on("load", function() {
 })
 
 mainClockCard.find("#bw-brand").on('error', function() {
-    console.log('error loading image! ' + $(this).attr('src'));
+    var brandRowHeight = mainClockCard.find("#bw-brandRow").innerHeight();
+    var repeatHeight = mainClockCard.outerHeight()-brandRowHeight;
+    repeatCard.height(repeatHeight);
+    repeatCard.css("margin-top", `-${repeatHeight}px`);
 });
 
 bw.on("click", "#repeatButton", function() {
