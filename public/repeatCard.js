@@ -9,6 +9,10 @@ mainClockCard.find("#bw-brand").on("load", function() {
     var repeatHeight = mainClockCard.outerHeight()-brandRowHeight;
     repeatCard.height(repeatHeight);
     repeatCard.css("margin-top", `-${repeatHeight}px`);
+
+    bw.on("click", "#repeatButton", function() {
+      repeatCard.css("margin-left", "0%");
+    });
 })
 
 bw.on("click", ".days-and-weeks button", function() {
@@ -77,13 +81,6 @@ bw.on("click", ".addAndMinus .plus-button", function() {
     input.val(inputString);
   }
   //console.log(number);
-});
-
-bw.on("click", ".repeat", function() {
-  //repeatCard.height(mainClockCard.outerHeight());
-  //repeatCard.css("margin-top", `-${mainClockCard.outerHeight()}px`);
-  //repeatCard.css("transition", "all 1s")
-  repeatCard.css("margin-left", "0%");
 });
 
 bw.on("click", ".back-arrow-booking", function() {

@@ -981,6 +981,10 @@ $(document).on('turbolinks:load', function ()  {
                           var repeatHeight = mainClockCard.outerHeight()-brandRowHeight;
                           repeatCard.height(repeatHeight);
                           repeatCard.css("margin-top", `-${repeatHeight}px`);
+
+                          $('#BookingWidget').on("click", ".repeat", function() {
+                            repeatCard.css("margin-left", "0%");
+                          });
                       })
 
                       $('#BookingWidget').on("click", ".days-and-weeks button", function() {
@@ -1062,10 +1066,6 @@ $(document).on('turbolinks:load', function ()  {
                         repeatCard.css("transition", "all 1s");
                       });
 */
-                      $('#BookingWidget').on("click", ".repeat", function() {
-                        $("#repeatBookingCard").css("margin-left", "0%");
-                      });
-
                       $('#BookingWidget').on("click", ".back-arrow-booking", function() {
                         $(this).closest(".card").css("margin-left", "100%");
                       });
