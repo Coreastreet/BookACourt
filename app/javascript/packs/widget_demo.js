@@ -982,10 +982,15 @@ $(document).on('turbolinks:load', function ()  {
                           repeatCard.height(repeatHeight);
                           repeatCard.css("margin-top", `-${repeatHeight}px`);
 
-                          $('#BookingWidget').on("click", ".repeat", function() {
-                            repeatCard.css("margin-left", "0%");
-                          });
                       })
+
+                      mainClockCard.find("#bw-brand").on('error', function() {
+                          console.log('error loading image! ' + $(this).attr('src'));
+                      });
+
+                      $('#BookingWidget').on("click", "#repeatButton", function() {
+                        repeatCard.css("margin-left", "0%");
+                      });
 
                       $('#BookingWidget').on("click", ".days-and-weeks button", function() {
                         //var frequency_options = $(this).find("button");

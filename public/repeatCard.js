@@ -9,11 +9,15 @@ mainClockCard.find("#bw-brand").on("load", function() {
     var repeatHeight = mainClockCard.outerHeight()-brandRowHeight;
     repeatCard.height(repeatHeight);
     repeatCard.css("margin-top", `-${repeatHeight}px`);
-
-    bw.on("click", "#repeatButton", function() {
-      repeatCard.css("margin-left", "0%");
-    });
 })
+
+mainClockCard.find("#bw-brand").on('error', function() {
+    console.log('error loading image! ' + $(this).attr('src'));
+});
+
+bw.on("click", "#repeatButton", function() {
+    repeatCard.css("margin-left", "0%");
+});
 
 bw.on("click", ".days-and-weeks button", function() {
   //var frequency_options = BookingWidget.$(this).find("button");
