@@ -5,7 +5,9 @@
 // to enable full white background for the purchase thank you page
 
 body {
-  height: -webkit-fill-available;//auto;
+  //height: -webkit-fill-available;//auto;
+  min-height: 100vh;
+  height: fit-content;
   display: flex;
   flex-direction: column;
 }
