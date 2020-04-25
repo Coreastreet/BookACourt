@@ -187,7 +187,8 @@
 
 #BookingWidget #clockHolderCard #bw-brandRow {
   display: flex;
-  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  margin-bottom: 0.5rem;
 }
 
 #BookingWidget #clockHolderCard #bw-brandRow .vl-border {
