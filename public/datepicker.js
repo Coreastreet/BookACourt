@@ -777,9 +777,9 @@ request.onload = function(e) {
     // display a logo if logo is set otherwise defer to the sports centre title.
 
     if (response["logo_attached"] == false) { // the sports centre has not uploaded a logo
-      mainClockCard.find("#bw-brand").addClass("d-none");
+      mainClockCard.find("#bw-brand").addClass("bw-none");
       mainClockCard.find("#bw-brandRow .bw-sportsCentreTitle").text(response["sports_centre_title"])
-      mainClockCard.find("#bw-brandRow .bw-sportsCentreTitle").removeClass("d-none");
+      mainClockCard.find("#bw-brandRow .bw-sportsCentreTitle").removeClass("bw-none");
     }
     // store the prices in a div for reference in the widget sinces its easier.
     //var real_price_holder = mainClockCard.find("#real-price-holder");

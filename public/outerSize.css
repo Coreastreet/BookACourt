@@ -200,6 +200,7 @@
 #BookingWidget #clockHolderCard #bw-brandRow .bw-sportsCentreTitle {
   max-width: 64%;
   word-break: break-word;
+  max-height: 3rem;
 }
 
 #BookingWidget #repeatBookingCard #startRow {
