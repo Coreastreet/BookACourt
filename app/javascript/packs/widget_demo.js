@@ -793,8 +793,8 @@ $(document).on('turbolinks:load', function ()  {
                           //console.log("peakHours", response["peak_hours"]);
                           peak_hour_holder.attr("data-peak-hours", JSON.stringify(response["peak_hours"]));
                           // store the prices in a div for reference in the widget sinces its easier.
-                          console.log("logo_url", response["logo_url"]);
-                          if (response["logo_url"] != false) { // the sports centre uploaded a logo
+                          console.log("logo_attached?", response["logo_attached"]);
+                          if (response["logo_attached"] == true) { // the sports centre uploaded a logo
                             mainClockCard.find("#bw-brand").attr("src", response["logo_url"]);
                           } else { // no logo so use the title of the sports centre instead
                             console.log("bw-brand", mainClockCard.find("img#bw-brand"));
