@@ -798,7 +798,7 @@ $(document).on('turbolinks:load', function ()  {
                             mainClockCard.find("#bw-brand").attr("src", response["logo_url"]);
                           } else { // no logo so use the title of the sports centre instead
                             console.log("bw-brand", mainClockCard.find("img#bw-brand"));
-                            mainClockCard.find("img#bw-brand").addClass("d-none");
+                            mainClockCard.find("#bw-brand").addClass("d-none");
                             mainClockCard.find("#bw-brandRow .bw-sportsCentreTitle").text(response["sports_centre_title"])
                             mainClockCard.find("#bw-brandRow .bw-sportsCentreTitle").removeClass("d-none");
                           }
@@ -983,9 +983,12 @@ $(document).on('turbolinks:load', function ()  {
                           repeatCard.css("margin-top", `-${repeatHeight}px`);
 
                       })
-
+                      // when no image is set as the logo
                       mainClockCard.find("#bw-brand").on('error', function() {
-                          console.log('error loading image! ' + $(this).attr('src'));
+                          var brandRowHeight = mainClockCard.find("#bw-brandRow").innerHeight();
+                          var repeatHeight = mainClockCard.outerHeight()-brandRowHeight;
+                          repeatCard.height(repeatHeight);
+                          repeatCard.css("margin-top", `-${repeatHeight}px`);
                       });
 
                       $('#BookingWidget').on("click", "#repeatButton", function() {

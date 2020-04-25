@@ -19,7 +19,7 @@ BookingWidget.html = (function() {
               '<img src="https://weball.com.au/orangeWeballCropped.png" id="bw-weBallBrand"></img>' +
               '<div class="vl-border"></div>' +
               '<div class="h5 bw-none bw-sportsCentreTitle"></div>' +
-              '<img src="#" id="bw-brand">' +
+              '<img class="" src="#" id="bw-brand">' +
               '</div>' +
               '<div class="input-group date" data-provide="datepicker" id="bw-calendar">' +
               '<input type="text" data-date="" id="dateHolder">' +
