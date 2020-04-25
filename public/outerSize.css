@@ -93,6 +93,7 @@
 }
 #BookingWidget #clockHolderCard #timeHolder {
   display: flex;
+  padding-bottom: 0.5rem;
 }
 #BookingWidget #clockHolderCard #timeHolder #startTime, #BookingWidget #clockHolderCard #timeHolder #endTime {
   flex: 1 0 35%;
