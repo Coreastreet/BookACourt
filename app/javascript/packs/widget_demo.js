@@ -1120,7 +1120,7 @@ $(document).on('turbolinks:load', function ()  {
                         }
 
                         var dateChosen = new Date(dateHolder.val());
-                        var nowHHSS = (rightNow < dateChosen) ? "00:00" : rightNow.toLocaleTimeString().substr(0,5);
+                        var nowHHSS = (rightNow < dateChosen) ? "00:00" : rightNow.toLocaleTimeString([],{ hour: '2-digit', minute: '2-digit', hour12: false });
                         // if current time is less than chosen date, remove constraint
                         // if greater or equal, dateChosen must be today so add constraint.
                         var maxBookings = bw.find("#maxBookingsWarning").attr("data-maxBookings");
@@ -1137,6 +1137,7 @@ $(document).on('turbolinks:load', function ()  {
                         if (  ( firstInputValue == '') || ( parseInt(firstInputValue.substr(-2)) % 30 != 0 ) || (firstInputValue < firstInput.attr("min")) ||
                               (firstInputValue < nowHHSS) || (firstInputValue > firstInput.attr("max"))  ) {
 
+                              console.log("check border color", firstInputValue, nowHHSS, firstInputValue);
                               firstInput.css("border-color", "red");
                               inputError = true;
                         }
@@ -1144,6 +1145,7 @@ $(document).on('turbolinks:load', function ()  {
                               (secondInputValue < secondInput.attr("min")) || (secondInputValue < nowHHSS) ||
                               (secondInputValue > secondInput.attr("max")) || (firstInputValue >= secondInputValue)  ) {
 
+                              console.log("check border color", secondInputValue, secondInput.attr("max"), secondInputValue);
                               secondInput.css("border-color", "red");
                               inputError = true;
                         }

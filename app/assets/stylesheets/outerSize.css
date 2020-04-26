@@ -95,6 +95,7 @@
 #BookingWidget #clockHolderCard #timeHolder #startTime, #BookingWidget #clockHolderCard #timeHolder #endTime {
   flex: 1 0 35%;
   height: 2rem;
+  padding: 0.25rem 0 0 1rem;
 }
 #BookingWidget #clockHolderCard #timeHolder #timeButton {
   display: flex;

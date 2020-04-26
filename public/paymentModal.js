@@ -37,7 +37,7 @@ bw.on("click", "#bookNowButton", function(e) {
   }
 
   var dateChosen = new Date(bw.find("#dateHolder").val());
-  var nowHHSS = (rightNow < dateChosen) ? "00:00" : rightNow.toLocaleTimeString().substr(0,5);
+  var nowHHSS = (rightNow < dateChosen) ? "00:00" : rightNow.toLocaleTimeString([],{ hour: '2-digit', minute: '2-digit', hour12: false });
   //var nowHHSS = rightNow.toLocaleTimeString().substr(0,5);
   var maxBookings = bw.find("#maxBookingsWarning").attr("data-maxBookings");
   var bookingsRequested = bw.find(".number-of-bookings").text();
