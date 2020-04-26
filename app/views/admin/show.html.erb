@@ -154,9 +154,9 @@
                     </div>
                     <code class="row mx-0 mt-2 mb-3">
                       <span class="codeInput text-white p-3">HTML</span>
-                      <span class="codeInput text-white col p-3" id="scriptCode">
-                        <%= '<script async src="https://weball.com.au/demo_async.js"></script>' if @sports_centre.plan != "Basic" %>
-                      </span>
+                      <input type="text" class="codeInput text-white col p-3" id="scriptCode"
+                      value="<script async src='https://weball.com.au/demo_async.js'></script>"> <!-- if @sports_centre.plan != "Basic" -->
+                      </input>
                     </code>
                     <div class="row mx-0 d-flex justify-content-between"><p class="mb-0 h-contentFit align-self-end">Place this line of code where you would like the widget to appear</p>
                       <button class="tooltipTarget btn btn-primary" data-target="widgetCode">
@@ -166,9 +166,9 @@
                     </div>
                     <code class="row mx-0 mt-2">
                       <span class="codeInput text-white p-3">HTML</span>
-                      <span class="codeInput text-white col p-3" id="widgetCode">
-                        <%= "<div id='weBallWidget' data-sportsCentreId=#{@sports_centre.id} ></div>" if @sports_centre.plan != "Basic" %>
-                      </span>
+                      <input type="text" class="codeInput text-white col p-3" id="widgetCode"
+                      value="<div id='weBallWidget' data-sportsCentreId=<%=@sports_centre.id%>>">
+                      </input>
                     </code>
                   </div>
               </div>
