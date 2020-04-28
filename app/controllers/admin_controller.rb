@@ -284,7 +284,7 @@ class AdminController < ApplicationController
           sports_centre = SportsCentre.find(id)
           sports_centre.update!(sports_centre_params)
           sports_centre.logo.blob.open do |image|
-            File.open("#{Rails.root}/public/logos/sports_centre_logo_#{id}", "wb") do |f|
+            File.open("#{Rails.root}/public/system/sports_centre_logo_#{id}", "wb") do |f|
                 f.write(image.read)
             end
           end
