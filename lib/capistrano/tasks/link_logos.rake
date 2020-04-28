@@ -4,6 +4,6 @@ namespace :deploy do
     puts "This is the shared path #{shared_path}"
     run "ln -s #{shared_path}/public/system/logos #{release_path}/public/logos"
   end
-  after "deploy:update_code", :link_shared_directories
+  after "deploy:updated", :link_shared_directories
 
 end
