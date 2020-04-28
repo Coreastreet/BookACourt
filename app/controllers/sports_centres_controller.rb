@@ -7,6 +7,7 @@ class SportsCentresController < ApplicationController
     @new_representative_address = Address.new
     @new_contact = Contact.new
     #debugger
+    @arrOneToEight = ["One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight"]
   end
 
   def create

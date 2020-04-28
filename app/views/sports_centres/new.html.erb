@@ -151,26 +151,20 @@
                          <p class="heading font-weight-normal mt-3">Industry type</p>
                        </div>
                       <div class = "form-row mb-4 mx-0 d-none align-items-baseline justify-content-between" id="hiddenCourtsNo">
-                        <%= f.radio_button :numberOfCourts, 2 %>
-                        <%= f.label :numberOfCourts, "Two Courts", value: 2 %>
-                        <%= f.radio_button :numberOfCourts, 4 %>
-                        <%= f.label :numberOfCourts, "Four Courts", value: 4 %>
-                        <%= f.radio_button :numberOfCourts, 6 %>
-                        <%= f.label :numberOfCourts, "Six Courts", value: 6 %>
-                        <%= f.radio_button :numberOfCourts, 8 %>
-                        <%= f.label :numberOfCourts, "Eight Courts", value: 8 %>
+                        <% [*1..8].each do |number_of_courts| %>
+                            <%= f.label :numberOfCourts, "#{@arrOneToEight[number_of_courts-1]} Courts", value: number_of_courts %>
+                            <%= f.radio_button :numberOfCourts, number_of_courts %>
+                        <% end %>
                       </div>
                       <div class= "form-row">
                         <p class="heading font-weight-normal mt-3">Number of half courts</p>
                       </div>
-                      <div class = "form-row mb-4 mx-0 justify-content-center">
-                        <div class="btn-group bg-white form-control py-0 pl-0  mandatory" id = "courtSelection" role="group" aria-label="Basic example">
-                          <button type="button" class="btn border-dark hover-selected rounded-0"
-                          data-numberOfCourts="2">Two Courts</button>
-                          <button type="button" class="btn border-dark hover-selected"
-                          data-numberOfCourts="4">Four Courts</button>
-                          <button type="button" class="btn border-dark hover-selected" data-numberOfCourts="6">Six Courts</button>
-                          <button type="button" class="btn border-dark hover-selected rounded-0" data-numberOfCourts="8">Eight Courts</button>
+                      <div class = "form-row mx-0 justify-content-center">
+                        <div class="btn-group bg-white form-control py-0 pl-0 mandatory" id = "courtSelection" role="group" aria-label="Basic example">
+                          <% [*1..8].each do |number_of_courts| %>
+                              <button type="button" class="btn border-dark hover-selected rounded-0"
+                              data-numberOfCourts="<%= @arrOneToEight[number_of_courts-1] %>"><%= @arrOneToEight[number_of_courts-1] + (number_of_courts == 1 ? " Court" : " Courts") %></button>
+                          <% end %>
                         </div>
                         <div class="invalid-feedback row"><span class="col">Please select the number of half courts to accomadate.</span></div>
                       </div>

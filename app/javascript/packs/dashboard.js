@@ -122,7 +122,7 @@ $(document).on('turbolinks:load', function () {
                 if (currentTD.parent().is(":last-child")) {
                   // do nothing
                 } else {
-                  currentTD.parent().next().children().eq(1).addClass("border-darkBlue");
+                  currentTD.parent().children().eq(1).addClass("border-darkBlue");
                   currentTD.removeClass("border-darkBlue");
                 }
              } else {
@@ -137,7 +137,7 @@ $(document).on('turbolinks:load', function () {
                  // do nothing
                } else {
                  currentTD.removeClass("border-darkBlue");
-                 currentTD.parent().prev().children().eq(-1).addClass("border-darkBlue");
+                 currentTD.parent().children().eq(-1).addClass("border-darkBlue");
                  currentTD.removeClass("border-darkBlue");
                }
              } else {
@@ -153,6 +153,10 @@ $(document).on('turbolinks:load', function () {
                 currentTD.removeClass("border-darkBlue");
                 index = currentTD.index();
                 parentRow.prev().children().eq(index).addClass("border-darkBlue");
+                parentRow.children().first().removeClass("h3").addClass("h4 text-muted");
+                parentRow.prev().children().first().removeClass("h4 text-muted").addClass("h3");
+             } else {
+                //parentRow.children().first().removeClass("h3").addClass("h4 text-muted");
              }
              var tbody = $("#dashBoardTable tbody");
              var currentScroll = tbody.scrollTop();
@@ -168,7 +172,12 @@ $(document).on('turbolinks:load', function () {
                 currentTD.removeClass("border-darkBlue");
                 index = currentTD.index();
                 parentRow.next().children().eq(index).addClass("border-darkBlue");
+                parentRow.children().first().removeClass("h3").addClass("h4 text-muted");
+                parentRow.next().children().first().removeClass("h4 text-muted").addClass("h3");
+             } else {
+                //parentRow.children().first().removeClass("h3").addClass("h4 text-muted");
              }
+
              var tbody = $("#dashBoardTable tbody");
              var currentScroll = tbody.scrollTop();
              if ((parentRow.position().top + 40) >= tbody.height()) {
@@ -401,6 +410,7 @@ $(document).on('turbolinks:load', function () {
           var optionMatched = false;
           var optionSrc;
           var clone;
+          var defaultPrice = (newActivity == "event") ? "0" : "";
           if (newActivity.length > 0) {
             $("#activities option").each( function() {
                 if ($(this).val() == newActivity) {
@@ -411,12 +421,13 @@ $(document).on('turbolinks:load', function () {
             clone = activityRow.children().first().clone();
             clone.find(".activityName").text(newActivity);
             // clear data attributes
-            clone.attr("data-hc-op", "");
-            clone.attr("data-hc-p", "");
-            clone.attr("data-hc-we", "");
-            clone.attr("data-fc-op", "");
-            clone.attr("data-fc-p", "");
-            clone.attr("data-fc-we", "");
+
+            clone.attr("data-hc-op", defaultPrice);
+            clone.attr("data-hc-p", defaultPrice);
+            clone.attr("data-hc-we", defaultPrice);
+            clone.attr("data-fc-op", defaultPrice);
+            clone.attr("data-fc-p", defaultPrice);
+            clone.attr("data-fc-we", defaultPrice);
 
             clone.attr("data-activity", newActivity);
             clone.removeClass("selectedCard");
@@ -444,6 +455,12 @@ $(document).on('turbolinks:load', function () {
       });
 
       $("#activityCardHolder").on("click", ".activityCard", function() {
+        // hide on event card since price zero already set.
+          if ($(this).attr("data-activity") == "event") {
+              $("#editPricesForm #priceSettings").css("display", "none");
+          } else {
+              $("#editPricesForm #priceSettings").css("display", "block");
+          }
           $(this).siblings().each( function() {
               $(this).removeClass("selectedCard");
           });

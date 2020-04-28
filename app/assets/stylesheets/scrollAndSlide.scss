@@ -111,9 +111,6 @@ button.btn-selected {
         th {
             border-bottom-width: 0px;
         }
-        th.moreEqualTH {
-          width: 3rem;
-        }
      }
   }
   tbody {
@@ -124,8 +121,8 @@ button.btn-selected {
     tr {
       display: table;
       width: 100%;
-      th {
-        width: 3rem;
+      th.bookSpecial {
+        min-width: 4.5rem;
       }
     }
   }

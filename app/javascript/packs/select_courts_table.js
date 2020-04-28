@@ -24,18 +24,24 @@ $(document).on('turbolinks:load', function() {
       if ($(this).hasClass("table-active")) {
         disableSelection($(this));
       } else {
-        firstClick = $('#dashBoardTable tbody td.table-active.unconfirmed');
+        firstClick = $('#dashBoardTable tbody td.table-active.unconfirmed').not(this);
           if (firstClick.length != 0) {
             if (parseInt(firstClick.attr("data-court")) % 2 == 0) { // even column
-                if (parseInt($(this).attr('data-court')) - parseInt(firstClick.attr("data-court")) == 0) {
-                  enableSelection($(this));
-                  localStorage.setItem("clickCounter", currentClick+1);
+                if ((parseInt($(this).attr('data-court')) - parseInt(firstClick.attr("data-court")) == 0)
+                  && ( $(this).attr("data-time") >= firstClick.attr("data-time"))) {
+                      enableSelection($(this));
+                      localStorage.setItem("clickCounter", currentClick+1);
+                } else {
+                  return false; // when clicked above in even column.
                 }
             } else { // odd column
                 var diff = parseInt($(this).attr('data-court')) - parseInt(firstClick.attr("data-court"));
-                if ( diff == 1 || diff == 0 ) {
-                  enableSelection($(this));
-                  localStorage.setItem("clickCounter", currentClick+1);
+                if (( diff == 1 || diff == 0 )
+                  && ( $(this).attr("data-time") >= firstClick.attr("data-time"))) {
+                      enableSelection($(this));
+                      localStorage.setItem("clickCounter", currentClick+1);
+                } else {
+                  return false; // when clicked above in odd column.
                 }
             }
           } else {
@@ -45,13 +51,23 @@ $(document).on('turbolinks:load', function() {
       }
       if (currentClick+1 == 2) {
           //alert("inserted");
+          console.log("topSelection", $("#dashBoardTable tbody td.unconfirmed"));
           var topSelection = $("#dashBoardTable tbody td.unconfirmed").eq(0);
+          /* if (topSelection.length == 2) {
+              topSelection = (topSelection.eq(0).attr("data-court") <= topSelection.eq(1).attr("data-court"))
+              ? topSelection.eq(0) : topSelection.eq(1);
+          } */
+          //var topSelection = $("#dashBoardTable tbody td.unconfirmed").eq(0);
           var bottomSelection = $(this);//$("#dashBoardTable tbody td.unconfirmed").eq(1);
           var columnTop = parseInt($(topSelection).attr("data-court"));
           var columnBottom = parseInt($(bottomSelection).attr("data-court"));
           var courtType = "half_court";
+
+          var startSelectionTime = topSelection.attr("data-time");
+          var endSelectionTime = bottomSelection.attr("data-time");
           // on second click a full court is selected
-          if ((columnTop % 2 == 1) && (columnBottom-columnTop == 1)) {
+          console.log("start and end Time", startSelectionTime, endSelectionTime);
+          if ((columnTop % 2 == 1) && (columnBottom-columnTop == 1) && (endSelectionTime >= startSelectionTime)) {
                 enableFullCourtSelection(topSelection, bottomSelection, columnTop); // adding grey squares to the full court booking
                 courtType = "full_court";
           }
@@ -61,33 +77,65 @@ $(document).on('turbolinks:load', function() {
       }
     }
   });
-/*
-  $("#dashBoardTable").on("click", "i.fa-redo", function() {
-      var topSelection = $(this).parent();
-      var preBookingId = topSelection.attr("data-preBookedId");
-      var bottomSelection = $(`#dashBoardTable td[data-preBookedId="${preBookingId}"]`).last();
 
-      var selectedPreBookings = JSON.parse(localStorage.getItem("newBookings"));
-      var selectedB = selectedPreBookings.filter((preBooking) => preBooking.preBookingId == preBookingId)
-      var courtType = selectedB[0].booking.courtType;
-      insertAbsoluteDiv(topSelection, bottomSelection, courtType);
-      // get the clone;
-      var clone = $("#dashBoardTable .clone");
-      clone.removeClass("name-and-sport");
-      clone.addClass("repeat-detail");
-      var cancelButton = clone.find(".cancelNewBooking");
-      cancelButton.removeClass("cancelNewBooking");
-      cancelButton.addClass("cancelRegularDetail");
-      var addButton = clone.find(".addNewBooking");
-      addButton.removeClass("addNewBooking");
-      addButton.addClass("addRegularDetail");
-  }); */
+  $("#dashBoardTable tbody").on("click", "th.bookSpecial", function() {
+          var firstClicked = $("#dashBoardTable tbody th.border-right-orange");
+          var collectionTimes = $("#dashBoardTable tbody th.bookSpecial");
+          var indexFirstClick;
+          var indexSecondClick;
+          var thBookSpecial;
+          var holderIndex;
+          var topLeft;
+          var bottomRight;
+          var popUpBox;
+          var belowBottomRight;
+
+          if (firstClicked.length == 0) { // no clicks
+              $(this).siblings().find("h3").removeClass("h3").addClass("h4 text-muted");
+              $(this).removeClass("h4 text-muted").addClass("h3 border-right-orange");
+          } else { // clicked on other time first
+              indexFirstClick = collectionTimes.index(firstClicked);
+              indexSecondClick = collectionTimes.index($(this));
+              if (indexSecondClick >= indexFirstClick) {
+                  holderIndex = indexFirstClick;
+                  collectionTimes.eq(holderIndex).removeClass("h4 text-muted").addClass("h3 border-right-orange");
+                  while(holderIndex <= indexSecondClick) {
+                      thBookSpecial = collectionTimes.eq(holderIndex);
+                      thBookSpecial.addClass("border-right-orange");
+                      thBookSpecial.parent().find("td").addClass("table-active");
+                      holderIndex++;
+                  }
+                  collectionTimes.eq(holderIndex).removeClass("h4 text-muted").addClass("h3");
+                  topLeft = firstClicked.next();
+                  // add unconfirmed for later reference
+                  topLeft.addClass("unconfirmed");
+                  bottomRight = collectionTimes.eq(indexSecondClick).siblings().last();
+                  bottomRight.addClass("unconfirmed");
+
+                  belowBottomRight = collectionTimes.eq(holderIndex).siblings().last();
+                  console.log("bottomRight", bottomRight);
+                  fillInOriginalPopup("allCourt", topLeft.attr("data-time"), belowBottomRight.attr("data-time"), parseInt(topLeft.attr("data-court")), parseInt(bottomRight.attr("data-court")));
+                  insertAbsoluteDiv(topLeft, bottomRight, "allCourt");
+
+                  // some small adjustment to the pop up box for special event bookings
+                  popUpBox = $("#dashBoardTable tbody div.name-and-sport.clone");
+                  popUpBox.find(".nb-second-row input.sportTypeInput").val("Event");
+                  popUpBox.find(".popUpBox > .nb-second-row").css("display", "none");
+                  popUpBox.find(".nb-event-row").removeClass("d-none");
+                  popUpBox.find(".courtCost").css("display", "none");
+                  popUpBox.find("button.addNewBooking").text("Add event");
+              } else {
+                // do nothing
+              }
+          }
+  });
 
   $("#col-9-admin").on("click", ".cancelNewBooking", function() {
-      var courtType = $(this).closest(".clone").attr("data-courtType");
+      var courtType = $(this).closest(".clone").attr("data-bookingType");
       $(this).closest(".clone").remove();
       var start = $("#dashBoardTable tbody td.unconfirmed").eq(0);
       var end = ($("#dashBoardTable tbody td.unconfirmed").length > 1) ? $("#dashBoardTable tbody td.unconfirmed").eq(1) : $("#dashBoardTable tbody td.unconfirmed").eq(0);
+      console.log("start and end", start, end);
       var startTime = start.attr("data-time");
       var endTime = end.attr("data-time");
       var intervalArray = getIntervalsInclusive(startTime, endTime);
@@ -95,20 +143,32 @@ $(document).on('turbolinks:load', function() {
       var endCourtId = parseInt(unConfirmedCourtId)+1;
       if (courtType == "halfCourt") {
         for (var i in intervalArray) {
-          $(`td[data-time="${intervalArray[i]}"][data-court="${unConfirmedCourtId}"]`).removeClass("table-active unconfirmed");
+          $(`#dashBoardTable tbody td[data-time="${intervalArray[i]}"][data-court="${unConfirmedCourtId}"]`).removeClass("table-active unconfirmed");
         }
-      } else { // full court
+      } else if (courtType == "fullCourt") { // full court
         for (var i in intervalArray) {
-          $(`td[data-time="${intervalArray[i]}"][data-court="${unConfirmedCourtId}"]`).removeClass("table-active unconfirmed");
+          $(`#dashBoardTable tbody td[data-time="${intervalArray[i]}"][data-court="${unConfirmedCourtId}"]`).removeClass("table-active unconfirmed");
         }
         //console.log(endCourtId);
         for (var i in intervalArray) {
-          $(`td[data-time="${intervalArray[i]}"][data-court="${endCourtId}"]`).removeClass("table-active unconfirmed");
+          $(`#dashBoardTable tbody td[data-time="${intervalArray[i]}"][data-court="${endCourtId}"]`).removeClass("table-active unconfirmed");
         }
+      } else { // all court case
+        for (var i in intervalArray) {
+          $(`#dashBoardTable tbody td[data-time="${intervalArray[i]}"]`).removeClass("table-active unconfirmed");
+        }
+        var topLeft = $(`#dashBoardTable tbody td[data-time="${intervalArray[0]}"]`);
+        $("#dashBoardTable tbody th").not(topLeft.prev()).removeClass("border-right-orange h3").addClass("h4 text-muted");
+        topLeft.prev().removeClass("border-right-orange");
       }
       localStorage.setItem("clickCounter", "0");
       Mousetrap.unbind('ctrl+right');
       Mousetrap.unbind('ctrl+left');
+
+      // remove all traees of borders
+      $("#dashBoardTable tbody td.border-darkBlue").removeClass("border-darkBlue border-bottom-0 border-top-0 border-left-0 border-right-0");
+      $("#dashBoardTable tbody td.border-x-darkBlue").removeClass("border-x-darkBlue");
+      start.removeClass("border-right-0 border-bottom-0 border-left-0 border-top-0").addClass("border-darkBlue");
   });
 
   $("#col-9-admin").on("click", ".addNewBooking", function() {
@@ -151,6 +211,20 @@ $(document).on('turbolinks:load', function() {
       });
       localStorage.setItem("clickCounter", "0");
       localStorage.setItem("preBookingsMade", preBookedId+1)
+
+      // remove the right border of orange color.
+      if (courtType == "allCourt") {
+            var allCourtTimesSelected = $("#dashBoardTable th.border-right-orange");
+            //console.log(allCourtTimesSelected);
+            allCourtTimesSelected.first().siblings().last().append("<div class='delete-presaved-booking'>&times</div>");
+            allCourtTimesSelected.each(function() {
+                $(this).removeClass("h3 border-right-orange");
+                $(this).addClass("h4 text-muted");
+            });
+            var nextTimeHeader = allCourtTimesSelected.last().parent().next().children().first();
+            nextTimeHeader.removeClass("h3 border-right-orange");
+            nextTimeHeader.addClass("h4 text-muted");
+      }
   });
 
   function convertToAMPM(timeString) {
@@ -274,17 +348,20 @@ $(document).on('turbolinks:load', function() {
         var preBooking = $(this).parent();
         var preBookingId = preBooking.attr("data-preBookedId");
         preBooking.empty();
-        if (preBooking.hasClass("textHolder")) {
-            preBooking.removeClass("textHolder");
-        } else {
-            preBooking.prev().empty();
-            preBooking.prev().removeClass("textHolder");
-        }
+
+        var textHolder = $(`#dashBoardTable td[data-preBookedId="${preBookingId}"].textHolder`);
+        textHolder.empty();
+        textHolder.removeClass("textHolder");
+        // check for event type booking to delete text.
+        // remove borders
         $(`#dashBoardTable td[data-preBookedId="${preBookingId}"]`).each( function() {
-              $(this).removeClass("booked");
+              $(this).removeClass("booked border-darkBlue border-left-0 border-right-0 border-top-0 border-bottom-0");
               $(this).removeAttr("data-preBookedId");
+              $(this).removeAttr("data-toggle");
+              $(this).removeAttr("title");
               removeClassByPrefix($(this)[0], "table");
         });
+        textHolder.addClass("border-darkBlue");
         var newBookings = JSON.parse(localStorage.getItem("newBookings"));
         var newArray = newBookings.filter((el) => el.preBookingId == preBookingId );
         var index = newBookings.indexOf(newArray[0]);
@@ -435,23 +512,42 @@ $(document).on('turbolinks:load', function() {
       //console.log(realEndTime);
       for (var i in arr) {
         $(`#dashBoardTable tbody td[data-time="${arr[i]}"][data-court="${firstColumnNumber}"]`).addClass("table-active");
+        // border-darkBlue, leave bottom border on last cell
+        //if (i != (0 || (arr.length-1))) {
+        $(`#dashBoardTable tbody td[data-time="${arr[i]}"][data-court="${firstColumnNumber}"]`).addClass("border-darkBlue border-right-0 border-bottom-0 border-top-0");
+        //} else {
+        if (i == 0) {
+            $(`#dashBoardTable tbody td[data-time="${arr[i]}"][data-court="${firstColumnNumber}"]`).removeClass("border-top-0");
+        }
+        if (i == (arr.length-1)) {
+            $(`#dashBoardTable tbody td[data-time="${arr[i]}"][data-court="${firstColumnNumber}"]`).removeClass("border-bottom-0");
+        }
       }
       for (var i in arr) {
         $(`#dashBoardTable tbody td[data-time="${arr[i]}"][data-court="${secondColumnNumber}"]`).addClass("table-active");
+        // border-darkBlue
+        $(`#dashBoardTable tbody td[data-time="${arr[i]}"][data-court="${secondColumnNumber}"]`).addClass("border-darkBlue border-left-0 border-bottom-0 border-top-0");
+
+        if (i == 0) {
+            $(`#dashBoardTable tbody td[data-time="${arr[i]}"][data-court="${secondColumnNumber}"]`).removeClass("border-top-0");
+        }
+        if (i == (arr.length-1)) {
+            $(`#dashBoardTable tbody td[data-time="${arr[i]}"][data-court="${secondColumnNumber}"]`).removeClass("border-bottom-0");
+        }
       }
-      var popUp = $("#col-9-admin .half-court-new-booking");
-      popUp.find(".courtNumber").text(`Court ${firstColumnNumber} & ${secondColumnNumber}:`);
-      popUp.find(".courtTime").text(`${startTime}-${realEndTime}`);
-      var original = $("#col-9-admin .name-and-sport");
-      original.attr("data-bookingType", "fullCourt");
-      original.attr("data-courtNo", firstColumnNumber);
-      original.attr("data-startTime", startTime);
-      original.attr("data-endTime", realEndTime);
+      fillInOriginalPopup("fullCourt", startTime, realEndTime, firstColumnNumber, secondColumnNumber);
   }
   //td.addClass('table-active');
 
   function enableSelection(selectedCell) {
-    selectedCell.addClass('table-active unconfirmed');
+    $("#dashBoardTable tbody td.border-darkBlue:not(.unconfirmed)").removeClass("border-darkBlue");
+    // add the time font change.
+    if (parseInt(localStorage.getItem("clickCounter")) == 0) {
+        $("#dashBoardTable tbody th.h3").removeClass("h3").addClass("h4 text-muted");
+        selectedCell.parent().children().first().removeClass("h4 text-muted").addClass("h3");
+    }
+
+    selectedCell.addClass('table-active unconfirmed border-darkBlue');
     var holder = selectedCell;
     var court = selectedCell.data('court');
     var column = ("td[data-court=" + court + "]");
@@ -474,7 +570,7 @@ $(document).on('turbolinks:load', function() {
         var ending_time = $(column).eq(end_index+1).data('time');
         //var courtHolder = '#court-no-' + court;
         //console.log(courtHolder);
-        var original = $("#col-9-admin .name-and-sport");
+        /* var original = $("#col-9-admin .name-and-sport");
         original.attr("data-bookingType", "halfCourt");
         original.attr("data-courtNo", court);
         original.attr("data-startTime", starting_time);
@@ -482,18 +578,38 @@ $(document).on('turbolinks:load', function() {
 
         var popUp = $("#col-9-admin .half-court-new-booking");
         popUp.find(".courtNumber").text(`Court ${court}:`);
-        popUp.find(".courtTime").text(`${starting_time}-${ending_time}`);
+        popUp.find(".courtTime").text(`${starting_time}-${ending_time}`); */
+        fillInOriginalPopup("halfCourt", starting_time, ending_time, court);
         //console.log("st", starting_time);
         //console.log("et", ending_time);
         //$("#half-court-new-booking").find(".nb-start-time input").val(starting_time);
         //$("#half-court-new-booking").find(".nb-end-time input").val(ending_time);
 
         while (end_index > start_index) {
-          $(column).eq(start_index).addClass("table-active");
+          $(column).eq(start_index).addClass("table-active border-x-darkBlue");
           start_index++;
+        }
+        if (opening_index != end_index) {
+          $(column).eq(opening_index).addClass("border-darkBlue border-bottom-0");
+          $(column).eq(end_index).addClass("border-top-0");
         }
       }
     });
+  }
+
+  function fillInOriginalPopup(courtType, start, realEnd, startColumn, endColumn) {
+      var popUp = $("#col-9-admin .half-court-new-booking");
+      var popUpText = (endColumn !== undefined) // check if end column present.
+        ? `Court ${startColumn} - ${endColumn}:` : `Court ${startColumn}:`
+
+      popUp.find(".courtNumber").text(popUpText);
+      popUp.find(".courtTime").text(`${start}-${realEnd}`);
+
+      var original = $("#col-9-admin .name-and-sport");
+      original.attr("data-bookingType", courtType);
+      original.attr("data-courtNo", startColumn);
+      original.attr("data-startTime", start);
+      original.attr("data-endTime", realEnd);
   }
 
   function disableSelection(selectedCell) {
@@ -531,8 +647,8 @@ $(document).on('turbolinks:load', function() {
   };
 
   function insertAbsoluteDiv(topTD, bottomTD, courtType) {
-    //console.log("top", topTD);
-    //console.log("bottomTd", bottomTD);
+      console.log("top", topTD);
+      console.log("bottomTd", bottomTD);
       var topPosition = topTD.position();
       console.log("topPosition", topPosition);
       var bottomPosition = bottomTD.position();
@@ -550,6 +666,7 @@ $(document).on('turbolinks:load', function() {
       clone.removeClass("d-none");
       if (courtType == "half_court") {
           if (topPosition.left == bottomPosition.left) {
+            //non adjacent courts blocked here
             if (topTD.is(":last-child")) {
               $("#dashBoardTable tbody").append(clone.css({top: cloneTopHeight, right: 10, position: "absolute"}));
               var cloneWidth = clone.outerWidth()/2;
@@ -565,7 +682,7 @@ $(document).on('turbolinks:load', function() {
             clone.find(".nameInput").trigger("focus");
             //console.log(clone.find("#nameInput"));
           }
-      } else { // fult court two courts adjacent; has been checked already.
+      } else { // fult court two courts adjacent; has been checked already. // also includes the special event case.
           if (topTD.is(":last-child")) {
             $("#dashBoardTable tbody").append(clone.css({top: cloneTopHeight, right: 10, position: "absolute"}));
             var cloneWidth = clone.outerWidth()/2;
@@ -589,9 +706,11 @@ $(document).on('turbolinks:load', function() {
       repeatDetailClone.removeClass("d-none");
       //popUpBox.append(repeatDetailClone);
       // edit the repeat detail to show different inputs
-      $(clone).on("input", ".sportTypeInput", function() {
+      $(clone).on("input", ".sportTypeInput, .nameInput", function() {
+          var sportType = clone.find(".sportTypeInput").val();
+          console.log(sportType);
           var weekDays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
-          var sportCard = $(`#activityCardHolder .activityCard[data-activity='${$(this).val().toLowerCase()}']`);
+          var sportCard = $(`#activityCardHolder .activityCard[data-activity='${sportType.toLowerCase()}']`);
           if (sportCard.length) {
               //var parentClone = $(this).closest(".clone");
               var price_code;
@@ -624,7 +743,8 @@ $(document).on('turbolinks:load', function() {
           var arrSports = [];
           var sportsDatalist = $("datalist#sports").first().children();
           sportsDatalist.each( (index) => arrSports.push(sportsDatalist[index].value) );
-          if (arrSports.includes($(this).val()) && (clone.find("input.nameInput").val().length > 0)) {
+          if (arrSports.includes(sportType) && (clone.find("input.nameInput").val().length > 0)) {
+            console.log("arr Sports", arrSports);
             $(this).addClass("mousetrap");
             Mousetrap.bind('ctrl+right', function() {
               var currentDate = $('#datepicker').datepicker('getFormattedDate');

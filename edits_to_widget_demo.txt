@@ -1,51 +1,13 @@
+1. Increase width of th elements to 3.5rem.
 
-1. Attach data-ampm to canvas element
-2. On first load attach the AM or PM setting based on current time.
-3. On selection of am pm button, change the data-ampm attribute accordingly.
-4. When loading new date or live update use the am pm data attribute not the current time.
+2. Enlarge time when same row is highlighted.
 
+3. Remove display none from web-kit scrollbar.
 
-1. Convert matrix to booking array and store locally in the live update.
-2. Bundle check_availability to a seperate function.
-3. Call the seperate function in the original check button and on clicking the polipay button.
+4. Add flex to the thead row to account for the scrollbar.
 
-1. Add code to create matrix to only select those that are not expired reservations.
-2. Create a listener for live reservations
-3. On connection remove any expired reservations.
-4. Insert another modal footer for the info and reservation button.
-5. Transfer css by adding the id/class for reservationInfo, reservationPreFooter, reservationCancel.
-6. Transfer JS for the info button and onclick of bw-reservation only on success of reserve.
+5. Remove the movement down one row on clicking left or right.
 
-1. Detect error if not longestSubBooking.length >= 1 in getLargestSubArray function then return false. Ie. booking is invalid overlapping booked times.
-2. Alter the checkAvailability function via the extract_relevant_days function, counter < 10 and move the set date to the bottom of loop. Remove +1 later on.
-3. Clean the array on message of expired reservations.
+6. Border darkBlue added to dashboardTable for clicks on td, no need to adjust widget.
 
-1. Save the time when the reservation button is clicked in localstorage as "reservation_time".
-2. Add if else clause to check on message received if the reservation matches the same updated_at time. If so, don't add to bookings_array.
-3. On close or exit via top-right cross icon, send a message to delete the reservation.
-4. Compare time on reservation click with time on pay poli click and if > 2mins, then close the modal and delete the reservation.
-
-1. Close the modal window and send a remove_live event
-2. Uncomment the select < 10min in reserve controller action.
-3. Adjust the dateHolder for error when attempting to book now and make dissapear after input change.
-4. If booking is invalid; i.e. overlaps with red bookedout spot, return false and prevent modal from appearing.
-
-1. tooLong on click of polipay pay button.
-2. Adjust dateHolder to bw-dateHolder to prevent clashes.
-
-1. Change vl to vl-border
-2. Add weball and brand logo to top left corner of widget. Also transfer css.
-3. remove bottom timeholder, cancel time and book now button and col-6 from the repear booking
-for those on the free plan on response onload.
-4. padding-left for dateholder
-5. also remove the col-6 of cancel and regular buttons
-
-1. change the margin top of repeat booking button to 0 and
-2. Create a class wrapper for the div around the widget
-
-1. convert maxheight to height for brand row.
-2. remove adjust height on load and instead add a load listener to the brand logo.
-3. Add height adjust to the load listener and remove from on repeat button.
-4. add the 0.5rem padding bottom to brandRow and bottom repeatBookingFooter.
-
------ good ------
+7. pr-3 to 0.92 rem on the head row.

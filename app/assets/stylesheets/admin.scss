@@ -196,16 +196,21 @@
   border-color: black !important;
 }
 
-#dashBoardTable .border-darkBlue {
-  border: 1px solid darkBlue !important;
+#dashBoardTable tbody .border-darkBlue {
+  border: 1px solid darkBlue;
+}
+
+#dashBoardTable tbody .border-x-darkBlue {
+  border-left: 1px solid darkBlue;
+  border-right: 1px solid darkBlue;
 }
 
 #dashBoardTable tbody::-webkit-scrollbar {
-  display: none;
+  //display: none;
 }
 
 #dashBoardTable td.booked {
-  max-height: 2rem;
+  //max-height: 2rem;
   border: none;
 }
 
@@ -248,14 +253,27 @@
     vertical-align: top;
     border-top: 1px solid rgb(222, 226, 230);
     border-left: 1px solid rgb(222, 226, 230);
+    max-height: 2rem;
   }
 
   th {
     border-right: 1px solid rgb(222, 226, 230);
   }
 
-  thead th {
-    vertical-align: bottom;
+  th.border-right-orange {
+    border-right: 0.5rem solid #ff5e0d;
+  }
+
+  thead {
+    th {
+      vertical-align: bottom;
+    }
+    th.equalTH {
+      flex: 1 1 auto;
+    }
+    th.moreEqualTH {
+      min-width: 4.5rem;
+    }
   }
 }
 
@@ -273,6 +291,10 @@
 
 .tableVolleyball {
   background-color: #bfff80;
+}
+
+.tableEvent {
+  background-color: #e7c7ae;
 }
 
 .bg-azure {
@@ -321,6 +343,10 @@
   border-left: 10px solid transparent;
   border-right: 10px solid transparent;
   border-top: 20px solid black;
+}
+
+.nb-event-row {
+  display: none;
 }
 
 

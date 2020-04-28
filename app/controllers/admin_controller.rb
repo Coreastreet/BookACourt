@@ -56,7 +56,7 @@ class AdminController < ApplicationController
     session[:bookings] = bookings.to_json
     # make a restclient get call to the api for daily transactions
     todayDate = (Date.today - 1.day).strftime("%Y-%m-%d")
-    jsonDailyTransactions = RestClient.get("https://poliapi.apac.paywithpoli.com/api/v2/Transaction/GetDailyTransactions?date=#{todayDate}&statuscodes=Completed",{Authorization: @sports_centre.combinedCode})
+    jsonDailyTransactions =  "[{\"MerchantData\":\"one\"}]"  # RestClient.get("https://poliapi.apac.paywithpoli.com/api/v2/Transaction/GetDailyTransactions?date=#{todayDate}&statuscodes=Completed",{Authorization: @sports_centre.combinedCode})
     @arrayDailyTransactions = (JSON.parse(jsonDailyTransactions)).reverse()
     @arrayDailyTransactions.reject! { |hash| !hash["MerchantData"].include?("[") }
 

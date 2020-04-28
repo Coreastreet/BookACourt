@@ -97,6 +97,12 @@
                     <datalist id="sports">
                     </datalist>
               </div>
+              <div class="row mx-0 justify-content-between px-3 nb-event-row d-none">
+                  <div class="px-0 h-2rem d-flex align-items-center">
+                    Event:
+                  </div>
+                    <input type="text" class="col-9 inline-block nb-end-time px-0 text-center bookingRate sportTypeInput mousetrap" data-type="data-hc-p">
+              </div>
               <div class="row mx-0 mt-2 justify-content-end px-3">
                 <button type="button" class="btn btn-primary addNewBooking">Add Booking</button>
                 <button type="button" class="btn btn-secondary ml-2 cancelNewBooking">Cancel</button>
@@ -132,19 +138,23 @@
               </div>
             </div>
           </div>
-          <div class="px-3 h-100" id="homeBody">
-            <div>
-              <div class="row mx-0 mt-4 mb-2">
+          <div class="p-3 h-100" id="homeBody">
+            <div class="h-100 d-flex flex-column">
+              <div class="row mx-0 my-2">
                     <h5>Home</h5>
               </div>
-              <div class="">
-                  <h2 class="text-center py-5">weBall</h2>
-                  <h5>In order to complete your registration, you must complete the following steps.</h5>
-                  <h5>1. Enter and save your opening and peak hours.</h5>
-                  <h5>2. Enter and save your prices.</h5>
-                  <h5>3. Enter bookings into the dashboard.</h5>
-                  <h5 id="step4" class='<%= 'd-none' if @sports_centre.plan == "Basic" %>'>4. Upload and save your logo.</h5>
-                  <h5 id="step5" class='<%= 'd-none' if @sports_centre.plan == "Basic" %>'>5. Copy and insert the following code into your sports center website.</h5>
+              <div class="d-flex flex-column flex-grow-1 justify-content-between">
+                  <!-- <h2 class="text-center py-5">weBall</h2> -->
+                  <%= image_tag(asset_path("orangeWeballLogo.png"), class: "max-text-logo mx-auto py-5") %>
+                  <div id="instructions">
+                      <h5>In order to complete your registration, you must complete the following steps.</h5>
+                      <h5>1. Enter and save your opening and peak hours.</h5>
+                      <h5>2. Enter and save your prices.</h5>
+                      <h5>3. Enter bookings into the dashboard.</h5>
+                      <!-- class='%= 'd-none' if @sports_centre.plan == "Basic" %'> -->
+                      <h5>4. Upload and save your logo.</h5>
+                      <h5>5. Copy and insert the following code into your sports center website.</h5>
+                  </div>
                   <div id='wrapperCode' class="pt-4 <%= 'd-none' if @sports_centre.plan == "Basic" %>">
                     <div class="row mx-0 d-flex justify-content-between"><p class="mb-0 h-contentFit align-self-end">Place this line of code in the head section</p>
                       <button class="tooltipTarget btn btn-primary" data-target="scriptCode">
@@ -181,7 +191,7 @@
                 </div>
                 <table class="table-fixed table-sm courts-table parentWidth w-100" id="dashBoardTable">
                   <thead>
-                    <tr class="border-bottom">
+                    <tr class="border-bottom pr-3 d-flex">
                       <th scope="col" class="moreEqualTH"></th>
                       <% [*1..@sports_centre.numberOfCourts].each do |number| %>
                         <th scope="col" class="equalTH">Court no.<%= number %></th>
@@ -191,7 +201,7 @@
                   <tbody class="dashBoardHeight">
                     <% (6.hours..23.5.hours).step(30.minutes).each do |hour| %>
                       <tr class="d-flex">
-                        <th scope="row" class="p-0"><sup><%= Time.at(hour).gmtime.strftime('%H:%M') %></sup></th>
+                        <th scope="row" class="p-0 mb-0 h4 text-muted bookSpecial"><sup><%= Time.at(hour).gmtime.strftime('%H:%M') %></sup></th>
                         <% [*1..@sports_centre.numberOfCourts].each do |i| %>
                             <td data-time=<%= Time.at(hour).gmtime.strftime('%H:%M') %> data-court = <%= i %> class="td-flex d-flex justify-content-between">&nbsp;</td>
                         <% end %>
@@ -454,8 +464,8 @@
                   data-hc-op="<%=prices["casual"]["half_court"]["off_peak"]%>" data-hc-p="<%=prices["casual"]["half_court"]["peak_hour"]%>" data-hc-we="<%=prices["casual"]["half_court"]["Weekend"]%>"
                    data-fc-op="<%=prices["casual"]["full_court"]["off_peak"]%>" data-fc-p="<%=prices["casual"]["full_court"]["peak_hour"]%>" data-fc-we="<%=prices["casual"]["full_court"]["Weekend"]%>">
                   <div class="position-absolute deleteActivity">&times</div>
-                  <img class="image-contain" src="<%= asset_path("#{activity}.png") %>">
-                  <div class="pt-2 activityName"><%= activity %></div>
+                  <img class="image-contain" src="<%= asset_path("sport_icons/#{activity}.png") %>">
+                  <div class="pt-2 activityName text-capitalize"><%= activity %></div>
                 </div>
                 <% end %>
                 <div class="col-2 d-flex flex-column align-items-center border rounded py-2 mr-2" id="addActivityCard">
@@ -473,8 +483,8 @@
                           <div class="input-group mb-3">
                             <input type="text" class="form-control" list="activities" name="activity" id="newActivityInput">
                                <datalist id="activities">
-                                 <% ["basketball", "badminton", "netball", "volleyball", "indoor_soccer"].each do |activity| %>
-                                 <option value="<%= activity %>", data-assetPath="<%= asset_path("#{activity}.png")%>">
+                                 <% ["basketball", "badminton", "netball", "volleyball", "indoor_soccer", "event"].each do |activity| %>
+                                  <option value="<%= activity %>", data-assetPath="<%= asset_path("sport_icons/#{activity}.png")%>">
                                  <% end %>
                                </datalist>
                              <div class="input-group-append">
@@ -488,7 +498,7 @@
               <div class="row mx-0">
                 <h5>Set Booking Prices</h5>
               </div>
-              <div class="row mx-0">
+              <div class="row mx-0" id="priceSettings">
                 <div class="col-lg-7 px-0">
                   <div class="d-flex row mx-0 mt-2 rounded-edges">
                     <div class="col-4 offset-3 px-0 d-flex align-items-center justify-content-center">

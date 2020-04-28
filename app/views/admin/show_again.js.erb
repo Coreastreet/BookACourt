@@ -64,7 +64,7 @@ while (i < bookings.length) {
             j++;
           }
      } else if (booking.courtType == "fullCourt") {
-          console.log(booking.courtType)
+         console.log(booking.courtType)
          nextColumnArray = document.querySelectorAll(`[data-court="${booking.court_no + 1}"]`);
          while (j < columnArray.length) {
            if (columnArray[j].dataset.time == booking_start) {
@@ -94,7 +94,44 @@ while (i < bookings.length) {
            }
            j++;
          }
-     }
+     } else if (booking.courtType == "allCourt") {
+       // get total number of courts
+        var totalLength = document.querySelectorAll("th.equalTH").length;
+        var k = 1;
+        while (k <= totalLength) {
+             j = 0;
+             nextColumnArray = document.querySelectorAll(`[data-court="${k}"]`);
+             while (j < columnArray.length) {
+               if (columnArray[j].dataset.time == booking_start) {
+                 booked = true;
+               };
+               if (columnArray[j].dataset.time == booking_end) {
+                 booked = false;
+               }
+               if (booked) {
+                   columnArray[j].classList.add(`table${booking.sportsType}`, "booked");
+                   columnArray[j].setAttribute("data-booking-id", `${booking.id}`);
+                   columnArray[j].setAttribute("data-toggle", "tooltip");
+                   columnArray[j].setAttribute("title", `${booking.name}\nType: ${booking.sportsType}\nStart:`
+                   + ` ${convertToAMPM(booking_start)}\nEnd: ${convertToAMPM(booking_end)}`);
+                   nextColumnArray[j].classList.add(`table${booking.sportsType}`, "booked");
+                   nextColumnArray[j].setAttribute("data-booking-id", `${booking.id}`);
+                   nextColumnArray[j].setAttribute("data-toggle", "tooltip");
+                   nextColumnArray[j].setAttribute("title", `${booking.name}\nType: ${booking.sportsType}\nStart:`
+                   + ` ${convertToAMPM(booking_start)}\nEnd: ${convertToAMPM(booking_end)}`);
+                   if (counter == 0) {  // first selected td.
+                       columnArray[j].innerHTML = `<div>${booking.name}</div>`;
+                       columnArray[j].classList.add("textHolder");
+                       nextColumnArray[j].innerHTML = "<div></div><div class='delete-booking'" + `data-booking-id=${booking.id} data-order-id=${booking.order_id}>&times</div>`;
+                       nextColumnArray[j].classList.add("textHolder");
+                       counter++;
+                   }
+               }
+               j++;
+             }
+             k++;
+          }
+        }
   }
   i++;
 }
