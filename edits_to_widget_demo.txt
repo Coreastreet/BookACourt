@@ -11,3 +11,13 @@
 6. Border darkBlue added to dashboardTable for clicks on td, no need to adjust widget.
 
 7. pr-3 to 0.92 rem on the head row.
+
+----
+
+8. first make the event-row appear on all court selection.
+
+9. Next make the court times be red for both full court and half court.
+
+10. Next increase number of courts and test still working.
+
+11. Find way to save the event description and make regular reappear.
