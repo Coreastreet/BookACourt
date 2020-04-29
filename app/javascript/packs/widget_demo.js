@@ -392,13 +392,15 @@ $(document).on('turbolinks:load', function ()  {
                         // account for allCourt courtType bookings by adding the same times to all the rest of the courts.
                         var bookingsByAllCourt = bookingsByDate.filter(function(booking) {return booking.courtType == "allCourt"});
                         var allCourtBooking;
-                        var allCourtCounter = 2;
+                        var allCourtCounter;
                         var allCourtTimes;
                         for (var index2 in bookingsByAllCourt) {
+                          allCourtCounter = 2;
                           allCourtBooking = bookingsByAllCourt[index2];
                           allCourtTimes = calculateTimes(allCourtBooking);
                           while (allCourtCounter <= outerArray.length) { // from 2 to equal to the number of courts.
                             outerArray[allCourtCounter] = outerArray[allCourtCounter].concat(allCourtTimes);
+                            allCourtCounter++;
                           }
                         }
 
