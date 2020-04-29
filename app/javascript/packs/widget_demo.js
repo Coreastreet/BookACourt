@@ -398,7 +398,7 @@ $(document).on('turbolinks:load', function ()  {
                           allCourtCounter = 2;
                           allCourtBooking = bookingsByAllCourt[index2];
                           allCourtTimes = calculateTimes(allCourtBooking);
-                          while (allCourtCounter <= outerArray.length) { // from 2 to equal to the number of courts.
+                          while (allCourtCounter < outerArray.length) { // from 2 to equal to the number of courts.
                             outerArray[allCourtCounter] = outerArray[allCourtCounter].concat(allCourtTimes);
                             allCourtCounter++;
                           }
