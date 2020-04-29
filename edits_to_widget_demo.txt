@@ -21,3 +21,7 @@
 10. Next increase number of courts and test still working.
 
 11. Find way to save the event description and make regular reappear.
+
+12. Edit createBookingMatrix function to take into account allCourt courtType.
+
+ 

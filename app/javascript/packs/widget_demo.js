@@ -389,7 +389,19 @@ $(document).on('turbolinks:load', function ()  {
                           fullCourtBooking = bookingsByFullCourt[index];
                           outerArray[fullCourtBooking.court_no] = outerArray[fullCourtBooking.court_no].concat(calculateTimes(fullCourtBooking));
                         }
-                        //console.log("This is the outerArray", outerArray);
+                        // account for allCourt courtType bookings by adding the same times to all the rest of the courts.
+                        var bookingsByAllCourt = bookingsByDate.filter(function(booking) {return booking.courtType == "allCourt"});
+                        var allCourtBooking;
+                        var allCourtCounter = 2;
+                        var allCourtTimes = calculateTimes(allCourtBooking);
+                        for (var index2 in bookingsByAllCourt) {
+                          allCourtBooking = bookingsByAllCourt[index2];
+                          while (allCourtCounter <= outerArray.length) { // from 2 to equal to the number of courts.
+                            outerArray[allCourtCounter] = outerArray[allCourtCounter].concat(allCourtTimes);
+                          }
+                        }
+
+                        console.log("This is the outerArray", outerArray);
                         var arrayBooked = outerArray;
                         //localStorage.setItem("BookingsMatrix", JSON.stringify(arrayBooked));
                         return arrayBooked;
