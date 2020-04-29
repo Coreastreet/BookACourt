@@ -395,7 +395,7 @@ $(document).on('turbolinks:load', function ()  {
                         var allCourtCounter;
                         var allCourtTimes;
                         for (var index2 in bookingsByAllCourt) {
-                          allCourtCounter = 2;
+                          allCourtCounter = 1;
                           allCourtBooking = bookingsByAllCourt[index2];
                           allCourtTimes = calculateTimes(allCourtBooking);
                           while (allCourtCounter < outerArray.length) { // from 2 to equal to the number of courts.
