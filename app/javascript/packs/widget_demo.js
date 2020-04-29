@@ -393,9 +393,10 @@ $(document).on('turbolinks:load', function ()  {
                         var bookingsByAllCourt = bookingsByDate.filter(function(booking) {return booking.courtType == "allCourt"});
                         var allCourtBooking;
                         var allCourtCounter = 2;
-                        var allCourtTimes = calculateTimes(allCourtBooking);
+                        var allCourtTimes;
                         for (var index2 in bookingsByAllCourt) {
                           allCourtBooking = bookingsByAllCourt[index2];
+                          allCourtTimes = calculateTimes(allCourtBooking);
                           while (allCourtCounter <= outerArray.length) { // from 2 to equal to the number of courts.
                             outerArray[allCourtCounter] = outerArray[allCourtCounter].concat(allCourtTimes);
                           }
