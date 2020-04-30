@@ -89,19 +89,25 @@
                   </div>
                     <input type="text" class="col-9 inline-block nb-start-time px-0 text-center bookingRate nameInput mousetrap" data-type="data-hc-op">
               </div>
+
               <div class="row mx-0 justify-content-between px-3 nb-second-row">
                   <div class="px-0 h-2rem d-flex align-items-center">
                     Sport:
                   </div>
-                    <input type="text" class="col-9 inline-block nb-end-time px-0 text-center bookingRate sportTypeInput mousetrap" list="sports" data-type="data-hc-p">
-                    <datalist id="sports">
-                    </datalist>
+                  <div class="input-group col-9 px-0">
+                      <input type="text" class="inline-block nb-end-time px-0 text-center bookingRate sportTypeInput mousetrap col-12 text-capitalize" list="sports" data-type="data-hc-p">
+                      <div class="input-group-append col-6 px-0 d-none">
+                        <button type="button" class="nb-event-info w-100" name="button">Add Title:</button>
+                      </div>
+                      <datalist id="sports">
+                      </datalist>
+                  </div>
               </div>
               <div class="row mx-0 justify-content-between px-3 nb-event-row d-none">
                   <div class="px-0 h-2rem d-flex align-items-center">
                     Event:
                   </div>
-                    <input type="text" class="col-9 inline-block nb-end-time px-0 text-center bookingRate sportTypeInput mousetrap" data-type="data-hc-p">
+                    <input type="text" class="col-9 inline-block nb-end-time px-0 text-center bookingRate eventTypeInput mousetrap" data-type="data-hc-p">
               </div>
               <div class="row mx-0 mt-2 justify-content-end px-3">
                 <button type="button" class="btn btn-primary addNewBooking">Add Booking</button>

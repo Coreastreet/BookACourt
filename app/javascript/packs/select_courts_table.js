@@ -31,6 +31,7 @@ $(document).on('turbolinks:load', function() {
                   && ( $(this).attr("data-time") >= firstClick.attr("data-time"))) {
                       enableSelection($(this));
                       localStorage.setItem("clickCounter", currentClick+1);
+                      $(this).parent().next().children().first().removeClass("text-muted h4").addClass("h3");
                 } else {
                   return false; // when clicked above in even column.
                 }
@@ -40,6 +41,7 @@ $(document).on('turbolinks:load', function() {
                   && ( $(this).attr("data-time") >= firstClick.attr("data-time"))) {
                       enableSelection($(this));
                       localStorage.setItem("clickCounter", currentClick+1);
+                      $(this).parent().next().children().first().removeClass("text-muted h4").addClass("h3");
                 } else {
                   return false; // when clicked above in odd column.
                 }
@@ -91,12 +93,13 @@ $(document).on('turbolinks:load', function() {
           var belowBottomRight;
 
           if (firstClicked.length == 0) { // no clicks
+              $("#dashBoardTable tbody th.bookSpecial.h3").removeClass("h3").addClass("h4 text-muted");
               $(this).siblings().find("h3").removeClass("h3").addClass("h4 text-muted");
               $(this).removeClass("h4 text-muted").addClass("h3 border-right-orange");
           } else { // clicked on other time first
               indexFirstClick = collectionTimes.index(firstClicked);
               indexSecondClick = collectionTimes.index($(this));
-              if (indexSecondClick >= indexFirstClick) {
+              if ((indexSecondClick >= indexFirstClick) && ($("#dashBoardTable tbody th.bookSpecial.h3").length == 1)) {
                   holderIndex = indexFirstClick;
                   collectionTimes.eq(holderIndex).removeClass("h4 text-muted").addClass("h3 border-right-orange");
                   while(holderIndex <= indexSecondClick) {
@@ -161,6 +164,7 @@ $(document).on('turbolinks:load', function() {
         $("#dashBoardTable tbody th").not(topLeft.prev()).removeClass("border-right-orange h3").addClass("h4 text-muted");
         topLeft.prev().removeClass("border-right-orange");
       }
+      $(`#dashBoardTable tbody td[data-time='${endTime}']`).first().parent().next().children().first().removeClass("h3").addClass("h4 text-muted");
       localStorage.setItem("clickCounter", "0");
       Mousetrap.unbind('ctrl+right');
       Mousetrap.unbind('ctrl+left');
@@ -180,12 +184,18 @@ $(document).on('turbolinks:load', function() {
       //var count = Object.keys(newBookings).length;
       var box = $(this).closest(".name-and-sport");
       var name = box.find(".nameInput").val();
-      var sportType = box.find(".sportTypeInput").val();
+      var sportType = box.find(".sportTypeInput").val() + "::" + box.find(".eventTypeInput").val();
+      var sportMainType = sportType.split("::")[0];
+      sportMainType = sportMainType.charAt(0).toUpperCase() + sportMainType.substr(1);
       var totalCost = box.attr("data-totalCost");
       var courtType = box.attr("data-bookingType");
+
+      var startTime = box.attr("data-startTime");
+      var endTime = box.attr("data-endTime");
+
       var sportsCentreId = parseInt($("#id-holder").attr("data-sports-centre-id"));
-      var newBooking = { booking: {court_no: box.attr("data-courtNo"), startTime: box.attr("data-startTime"),
-      endTime: box.attr("data-endTime"), courtType: courtType, date: formattedToday,
+      var newBooking = { booking: {court_no: box.attr("data-courtNo"), startTime: startTime,
+      endTime: endTime, courtType: courtType, date: formattedToday,
       sports_centre_id: sportsCentreId, bookingType: "casual", sportsType: sportType, name: name }, order: {fullName: name,
       totalCost: totalCost, adminEntry: true, startDate: formattedToday,
       endDate: formattedToday, daysInBetween: 0 }, preBookingId: preBookedId};
@@ -194,18 +204,35 @@ $(document).on('turbolinks:load', function() {
       $(this).closest(".clone").remove();
       // replace td selected with table-color
       var tdCounter = 0;
+      var rowLength = $(`#dashBoardTable tbody td[data-time='${endTime}']`).first().parent().index() - $(`#dashBoardTable tbody td[data-time='${startTime}']`).first().parent().index();
+      var courtWidthHash = { "halfCourt": 1, "fullCourt":2, "allCourt": $("#dashBoardTable thead th.equalTH").length };
+      var numberOfBookingsFilled = rowLength * courtWidthHash[`${courtType}`];
+      console.log(numberOfBookingsFilled);
+      $("#dashBoardTable tbody td.border-darkBlue").removeClass("border-darkBlue");
       $("#dashBoardTable tbody td.table-active").each( function() {
+          $(this).removeClass("unconfirmed table-active border-bottom-0 border-top-0 border-left-0 border-right-0 border-darkBlue");
+          $(this).addClass(`table${sportMainType} booked`);
           if (tdCounter == 0) {
-            $(this).html(`<div>${name}</div>`);
+            $(this).addClass("border-darkBlue");
+            if (sportType.toLowerCase().startsWith("event")) {
+                var sportInfoType = sportType.split("::")[1];
+                $(this).html(`<div>${sportInfoType}</div>`);
+            } else {
+                $(this).html(`<div>${sportMainType}</div>`);
+            }
             $(this).addClass("textHolder");
           }
-          if ((tdCounter == 0 && courtType == "halfCourt") || (tdCounter == 1 && courtType == "fullCourt")) {
-            $(this).append("<div class='delete-presaved-booking'>&times</div>");
+          if (tdCounter == (numberOfBookingsFilled - 1)) {
+            $(this).append(`<div class="ml-auto">${name}</div>`);
+            $(this).addClass("textHolder");
+            $(this).parent().next().children().first().removeClass("h3").addClass("h4 text-muted");
           }
-          $(this).removeClass("unconfirmed table-active");
-          $(this).addClass(`table${sportType} booked`);
+          if ((tdCounter == 0 && courtType == "halfCourt") || (tdCounter == 1 && courtType == "fullCourt")) {
+            $(this).append("<div class='delete-presaved-booking ml-auto'>&times</div>");
+          }
+
           $(this).attr("data-toggle", "tooltip");
-          $(this).attr("title", `${name}\nType: ${sportType}\nStart: ${ convertToAMPM(box.attr("data-startTime")) }\nEnd: ${ convertToAMPM(box.attr("data-endTime")) }`);
+          $(this).attr("title", `${name}\nType: ${sportMainType}\nStart: ${ convertToAMPM(box.attr("data-startTime")) }\nEnd: ${ convertToAMPM(box.attr("data-endTime")) }`);
           $(this).attr("data-preBookedId", preBookedId);
           tdCounter++;
       });
@@ -215,8 +242,11 @@ $(document).on('turbolinks:load', function() {
       // remove the right border of orange color.
       if (courtType == "allCourt") {
             var allCourtTimesSelected = $("#dashBoardTable th.border-right-orange");
+            var sportInfoType = sportType.split("::")[1];
             //console.log(allCourtTimesSelected);
-            allCourtTimesSelected.first().siblings().last().append("<div class='delete-presaved-booking'>&times</div>");
+            $(this).attr("title", $(this).attr("title") + `\nEvent: ${sportInfoType}`);
+
+            allCourtTimesSelected.first().siblings().last().append("<div class='delete-presaved-booking ml-auto'>&times</div>");
             allCourtTimesSelected.each(function() {
                 $(this).removeClass("h3 border-right-orange");
                 $(this).addClass("h4 text-muted");
@@ -345,23 +375,25 @@ $(document).on('turbolinks:load', function() {
 
   $("#col-9-admin").on("click", ".delete-presaved-booking", function() {
         //var bookingID = $(this).attr("data-booking-id");
+        $("#dashBoardTable tbody td.border-darkBlue").removeClass("border-darkBlue");
         var preBooking = $(this).parent();
         var preBookingId = preBooking.attr("data-preBookedId");
         preBooking.empty();
 
         var textHolder = $(`#dashBoardTable td[data-preBookedId="${preBookingId}"].textHolder`);
+        //textHolder.last().parent().next().children().first().removeClass("h3").addClass("text-muted h4");
         textHolder.empty();
         textHolder.removeClass("textHolder");
         // check for event type booking to delete text.
         // remove borders
         $(`#dashBoardTable td[data-preBookedId="${preBookingId}"]`).each( function() {
-              $(this).removeClass("booked border-darkBlue border-left-0 border-right-0 border-top-0 border-bottom-0");
+              $(this).removeClass("booked border-darkBlue border-left-0 border-right-0 border-top-0 border-bottom-0 border-x-darkBlue");
               $(this).removeAttr("data-preBookedId");
               $(this).removeAttr("data-toggle");
               $(this).removeAttr("title");
               removeClassByPrefix($(this)[0], "table");
         });
-        textHolder.addClass("border-darkBlue");
+        textHolder.first().addClass("border-darkBlue");
         var newBookings = JSON.parse(localStorage.getItem("newBookings"));
         var newArray = newBookings.filter((el) => el.preBookingId == preBookingId );
         var index = newBookings.indexOf(newArray[0]);
@@ -708,7 +740,7 @@ $(document).on('turbolinks:load', function() {
       // edit the repeat detail to show different inputs
       $(clone).on("input", ".sportTypeInput, .nameInput", function() {
           var sportType = clone.find(".sportTypeInput").val();
-          console.log(sportType);
+          //console.log(sportType);
           var weekDays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
           var sportCard = $(`#activityCardHolder .activityCard[data-activity='${sportType.toLowerCase()}']`);
           if (sportCard.length) {
@@ -736,14 +768,24 @@ $(document).on('turbolinks:load', function() {
                 //console.log("pc", price_code);
                 // check whether time is within the peak hour zone or outside.
               }
-              clone.find(".courtCost").text(`$${total.toFixed(2)}`);
-              clone.attr("data-totalCost", total.toFixed(2));
+              //if (sportType.toLowerCase() != "event") {
           }
 
           var arrSports = [];
           var sportsDatalist = $("datalist#sports").first().children();
           sportsDatalist.each( (index) => arrSports.push(sportsDatalist[index].value) );
+          var secondRow = clone.find(".nb-second-row");
+          var eventRow = clone.find(".nb-event-row");
+          //console.log("sports Array", arrSports);
+          var sportType = sportType.charAt(0).toUpperCase() + sportType.substr(1);
           if (arrSports.includes(sportType) && (clone.find("input.nameInput").val().length > 0)) {
+            if (sportType.toLowerCase() == "event" && secondRow.css("display") != "none") { // not an allCourt booking
+                secondRow.find(".sportTypeInput").removeClass("col-12").addClass("col-6");
+                secondRow.find(".input-group-append").removeClass("d-none");
+            } else {
+                clone.find(".courtCost").text(`$${total.toFixed(2)}`);
+                clone.attr("data-totalCost", total.toFixed(2));
+            }
             console.log("arr Sports", arrSports);
             $(this).addClass("mousetrap");
             Mousetrap.bind('ctrl+right', function() {
@@ -755,12 +797,20 @@ $(document).on('turbolinks:load', function() {
             });
             Mousetrap.bind('ctrl+left', function() { $("#dashBoardTable .repeatDetail").css("left", "106%") });
           } else {
+            clone.find(".courtCost").empty();
+            secondRow.find(".sportTypeInput").removeClass("col-6").addClass("col-12");
+            secondRow.find(".input-group-append").addClass("d-none");
             $(this).removeClass("mousetrap");
             Mousetrap.unbind('ctrl+right');
             Mousetrap.unbind('ctrl+left');
           }
       });
 
+      $(clone).on("click", ".nb-event-info", function() {
+          var secondRow = $(this).closest(".nb-second-row")
+          secondRow.addClass("d-none");
+          secondRow.next().removeClass("d-none");
+      });
   }
 
   // taking into account the peak and off peak rates while in the admin dashboard

@@ -24,4 +24,5 @@
 
 12. Edit createBookingMatrix function to take into account allCourt courtType.
 
- 
+
+13. copy changes to dashboard channel js.

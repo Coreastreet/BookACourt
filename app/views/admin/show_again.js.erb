@@ -39,6 +39,7 @@ while (i < bookings.length) {
     console.log("end", booking_end);
     columnArray = document.querySelectorAll(`[data-court="${booking.court_no}"]`);
     var counter = 0;
+    var sportsType = booking.sportsType.split("::")[0];
     if (booking.courtType == "halfCourt") {
           console.log(booking.courtType);
           while (j < columnArray.length) {
@@ -49,10 +50,10 @@ while (i < bookings.length) {
               booked = false;
             }
             if (booked) {
-              columnArray[j].classList.add(`table${booking.sportsType}`, "booked");
+              columnArray[j].classList.add(`table${sportsType}`, "booked");
               columnArray[j].setAttribute("data-booking-id", `${booking.id}`);
               columnArray[j].setAttribute("data-toggle", "tooltip");
-              columnArray[j].setAttribute("title", `${booking.name}\nType: ${booking.sportsType}\nStart:`
+              columnArray[j].setAttribute("title", `${booking.name}\nType: ${sportsType}\nStart:`
               + ` ${convertToAMPM(booking_start)}\nEnd: ${convertToAMPM(booking_end)}`);
               //columnArray[j].setAttribute("data-placement", "top");
               if (counter == 0) {  // first selected td.
@@ -74,15 +75,15 @@ while (i < bookings.length) {
              booked = false;
            }
            if (booked) {
-             columnArray[j].classList.add(`table${booking.sportsType}`, "booked");
+             columnArray[j].classList.add(`table${sportsType}`, "booked");
              columnArray[j].setAttribute("data-booking-id", `${booking.id}`);
              columnArray[j].setAttribute("data-toggle", "tooltip");
-             columnArray[j].setAttribute("title", `${booking.name}\nType: ${booking.sportsType}\nStart:`
+             columnArray[j].setAttribute("title", `${booking.name}\nType: ${sportsType}\nStart:`
              + ` ${convertToAMPM(booking_start)}\nEnd: ${convertToAMPM(booking_end)}`);
-             nextColumnArray[j].classList.add(`table${booking.sportsType}`, "booked");
+             nextColumnArray[j].classList.add(`table${sportsType}`, "booked");
              nextColumnArray[j].setAttribute("data-booking-id", `${booking.id}`);
              nextColumnArray[j].setAttribute("data-toggle", "tooltip");
-             nextColumnArray[j].setAttribute("title", `${booking.name}\nType: ${booking.sportsType}\nStart:`
+             nextColumnArray[j].setAttribute("title", `${booking.name}\nType: ${sportsType}\nStart:`
              + ` ${convertToAMPM(booking_start)}\nEnd: ${convertToAMPM(booking_end)}`);
              if (counter == 0) {  // first selected td.
                  columnArray[j].innerHTML = `<div>${booking.name}</div>`;
@@ -96,11 +97,16 @@ while (i < bookings.length) {
          }
      } else if (booking.courtType == "allCourt") {
        // get total number of courts
+        var startRowIndex = document.querySelector(`#dashBoardTable tbody td[data-time='${booking_start}']`).parentElement.rowIndex;
+        var endRowIndex = document.querySelector(`#dashBoardTable tbody td[data-time='${booking_end}']`).parentElement.rowIndex;
+        var rowDiff = endRowIndex - startRowIndex;
+
         var totalLength = document.querySelectorAll("th.equalTH").length;
+        var totalFilledBookings = totalLength * rowDiff; // total bookings filled out.
         var k = 1;
         while (k <= totalLength) {
              j = 0;
-             nextColumnArray = document.querySelectorAll(`[data-court="${k}"]`);
+             columnArray = document.querySelectorAll(`[data-court="${k}"]`);
              while (j < columnArray.length) {
                if (columnArray[j].dataset.time == booking_start) {
                  booked = true;
@@ -109,23 +115,27 @@ while (i < bookings.length) {
                  booked = false;
                }
                if (booked) {
-                   columnArray[j].classList.add(`table${booking.sportsType}`, "booked");
+                   columnArray[j].classList.add(`table${sportsType}`, "booked");
                    columnArray[j].setAttribute("data-booking-id", `${booking.id}`);
                    columnArray[j].setAttribute("data-toggle", "tooltip");
-                   columnArray[j].setAttribute("title", `${booking.name}\nType: ${booking.sportsType}\nStart:`
+                   columnArray[j].setAttribute("title", `${booking.name}\nType: ${sportsType}\nStart:`
                    + ` ${convertToAMPM(booking_start)}\nEnd: ${convertToAMPM(booking_end)}`);
-                   nextColumnArray[j].classList.add(`table${booking.sportsType}`, "booked");
-                   nextColumnArray[j].setAttribute("data-booking-id", `${booking.id}`);
-                   nextColumnArray[j].setAttribute("data-toggle", "tooltip");
-                   nextColumnArray[j].setAttribute("title", `${booking.name}\nType: ${booking.sportsType}\nStart:`
-                   + ` ${convertToAMPM(booking_start)}\nEnd: ${convertToAMPM(booking_end)}`);
+                //   nextColumnArray[j].classList.add(`table${sportsType}`, "booked");
+                //   nextColumnArray[j].setAttribute("data-booking-id", `${booking.id}`);
+                //   nextColumnArray[j].setAttribute("data-toggle", "tooltip");
+                //   nextColumnArray[j].setAttribute("title", `${booking.name}\nType: ${sportsType}\nStart:`
+                //   + ` ${convertToAMPM(booking_start)}\nEnd: ${convertToAMPM(booking_end)}`);
                    if (counter == 0) {  // first selected td.
-                       columnArray[j].innerHTML = `<div>${booking.name}</div>`;
+                      columnArray[j].innerHTML = `<div>${booking.sportsType.split("::")[1]}</div>`;
+                   } else if (k == totalLength && j == (startRowIndex-1)){
+                      columnArray[j].innerHTML = "<div></div><div class='delete-booking'" + `data-booking-id=${booking.id} data-order-id=${booking.order_id}>&times</div>`;
+                   } else if (counter == (totalFilledBookings - 1)) {
+                       columnArray[j].innerHTML = `<div class="ml-auto">${booking.name}</div>`;
                        columnArray[j].classList.add("textHolder");
-                       nextColumnArray[j].innerHTML = "<div></div><div class='delete-booking'" + `data-booking-id=${booking.id} data-order-id=${booking.order_id}>&times</div>`;
-                       nextColumnArray[j].classList.add("textHolder");
-                       counter++;
+                   } else {
                    }
+                   counter++;
+                   console.log(counter, totalFilledBookings);
                }
                j++;
              }

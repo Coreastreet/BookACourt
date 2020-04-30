@@ -50,6 +50,7 @@ $(document).on('turbolinks:load', function () {
           var nextColumnArray;
           var booked = false;
           var counter = 0;
+          var sportsType = booking.sportsType.split("::")[0];
           if (booking.courtType == "halfCourt") {
                 console.log(booking.courtType);
                 while (j < columnArray.length) {
@@ -60,10 +61,10 @@ $(document).on('turbolinks:load', function () {
                     booked = false;
                   }
                   if (booked) {
-                    columnArray[j].classList.add(`table${booking.sportsType}`, "booked");
+                    columnArray[j].classList.add(`table${sportsType}`, "booked");
                     columnArray[j].setAttribute("data-booking-id", `${booking.id}`);
                     columnArray[j].setAttribute("data-toggle", "tooltip");
-                    columnArray[j].setAttribute("title", `${booking.name}\nType: ${booking.sportsType}\nStart:`
+                    columnArray[j].setAttribute("title", `${booking.name}\nType: ${sportsType}\nStart:`
                     + ` ${convertToAMPM(booking_start)}\nEnd: ${convertToAMPM(booking_end)}`);
                     //columnArray[j].setAttribute("data-placement", "top");
                     if (counter == 0) {  // first selected td.
@@ -85,15 +86,15 @@ $(document).on('turbolinks:load', function () {
                    booked = false;
                  }
                  if (booked) {
-                   columnArray[j].classList.add(`table${booking.sportsType}`, "booked");
+                   columnArray[j].classList.add(`table${sportsType}`, "booked");
                    columnArray[j].setAttribute("data-booking-id", `${booking.id}`);
                    columnArray[j].setAttribute("data-toggle", "tooltip");
-                   columnArray[j].setAttribute("title", `${booking.name}\nType: ${booking.sportsType}\nStart:`
+                   columnArray[j].setAttribute("title", `${booking.name}\nType: ${sportsType}\nStart:`
                    + ` ${convertToAMPM(booking_start)}\nEnd: ${convertToAMPM(booking_end)}`);
-                   nextColumnArray[j].classList.add(`table${booking.sportsType}`, "booked");
+                   nextColumnArray[j].classList.add(`table${sportsType}`, "booked");
                    nextColumnArray[j].setAttribute("data-booking-id", `${booking.id}`);
                    nextColumnArray[j].setAttribute("data-toggle", "tooltip");
-                   nextColumnArray[j].setAttribute("title", `${booking.name}\nType: ${booking.sportsType}\nStart:`
+                   nextColumnArray[j].setAttribute("title", `${booking.name}\nType: ${sportsType}\nStart:`
                    + ` ${convertToAMPM(booking_start)}\nEnd: ${convertToAMPM(booking_end)}`);
                    if (counter == 0) {  // first selected td.
                        columnArray[j].innerHTML = `<div>${booking.name}</div>`;
