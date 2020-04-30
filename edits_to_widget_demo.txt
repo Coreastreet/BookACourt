@@ -26,3 +26,5 @@
 
 
 13. copy changes to dashboard channel js.
+
+14. Full court reservation must also dissapear on close.

@@ -428,10 +428,14 @@ $(document).on('turbolinks:load', function ()  {
                               fullCourtArray.push(Array.from(union));
                               oddCounter += 2;
                             }
-                            if ((length % 2) != 0) { // if the number of courts is odd and has an extra half court
+                            // if number of courts is odd, an extra half-court is present but will not be taken into consideration for full-court availability
+                            // treated as non-existent.
+                            /* if ((length % 2) != 0) {
+
                               fullCourtArray.push(outerBookingsArray[length - 1]);
-                            }
+                            } */
                             outerBookingsArray = fullCourtArray;
+                            console.log("full court outer booking array", outerBookingsArray);
                           }
                           //console.log("fullCourtArray", outerBookingsArray);
                           // initialise a hash of courts times (courtsBooked) and set first all times to true
@@ -465,8 +469,8 @@ $(document).on('turbolinks:load', function ()  {
                               counter2++;
                             }
                             counter++;
+                            console.log(difference);
                           }
-
                           return courtsBooked; // array of hash will be true if no half-courts available at that time.
                       }
 
@@ -907,6 +911,7 @@ $(document).on('turbolinks:load', function ()  {
                             bookingMatrix = JSON.parse(localStorage.getItem("BookingsMatrix"));
                             mainClockCard.find("#tabHolder").attr("data-courtType", "halfCourt");
                             bookingSchedule = check_availability("halfCourt", bookingMatrix);
+                            console.log("half court", bookingSchedule);
                             localStorage.setItem("currentBookings", JSON.stringify(bookingSchedule));
 
                             if (canvas.attr('data-ampm') == 'AM') {
@@ -935,6 +940,8 @@ $(document).on('turbolinks:load', function ()  {
                             mainClockCard.find("#tabHolder").attr("data-courtType", "fullCourt");
                             //console.log(mainClockCard.find("#tabHolder")[0]);
                             bookingSchedule = check_availability("fullCourt", bookingMatrix);
+                            console.log("bookingMatrix", bookingMatrix);
+                            console.log("full court", bookingSchedule);
                             localStorage.setItem("currentBookings", JSON.stringify(bookingSchedule));
 
                             if (canvas.attr('data-ampm') == 'AM') {
