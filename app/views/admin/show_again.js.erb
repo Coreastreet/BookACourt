@@ -3,6 +3,7 @@
 <% if session[:bookings] %>
 var bookings = <%= raw session[:bookings] %>;
 
+console.log("bookings!", bookings);
 // newly selected date value
 var newDate = document.querySelector('#my_hidden_input').value;
 var arr = newDate.split('/');
@@ -25,6 +26,9 @@ var firstId = document.querySelector("#dashBoardTable td");
 firstId.classList.add("border-darkBlue");
 console.log("border added!");
 //alert("heck!");
+var bookingsFilled;
+var arrayFromCol;
+var firstIndex;
 
 while (i < bookings.length) {
   //console.log("fd", formattedDate);
@@ -38,13 +42,19 @@ while (i < bookings.length) {
     console.log("start", booking_start);
     console.log("end", booking_end);
     columnArray = document.querySelectorAll(`[data-court="${booking.court_no}"]`);
+    // *1 for half-court and *2 for full court
+    arrayFromCol = Array.from(columnArray);
+    bookingsFilled = (getIntervals(booking_start, booking_end).length - 1);
+    console.log(bookingsFilled);
     var counter = 0;
     var sportsType = booking.sportsType.split("::")[0];
+    var eventType = booking.sportsType.split("::")[1];
     if (booking.courtType == "halfCourt") {
-          console.log(booking.courtType);
+          console.log("eventType", eventType);
           while (j < columnArray.length) {
             if (columnArray[j].dataset.time == booking_start) {
               booked = true;
+              firstIndex = arrayFromCol.indexOf(columnArray[j]);
             }
             if (columnArray[j].dataset.time == booking_end) {
               booked = false;
@@ -52,46 +62,94 @@ while (i < bookings.length) {
             if (booked) {
               columnArray[j].classList.add(`table${sportsType}`, "booked");
               columnArray[j].setAttribute("data-booking-id", `${booking.id}`);
-              columnArray[j].setAttribute("data-toggle", "tooltip");
-              columnArray[j].setAttribute("title", `${booking.name}\nType: ${sportsType}\nStart:`
-              + ` ${convertToAMPM(booking_start)}\nEnd: ${convertToAMPM(booking_end)}`);
+              //columnArray[j].setAttribute("data-toggle", "tooltip");
+              //columnArray[j].setAttribute("title", `${booking.name}\nType: ${sportsType}\nStart:`
+              //+ ` ${convertToAMPM(booking_start)}\nEnd: ${convertToAMPM(booking_end)}`);
               //columnArray[j].setAttribute("data-placement", "top");
-              if (counter == 0) {  // first selected td.
-                  columnArray[j].innerHTML = `<div>${booking.name}</div>` + "<div class='delete-booking'" + `data-booking-id=${booking.id} data-order-id=${booking.order_id}>&times</div>`
+              if (counter == 0) {  // first selected td
+                  if (sportsType == "Event") {
+                    console.log("hey!", eventType);
+                     columnArray[j].innerHTML = `<div class="mr-auto">${eventType}</div>`;
+                  } else {
+                     columnArray[j].innerHTML = `<div class="mr-auto">${sportsType}</div>`;
+                     columnArray[j].classList.add("textHolder");
+                  }
+                  columnArray[j].innerHTML += "<div class='delete-booking pl-2'" + `data-booking-id=${booking.id} data-order-id=${booking.order_id}>&times</div>`
                   columnArray[j].classList.add("textHolder");
-                  counter++;
               }
+              if (counter == bookingsFilled) {
+                //console.log(columnArray[j]);
+                 if (columnArray[j].querySelectorAll(".bookingPayee").length == 0) {
+                      var x = document.createElement("DIV");
+                      var cross = columnArray[j].querySelectorAll(".delete-booking");
+                      x.innerHTML = booking.name;
+                      x.classList.add("bookingPayee");
+                      if (cross.length != 0) {
+                        columnArray[j].insertBefore(x, cross[0]);
+                      } else {
+                        columnArray[j].appendChild(x);
+                      }
+                      //console.log("length", columnArray[j]);
+                  }
+              }
+              counter++;
             }
             j++;
           }
      } else if (booking.courtType == "fullCourt") {
          console.log(booking.courtType)
+         var eventType = booking.sportsType.split("::")[1];
          nextColumnArray = document.querySelectorAll(`[data-court="${booking.court_no + 1}"]`);
          while (j < columnArray.length) {
            if (columnArray[j].dataset.time == booking_start) {
              booked = true;
+             firstIndex = arrayFromCol.indexOf(columnArray[j]);
            }
            if (columnArray[j].dataset.time == booking_end) {
+             // add name to last box
              booked = false;
            }
            if (booked) {
              columnArray[j].classList.add(`table${sportsType}`, "booked");
              columnArray[j].setAttribute("data-booking-id", `${booking.id}`);
-             columnArray[j].setAttribute("data-toggle", "tooltip");
-             columnArray[j].setAttribute("title", `${booking.name}\nType: ${sportsType}\nStart:`
-             + ` ${convertToAMPM(booking_start)}\nEnd: ${convertToAMPM(booking_end)}`);
+             //columnArray[j].setAttribute("data-toggle", "tooltip");
+             //columnArray[j].setAttribute("title", `${booking.name}\nType: ${sportsType}\nStart:`
+             //+ ` ${convertToAMPM(booking_start)}\nEnd: ${convertToAMPM(booking_end)}`);
              nextColumnArray[j].classList.add(`table${sportsType}`, "booked");
              nextColumnArray[j].setAttribute("data-booking-id", `${booking.id}`);
-             nextColumnArray[j].setAttribute("data-toggle", "tooltip");
-             nextColumnArray[j].setAttribute("title", `${booking.name}\nType: ${sportsType}\nStart:`
-             + ` ${convertToAMPM(booking_start)}\nEnd: ${convertToAMPM(booking_end)}`);
+             //nextColumnArray[j].setAttribute("data-toggle", "tooltip");
+             //nextColumnArray[j].setAttribute("title", `${booking.name}\nType: ${sportsType}\nStart:`
+             //+ ` ${convertToAMPM(booking_start)}\nEnd: ${convertToAMPM(booking_end)}`);
              if (counter == 0) {  // first selected td.
-                 columnArray[j].innerHTML = `<div>${booking.name}</div>`;
-                 columnArray[j].classList.add("textHolder");
+                 if (sportsType == "Event") {
+                    columnArray[j].innerHTML = `<div>${eventType}</div>`;
+                    columnArray[j].classList.add("textHolder");
+                 } else {
+                    columnArray[j].innerHTML = `<div>${sportsType}</div>`;
+                    columnArray[j].classList.add("textHolder");
+                 }
                  nextColumnArray[j].innerHTML = "<div></div><div class='delete-booking'" + `data-booking-id=${booking.id} data-order-id=${booking.order_id}>&times</div>`;
                  nextColumnArray[j].classList.add("textHolder");
-                 counter++;
              }
+             if (counter == bookingsFilled) {
+               //console.log(columnArray[j]);
+                if (nextColumnArray[j].querySelectorAll(".bookingPayee").length == 0) {
+                     var y = document.createElement("div");
+                     var cross = nextColumnArray[j].querySelectorAll(".delete-booking");
+                     y.innerHTML = booking.name;
+                     y.classList.add("bookingPayee", "ml-auto");
+                     if (cross.length != 0) {
+                       cross[0].classList.remove("ml-auto");
+                       cross[0].classList.add("pl-2");
+                       nextColumnArray[j].insertBefore(y, cross[0]);
+                     } else {
+                       nextColumnArray[j].appendChild(y);
+                     }
+                     //nextColumnArray[j].appendChild(y);
+                    // console.log("length", nextColumnArray[j]);
+                 }
+             }
+             counter++;
            }
            j++;
          }
@@ -117,9 +175,9 @@ while (i < bookings.length) {
                if (booked) {
                    columnArray[j].classList.add(`table${sportsType}`, "booked");
                    columnArray[j].setAttribute("data-booking-id", `${booking.id}`);
-                   columnArray[j].setAttribute("data-toggle", "tooltip");
-                   columnArray[j].setAttribute("title", `${booking.name}\nType: ${sportsType}\nStart:`
-                   + ` ${convertToAMPM(booking_start)}\nEnd: ${convertToAMPM(booking_end)}`);
+                   //columnArray[j].setAttribute("data-toggle", "tooltip");
+                   //columnArray[j].setAttribute("title", `${booking.name}\nType: ${sportsType}\nStart:`
+                   //+ ` ${convertToAMPM(booking_start)}\nEnd: ${convertToAMPM(booking_end)}`);
                 //   nextColumnArray[j].classList.add(`table${sportsType}`, "booked");
                 //   nextColumnArray[j].setAttribute("data-booking-id", `${booking.id}`);
                 //   nextColumnArray[j].setAttribute("data-toggle", "tooltip");
@@ -177,4 +235,31 @@ function convertToAMPM(timeString) {
   var int = (parsed_int % 12 == 0) ? 12 : parsed_int % 12;
   var am_or_pm = (hours_and_minutes[0] >= 12) ? "PM" : "AM";
   return `${int}:${hours_and_minutes[1]}${am_or_pm}`
+}
+
+function convertTimeIntoString(number) {
+  var stringTime = number.toString();
+  //var minutes = stringTime.substr(1);
+  if (Number.isInteger(number)) {
+    stringTime = stringTime + ":00";
+  } else {
+    stringTime = stringTime.replace(".5", ":30");
+  }
+  if (number < 10) {
+    stringTime = "0" + stringTime;
+  }
+  return stringTime;
+}
+
+function getIntervals(start, end) {
+  var startBookingTime = parseFloat(start.replace(":3", ".5"));
+  var endBookingTime = parseFloat(end.replace(":3", ".5"));
+  arrayIntervals = [];
+  var stringTime;
+  while (startBookingTime != endBookingTime) {
+    stringTime = convertTimeIntoString(startBookingTime);
+    arrayIntervals.push(stringTime);
+    startBookingTime += 0.5;
+  }
+  return arrayIntervals;
 }

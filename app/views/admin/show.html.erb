@@ -192,8 +192,13 @@
           </div>
           <div id="ViewAndBookBody" class="px-3 h-100 d-none">
               <div>
-                <div class="row mx-0 mt-4 mb-2">
+                <div class="row mx-0 mt-4 mb-2" id="bookingsTitleBar">
                       <h5>Monitor and add bookings</h5>
+                      <h5 class="ml-auto mr-2">12-Hour Time:</h5>
+                      <div class="btn-group pb-2" id="hourControl">
+                        <button type="button" class="btn btn-admin border-dark py-0" data-control="on">ON</button>
+                        <button type="button" class="btn btn-admin border-dark py-0" data-control="off">OFF</button>
+                      </div>
                 </div>
                 <table class="table-fixed table-sm courts-table parentWidth w-100" id="dashBoardTable">
                   <thead>
@@ -205,9 +210,10 @@
                     </tr>
                   </thead>
                   <tbody class="dashBoardHeight">
-                    <% (6.hours..23.5.hours).step(30.minutes).each do |hour| %>
+                    <% (6.hours..23.5.hours).step(30.minutes).each_with_index do |hour, index| %>
                       <tr class="d-flex">
-                        <th scope="row" class="p-0 mb-0 h4 text-muted bookSpecial"><sup><%= Time.at(hour).gmtime.strftime('%H:%M') %></sup></th>
+                        <th scope="row" class="px-0 mb-0 text-muted bookSpecial text-center h4 <%= 'border-top-0' if index.odd? %>"><sup class="<%= 'd-none' if index.odd? %>" data-timeRef="<%=  Time.at(hour).gmtime.strftime('%H:%M') %>">
+                          <span class="h3 align-middle"><%= Time.at(hour).gmtime.strftime('%H') %></span><span class=""><%= Time.at(hour).gmtime.strftime(':%M') %></span></sup></th>
                         <% [*1..@sports_centre.numberOfCourts].each do |i| %>
                             <td data-time=<%= Time.at(hour).gmtime.strftime('%H:%M') %> data-court = <%= i %> class="td-flex d-flex justify-content-between">&nbsp;</td>
                         <% end %>

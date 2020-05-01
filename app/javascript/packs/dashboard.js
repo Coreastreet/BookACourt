@@ -153,8 +153,8 @@ $(document).on('turbolinks:load', function () {
                 currentTD.removeClass("border-darkBlue");
                 index = currentTD.index();
                 parentRow.prev().children().eq(index).addClass("border-darkBlue");
-                parentRow.children().first().removeClass("h3").addClass("h4 text-muted");
-                parentRow.prev().children().first().removeClass("h4 text-muted").addClass("h3");
+                parentRow.children().first().addClass("text-muted");
+                parentRow.prev().children().first().removeClass("text-muted");
              } else {
                 //parentRow.children().first().removeClass("h3").addClass("h4 text-muted");
              }
@@ -172,8 +172,8 @@ $(document).on('turbolinks:load', function () {
                 currentTD.removeClass("border-darkBlue");
                 index = currentTD.index();
                 parentRow.next().children().eq(index).addClass("border-darkBlue");
-                parentRow.children().first().removeClass("h3").addClass("h4 text-muted");
-                parentRow.next().children().first().removeClass("h4 text-muted").addClass("h3");
+                parentRow.children().first().addClass("text-muted");
+                parentRow.next().children().first().removeClass("text-muted");
              } else {
                 //parentRow.children().first().removeClass("h3").addClass("h4 text-muted");
              }

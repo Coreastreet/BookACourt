@@ -11,6 +11,24 @@ $(document).on('turbolinks:load', function() {
   var relativeHeight = popUpBox.outerHeight();
   localStorage.setItem("clickCounter", "0");
   localStorage.setItem("newBookings", "[]");
+  var timeSetting = localStorage.getItem("12HRTimeSetting");
+  var rowTimesFirst = $("#dashBoardTable tbody th.bookSpecial sup");
+  var rowTimeFirst;
+  var newTimeFirst;
+  var newTimeArrFirst;
+  if ( timeSetting == "on") {
+      $(`#hourControl button[data-control='on']`).addClass("btn-clickedHR");
+          rowTimesFirst.each( function() {
+              rowTimeFirst = $(this).attr("data-timeRef");
+              newTimeFirst = convertToAMPM(rowTimeFirst);
+              $(this).attr("data-timeRef", newTimeFirst);
+              newTimeArrFirst = newTimeFirst.split(":");
+              $(this).children().first().text(newTimeArrFirst[0]);
+              $(this).children().last().text(newTimeArrFirst[1].substr(2));
+          });
+  } else {
+      $(`#hourControl button[data-control='off']`).addClass("btn-clickedHR");
+  }
   var firstClick;
   $("#activityCardHolder .activityCard").each( function() {
       var sportOffered = $(this).attr("data-activity");
@@ -31,7 +49,7 @@ $(document).on('turbolinks:load', function() {
                   && ( $(this).attr("data-time") >= firstClick.attr("data-time"))) {
                       enableSelection($(this));
                       localStorage.setItem("clickCounter", currentClick+1);
-                      $(this).parent().next().children().first().removeClass("text-muted h4").addClass("h3");
+                      $(this).parent().next().children().first().removeClass("text-muted");
                 } else {
                   return false; // when clicked above in even column.
                 }
@@ -41,7 +59,7 @@ $(document).on('turbolinks:load', function() {
                   && ( $(this).attr("data-time") >= firstClick.attr("data-time"))) {
                       enableSelection($(this));
                       localStorage.setItem("clickCounter", currentClick+1);
-                      $(this).parent().next().children().first().removeClass("text-muted h4").addClass("h3");
+                      $(this).parent().next().children().first().removeClass("text-muted");
                 } else {
                   return false; // when clicked above in odd column.
                 }
@@ -80,6 +98,43 @@ $(document).on('turbolinks:load', function() {
     }
   });
 
+  $("#hourControl").on("click", "button", function() {
+        var control = $(this).attr("data-control");
+        if ($(this).hasClass("btn-clickedHR")) {
+            //$(this).removeClass("btn-clickedHR");
+        } else {
+            $(this).siblings().removeClass("btn-clickedHR");
+            $(this).addClass("btn-clickedHR");
+            var rowTimes = $("#dashBoardTable tbody th.bookSpecial sup");
+            var rowTime;
+            var newTime;
+            var newTimeArr;
+            if (control == "on") {
+                rowTimes.each( function() {
+                    rowTime = $(this).attr("data-timeRef");
+                    newTime = convertToAMPM(rowTime);
+                    $(this).attr("data-timeRef", newTime);
+                    newTimeArr = newTime.split(":");
+                    $(this).children().first().text(newTimeArr[0]);
+                    $(this).children().last().text(newTimeArr[1].substr(2));
+                });
+                localStorage.setItem("12HRTimeSetting", "on");
+            }
+            if (control == "off") {
+              rowTimes.each( function() {
+                  rowTime = $(this).attr("data-timeRef");
+                  newTime = convertAMPMToString(rowTime);
+                  $(this).attr("data-timeRef", newTime);
+                  newTimeArr = newTime.split(":");
+                  $(this).children().first().text(newTimeArr[0]);
+                  $(this).children().last().text(":" + newTimeArr[1]);
+              });
+              localStorage.setItem("12HRTimeSetting", "off");
+            }
+        }
+
+  });
+
   $("#dashBoardTable tbody").on("click", "th.bookSpecial", function() {
           var firstClicked = $("#dashBoardTable tbody th.border-right-orange");
           var collectionTimes = $("#dashBoardTable tbody th.bookSpecial");
@@ -93,25 +148,26 @@ $(document).on('turbolinks:load', function() {
           var belowBottomRight;
 
           if (firstClicked.length == 0) { // no clicks
-              $("#dashBoardTable tbody th.bookSpecial.h3").removeClass("h3").addClass("h4 text-muted");
-              $(this).siblings().find("h3").removeClass("h3").addClass("h4 text-muted");
-              $(this).removeClass("h4 text-muted").addClass("h3 border-right-orange");
+              $("#dashBoardTable tbody th.bookSpecial:not(.text-muted)").addClass("text-muted");
+              //$(this).siblings().find("h3").addClass("text-muted");
+              $(this).removeClass("text-muted").addClass("border-right-orange");
           } else { // clicked on other time first
               indexFirstClick = collectionTimes.index(firstClicked);
               indexSecondClick = collectionTimes.index($(this));
-              if ((indexSecondClick >= indexFirstClick) && ($("#dashBoardTable tbody th.bookSpecial.h3").length == 1)) {
+              if ((indexSecondClick >= indexFirstClick) && ($("#dashBoardTable tbody th.bookSpecial:not(.text-muted)").length == 1)) {
                   holderIndex = indexFirstClick;
-                  collectionTimes.eq(holderIndex).removeClass("h4 text-muted").addClass("h3 border-right-orange");
+                  collectionTimes.eq(holderIndex).removeClass("text-muted").addClass("border-right-orange");
                   while(holderIndex <= indexSecondClick) {
                       thBookSpecial = collectionTimes.eq(holderIndex);
                       thBookSpecial.addClass("border-right-orange");
                       thBookSpecial.parent().find("td").addClass("table-active");
                       holderIndex++;
                   }
-                  collectionTimes.eq(holderIndex).removeClass("h4 text-muted").addClass("h3");
+                  collectionTimes.eq(holderIndex).removeClass("text-muted");
                   topLeft = firstClicked.next();
                   // add unconfirmed for later reference
-                  topLeft.addClass("unconfirmed");
+                  $("#dashBoardTable tbody td.border-darkBlue").removeClass("border-darkBlue");
+                  topLeft.addClass("unconfirmed border-darkBlue");
                   bottomRight = collectionTimes.eq(indexSecondClick).siblings().last();
                   bottomRight.addClass("unconfirmed");
 
@@ -161,10 +217,10 @@ $(document).on('turbolinks:load', function() {
           $(`#dashBoardTable tbody td[data-time="${intervalArray[i]}"]`).removeClass("table-active unconfirmed");
         }
         var topLeft = $(`#dashBoardTable tbody td[data-time="${intervalArray[0]}"]`);
-        $("#dashBoardTable tbody th").not(topLeft.prev()).removeClass("border-right-orange h3").addClass("h4 text-muted");
+        $("#dashBoardTable tbody th").not(topLeft.prev()).removeClass("border-right-orange").addClass("text-muted");
         topLeft.prev().removeClass("border-right-orange");
       }
-      $(`#dashBoardTable tbody td[data-time='${endTime}']`).first().parent().next().children().first().removeClass("h3").addClass("h4 text-muted");
+      $(`#dashBoardTable tbody td[data-time='${endTime}']`).first().parent().next().children().first().addClass("text-muted");
       localStorage.setItem("clickCounter", "0");
       Mousetrap.unbind('ctrl+right');
       Mousetrap.unbind('ctrl+left');
@@ -225,14 +281,14 @@ $(document).on('turbolinks:load', function() {
           if (tdCounter == (numberOfBookingsFilled - 1)) {
             $(this).append(`<div class="ml-auto">${name}</div>`);
             $(this).addClass("textHolder");
-            $(this).parent().next().children().first().removeClass("h3").addClass("h4 text-muted");
+            $(this).parent().next().children().first().addClass("text-muted");
           }
           if ((tdCounter == 0 && courtType == "halfCourt") || (tdCounter == 1 && courtType == "fullCourt")) {
             $(this).append("<div class='delete-presaved-booking ml-auto'>&times</div>");
           }
 
-          $(this).attr("data-toggle", "tooltip");
-          $(this).attr("title", `${name}\nType: ${sportMainType}\nStart: ${ convertToAMPM(box.attr("data-startTime")) }\nEnd: ${ convertToAMPM(box.attr("data-endTime")) }`);
+          //$(this).attr("data-toggle", "tooltip");
+          //$(this).attr("title", `${name}\nType: ${sportMainType}\nStart: ${ convertToAMPM(box.attr("data-startTime")) }\nEnd: ${ convertToAMPM(box.attr("data-endTime")) }`);
           $(this).attr("data-preBookedId", preBookedId);
           tdCounter++;
       });
@@ -248,12 +304,12 @@ $(document).on('turbolinks:load', function() {
 
             allCourtTimesSelected.first().siblings().last().append("<div class='delete-presaved-booking ml-auto'>&times</div>");
             allCourtTimesSelected.each(function() {
-                $(this).removeClass("h3 border-right-orange");
-                $(this).addClass("h4 text-muted");
+                $(this).removeClass("border-right-orange");
+                $(this).addClass("text-muted");
             });
             var nextTimeHeader = allCourtTimesSelected.last().parent().next().children().first();
-            nextTimeHeader.removeClass("h3 border-right-orange");
-            nextTimeHeader.addClass("h4 text-muted");
+            nextTimeHeader.removeClass("border-right-orange");
+            nextTimeHeader.addClass("text-muted");
       }
   });
 
@@ -284,8 +340,15 @@ $(document).on('turbolinks:load', function() {
   });
 
   $("#ViewAndBookBody").on("click", "#removeUnconfirmed", function() {
-      $("#dashBoardTable tbody td.table-active").removeClass("unconfirmed table-active");
+      var cells = $("#dashBoardTable tbody td.table-active");
+      cells.removeClass("unconfirmed table-active border-right-0 border-left-0 border-x-darkBlue border-top-0 border-bottom-0 border-darkBlue");
       $("#dashBoardTable .clone.name-and-sport").remove();
+      $("#dashBoardTable tbody th.border-right-orange").removeClass("border-right-orange");
+      $("#dashBoardTable tbody th:not(.text-muted)").addClass("text-muted");
+      //$("#dashBoardTable tbody td.border-darkBlue").removeClass("border-darkBlue");
+
+      cells.first().addClass("border-darkBlue");
+      cells.first().siblings().first().removeClass("text-muted");
       localStorage.setItem("clickCounter", 0);
   });
 
@@ -339,8 +402,9 @@ $(document).on('turbolinks:load', function() {
               //dataType: "json"
             })
             $(this).remove();
-            $(`#dashBoardTable td[data-booking-id="${bookingId}"]`).each( function(index) {
-                  if ((index == 0) || (index == 1)) {
+            var allBookingCells = $(`#dashBoardTable td[data-booking-id="${bookingId}"]`);
+            allBookingCells.each( function(index) {
+                  if ((index == 0) || (index == 1) || (index == (allBookingCells.length-1))) {
                     $(this).children().remove();
                   }
                   $(this).removeClass("booked textHolder");
@@ -376,6 +440,7 @@ $(document).on('turbolinks:load', function() {
   $("#col-9-admin").on("click", ".delete-presaved-booking", function() {
         //var bookingID = $(this).attr("data-booking-id");
         $("#dashBoardTable tbody td.border-darkBlue").removeClass("border-darkBlue");
+        $("#dashBoardTable tbody th:not(.text-muted)").addClass("text-muted");
         var preBooking = $(this).parent();
         var preBookingId = preBooking.attr("data-preBookedId");
         preBooking.empty();
@@ -394,6 +459,7 @@ $(document).on('turbolinks:load', function() {
               removeClassByPrefix($(this)[0], "table");
         });
         textHolder.first().addClass("border-darkBlue");
+        textHolder.first().siblings().first().removeClass("text-muted");
         var newBookings = JSON.parse(localStorage.getItem("newBookings"));
         var newArray = newBookings.filter((el) => el.preBookingId == preBookingId );
         var index = newBookings.indexOf(newArray[0]);
@@ -575,8 +641,8 @@ $(document).on('turbolinks:load', function() {
     $("#dashBoardTable tbody td.border-darkBlue:not(.unconfirmed)").removeClass("border-darkBlue");
     // add the time font change.
     if (parseInt(localStorage.getItem("clickCounter")) == 0) {
-        $("#dashBoardTable tbody th.h3").removeClass("h3").addClass("h4 text-muted");
-        selectedCell.parent().children().first().removeClass("h4 text-muted").addClass("h3");
+        $("#dashBoardTable tbody th:not(.text-muted)").addClass("text-muted");
+        selectedCell.parent().children().first().removeClass("text-muted");
     }
 
     selectedCell.addClass('table-active unconfirmed border-darkBlue');

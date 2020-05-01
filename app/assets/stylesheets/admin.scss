@@ -222,15 +222,20 @@
   max-width: 8rem;
 }
 
-#dashBoardTable .nb-intervalButton, #dashBoardTable .nb-event-info, {
+#dashBoardTable .nb-intervalButton, #dashBoardTable .nb-event-info, #bookingsTitleBar .btn-admin {
   background-color: white;
   color: black;
   border: 1px solid gainsboro;
 }
 
-#dashBoardTable .nb-intervalButton:hover, #dashBoardTable .nb-event-info:hover, {
+#dashBoardTable .nb-intervalButton:hover, #dashBoardTable .nb-event-info:hover, #bookingsTitleBar .btn-admin:hover, .btn-clicked {
   background-color: midnightBlue;
   color: white;
+}
+
+#bookingsTitleBar .btn-clickedHR  {
+  background-color: midnightBlue !important;
+  color: white !important;
 }
 
 #dashBoardTable .repeatDetail {
