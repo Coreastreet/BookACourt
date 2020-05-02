@@ -485,12 +485,26 @@ $(document).on('turbolinks:load', function() {
       var sportsCentreId = parseInt($("#id-holder").attr("data-sports-centre-id"));
       var name = box.find(".nameInput").val();
       var preBookedId = parseInt(localStorage.getItem("preBookingsMade"));
-      var sportType = box.find(".sportTypeInput").val();
+      //var sportType = box.find(".sportTypeInput").val();
+      var sportType = box.find(".sportTypeInput").val() + "::" + box.find(".eventTypeInput").val();
+      var sportMainType = sportType.split("::")[0];
+      sportMainType = sportMainType.charAt(0).toUpperCase() + sportMainType.substr(1);
+
       var courtType = box.attr("data-bookingType");
+      var startTime = box.attr("data-startTime");
+      var endTime = box.attr("data-endTime");
+
+      // get number of courts for allCourts
+      var bookingsLength = $("#dashBoardTable thead th.equalTH").length;
+      var hashCourtTypes = { "halfCourt": 1, "fullCourt": 2, "allCourt": bookingsLength };
+
+      var numberOfRows = getIntervals(startTime, endTime).length;
+      var totalCells = hashCourtTypes[courtType] * numberOfRows;
+      console.log("totalCells", totalCells);
 
       var newBookings = JSON.parse(localStorage.getItem("newBookings"));
-      var newBooking = { booking: {court_no: box.attr("data-courtNo"), startTime: box.attr("data-startTime"),
-      endTime: box.attr("data-endTime"), courtType: courtType, date: datesChosen,
+      var newBooking = { booking: {court_no: box.attr("data-courtNo"), startTime: startTime,
+      endTime: endTime, courtType: courtType, date: datesChosen,
       sports_centre_id: sportsCentreId, bookingType: "regular", sportsType: sportType,
       name: name }, order: {fullName: name, totalCost: box.attr("data-reg-totalCost"), adminEntry: true, startDate: datesChosen[0],
       endDate: datesChosen[datesChosen.length-1], daysInBetween: box.attr("data-reg-interval-days") }, preBookingId: preBookedId};
@@ -501,17 +515,33 @@ $(document).on('turbolinks:load', function() {
       var tdCounter = 0;
       $("#dashBoardTable tbody td.table-active").each( function() {
           if (tdCounter == 0) {
-            $(this).html(`<i class="fas fa-redo"></i><div>${name}</div>`);
+            //$(this).addClass("border-darkBlue");
+            if (sportType.toLowerCase().startsWith("event")) {
+                var sportInfoType = sportType.split("::")[1];
+                $(this).html(`<div><i class="fas fa-redo pr-2"></i>${sportInfoType}</div>`);
+                //$(this).html(`<div>${sportInfoType}</div>`);
+            } else {
+                $(this).html(`<div>${sportMainType}</div>`);
+            }
             $(this).addClass("textHolder");
           }
-          if ((tdCounter == 0 && courtType == "halfCourt") || (tdCounter == 1 && courtType == "fullCourt")) {
-            $(this).append("<div class='delete-presaved-booking'>&times</div>");
+          //console.log("length", bookingsLength);
+          //console.log("counter", tdCounter);
+          if ((tdCounter == 0 && courtType == "halfCourt") || (tdCounter == 1 && courtType == "fullCourt")
+            || (tdCounter == (bookingsLength - 1) && courtType == "allCourt")) {
+            $(this).append("<div class='ml-auto delete-presaved-booking'>&times</div>");
+            $(this).addClass("textHolder");
+          }
+          if (tdCounter == (totalCells - 1)) {
+            $(this).append(`<div>${name}</div>`);
+            $(this).addClass("textHolder");
           }
           $(this).removeClass("unconfirmed table-active");
-          $(this).addClass(`table${sportType} booked`);
+          $(this).addClass(`table${sportMainType} booked`);
           $(this).attr("data-preBookedId", preBookedId);
           tdCounter++;
       });
+      $("#dashBoardTable tbody th.border-right-orange").removeClass("border-right-orange");
       localStorage.setItem("clickCounter", "0");
       localStorage.setItem("preBookingsMade", preBookedId+1)
   });
