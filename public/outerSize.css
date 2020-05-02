@@ -361,10 +361,6 @@
   display: flex;
 }
 
-div.datepicker.dropdown-menu.datepicker-orient-left.datepicker-orient-bottom {
-  margin-top: 1.2rem;
-}
-
 #payment-confirmation div {
   margin: 0px;
   padding: 0px;
@@ -760,6 +756,28 @@ div.datepicker.dropdown-menu.datepicker-orient-left.datepicker-orient-bottom {
 #payment-confirmation #polipayInfo:hover, #payment-confirmation #reservationInfo:hover {
      color: black;
      cursor: pointer;
+}
+
+.datepicker {
+  width: 280px;
+  height: 290px;
+}
+
+.datepicker table.table-condensed {
+  width: 270px;
+  height:270px;
+}
+
+.datepicker table.table-condensed thead th.datepicker-switch, .datepicker table.table-condensed thead th.prev, .datepicker table.table-condensed thead th.next {
+  padding: 8px 0px
+}
+
+.datepicker table.table-condensed thead th.clear {
+  padding: 5px 0px;
+}
+
+.datepicker table.table-condensed thead td.day {
+      vertical-align: middle;
 }
 
 @media only screen and (min-width: 768px) {

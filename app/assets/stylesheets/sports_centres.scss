@@ -157,14 +157,25 @@ input::-webkit-calendar-picker-indicator {
 // calender
 .datepicker {
   width: 280px;
-  height: 280px;
-}
+  height: 290px;
 
-.table-condensed {
-  width: 270px;
-  height:270px;
-}
+  table.table-condensed {
+    width: 270px;
+    height:270px;
 
+    thead th.datepicker-switch, thead th.prev, thead th.next {
+        padding: 8px 0px
+    }
+
+    thead th.clear {
+        padding: 5px 0px;
+    }
+
+    td.day {
+      vertical-align: middle;
+    }
+  }
+}
 // map
 #mapid { height: 90vh; }
 

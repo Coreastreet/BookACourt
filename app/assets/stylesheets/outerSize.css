@@ -351,7 +351,3 @@
 #BookingWidget #repeatBookingCard #endRow #endDateBottomRow {
   display: flex;
 }
-
-div.datepicker.dropdown-menu.datepicker-orient-left.datepicker-orient-bottom {
-  margin-top: 1.2rem;
-}
