@@ -79,6 +79,7 @@ while (i < bookings.length) {
               }
               if (counter == bookingsFilled) {
                 //console.log(columnArray[j]);
+                 columnArray[j].classList.add("textHolder");
                  if (columnArray[j].querySelectorAll(".bookingPayee").length == 0) {
                       var x = document.createElement("DIV");
                       var cross = columnArray[j].querySelectorAll(".delete-booking");
@@ -133,6 +134,7 @@ while (i < bookings.length) {
              }
              if (counter == bookingsFilled) {
                //console.log(columnArray[j]);
+                nextColumnArray[j].classList.add("textHolder");
                 if (nextColumnArray[j].querySelectorAll(".bookingPayee").length == 0) {
                      var y = document.createElement("div");
                      var cross = nextColumnArray[j].querySelectorAll(".delete-booking");
@@ -184,8 +186,10 @@ while (i < bookings.length) {
                 //   nextColumnArray[j].setAttribute("title", `${booking.name}\nType: ${sportsType}\nStart:`
                 //   + ` ${convertToAMPM(booking_start)}\nEnd: ${convertToAMPM(booking_end)}`);
                    if (counter == 0) {  // first selected td.
+                      columnArray[j].classList.add("textHolder");
                       columnArray[j].innerHTML = `<div>${booking.sportsType.split("::")[1]}</div>`;
                    } else if (k == totalLength && j == (startRowIndex-1)){
+                      columnArray[j].classList.add("textHolder");
                       columnArray[j].innerHTML = "<div></div><div class='delete-booking'" + `data-booking-id=${booking.id} data-order-id=${booking.order_id}>&times</div>`;
                    } else if (counter == (totalFilledBookings - 1)) {
                        columnArray[j].innerHTML = `<div class="ml-auto">${booking.name}</div>`;
@@ -213,6 +217,7 @@ function clearTable(table) {
   var j = 0;
   while (i < bookedTimes.length) {
     bookedTimes[i].setAttribute("class", "td-flex d-flex justify-content-between");
+    bookedTimes[i].removeAttribute("data-booking-id");
     i++;
   }
   while (j < textHolders.length) {

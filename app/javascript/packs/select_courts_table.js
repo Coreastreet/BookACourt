@@ -281,6 +281,7 @@ $(document).on('turbolinks:load', function() {
           if (tdCounter == (numberOfBookingsFilled - 1)) {
             $(this).append(`<div class="ml-auto">${name}</div>`);
             $(this).addClass("textHolder");
+            //console.log("appended", $(this));
             $(this).parent().next().children().first().addClass("text-muted");
           }
           if ((tdCounter == 0 && courtType == "halfCourt") || (tdCounter == 1 && courtType == "fullCourt")) {
@@ -302,7 +303,7 @@ $(document).on('turbolinks:load', function() {
             //console.log(allCourtTimesSelected);
             $(this).attr("title", $(this).attr("title") + `\nEvent: ${sportInfoType}`);
 
-            allCourtTimesSelected.first().siblings().last().append("<div class='delete-presaved-booking ml-auto'>&times</div>");
+            allCourtTimesSelected.first().siblings().last().append("<div class='delete-presaved-booking ml-auto'>&times</div>").addClass("textHolder");
             allCourtTimesSelected.each(function() {
                 $(this).removeClass("border-right-orange");
                 $(this).addClass("text-muted");
