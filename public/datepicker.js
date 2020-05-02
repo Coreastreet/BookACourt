@@ -72,7 +72,7 @@ var clearTimeButton = document.querySelector("#clearButton");
 // fetch booking data for a particular sports centre.
 var sportsCentreId = document.querySelector("#weBallWidget").getAttribute("data-sportsCentreId");
 // assign the src url of the sportsCentre logo.
-mainClockCard.find("#bw-brand").attr("src", `https://weball.com.au/logos/sports_centre_logo_${sportsCentreId}`);
+mainClockCard.find("#bw-brand").attr("src", `https://weball.com.au/system/sports_centre_logo_${sportsCentreId}`);
     //alert("hey!");
 BookingWidget.$('[data-provide="datepicker"]').datepicker({
    format: "DD, d MM yyyy",
@@ -786,7 +786,7 @@ request.onload = function(e) {
     //real_price_holder.attr("data-prices", JSON.stringify(response["prices"]));
     var plan_type = response["plan_type"];
     if (plan_type == 0) { // free plan
-        mainClockCard.find("#timeHolder").toggle();
+        //mainClockCard.find("#timeHolder").toggle();
         mainClockCard.find("#bookNowButton").toggle();
         mainClockCard.find("#clearButton").toggle();
         //repeatCard.height(mainClockCard.outerHeight());
@@ -802,7 +802,7 @@ request.onload = function(e) {
     for (var activity in jsonPrices) {
       // insert an image icon
         cloneIcon = activitySelector.find("img.activityIcon").eq(0).clone();
-        cloneIcon.attr("src", `https://weball.com.au/${activity}.png`);
+        cloneIcon.attr("src", `https://weball.com.au/sport_icons/${activity}.png`);
         cloneIcon.removeClass("bw-none");
         cloneIcon.attr("data-activity", activity);
         //cloneIcon.attr("data-prices", jsonPrices[activity]);

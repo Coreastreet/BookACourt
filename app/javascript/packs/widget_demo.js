@@ -827,7 +827,7 @@ $(document).on('turbolinks:load', function ()  {
                           console.log("This is the plan type", response["plan_type"]);
                           var plan_type = response["plan_type"];
                           if (plan_type == 0) { // in free plan, so hide several buttons
-                              mainClockCard.find("#timeHolder").toggle();
+                              //mainClockCard.find("#timeHolder").toggle();
                               mainClockCard.find("#bookNowButton").toggle();
                               mainClockCard.find("#clearButton").toggle();
                               //repeatCard.height(mainClockCard.outerHeight());
