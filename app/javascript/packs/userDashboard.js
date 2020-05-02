@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', function(){
       //$('#datepicker').datepicker();
+      // page no use
       if ($("#weBallWidget").length != 1) {
           var now = new Date();
           $('[data-provide="datepicker"]').datepicker({

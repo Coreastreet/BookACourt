@@ -758,25 +758,27 @@
      cursor: pointer;
 }
 
-.datepicker {
+body > .datepicker {
   width: 280px;
-  height: 290px;
+  height: 280px;
 }
 
-.datepicker table.table-condensed {
+body > .datepicker table.table-condensed {
   width: 270px;
   height:270px;
 }
 
-.datepicker table.table-condensed thead th.datepicker-switch, .datepicker table.table-condensed thead th.prev, .datepicker table.table-condensed thead th.next {
+body > .datepicker table.table-condensed > thead th.datepicker-switch,
+body > .datepicker table.table-condensed > thead th.prev,
+body > .datepicker table.table-condensed > thead th.next {
   padding: 8px 0px
 }
 
-.datepicker table.table-condensed tbody td.day {
-      vertical-align: middle;
+body > .datepicker table.table-condensed > tbody td.day {
+  vertical-align: middle;
 }
 
-.datepicker table.table-condensed tfoot th.clear {
+body > .datepicker table.table-condensed > tfoot th.clear {
   padding: 5px 0px;
 }
 

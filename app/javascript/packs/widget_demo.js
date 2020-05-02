@@ -83,7 +83,7 @@ $(document).on('turbolinks:load', function ()  {
                          format: "DD, d MM yyyy",
                          todayHighlight: true,
                          autoclose: true,
-                         clearBtn: true,
+                         //clearBtn: true,
                          startDate: now.toLocaleDateString(),
                          maxViewMode: "years",
                       }).on('changeDate', function(e) {

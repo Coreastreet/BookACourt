@@ -155,19 +155,19 @@ input::-webkit-calendar-picker-indicator {
 }
 
 // calender
-.datepicker {
+body > .datepicker {
   width: 280px;
-  height: 290px;
+  height: 280px;
 
   table.table-condensed {
     width: 270px;
     height:270px;
 
-    thead th.datepicker-switch, thead th.prev, thead th.next {
+    > thead th.datepicker-switch, thead th.prev, thead th.next {
         padding: 8px 0px
     }
 
-    thead th.clear {
+    > tfoot th.clear {
         padding: 5px 0px;
     }
 

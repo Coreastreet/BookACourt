@@ -55,14 +55,14 @@ document.addEventListener('DOMContentLoaded', function(){
         //lastIndex = dateString.lastIndexOf(" ");
         $(".startDate").val(dateString);
         console.log(dateString);
-
+        // this one is working for options on demo page.
         $('[data-provide="datepicker"]').datepicker({
            format: "DD, d MM yyyy",
            todayHighlight: true,
            autoclose: true,
-           clearBtn: true,
+           //clearBtn: true,
            startDate: now.toLocaleDateString(),
-           maxViewMode: "years"
+           maxViewMode: "years",
         }).on('changeDate', function(e) {
            //$(".startDate").val(($(this).datepicker('getFormattedDate')));
            dateString = $(this).datepicker('getFormattedDate');

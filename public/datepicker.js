@@ -78,7 +78,7 @@ BookingWidget.$('[data-provide="datepicker"]').datepicker({
    format: "DD, d MM yyyy",
    todayHighlight: true,
    autoclose: true,
-   clearBtn: true,
+   //clearBtn: true,
    startDate: now.toLocaleDateString(),
    maxViewMode: "years"
 }).on('changeDate', function(e) {
