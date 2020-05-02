@@ -803,12 +803,14 @@ request.onload = function(e) {
     console.log("Activity prices", response["prices"]);
     for (var activity in jsonPrices) {
       // insert an image icon
-        cloneIcon = activitySelector.find("img.activityIcon").eq(0).clone();
-        cloneIcon.attr("src", `https://weball.com.au/sport_icons/${activity}.png`);
-        cloneIcon.removeClass("bw-none");
-        cloneIcon.attr("data-activity", activity);
-        //cloneIcon.attr("data-prices", jsonPrices[activity]);
-        cloneIcon.appendTo(activitySelector);
+        if (activity != "event") {
+            cloneIcon = activitySelector.find("img.activityIcon").eq(0).clone();
+            cloneIcon.attr("src", `https://weball.com.au/sport_icons/${activity}.png`);
+            cloneIcon.removeClass("bw-none");
+            cloneIcon.attr("data-activity", activity);
+            //cloneIcon.attr("data-prices", jsonPrices[activity]);
+            cloneIcon.appendTo(activitySelector);
+        }
     }
 
     // add click listener on icons
