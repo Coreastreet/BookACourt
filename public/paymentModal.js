@@ -22,8 +22,8 @@ timeHolder.on("change", "input",  function() {
 
 var dateHolder = bw.find("#dateHolder");
 bw.on("change", "#dateHolder", function() {
-      if ($(this).val() != "") {
-          $(this).css("border-color", "initial");
+      if (BookingWidget.$(this).val() != "") {
+          BookingWidget.$(this).css("border-color", "initial");
       }
 });
 
