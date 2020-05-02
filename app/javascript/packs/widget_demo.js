@@ -830,6 +830,8 @@ $(document).on('turbolinks:load', function ()  {
                               //mainClockCard.find("#timeHolder").toggle();
                               mainClockCard.find("#bookNowButton").toggle();
                               mainClockCard.find("#clearButton").toggle();
+                              repeatCard.find("#returnToSingleButton").toggle();
+                              repeatCard.find("#checkAvailabilityButton").addClass("mb-3");
                               //repeatCard.height(mainClockCard.outerHeight());
                               //repeatCard.css("margin-top", `-${mainClockCard.outerHeight()}px`);
                           }
