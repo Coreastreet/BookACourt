@@ -77,7 +77,7 @@ $(document).on('turbolinks:load', function ()  {
                       var clearTimeButton = document.querySelector("#clearButton");
 
                       var sportsCentreId = document.querySelector("#weBallWidget").getAttribute("data-sportsCentreId");
-                      mainClockCard.find("#bw-brand").attr("src", `https://weball.com.au/logos/sports_centre_logo_${sportsCentreId}`);
+                      mainClockCard.find("#bw-brand").attr("src", `https://weball.com.au/system/sports_centre_logo_${sportsCentreId}`);
                           //alert("hey!");
                       $('[data-provide="datepicker"]').datepicker({
                          format: "DD, d MM yyyy",
