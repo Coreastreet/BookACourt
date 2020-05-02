@@ -772,12 +772,12 @@
   padding: 8px 0px
 }
 
-.datepicker table.table-condensed thead th.clear {
-  padding: 5px 0px;
+.datepicker table.table-condensed tbody td.day {
+      vertical-align: middle;
 }
 
-.datepicker table.table-condensed thead td.day {
-      vertical-align: middle;
+.datepicker table.table-condensed tfoot th.clear {
+  padding: 5px 0px;
 }
 
 @media only screen and (min-width: 768px) {

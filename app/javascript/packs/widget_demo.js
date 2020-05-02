@@ -86,7 +86,6 @@ $(document).on('turbolinks:load', function ()  {
                          clearBtn: true,
                          startDate: now.toLocaleDateString(),
                          maxViewMode: "years",
-                         title: "weBall",
                       }).on('changeDate', function(e) {
                           //$(".startDate").val(($(this).datepicker('getFormattedDate')));
                          //repeatCard.attr("data-availabilityChecked", "false");
