@@ -765,7 +765,8 @@ body > .datepicker {
 
 body > .datepicker table.table-condensed {
   width: 270px;
-  height:270px;
+  height: 270px;
+  font-size: 1rem;
 }
 
 body > .datepicker table.table-condensed > thead th.datepicker-switch,

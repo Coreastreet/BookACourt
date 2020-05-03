@@ -17,8 +17,11 @@ $(document).on('turbolinks:load', function ()  {
 
                       document.querySelector("canvas#canvas").width = mainCardWidth;
                       document.querySelector("canvas#canvas").height = mainCardWidth;
-                      repeatCard.height(mainClockCard.outerHeight());
-                      repeatCard.css("margin-top", `-${mainClockCard.outerHeight()}px`);
+
+                      var adjustHeightDifference = mainClockCard.outerHeight() - mainClockCard.find("#bw-brandRow").innerHeight();
+                      console.log(adjustHeightDifference);
+                      repeatCard.height(adjustHeightDifference);
+                      repeatCard.css("margin-top", `-${adjustHeightDifference}px`);
                       // format the datepicker and display the date selected
                       var now = new Date();
                       //now.setHours(now.getHours() - 8);
@@ -737,7 +740,7 @@ $(document).on('turbolinks:load', function ()  {
                             localStorage.setItem("bookings_array", updated_bookings_array);
                             bookingMatrix = createBookingMatrix(JSON.parse(updated_bookings_array), currentFormattedDate, no_courts);
                             localStorage.setItem("BookingsMatrix", JSON.stringify(bookingMatrix));
-                            console.log("updated EventSource check stringify bookings_array", updated_bookings_array);
+                            //console.log("updated EventSource check stringify bookings_array", updated_bookings_array);
                           } else if (decodedData.event == "live_reservation_remove") {
                             console.log("live_remove");
                             utcDate = new Date(decodedData.reservationTime).toISOString();
