@@ -252,8 +252,7 @@
   box-shadow: none;
 }
 #BookingWidget #repeatBookingCard #frequencyRow #frequencyHeader #frequencyButtons #daysButton:hover {
-  background-color: blue;
-  color: white;
+  background-color: aliceblue;
 }
 #BookingWidget #repeatBookingCard #frequencyRow #frequencyHeader #frequencyButtons button.daysWeeks {
   padding: 1px 6px;
@@ -275,8 +274,7 @@
   box-shadow: none;
 }
 #BookingWidget #repeatBookingCard #frequencyRow #frequencyHeader #frequencyButtons #weeksButton:hover {
-  background-color: #6c757d;
-  color: white;
+  background-color: aliceblue;
 }
 #BookingWidget #repeatBookingCard #frequencyRow #frequencyBottomRow {
   display: flex;
