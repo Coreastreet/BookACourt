@@ -18,10 +18,6 @@ $(document).on('turbolinks:load', function ()  {
                       document.querySelector("canvas#canvas").width = mainCardWidth;
                       document.querySelector("canvas#canvas").height = mainCardWidth;
 
-                      var adjustHeightDifference = mainClockCard.outerHeight() - mainClockCard.find("#bw-brandRow").innerHeight();
-                      console.log(adjustHeightDifference);
-                      repeatCard.height(adjustHeightDifference);
-                      repeatCard.css("margin-top", `-${adjustHeightDifference}px`);
                       // format the datepicker and display the date selected
                       var now = new Date();
                       //now.setHours(now.getHours() - 8);
@@ -824,6 +820,12 @@ $(document).on('turbolinks:load', function ()  {
                             mainClockCard.find("#bw-brandRow .bw-sportsCentreTitle").text(response["sports_centre_title"])
                             mainClockCard.find("#bw-brandRow .bw-sportsCentreTitle").removeClass("d-none");
                           }
+
+                          var adjustHeightDifference = mainClockCard.outerHeight() - mainClockCard.find("#bw-brandRow").innerHeight();
+                          console.log(adjustHeightDifference);
+                          repeatCard.height(adjustHeightDifference);
+                          repeatCard.css("margin-top", `-${adjustHeightDifference}px`);
+                          
                           console.log("sports centre title", response["sports_centre_title"])
                           //var real_price_holder = mainClockCard.find("#real-price-holder");
                           //real_price_holder.attr("data-prices", JSON.stringify(response["prices"]));
