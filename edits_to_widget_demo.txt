@@ -28,3 +28,9 @@
 13. copy changes to dashboard channel js.
 
 14. Full court reservation must also dissapear on close.
+
+-----
+
+15. change the createBookingMatrix function by filtering the courtsAllowed by icon.
+
+16. Change the courtsAllowed by icon type.

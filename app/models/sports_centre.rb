@@ -5,6 +5,8 @@ class SportsCentre < ApplicationRecord
   serialize :prices, Hash
   serialize :opening_hours, Hash
   serialize :peak_hours, Hash
+  serialize :courtsAllowed, Hash
+  
   enum plan: { 'Basic':0, 'Standard':1, 'Premium':2 }
   #serialize :activities, Hash
   after_touch :notify_bookings_changed

@@ -353,7 +353,15 @@ $(document).on('turbolinks:load', function ()  {
                         var isExpiredReservation2;
                         var currentTime = new Date();
                         var minutesPastReservation;
-                        var bookingsByDate = bookedArray.filter(function(booking) {
+
+                        // first we will filter the bookedArray by the current sport chosen.
+                        var selectedIconCourts = $("#activitySelector img.selectedIcon").attr("data-courtsAllowed"); // array of integers
+                        var selectedIconCourtsArray = selectedIconCourts.split(",").map(Number);
+                        var bookedArrayBySelectedIcon = bookedArray.filter(function(booking) {
+                            return selectedIconCourtsArray.includes(booking.court_no);
+                        });
+
+                        var bookingsByDate = bookedArrayBySelectedIcon.filter(function(booking) {
                            minutesPastReservation = (currentTime - Date.parse(booking.created_at))/60000;
                            isExpiredReservation2 = ((booking.id == null) && (minutesPastReservation > 15));
                            return ((booking.date == date) && !isExpiredReservation2);
@@ -825,7 +833,7 @@ $(document).on('turbolinks:load', function ()  {
                           console.log(adjustHeightDifference);
                           repeatCard.height(adjustHeightDifference);
                           repeatCard.css("margin-top", `-${adjustHeightDifference}px`);
-                          
+
                           console.log("sports centre title", response["sports_centre_title"])
                           //var real_price_holder = mainClockCard.find("#real-price-holder");
                           //real_price_holder.attr("data-prices", JSON.stringify(response["prices"]));
