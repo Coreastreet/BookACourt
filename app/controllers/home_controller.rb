@@ -11,6 +11,6 @@ class HomeController < ApplicationController
 
   def status_callback
     @params = params
-    Rails.logger.info @params.to_s
+    Rails.logger.info @params.inspect
   end
 end
