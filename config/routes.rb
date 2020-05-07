@@ -11,6 +11,9 @@ Rails.application.routes.draw do
   end
 
   get '/demo', to: 'home#demo', as: "home_demo"
+
+  # for polygot status_callback
+  post '/polygot/status_callback', to: 'home#status_callback', as: "polygot_status_callback"
   # listen for sse on updates to demo centre
 
   get '/login', to: 'sessions#new'
