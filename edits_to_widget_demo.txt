@@ -34,3 +34,11 @@
 15. change the createBookingMatrix function by filtering the courtsAllowed by icon.
 
 16. Change the courtsAllowed by icon type.
+
+17. detect which icon is selected on click of half and full court. Simulate click on change of icon.
+
+18. move the change in the create booking matrix to the bottom of function. Filter index of. If none, allow all. if only one, block half-court.
+
+19. add the fourth parameter to the create booking matrix function in the live update function and on change date.
+
+20. change the lenght of allCourt to the first icon.

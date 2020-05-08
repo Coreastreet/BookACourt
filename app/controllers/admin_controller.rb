@@ -292,12 +292,17 @@ class AdminController < ApplicationController
   end
 
   def update_prices
+    puts params.inspect
     buttonRef = lock_params[:buttonRef][1..].to_sym
     if session[buttonRef]
         require 'json'
         sports_centre = SportsCentre.find(id_params[:id])
         jsonPrices = JSON.parse(sports_centre_params[:prices])
         sports_centre.update!(prices: jsonPrices)
+
+        # allowed update of courtsAllowed
+        jsonCourtsAllowed = JSON.parse(sports_centre_params[:courtsAllowed])
+        sports_centre.update!(courtsAllowed: jsonCourtsAllowed)
     end
   end
 
@@ -341,7 +346,7 @@ class AdminController < ApplicationController
 
   def sports_centre_params
       params.require(:sports_centre).permit(:title, :email, :password, :password_confirmation, :ABN,
-         :phone, :description, :logo, :merchantCode, :authenticationCode, :numberOfCourts, :prices)
+         :phone, :description, :logo, :merchantCode, :authenticationCode, :numberOfCourts, :prices, :courtsAllowed)
   end
 
   def token_params

@@ -77,6 +77,8 @@ $(document).on('turbolinks:load', function ()  {
 
                       var sportsCentreId = document.querySelector("#weBallWidget").getAttribute("data-sportsCentreId");
                       mainClockCard.find("#bw-brand").attr("src", `https://weball.com.au/system/sports_centre_logo_${sportsCentreId}`);
+
+                      var chosenIconCourtsAllowed;
                           //alert("hey!");
                       $('[data-provide="datepicker"]').datepicker({
                          format: "DD, d MM yyyy",
@@ -110,7 +112,9 @@ $(document).on('turbolinks:load', function ()  {
 
                          //console.log(stringFormattedDate);
                          bookings_array = JSON.parse(localStorage.getItem("bookings_array"));
-                         bookingMatrix = createBookingMatrix(bookings_array, stringFormattedDate, numberOfCourts);
+
+                         chosenIconCourtsAllowed = mainClockCard.find("#activitySelector img.selectedIcon").attr("data-courtsAllowed");
+                         bookingMatrix = createBookingMatrix(bookings_array, stringFormattedDate, numberOfCourts, chosenIconCourtsAllowed);
                          //console.log("matrix", bookingMatrix);
                          //console.log("date", stringFormattedDate);
                          //console.log("Half-Court schedule", bookingSchedule);
@@ -346,7 +350,7 @@ $(document).on('turbolinks:load', function ()  {
 
                       // insert function to calculate availability based on bookings and the date given.
                       // date in "YYYY-MM-DD" format string
-                      function createBookingMatrix(bookedArray, date, numberOfCourts) {
+                      function createBookingMatrix(bookedArray, date, numberOfCourts, selectedIconCourts) {
                         // cut down the array of bookings to contain only those bookings that match the selected date.
                         // no distinction made between fullCourt and halfCourt bookings
                         // filter out all the reservations with null id and longer than 2min creation time
@@ -354,14 +358,7 @@ $(document).on('turbolinks:load', function ()  {
                         var currentTime = new Date();
                         var minutesPastReservation;
 
-                        // first we will filter the bookedArray by the current sport chosen.
-                        var selectedIconCourts = $("#activitySelector img.selectedIcon").attr("data-courtsAllowed"); // array of integers
-                        var selectedIconCourtsArray = selectedIconCourts.split(",").map(Number);
-                        var bookedArrayBySelectedIcon = bookedArray.filter(function(booking) {
-                            return selectedIconCourtsArray.includes(booking.court_no);
-                        });
-
-                        var bookingsByDate = bookedArrayBySelectedIcon.filter(function(booking) {
+                        var bookingsByDate = bookedArray.filter(function(booking) {
                            minutesPastReservation = (currentTime - Date.parse(booking.created_at))/60000;
                            isExpiredReservation2 = ((booking.id == null) && (minutesPastReservation > 15));
                            return ((booking.date == date) && !isExpiredReservation2);
@@ -401,11 +398,12 @@ $(document).on('turbolinks:load', function ()  {
                         var allCourtBooking;
                         var allCourtCounter;
                         var allCourtTimes;
+                        var firstActivityIconCourts = mainClockCard.find("#activitySelector img.activityIcon:not(.bw-none)").first().attr("data-courtsAllowed").split(",");
                         for (var index2 in bookingsByAllCourt) {
                           allCourtCounter = 1;
                           allCourtBooking = bookingsByAllCourt[index2];
                           allCourtTimes = calculateTimes(allCourtBooking);
-                          while (allCourtCounter < outerArray.length) { // from 2 to equal to the number of courts.
+                          while (allCourtCounter < firstActivityIconCourts.length) { // from 2 to equal to the number of courts.
                             outerArray[allCourtCounter] = outerArray[allCourtCounter].concat(allCourtTimes);
                             allCourtCounter++;
                           }
@@ -414,6 +412,22 @@ $(document).on('turbolinks:load', function ()  {
                         console.log("This is the outerArray", outerArray);
                         var arrayBooked = outerArray;
                         //localStorage.setItem("BookingsMatrix", JSON.stringify(arrayBooked));
+                        // first we will filter the bookedArray by the current sport chosen.
+                         // array of integers
+
+                        // remove the subarrays that don't match the court numbers
+                        var selectedIconCourtsArray;
+                        var courtFacilityAllowed;
+                        if (typeof selectedIconCourts !== "undefined") {
+                          selectedIconCourtsArray = selectedIconCourts.split(",").map(Number);
+                          arrayBooked = outerArray.filter(function(courtFacility) {
+                              courtFacilityAllowed = selectedIconCourtsArray.includes(outerArray.indexOf(courtFacility)+1); // plus one to account for the zero index counter.
+                              console.log("check", courtFacilityAllowed);
+                              return courtFacilityAllowed;
+                          });
+                          console.log("by selection", selectedIconCourts, arrayBooked);
+                        }
+
                         return arrayBooked;
                       }
 
@@ -476,7 +490,7 @@ $(document).on('turbolinks:load', function ()  {
                               counter2++;
                             }
                             counter++;
-                            console.log(difference);
+                            //console.log(difference);
                           }
                           return courtsBooked; // array of hash will be true if no half-courts available at that time.
                       }
@@ -553,16 +567,15 @@ $(document).on('turbolinks:load', function ()  {
                       function drawBookedTimes(ctx, radius, dateSelected, bookingSchedule, meridiem) {
                         //console.log("schedule", bookingSchedule);
                         drawClock(ctx, radius);
-
                         //var now = new Date();
                         //console.log("now", now);
                         //var dateSelected = document.querySelector("#dateHolder").value;
                         var dateSelectedFormatted = new Date(dateSelected); //.toLocaleDateString();
 
                         var nowDate = now.toLocaleDateString();
+
                         var transparentRed = "rgba(255,0,0,1)";
                         var transparentGreen = "rgba(0,128,0,1)";
-
                         //var days = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
                         //var currentDay = days[now.getDay()];
                         //var sports_centre = JSON.parse('<%= @sports_centre.to_json.html_safe %>');
@@ -696,6 +709,8 @@ $(document).on('turbolinks:load', function ()  {
                         var currentFormattedDate;
                         var activeTab;
                         var decodedData;
+
+                        var activeIconCourtsAllowed;
                         source.onopen = function() {
                            activeTab = document.querySelector("#tabHolder .tab.active");
                            console.log('connection to stream has been opened');
@@ -711,9 +726,9 @@ $(document).on('turbolinks:load', function ()  {
                              isExpiredReservation = (minutesSinceBooked > 2) && (booking.id == null);
                              return !isExpiredReservation;
                            }); */
-
+                           activeIconCourtsAllowed = mainClockCard.find("#activitySelector img.selectedIcon").attr("data-courtsAllowed");
                            //localStorage.setItem("bookings_array", JSON.stringify(clean_bookings_array));
-                           bookingMatrix = createBookingMatrix(clean_bookings_array, currentFormattedDate, no_courts);
+                           bookingMatrix = createBookingMatrix(clean_bookings_array, currentFormattedDate, no_courts, activeIconCourtsAllowed);
                            localStorage.setItem("BookingsMatrix", JSON.stringify(bookingMatrix));
 
                            activeTab.click();
@@ -730,6 +745,7 @@ $(document).on('turbolinks:load', function ()  {
                           currentFormattedDate = currentDate.toLocaleString('en-us', {year: 'numeric', month: '2-digit', day: '2-digit'}).
                           replace(/(\d+)\/(\d+)\/(\d+)/, '$3-$1-$2');
                           activeTab = document.querySelector("#tabHolder .tab.active");
+                          activeIconCourtsAllowed = mainClockCard.find("#activitySelector img.selectedIcon").attr("data-courtsAllowed");
                           var reserved_bookings;
                           var current_bookings;
                           var isExpiredReservation;
@@ -742,7 +758,7 @@ $(document).on('turbolinks:load', function ()  {
                           if (decodedData.event == "live_update") {
                             updated_bookings_array = decodedData.bookings;
                             localStorage.setItem("bookings_array", updated_bookings_array);
-                            bookingMatrix = createBookingMatrix(JSON.parse(updated_bookings_array), currentFormattedDate, no_courts);
+                            bookingMatrix = createBookingMatrix(JSON.parse(updated_bookings_array), currentFormattedDate, no_courts, activeIconCourtsAllowed);
                             localStorage.setItem("BookingsMatrix", JSON.stringify(bookingMatrix));
                             //console.log("updated EventSource check stringify bookings_array", updated_bookings_array);
                           } else if (decodedData.event == "live_reservation_remove") {
@@ -753,7 +769,7 @@ $(document).on('turbolinks:load', function ()  {
                             });
                             console.log(    "removed reservation!", current_bookings);
                             localStorage.setItem("bookings_array", JSON.stringify(current_bookings));
-                            bookingMatrix = createBookingMatrix(current_bookings, currentFormattedDate, no_courts);
+                            bookingMatrix = createBookingMatrix(current_bookings, currentFormattedDate, no_courts, activeIconCourtsAllowed);
                             localStorage.setItem("BookingsMatrix", JSON.stringify(bookingMatrix));
                           } else if (decodedData.event == "live_reservation_update") {
                             nowDate = new Date();
@@ -790,7 +806,7 @@ $(document).on('turbolinks:load', function ()  {
 
                             localStorage.setItem("bookings_array", JSON.stringify(current_bookings));
 
-                            bookingMatrix = createBookingMatrix(current_bookings, currentFormattedDate, no_courts);
+                            bookingMatrix = createBookingMatrix(current_bookings, currentFormattedDate, no_courts, activeIconCourtsAllowed);
                             localStorage.setItem("BookingsMatrix", JSON.stringify(bookingMatrix));
                             console.log("reservation_update!");
 
@@ -834,7 +850,6 @@ $(document).on('turbolinks:load', function ()  {
                           repeatCard.height(adjustHeightDifference);
                           repeatCard.css("margin-top", `-${adjustHeightDifference}px`);
 
-                          console.log("sports centre title", response["sports_centre_title"])
                           //var real_price_holder = mainClockCard.find("#real-price-holder");
                           //real_price_holder.attr("data-prices", JSON.stringify(response["prices"]));
                           console.log("This is the plan type", response["plan_type"]);
@@ -867,10 +882,25 @@ $(document).on('turbolinks:load', function ()  {
                               }
                           }
 
+                          var jsonCourtsAllowed = response["courtsAllowed"];
+                          for (var courtIcon in jsonCourtsAllowed) {
+                              activitySelector.find(`img[data-activity=${courtIcon}]`).attr("data-courtsAllowed", jsonCourtsAllowed[courtIcon]);
+                          }
+
+                          numberOfCourts = response["number_of_courts"];
+                          bookings_array = JSON.parse(response["json_bookings"]);
                           // add click listener on icons
                           var activityHolder;
                           var activityType;
+                          var iconCourtsAllowed;
+                          var nowTime;
+                          var newFormattedDate;
                           activitySelector.on("click", "img.activityIcon", function(){
+                              // get date everytime on click of icon, not the current now time alone.
+                              nowTime = new Date(mainClockCard.find("#dateHolder").val());
+                              newFormattedDate = nowTime.toLocaleString('en-us', {year: 'numeric', month: '2-digit', day: '2-digit'}).
+                              replace(/(\d+)\/(\d+)\/(\d+)/, '$3-$1-$2');
+
                               activityHolder = activitySelector.find("#activityHolder");
                               activityType = $(this).attr("data-activity");
                               $(this).siblings().each( function() {
@@ -880,10 +910,17 @@ $(document).on('turbolinks:load', function ()  {
                               activityHolder.text(activityType);
                               console.log("jsonPrices", jsonPrices[activityType]);
                               mainClockCard.find("#real-price-holder").attr("data-prices", JSON.stringify(jsonPrices[activityType]));
+
+                              // on click get the data courtsAllowed info and store the matrix in localStorage
+                              iconCourtsAllowed = $(this).attr("data-courtsAllowed");
+                              console.log("newDate", newFormattedDate);
+                              bookingMatrix = createBookingMatrix(bookings_array, newFormattedDate, numberOfCourts, iconCourtsAllowed);
+                              localStorage.setItem("BookingsMatrix", JSON.stringify(bookingMatrix));
+                              mainClockCard.find("#tabHolder div.active").click();
                           });
                           activitySelector.find("img[data-activity='basketball']").click();
 
-                          numberOfCourts = response["number_of_courts"];
+                          //numberOfCourts = response["number_of_courts"];
                           localStorage.setItem("numberOfCourts", numberOfCourts);
                           localStorage.setItem("bookings_array", response["json_bookings"]);
 
@@ -906,13 +943,13 @@ $(document).on('turbolinks:load', function ()  {
 
                           // retrieve the opening and closing hour for the selected date
                           // generate the bookings availability for todays date when page first loads.
-                          bookings_array = JSON.parse(response["json_bookings"]);
+                          //bookings_array = JSON.parse(response["json_bookings"]);
                           bookingMatrix = createBookingMatrix(bookings_array, nowFormattedDate, numberOfCourts);
                           //var bookingSchedule;
                           //console.log("matrix", bookingMatrix);
                           // set up the half court tab - am and pm buttons
                           //console.log("halfCourt", bookingSchedule);
-                          localStorage.setItem("BookingsMatrix", JSON.stringify(bookingMatrix));
+                          //localStorage.setItem("BookingsMatrix", JSON.stringify(bookingMatrix));
                           // create a continuous connection with the localhost
                           bookings_live_update(sportsCentreId);
 

@@ -405,23 +405,36 @@ $(document).on('turbolinks:load', function () {
 
       // addActivity button add a listen to display another box above.
       $("#editPricesForm").on("click", "#addActivity", function() {
-          var newActivity = $("#newActivityInput").val();
+          var newActivity = $("#newActivityInput");
+          var newActivityValue = newActivity.val();
           var activityRow = $("#activityCardHolder");
           var optionMatched = false;
           var optionSrc;
           var clone;
-          var defaultPrice = (newActivity == "event") ? "0" : "";
-          if (newActivity.length > 0) {
+          //var iconHolder = $("#icon_photo");
+          var imgInClone;
+          var buttonsCourtsAllowed = $("#courtsAllowedButtons button.selected-button");
+          var courtsAllowedString = "";
+          //var iconInput = $("#customIconFile");
+          var defaultPrice = (newActivityValue == "event") ? "0" : "";
+          if (newActivityValue.length > 0) {
             $("#activities option").each( function() {
-                if ($(this).val() == newActivity) {
+                if ($(this).val() == newActivityValue) {
                   optionMatched = true;
                   optionSrc = $(this).attr("data-assetPath");
                 }
             });
-            clone = activityRow.children().first().clone();
-            clone.find(".activityName").text(newActivity);
-            // clear data attributes
 
+            // accumulate all the courts allowed to a string.
+            buttonsCourtsAllowed.each(function() {
+                courtsAllowedString += $(this).attr("data-courtId") + ",";
+            });
+            courtsAllowedString = courtsAllowedString.substring(0, courtsAllowedString.length - 1);
+
+            clone = activityRow.children().first().clone();
+            clone.find(".activityName").text(newActivityValue);
+            // clear data attributes
+            clone.attr("data-courtsAllowed", courtsAllowedString);
             clone.attr("data-hc-op", defaultPrice);
             clone.attr("data-hc-p", defaultPrice);
             clone.attr("data-hc-we", defaultPrice);
@@ -429,15 +442,55 @@ $(document).on('turbolinks:load', function () {
             clone.attr("data-fc-p", defaultPrice);
             clone.attr("data-fc-we", defaultPrice);
 
-            clone.attr("data-activity", newActivity);
+            clone.attr("data-activity", newActivityValue.split(" ").join("_"));
             clone.removeClass("selectedCard");
             if (optionMatched) {
-                clone.find("img").attr("src", optionSrc);
+              clone.find("img").attr("src", iconHolder.attr("src"));
             } else {
-                clone.find("img").attr("src", "#");
+              imgInClone = clone.find("img");
+              imgInClone.addClass("d-none");
+              $(`<div class="display-1">${newActivityValue.charAt(0).toUpperCase()}</div>`).insertBefore(imgInClone);
             }
             clone.insertBefore($("#addActivityCard"));
+          } else {
+            newActivity.addClass("is-invalid");
           }
+      });
+
+      // for the button set on edit prices form, both of them
+      $("#courtsAllowedButtons").on("click", "button", function() {
+          if ($(this).hasClass("selected-button")) {
+            $(this).removeClass("selected-button");
+          } else {
+            if ($(this).hasClass("allCourts")) {
+                $(this).siblings().removeClass("selected-button");
+            } else {
+              $(this).siblings().last().removeClass("selected-button");
+            }
+            $(this).addClass("selected-button");
+          }
+      });
+
+      $("#courtsAllowedButtonsReg").on("click", "button", function() {
+          if ($(this).hasClass("selected-button")) {
+            $(this).removeClass("selected-button");
+          } else {
+            if ($(this).hasClass("allCourts")) {
+                $(this).siblings().removeClass("selected-button");
+            } else {
+              $(this).siblings().last().removeClass("selected-button");
+            }
+            $(this).addClass("selected-button");
+          }
+
+          var buttonsCourtsAllowedReg = $("#courtsAllowedButtonsReg button.selected-button");
+          var courtsAllowedStringReg = "";
+          buttonsCourtsAllowedReg.each(function() {
+              courtsAllowedStringReg += $(this).attr("data-courtId") + ",";
+          });
+          courtsAllowedStringReg = courtsAllowedStringReg.substring(0, courtsAllowedStringReg.length - 1);
+
+          $("#activityCardHolder div.selectedCard").attr("data-courtsAllowed", courtsAllowedStringReg);
       });
 
       $("#editPricesForm").on("click", "#addActivityCard", function() {
@@ -471,6 +524,22 @@ $(document).on('turbolinks:load', function () {
               var dataType = $(this).attr("data-type");
               $(this).val(selected.attr(dataType));
           });
+
+          var courtAllowedButtons = $("#courtsAllowedButtonsReg button");
+          if ($(this).attr("data-courtsAllowed") != "") {
+                //var courtAllowedButtons = $("#courtsAllowedButtonsReg button");
+                var splitCourtsAllowed = $(this).attr("data-courtsAllowed").split(",");
+                console.log(splitCourtsAllowed, courtAllowedButtons);
+                if (splitCourtsAllowed.length == (courtAllowedButtons.length - 1)) { // all courts selected
+                    courtAllowedButtons.last().addClass("selected-button");
+                } else {
+                    for (var courtId in splitCourtsAllowed) {
+                        $(`#courtsAllowedButtonsReg button[data-courtId=${splitCourtsAllowed[courtId]}]`).addClass("selected-button");
+                    }
+                }
+            } else {
+                courtAllowedButtons.removeClass("selected-button");
+            }
       });
 
       // enable deletion of activity on click in the top right corner.
@@ -515,7 +584,7 @@ $(document).on('turbolinks:load', function () {
       });
 
       // Add the following code if you want the name of the file appear on select
-      $(".custom-file-input").on("change", function() {
+      $("#editLogoForm .custom-file-input").on("change", function() {
         var fileName = $(this).val().split("\\").pop();
         $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
 
@@ -674,6 +743,7 @@ $(document).on('turbolinks:load', function () {
           $(this).find("#prices-failure").addClass("d-none");
 
           var pricesHash = {};
+          var courtsAllowedHash = {};
           var activity;
           //var halfCourtPrices;
           //var fullCOurtPrices;
@@ -700,9 +770,11 @@ $(document).on('turbolinks:load', function () {
               "full_court": {"off_peak": `${fc_op}`, "peak_hour": `${fc_p}`, "Weekend": `${fc_we}`}}};
               //console.log($(this));
               //console.log(pricesHash);
+              courtsAllowedHash[activity] = $(this).attr("data-courtsAllowed");
           });
           //console.log(JSON.stringify(pricesHash));
           $("#sports_centre_prices").val(JSON.stringify(pricesHash));
+          $("#sports_centre_courtsAllowed").val(JSON.stringify(courtsAllowedHash));
           // attach the panel button id
           var buttonRef = $(this).parent().attr("data-buttonRef");
           var input = $("<input>").attr("type", "hidden").attr("name", "buttonRef").val(buttonRef);

@@ -196,6 +196,14 @@
   border-color: black !important;
 }
 
+#activityCardHolder .activityCard {
+  max-width: 10rem;
+}
+
+#activityModal #icon_photo {
+  max-width: 25vw;
+}
+
 #dashBoardTable tbody td.border-darkBlue {
   border: 1px solid darkBlue;
 }

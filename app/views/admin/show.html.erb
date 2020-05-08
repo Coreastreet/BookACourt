@@ -474,10 +474,16 @@
                 <% @sports_centre.prices.each do |activity, prices| %>
                 <div class="col-2 d-flex flex-column align-items-center border rounded py-2 mr-2 activityCard" data-activity=<%=activity%>
                   data-hc-op="<%=prices["casual"]["half_court"]["off_peak"]%>" data-hc-p="<%=prices["casual"]["half_court"]["peak_hour"]%>" data-hc-we="<%=prices["casual"]["half_court"]["Weekend"]%>"
-                   data-fc-op="<%=prices["casual"]["full_court"]["off_peak"]%>" data-fc-p="<%=prices["casual"]["full_court"]["peak_hour"]%>" data-fc-we="<%=prices["casual"]["full_court"]["Weekend"]%>">
+                   data-fc-op="<%=prices["casual"]["full_court"]["off_peak"]%>" data-fc-p="<%=prices["casual"]["full_court"]["peak_hour"]%>" data-fc-we="<%=prices["casual"]["full_court"]["Weekend"]%>"
+                   data-courtsAllowed=<%= @sports_centre.courtsAllowed[activity] %>>
                   <div class="position-absolute deleteActivity">&times</div>
-                  <img class="image-contain" src="<%= asset_path("sport_icons/#{activity}.png") %>">
-                  <div class="pt-2 activityName text-capitalize"><%= activity %></div>
+                  <% if File.exist?("#{Rails.root}/app/assets/images/sport_icons/#{activity}.png") %>
+                    <img class="image-contain" src="<%= asset_path("sport_icons/#{activity}.png") %>">
+                    <div class="pt-2 activityName text-capitalize"><%= activity %></div>
+                  <% else %>
+                    <div class="display-1"><%= activity[0] %></div>
+                    <div class="pt-2 activityName text-capitalize"><%= activity.split("_").join(" ") %></div>
+                  <% end %>
                 </div>
                 <% end %>
                 <div class="col-2 d-flex flex-column align-items-center border rounded py-2 mr-2" id="addActivityCard">
@@ -486,12 +492,25 @@
                 </div>
               </div>
               <%= f.hidden_field :prices %>
+              <%= f.hidden_field :courtsAllowed %>
               <div id="activityModal" class="w3-modal">
                 <div class="w3-modal-content col-lg-6 py-4 top-15rem">
                   <div class="w3-container">
                     <span id="closeActivityModal" class="w3-button w3-display-topright">&times;</span>
                     <div class="form-group">
-                      <label for="exampleFormControlSelect1">Enter an Activity</label>
+                          <label for="exampleFormControlSelect2">Select which courts can hold this activity.</label>
+                          <div class = "form-row mx-0 justify-content-center mb-3">
+                            <div class="btn-group bg-white form-control py-0 pl-0 mandatory" id="courtsAllowedButtons" role="group" aria-label="Basic example">
+                              <% [*1..@sports_centre.numberOfCourts].each do |number| %>
+                                  <button type="button" class="btn border-dark hover-selected rounded-0"
+                                  data-courtId="<%= number %>"><%= number.ordinalize + " Court" %></button>
+                              <% end %>
+                              <button type="button" class="btn border-dark hover-selected allCourts rounded-0"
+                              data-courtId=<%= [*1..@sports_centre.numberOfCourts].join(",") %>>All courts</button>
+                            </div>
+                            <div class="invalid-feedback row"><span class="col">Please select the number of half courts to accomadate.</span></div>
+                          </div>
+                        <label for="exampleFormControlSelect1">Enter the name of the Activity</label>
                           <div class="input-group mb-3">
                             <input type="text" class="form-control" list="activities" name="activity" id="newActivityInput">
                                <datalist id="activities">
@@ -551,6 +570,19 @@
                     <input type="number" step="0.10" class="col-12 text-center bookingRate" data-type="data-fc-we">
                     </div>
                   </div>
+                </div>
+              </div>
+              <div class="row mx-0 mt-4 mb-3">
+                <h5>Set court allocation:</h5>
+              </div>
+              <div class = "form-row mx-0 justify-content-center mb-3">
+                <div class="btn-group bg-white form-control py-0 pl-0 mandatory" id="courtsAllowedButtonsReg" role="group" aria-label="Basic example">
+                  <% [*1..@sports_centre.numberOfCourts].each do |number| %>
+                      <button type="button" class="btn border-dark hover-selected rounded-0"
+                      data-courtId="<%= number %>"><%= number.ordinalize + " Court" %></button>
+                  <% end %>
+                  <button type="button" class="btn border-dark hover-selected allCourts rounded-0"
+                  data-courtId=<%= [*1..@sports_centre.numberOfCourts].join(",") %>>All courts</button>
                 </div>
               </div>
              <!-- add regular prices here later on -->
