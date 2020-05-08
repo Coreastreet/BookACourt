@@ -526,6 +526,7 @@ $(document).on('turbolinks:load', function () {
           });
 
           var courtAllowedButtons = $("#courtsAllowedButtonsReg button");
+          courtAllowedButtons.removeClass("selected-button");
           if ($(this).attr("data-courtsAllowed") != "") {
                 //var courtAllowedButtons = $("#courtsAllowedButtonsReg button");
                 var splitCourtsAllowed = $(this).attr("data-courtsAllowed").split(",");
@@ -537,8 +538,6 @@ $(document).on('turbolinks:load', function () {
                         $(`#courtsAllowedButtonsReg button[data-courtId=${splitCourtsAllowed[courtId]}]`).addClass("selected-button");
                     }
                 }
-            } else {
-                courtAllowedButtons.removeClass("selected-button");
             }
       });
 
