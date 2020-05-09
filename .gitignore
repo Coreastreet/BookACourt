@@ -37,3 +37,6 @@ yarn-debug.log*
 *.env
 
 /config/credentials/production.key
+
+# ignore systems dir in public folder to prevent image removal
+/public/system

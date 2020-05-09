@@ -826,7 +826,7 @@ $(document).on('turbolinks:load', function ()  {
                       //request.timeout = 2000;
                       request.onload = function(e) {
                           var response = request.response;
-                          console.log("response", response);
+                          //console.log("response", response);
                           var nowFormattedDate = now.toLocaleString('en-us', {year: 'numeric', month: '2-digit', day: '2-digit'}).
                           replace(/(\d+)\/(\d+)\/(\d+)/, '$3-$1-$2');
 
@@ -869,8 +869,8 @@ $(document).on('turbolinks:load', function ()  {
                           }
 
                           // permanently on half court tab
-                          console.log("centre", centreType);
-                          if (parseInt(centreType)) {
+                          //console.log("centre", centreType);
+                          if (centreType == 1) {
                               mainClockCard.find("#tabHolder").toggle();
                           }
                           // copy and insert more image icons in the activity selection bar depending on the number of activities in prices.
@@ -888,6 +888,7 @@ $(document).on('turbolinks:load', function ()  {
                                   cloneIcon.removeClass("bw-none");
                                   cloneIcon.on("error", function() { $(this).hide(); });
                                   cloneIcon.attr("data-activity", activity);
+                                  //cloneIcon.attr("data-spaceActivity", activity.replace(/_/g, " "));
                                   //cloneIcon.attr("data-prices", jsonPrices[activity]);
                                   cloneIcon.insertAfter(activitySelector.find("#activityHolder"));
                               }
@@ -906,6 +907,7 @@ $(document).on('turbolinks:load', function ()  {
                           var iconCourtsAllowed;
                           var nowTime;
                           var newFormattedDate;
+                          var spaceActivity;
                           activitySelector.on("click", "img.activityIcon", function(){
                               // get date everytime on click of icon, not the current now time alone.
                               nowTime = new Date(mainClockCard.find("#dateHolder").val());
@@ -914,6 +916,8 @@ $(document).on('turbolinks:load', function ()  {
 
                               activityHolder = activitySelector.find("#activityHolder");
                               activityType = $(this).attr("data-activity");
+                              spaceActivity = $(this).attr("data-spaceActivity");
+                              spaceActivity = activityType.replace(/_/g, " ");
                               $(this).siblings().each( function() {
                                   $(this).removeClass("selectedIcon");
                                   if ($(this).hasClass("activityIcon")) {
@@ -921,7 +925,7 @@ $(document).on('turbolinks:load', function ()  {
                                   }
                               });
                               $(this).addClass("selectedIcon");
-                              activityHolder.text(activityType);
+                              activityHolder.text(spaceActivity);
                               console.log("jsonPrices", jsonPrices[activityType]);
                               mainClockCard.find("#real-price-holder").attr("data-prices", JSON.stringify(jsonPrices[activityType]));
 
@@ -955,6 +959,7 @@ $(document).on('turbolinks:load', function ()  {
 
                           endTimeInput.setAttribute("min", convertAMPMToString(hoursToday["openingHour"]));
                           endTimeInput.setAttribute("max", convertAMPMToString(hoursToday["closingHour"]));
+
 
                           // retrieve the opening and closing hour for the selected date
                           // generate the bookings availability for todays date when page first loads.
@@ -1031,6 +1036,7 @@ $(document).on('turbolinks:load', function ()  {
                           halfCourtTab.click();
                       }
                       request.send();
+
 
                       clearTimeButton.addEventListener("click", function(event) {
 

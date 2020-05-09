@@ -324,6 +324,7 @@
                 <button type="button" class="col-3 align-self-center max-h checkAdminPin">Check admin PIN</button>
               </div>
               <%= form_with model: @sports_centre, class: "col d-flex flex-column", id: 'editLogoForm', url: admin_update_logo_path(@sports_centre), method: "post" do |f| %>
+                <%= %>
                 <div class="row mx-0 mt-4">
                   <h5>Upload a logo:</h5>
                 </div>
@@ -333,6 +334,30 @@
                 <div class="custom-file row mx-0 mt-2">
                   <%= f.file_field :logo, class: "custom-file-input", id: "customFile" %>
                   <label class="custom-file-label" for="customFile">Choose file</label>
+                </div>
+                <!-- add new row allowing user to update the names of their courts or venues -->
+                <%= f.hidden_field :arrayCourtNames %>
+                <div class="row mx-0 mt-4 pb-3">
+                  <h5>Set the names of your courts:</h5>
+                </div>
+                <div class = "form-row mx-0 justify-content-center mb-4">
+                  <div class="btn-group bg-white form-control py-0 pl-0" id="courtNamesButtonGroup" role="group" aria-label="Basic example2">
+                    <% if @centreType == 0 %>
+                          <% [*1..@sports_centre.numberOfCourts].each do |number| %>
+                              <button type="button" class="btn border-dark hover-selected rounded-0"
+                              data-courtId="<%= number %>"><%= number.ordinalize + " Court" %></button>
+                          <% end %>
+                    <% else %>
+                          <% [*1..@sports_centre.numberOfCourts].each do |number| %>
+                              <button type="button" class="btn border-dark hover-selected rounded-0"
+                              data-courtId="<%= number %>"><%= number.ordinalize + " Venue" %></button>
+                          <% end %>
+                    <% end %>
+                  </div>
+                </div>
+                <div class="form-group d-flex">
+                   <div class="pl-0 pr-3 align-self-center">Court Name:</div>
+                   <input type="text" class="form-control col-6" id="newCourtNameInput">
                 </div>
                 <div class="row mx-0 align-self-end mt-auto mb-3">
                   <%= f.submit "Save", class: "btn btn-primary mr-2" %>

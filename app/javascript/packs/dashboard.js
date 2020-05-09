@@ -272,6 +272,14 @@ $(document).on('turbolinks:load', function () {
       });
 
       $("#editLogoForm").submit( function() {
+        // get an array of the court names
+        var arrayCourtNames = [];
+        var courtNamesButtonGroup = $("#courtNamesButtonGroup button");
+        courtNamesButtonGroup.each( function() {
+            arrayCourtNames.push($(this).text());
+        });
+        $("#sports_centre_arrayCourtNames").val(arrayCourtNames);
+
         var buttonRef = $(this).parent().attr("data-buttonRef");
         var input = $("<input>").attr("type", "hidden").attr("name", "buttonRef").val(buttonRef);
         $('#editLogoForm').append(input);
@@ -491,6 +499,24 @@ $(document).on('turbolinks:load', function () {
           courtsAllowedStringReg = courtsAllowedStringReg.substring(0, courtsAllowedStringReg.length - 1);
 
           $("#activityCardHolder div.selectedCard").attr("data-courtsAllowed", courtsAllowedStringReg);
+      });
+
+      // on click button for court name, enter name into input.
+      $("#courtNamesButtonGroup").on("click", "button", function() {
+          var courtNameInput = $("#newCourtNameInput");
+          if ($(this).hasClass("selected-button")) {
+            $(this).removeClass("selected-button");
+            courtNameInput.val("");
+          } else {
+            $(this).siblings().removeClass("selected-button");
+            $(this).addClass("selected-button");
+            courtNameInput.val($(this).text());
+          }
+      });
+
+      $("#newCourtNameInput").on("input", function() {
+            var selectedButton = $("#courtNamesButtonGroup button.selected-button");
+            selectedButton.text($(this).val());
       });
 
       $("#editPricesForm").on("click", "#addActivityCard", function() {

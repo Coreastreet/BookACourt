@@ -290,6 +290,7 @@ class AdminController < ApplicationController
             end
           end
     end
+    params.inspect
   end
 
   def update_prices
