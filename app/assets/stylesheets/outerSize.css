@@ -11,12 +11,31 @@
   height: 2rem;
   display: flex;
   margin: 0.5rem 0;
-  padding: 0 0.5rem;
+  padding: 0;
   border: 1px solid black;
 }
 
 #BookingWidget #activitySelector img {
   width: 1rem;
+}
+
+#BookingWidget #activitySelector .px-3quarters {
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+}
+
+#BookingWidget #activitySelector .px-3quarters:hover {
+  background-color: black;
+  color: white;
+}
+
+#BookingWidget #activitySelector .max-postLeftArrow {
+  max-width: 12.75rem;
+  overflow-x: hidden;
+}
+
+#BookingWidget #activitySelector .max-preLeftArrow {
+  max-width: 16.25rem;
 }
 
 #BookingWidget #activitySelector #activityHolder {

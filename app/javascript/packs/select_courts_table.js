@@ -29,6 +29,8 @@ $(document).on('turbolinks:load', function() {
   } else {
       $(`#hourControl button[data-control='off']`).addClass("btn-clickedHR");
   }
+
+
   var firstClick;
   $("#activityCardHolder .activityCard").each( function() {
       var sportOffered = $(this).attr("data-activity");
@@ -133,6 +135,67 @@ $(document).on('turbolinks:load', function() {
             }
         }
 
+  });
+
+  $("#centreTypeControl").on("click", "button", function() {
+        var control = $(this).attr("data-control");
+        if ($(this).hasClass("btn-clickedHR")) {
+            //$(this).removeClass("btn-clickedHR");
+        } else {
+            $(this).siblings().removeClass("btn-clickedHR");
+            $(this).addClass("btn-clickedHR");
+
+            var priceSettings = $("#editPricesForm #priceSettings");
+            var buttonHolders = priceSettings.next().next().find("button");
+            var replaceText;
+
+            var dashBoardTableHeaders = $("#dashBoardTable thead th.equalTH");
+            var centreType_input = $("#editPricesForm #sports_centre_centreType");
+
+            if (control == "sports") {
+                // reveal the full court option.
+                priceSettingHolders = priceSettings.find(".priceHolder");
+                priceSettingHolders.last().removeClass("d-none").addClass("d-flex");
+                priceSettingHolders.first().children().first().text("Half Court:");
+
+                priceSettings.next().html("<h5>Set Court Allocation:</h5>");
+
+                buttonHolders.each(function() {
+                    replaceText = $(this).text();
+                    replaceText = replaceText.replace("Venue", "Court");
+                    $(this).text(replaceText);
+                });
+
+                dashBoardTableHeaders.each(function() {
+                    replaceText = $(this).text();
+                    replaceText = replaceText.replace("Venue", "Court");
+                    $(this).text(replaceText);
+                })
+
+                centreType_input.val("Sports");
+            } else { //
+                // hide full courts and change text from half courts to venues.
+                priceSettingHolders = priceSettings.find(".priceHolder");
+                priceSettingHolders.last().removeClass("d-flex").addClass("d-none");
+                priceSettingHolders.first().children().first().text("Venue:")
+                // change titles to set venue allocation.
+                priceSettings.next().html("<h5>Set Venue Allocation:</h5>");
+                // change court to venue in buttons
+                buttonHolders.each(function() {
+                    replaceText = $(this).text();
+                    replaceText = replaceText.replace("Court", "Venue");
+                    $(this).text(replaceText);
+                });
+
+                dashBoardTableHeaders.each(function() {
+                    replaceText = $(this).text();
+                    replaceText = replaceText.replace("Court", "Venue");
+                    $(this).text(replaceText);
+                })
+
+                centreType_input.val("Venue");
+            }
+        }
   });
 
   $("#dashBoardTable tbody").on("click", "th.bookSpecial", function() {

@@ -826,6 +826,7 @@ $(document).on('turbolinks:load', function ()  {
                       //request.timeout = 2000;
                       request.onload = function(e) {
                           var response = request.response;
+                          console.log("response", response);
                           var nowFormattedDate = now.toLocaleString('en-us', {year: 'numeric', month: '2-digit', day: '2-digit'}).
                           replace(/(\d+)\/(\d+)\/(\d+)/, '$3-$1-$2');
 
@@ -854,6 +855,9 @@ $(document).on('turbolinks:load', function ()  {
                           //real_price_holder.attr("data-prices", JSON.stringify(response["prices"]));
                           console.log("This is the plan type", response["plan_type"]);
                           var plan_type = response["plan_type"];
+                          // hide the courts tabs if the centreType is venue instead of sports.
+                          var centreType = response["centreType"];
+
                           if (plan_type == 0) { // in free plan, so hide several buttons
                               //mainClockCard.find("#timeHolder").toggle();
                               mainClockCard.find("#bookNowButton").toggle();
@@ -862,6 +866,12 @@ $(document).on('turbolinks:load', function ()  {
                               repeatCard.find("#checkAvailabilityButton").addClass("mb-3");
                               //repeatCard.height(mainClockCard.outerHeight());
                               //repeatCard.css("margin-top", `-${mainClockCard.outerHeight()}px`);
+                          }
+
+                          // permanently on half court tab
+                          console.log("centre", centreType);
+                          if (parseInt(centreType)) {
+                              mainClockCard.find("#tabHolder").toggle();
                           }
                           // copy and insert more image icons in the activity selection bar depending on the number of activities in prices.
                           //var jsonPrices = JSON.parse(response["prices"]);
@@ -876,9 +886,10 @@ $(document).on('turbolinks:load', function ()  {
                                   cloneIcon = activitySelector.find("img.activityIcon").eq(0).clone();
                                   cloneIcon.attr("src", `https://weball.com.au/sport_icons/${activity}.png`);
                                   cloneIcon.removeClass("bw-none");
+                                  cloneIcon.on("error", function() { $(this).hide(); });
                                   cloneIcon.attr("data-activity", activity);
                                   //cloneIcon.attr("data-prices", jsonPrices[activity]);
-                                  cloneIcon.appendTo(activitySelector);
+                                  cloneIcon.insertAfter(activitySelector.find("#activityHolder"));
                               }
                           }
 
@@ -905,6 +916,9 @@ $(document).on('turbolinks:load', function ()  {
                               activityType = $(this).attr("data-activity");
                               $(this).siblings().each( function() {
                                   $(this).removeClass("selectedIcon");
+                                  if ($(this).hasClass("activityIcon")) {
+                                      $(this).addClass("bw-none");
+                                  }
                               });
                               $(this).addClass("selectedIcon");
                               activityHolder.text(activityType);
@@ -918,7 +932,8 @@ $(document).on('turbolinks:load', function ()  {
                               localStorage.setItem("BookingsMatrix", JSON.stringify(bookingMatrix));
                               mainClockCard.find("#tabHolder div.active").click();
                           });
-                          activitySelector.find("img[data-activity='basketball']").click();
+                          console.log("list", activitySelector.find(".activityIcon:not(.bw-none)"));
+                          activitySelector.find(".activityIcon:not(.bw-none)").first().click();
 
                           //numberOfCourts = response["number_of_courts"];
                           localStorage.setItem("numberOfCourts", numberOfCourts);
@@ -1046,6 +1061,30 @@ $(document).on('turbolinks:load', function ()  {
                           drawBookedTimes(ctx, radius, formattedCurrentDate, bookingSchedule, 'PM');
                         };
 
+                      });
+
+                      var activityIcons;
+                      var selectedIcon;
+                      mainClockCard.on("click", "#nextIcon", function() {
+                          activityIcons = mainClockCard.find(".activityIcon:not(:first)");
+                          selectedIcon = mainClockCard.find(".selectedIcon");
+                          if (activityIcons.index(selectedIcon) == activityIcons.length - 1) {
+                              activityIcons.first().removeClass("bw-none").click();
+                          } else {
+                              selectedIcon.next().removeClass("bw-none").click()
+                              mainClockCard.find("#prevIcon").removeClass("bw-none");
+                              mainClockCard.find("#activityHolder").removeClass("max-preLeftArrow").addClass("max-postLeftArrow");
+                          }
+                      });
+
+                      mainClockCard.on("click", "#prevIcon", function() {
+                          activityIcons = mainClockCard.find(".activityIcon:not(:first)");
+                          selectedIcon = mainClockCard.find(".selectedIcon");
+                          if (activityIcons.index(selectedIcon) == 0) {
+                              activityIcons.last().removeClass("bw-none").click();
+                          } else {
+                              selectedIcon.prev().removeClass("bw-none").click()
+                          }
                       });
   //------------------------------------ end datepicker.js  --------------------//
 

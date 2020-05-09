@@ -42,3 +42,9 @@
 19. add the fourth parameter to the create booking matrix function in the live update function and on change date.
 
 20. change the lenght of allCourt to the first icon.
+
+21. Insert after the activity title and add d-none when adding selected-icon.
+
+22. Add the two right and left arrows; add click listener to change between sports.
+
+23. Add a button to toggle between venue and courts.

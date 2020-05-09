@@ -47,6 +47,7 @@ class AdminController < ApplicationController
     require "date"
     require "restclient"
     @sports_centre = SportsCentre.find(params[:id])
+    @centreType = @sports_centre.centreType_before_type_cast
     array_booking = []
     bookings = @sports_centre.bookings
     @new_booking = Booking.new
@@ -303,6 +304,9 @@ class AdminController < ApplicationController
         # allowed update of courtsAllowed
         jsonCourtsAllowed = JSON.parse(sports_centre_params[:courtsAllowed])
         sports_centre.update!(courtsAllowed: jsonCourtsAllowed)
+
+        #allow update of the centre type to remove court Tabs in widget
+        sports_centre.update!(centreType: sports_centre_params[:centreType])
     end
   end
 
@@ -346,7 +350,8 @@ class AdminController < ApplicationController
 
   def sports_centre_params
       params.require(:sports_centre).permit(:title, :email, :password, :password_confirmation, :ABN,
-         :phone, :description, :logo, :merchantCode, :authenticationCode, :numberOfCourts, :prices, :courtsAllowed)
+         :phone, :description, :logo, :merchantCode, :authenticationCode, :numberOfCourts, :prices,
+          :courtsAllowed, :centreType)
   end
 
   def token_params
