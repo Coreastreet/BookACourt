@@ -209,12 +209,30 @@ $(document).on('turbolinks:load', function() {
           var bottomRight;
           var popUpBox;
           var belowBottomRight;
+          var activityCards = $("#activityCardHolder .activityCard");
+          var arrayLengths = [];
+          var longestActivity;
+          var longActivityArray;
+          var lastIndexLA;
 
           if (firstClicked.length == 0) { // no clicks
               $("#dashBoardTable tbody th.bookSpecial:not(.text-muted)").addClass("text-muted");
               //$(this).siblings().find("h3").addClass("text-muted");
               $(this).removeClass("text-muted").addClass("border-right-orange");
           } else { // clicked on other time first
+              // get the max number of courts for an activity.
+              activityCards.each(function() {
+                  arrayLengths.push($(this).attr("data-courtsAllowed"));
+              });
+              arrayLengths.sort(function(a,b){
+                  return a.length - b.length;
+              });
+              longestActivity = arrayLengths.pop();
+              //console.log("longest", longestActivity);
+              longActivityArray = longestActivity.split(",");
+              lastIndexLA = parseInt(longActivityArray[longActivityArray.length-1]) - 1;
+              localStorage.setItem("longest_activity_courts", lastIndexLA);
+
               indexFirstClick = collectionTimes.index(firstClicked);
               indexSecondClick = collectionTimes.index($(this));
               if ((indexSecondClick >= indexFirstClick) && ($("#dashBoardTable tbody th.bookSpecial:not(.text-muted)").length == 1)) {
@@ -223,7 +241,10 @@ $(document).on('turbolinks:load', function() {
                   while(holderIndex <= indexSecondClick) {
                       thBookSpecial = collectionTimes.eq(holderIndex);
                       thBookSpecial.addClass("border-right-orange");
-                      thBookSpecial.parent().find("td").addClass("table-active");
+                      //thBookSpecial.parent().find("td").addClass("table-active");
+                      for (var courtIndex in longestActivity) {
+                          thBookSpecial.parent().children().eq(longestActivity[courtIndex]).addClass("table-active");
+                      }
                       holderIndex++;
                   }
                   collectionTimes.eq(holderIndex).removeClass("text-muted");
@@ -231,10 +252,12 @@ $(document).on('turbolinks:load', function() {
                   // add unconfirmed for later reference
                   $("#dashBoardTable tbody td.border-darkBlue").removeClass("border-darkBlue");
                   topLeft.addClass("unconfirmed border-darkBlue");
-                  bottomRight = collectionTimes.eq(indexSecondClick).siblings().last();
+
+                  console.log("lastIndex", lastIndexLA);
+                  bottomRight = collectionTimes.eq(indexSecondClick).siblings().eq(lastIndexLA);
                   bottomRight.addClass("unconfirmed");
 
-                  belowBottomRight = collectionTimes.eq(holderIndex).siblings().last();
+                  belowBottomRight = collectionTimes.eq(holderIndex).siblings().eq(lastIndexLA);
                   console.log("bottomRight", bottomRight);
                   fillInOriginalPopup("allCourt", topLeft.attr("data-time"), belowBottomRight.attr("data-time"), parseInt(topLeft.attr("data-court")), parseInt(bottomRight.attr("data-court")));
                   insertAbsoluteDiv(topLeft, bottomRight, "allCourt");
@@ -324,7 +347,7 @@ $(document).on('turbolinks:load', function() {
       // replace td selected with table-color
       var tdCounter = 0;
       var rowLength = $(`#dashBoardTable tbody td[data-time='${endTime}']`).first().parent().index() - $(`#dashBoardTable tbody td[data-time='${startTime}']`).first().parent().index();
-      var courtWidthHash = { "halfCourt": 1, "fullCourt":2, "allCourt": $("#dashBoardTable thead th.equalTH").length };
+      var courtWidthHash = { "halfCourt": 1, "fullCourt":2, "allCourt": (parseInt(localStorage.getItem("longest_activity_courts")) + 1) };
       var numberOfBookingsFilled = rowLength * courtWidthHash[`${courtType}`];
       console.log(numberOfBookingsFilled);
       $("#dashBoardTable tbody td.border-darkBlue").removeClass("border-darkBlue");
@@ -361,12 +384,14 @@ $(document).on('turbolinks:load', function() {
 
       // remove the right border of orange color.
       if (courtType == "allCourt") {
+            //var longActivityArray = localStorage.getItem("longest_activity_courts").split(",");
+            var lastIndexLA = parseInt(localStorage.getItem("longest_activity_courts"));
             var allCourtTimesSelected = $("#dashBoardTable th.border-right-orange");
             var sportInfoType = sportType.split("::")[1];
             //console.log(allCourtTimesSelected);
             $(this).attr("title", $(this).attr("title") + `\nEvent: ${sportInfoType}`);
 
-            allCourtTimesSelected.first().siblings().last().append("<div class='delete-presaved-booking ml-auto'>&times</div>").addClass("textHolder");
+            allCourtTimesSelected.first().siblings().eq(lastIndexLA).append("<div class='delete-presaved-booking ml-auto'>&times</div>").addClass("textHolder");
             allCourtTimesSelected.each(function() {
                 $(this).removeClass("border-right-orange");
                 $(this).addClass("text-muted");
@@ -558,7 +583,7 @@ $(document).on('turbolinks:load', function() {
       var endTime = box.attr("data-endTime");
 
       // get number of courts for allCourts
-      var bookingsLength = $("#dashBoardTable thead th.equalTH").length;
+      var bookingsLength = parseInt(localStorage.getItem("longest_activity_courts")) + 1;
       var hashCourtTypes = { "halfCourt": 1, "fullCourt": 2, "allCourt": bookingsLength };
 
       var numberOfRows = getIntervals(startTime, endTime).length;

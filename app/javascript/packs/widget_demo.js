@@ -868,10 +868,10 @@ $(document).on('turbolinks:load', function ()  {
                               //repeatCard.css("margin-top", `-${mainClockCard.outerHeight()}px`);
                           }
 
-                          // permanently on half court tab
-                          //console.log("centre", centreType);
+                          // don't hide the half and full court tabs. Replace court with Single and Combined Venue
                           if (centreType == 1) {
-                              mainClockCard.find("#tabHolder").toggle();
+                              mainClockCard.find("#halfCourtTab").text("Single Venue");
+                              mainClockCard.find("#fullCourtTab").text("Combined Venue");
                           }
                           // copy and insert more image icons in the activity selection bar depending on the number of activities in prices.
                           //var jsonPrices = JSON.parse(response["prices"]);

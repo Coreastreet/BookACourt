@@ -42,7 +42,9 @@
   flex: 1 0 25%;
   align-self: center;
   text-transform: capitalize;
+  white-space: nowrap;
 }
+
 #BookingWidget #activitySelector .activityIcon {
   flex: 0 1 10%;
   object-fit: contain;

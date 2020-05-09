@@ -16,6 +16,10 @@ $(document).on('turbolinks:load', function () {
       currentPlanButton.prev().click();
       addBorders(currentPlanButton);
 
+      // max width css for the equalTH
+      var headersEqualTH = $("#dashBoardTable thead th.equalTH");
+      headersEqualTH.css("max-width", `${100/headersEqualTH.length}%`);
+
       $("#upgradePlanBody").on("click", "button.planButton", function() {
           $(this).prev().click();
           //$(this).prev().prop("checked", true);

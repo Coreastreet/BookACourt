@@ -165,7 +165,9 @@ while (i < bookings.length) {
         var endRowIndex = document.querySelector(`#dashBoardTable tbody td[data-time='${booking_end}']`).parentElement.rowIndex;
         var rowDiff = endRowIndex - startRowIndex;
 
-        var totalLength = document.querySelectorAll("th.equalTH").length;
+        //var totalLength = document.querySelectorAll("th.equalTH").length;
+        // plus one to account for being stored as an index.
+        var totalLength = parseInt(localStorage.getItem("longest_activity_courts")) + 1;
         var totalFilledBookings = totalLength * rowDiff; // total bookings filled out.
         var k = 1;
         while (k <= totalLength) {

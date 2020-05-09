@@ -286,7 +286,8 @@
       vertical-align: bottom;
     }
     th.equalTH {
-      flex: 1 1 auto;
+      flex: 1 1 0;
+      overflow-x: hidden;
     }
     th.moreEqualTH {
       min-width: 4.5rem;

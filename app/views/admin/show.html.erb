@@ -204,13 +204,19 @@
                   <thead>
                     <tr class="border-bottom pr-3 d-flex">
                       <th scope="col" class="moreEqualTH"></th>
-                      <% if @centreType == 0 %>
-                          <% [*1..@sports_centre.numberOfCourts].each do |number| %>
-                            <th scope="col" class="equalTH">Court no.<%= number %></th>
-                          <% end %>
+                      <% if @arrayCourtNames.empty? %>
+                              <% if @centreType == 0 %>
+                                  <% [*1..@sports_centre.numberOfCourts].each do |number| %>
+                                    <th scope="col" class="equalTH" style="width: calc(100%/<%= @sports_centre.numberOfCourts %>);">Court no.<%= number %></th>
+                                  <% end %>
+                              <% else %>
+                                  <% [*1..@sports_centre.numberOfCourts].each do |number| %>
+                                    <th scope="col" class="equalTH">Venue no.<%= number %></th>
+                                  <% end %>
+                              <% end %>
                       <% else %>
-                          <% [*1..@sports_centre.numberOfCourts].each do |number| %>
-                            <th scope="col" class="equalTH">Venue no.<%= number %></th>
+                          <% @arrayCourtNames.each do |courtName| %>
+                              <th scope="col" class="equalTH"><%= courtName %></th>
                           <% end %>
                       <% end %>
                     </tr>
@@ -342,16 +348,23 @@
                 </div>
                 <div class = "form-row mx-0 justify-content-center mb-4">
                   <div class="btn-group bg-white form-control py-0 pl-0" id="courtNamesButtonGroup" role="group" aria-label="Basic example2">
-                    <% if @centreType == 0 %>
-                          <% [*1..@sports_centre.numberOfCourts].each do |number| %>
-                              <button type="button" class="btn border-dark hover-selected rounded-0"
-                              data-courtId="<%= number %>"><%= number.ordinalize + " Court" %></button>
-                          <% end %>
+                    <% if @arrayCourtNames.empty? %>
+                        <% if @centreType == 0 %>
+                              <% [*1..@sports_centre.numberOfCourts].each do |number| %>
+                                  <button type="button" class="btn border-dark hover-selected rounded-0"
+                                  data-courtId="<%= number %>"><%= number.ordinalize + " Court" %></button>
+                              <% end %>
+                        <% else %>
+                              <% [*1..@sports_centre.numberOfCourts].each do |number| %>
+                                  <button type="button" class="btn border-dark hover-selected rounded-0"
+                                  data-courtId="<%= number %>"><%= number.ordinalize + " Venue" %></button>
+                              <% end %>
+                        <% end %>
                     <% else %>
-                          <% [*1..@sports_centre.numberOfCourts].each do |number| %>
-                              <button type="button" class="btn border-dark hover-selected rounded-0"
-                              data-courtId="<%= number %>"><%= number.ordinalize + " Venue" %></button>
-                          <% end %>
+                        <% @arrayCourtNames.each_with_index do |courtName, index| %>
+                            <button type="button" class="btn border-dark hover-selected rounded-0"
+                            data-courtId="<%= index+1 %>"><%= courtName %></button>
+                        <% end %>
                     <% end %>
                   </div>
                 </div>
@@ -614,21 +627,26 @@
               </div>
               <div class = "form-row mx-0 justify-content-center mb-3">
                 <div class="btn-group bg-white form-control py-0 pl-0 mandatory" id="courtsAllowedButtonsReg" role="group" aria-label="Basic example">
-                  <% if @centreType == 0 %>
-                        <% [*1..@sports_centre.numberOfCourts].each do |number| %>
-                            <button type="button" class="btn border-dark hover-selected rounded-0"
-                            data-courtId="<%= number %>"><%= number.ordinalize + " Court" %></button>
-                        <% end %>
-                        <button type="button" class="btn border-dark hover-selected allCourts rounded-0"
-                        data-courtId=<%= [*1..@sports_centre.numberOfCourts].join(",") %>>All Courts</button>
+                   <% if @arrayCourtNames.empty? %>
+                      <% if @centreType == 0 %>
+                            <% [*1..@sports_centre.numberOfCourts].each do |number| %>
+                                <button type="button" class="btn border-dark hover-selected rounded-0"
+                                data-courtId="<%= number %>"><%= number.ordinalize + " Court" %></button>
+                            <% end %>
+                      <% else %>
+                            <% [*1..@sports_centre.numberOfCourts].each do |number| %>
+                                <button type="button" class="btn border-dark hover-selected rounded-0"
+                                data-courtId="<%= number %>"><%= number.ordinalize + " Venue" %></button>
+                            <% end %>
+                      <% end %>
                   <% else %>
-                        <% [*1..@sports_centre.numberOfCourts].each do |number| %>
-                            <button type="button" class="btn border-dark hover-selected rounded-0"
-                            data-courtId="<%= number %>"><%= number.ordinalize + " Venue" %></button>
-                        <% end %>
-                        <button type="button" class="btn border-dark hover-selected allCourts rounded-0"
-                        data-courtId=<%= [*1..@sports_centre.numberOfCourts].join(",") %>>All Venues</button>
+                      <% @arrayCourtNames.each_with_index do |courtName, index| %>
+                          <button type="button" class="btn border-dark hover-selected rounded-0"
+                          data-courtId="<%= index+1 %>"><%= courtName %></button>
+                      <% end %>
                   <% end %>
+                  <button type="button" class="btn border-dark hover-selected allCourts rounded-0"
+                  data-courtId=<%= [*1..@sports_centre.numberOfCourts].join(",") %>><%= @centreType == 0 ? "All Courts" : "All Venues" %></button>
                 </div>
               </div>
              <!-- add regular prices here later on -->

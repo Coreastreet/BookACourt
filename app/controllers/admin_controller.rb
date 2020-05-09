@@ -48,6 +48,7 @@ class AdminController < ApplicationController
     require "restclient"
     @sports_centre = SportsCentre.find(params[:id])
     @centreType = @sports_centre.centreType_before_type_cast
+    @arrayCourtNames = @sports_centre.arrayCourtNames
     array_booking = []
     bookings = @sports_centre.bookings
     @new_booking = Booking.new
@@ -289,8 +290,9 @@ class AdminController < ApplicationController
                 f.write(image.read)
             end
           end
+          splitCourtNames = arrayCourtNames_params[:arrayCourtNames].split(",")
+          sports_centre.update!(arrayCourtNames: splitCourtNames)
     end
-    params.inspect
   end
 
   def update_prices
@@ -312,6 +314,10 @@ class AdminController < ApplicationController
   end
 
   private
+
+  def arrayCourtNames_params
+      params.require("sports_centre").permit(:arrayCourtNames)
+  end
 
   def admin_pin_params
       params.permit(:adminPin, :buttonId, :id)
