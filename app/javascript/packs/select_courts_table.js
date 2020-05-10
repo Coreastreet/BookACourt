@@ -155,8 +155,8 @@ $(document).on('turbolinks:load', function() {
             if (control == "sports") {
                 // reveal the full court option.
                 priceSettingHolders = priceSettings.find(".priceHolder");
-                priceSettingHolders.last().removeClass("d-none").addClass("d-flex");
                 priceSettingHolders.first().children().first().text("Half Court:");
+                priceSettingHolders.last().children().first().text("Full Court");
 
                 priceSettings.next().html("<h5>Set Court Allocation:</h5>");
 
@@ -176,8 +176,8 @@ $(document).on('turbolinks:load', function() {
             } else { //
                 // hide full courts and change text from half courts to venues.
                 priceSettingHolders = priceSettings.find(".priceHolder");
-                priceSettingHolders.last().removeClass("d-flex").addClass("d-none");
-                priceSettingHolders.first().children().first().text("Venue:")
+                priceSettingHolders.first().children().first().text("Single Venue:")
+                priceSettingHolders.last().children().first().text("Combined Venue:");
                 // change titles to set venue allocation.
                 priceSettings.next().html("<h5>Set Venue Allocation:</h5>");
                 // change court to venue in buttons
