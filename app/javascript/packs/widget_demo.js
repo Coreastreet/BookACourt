@@ -1387,6 +1387,8 @@ $(document).on('turbolinks:load', function ()  {
                                 all_dates.push(bw.find("#dateHolder").val().split(", ")[1]);
                                 arrayOfRegularCourtIds = "[]";
                               }
+                              all_dates = all_dates.filter(Boolean);
+                              //debugger
                               first_day_bookings = all_dates.splice(0, 1);
                               //console.log("all dates", all_dates);
                               var frequencyType = reviewDetailModal.find("#frequencyRate").attr("data-frequency-type");

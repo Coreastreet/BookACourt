@@ -1,5 +1,7 @@
 document.addEventListener('DOMContentLoaded', function(){
 
+    // this code may not be in use.
+
     if ($("#mapid").length) {
         const payButton = document.querySelector(".book-now");
         var court_type = document.querySelector(".court-types > a.active").getAttribute("data-courtType");
