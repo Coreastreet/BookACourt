@@ -166,6 +166,9 @@ document.addEventListener('DOMContentLoaded', function(){
         var stringTime = number.toString();
         //var minutes = stringTime.substr(1);
         if (Number.isInteger(number)) {
+          if (number == 24) {
+            stringTime = '00';
+          }
           stringTime = stringTime + ":00";
         } else {
           stringTime = stringTime.replace(".5", ":30");

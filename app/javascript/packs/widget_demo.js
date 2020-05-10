@@ -668,6 +668,9 @@ $(document).on('turbolinks:load', function ()  {
                         var stringTime = number.toString();
                         //var minutes = stringTime.substr(1);
                         if (Number.isInteger(number)) {
+                          if (number == 24) {
+                            stringTime = '00';
+                          }
                           stringTime = stringTime + ":00";
                         } else {
                           stringTime = stringTime.replace(".5", ":30");
@@ -680,7 +683,6 @@ $(document).on('turbolinks:load', function ()  {
 
                       function convertAMPMToString(ampmTime) {
                          var newTime;
-                         console.log(ampmTime);
                          var shortened = ampmTime.substring(0,(ampmTime.length - 2));
                          var splitArray;
                          var ampm = ampmTime.substr(-2);
@@ -694,7 +696,11 @@ $(document).on('turbolinks:load', function ()  {
                             //newTime = newTime.replace(".", ":").toFixed(2);
                          } else {  // ampm == "AM"
                             //newTime = ampmTime.substring(0,(ampmTime.length - 2));
-                            newTime = (parseInt(shortened.substr(0,2)) < 10) ? `0${shortened}` : shortened;
+                            if (shortened == "12:00") {
+                              newTime = "24:00";
+                            } else {
+                              newTime = (parseInt(shortened.substr(0,2)) < 10) ? `0${shortened}` : shortened;
+                            }
                          }
                          return newTime;
                       }

@@ -384,7 +384,11 @@ $(document).on('turbolinks:load', function () {
             //newTime = newTime.replace(".", ":").toFixed(2);
          } else {  // ampm == "AM"
             //newTime = ampmTime.substring(0,(ampmTime.length - 2));
-            newTime = (parseInt(shortened.substr(0,2)) < 10) ? `0${shortened}` : shortened;
+            if (shortened == "12:00") {
+              newTime = "24:00";
+            } else {
+              newTime = (parseInt(shortened.substr(0,2)) < 10) ? `0${shortened}` : shortened;
+            }
          }
          return newTime;
       }
