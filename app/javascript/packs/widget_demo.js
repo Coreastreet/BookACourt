@@ -2236,6 +2236,7 @@ $(document).on('turbolinks:load', function ()  {
 
                           //console.log(allBookings);
                           var arrayOfArrays = extract_relevant_days(allBookings, date, daysInterval, startTime, endTime);
+                          console.log("array of arrays", arrayOfArrays);
                           // after extracting the relevant days; let us filter the bookings so that only bookings matching the relevant dates remain.
                           var courtIdFree = null;
                           for (var bookingsOfOneSelectedDate in arrayOfArrays) {
