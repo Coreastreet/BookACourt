@@ -896,7 +896,7 @@ $(document).on('turbolinks:load', function ()  {
 
                           var jsonCourtsAllowed = response["courtsAllowed"];
                           for (var courtIcon in jsonCourtsAllowed) {
-                              activitySelector.find(`img[data-activity=${courtIcon}]`).attr("data-courtsAllowed", jsonCourtsAllowed[courtIcon]);
+                              activitySelector.find(`img[data-activity='${courtIcon}']`).attr("data-courtsAllowed", jsonCourtsAllowed[courtIcon]);
                           }
 
                           numberOfCourts = response["number_of_courts"];
