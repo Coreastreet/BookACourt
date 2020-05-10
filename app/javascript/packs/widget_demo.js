@@ -2230,7 +2230,8 @@ $(document).on('turbolinks:load', function ()  {
                           var date = bw.find("#dateHolder").val();
 
                           var courtType = bw.find("#tabHolder").attr("data-courtType"); // set courtType later on click
-                          var numberOfCourts = parseInt(localStorage.getItem("numberOfCourts"));
+                          var numberOfCourts = bw.find("#activitySelector img.selectedIcon").attr("data-courtsAllowed").split(",").map(Number);
+                          //var numberOfCourts = parseInt(localStorage.getItem("numberOfCourts"));
                           var arrayOfFreeCourtIds = [];
 
                           //console.log(allBookings);
@@ -2296,12 +2297,12 @@ $(document).on('turbolinks:load', function ()  {
                       });
 
                       // add on click listener later.
-
+                      // change numberOfCourts to array
                       function checkDayAvailability(arrayOfHash, startTime, endTime, numberOfCourts) {
                       //  console.log("start", startTime);
                       //  console.log("end", endTime);
-                        var arr = [...Array(numberOfCourts+1).keys()];
-                        arr.shift();
+                        //var arr = [...Array(numberOfCourts+1).keys()];
+                        //arr.shift();
                         var availabilityBoolean = false;
                         var intervalTimes = new Set(getIntervals(startTime, endTime));
                         var hashSetTime;
@@ -2312,7 +2313,10 @@ $(document).on('turbolinks:load', function ()  {
                         var prevCourtCounter = 0;
                         var courtFreeId = null;
                         var intersection;
-                        for (var court_no = 1; court_no <= arr.length; court_no++) { // 1..6
+                        var court_no;
+                        //for (var court_no = 1; court_no <= arr.length; court_no++) { // 1..6
+                        for (var i in numberOfCourts) {
+                          court_no = numberOfCourts[i];
                           //console.log(court_no);
                           for (var hashBooking in arrayOfHash) {
                             hashSet = arrayOfHash[hashBooking];
