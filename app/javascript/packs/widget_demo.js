@@ -1416,7 +1416,7 @@ $(document).on('turbolinks:load', function ()  {
                                   // decide how to assign the court number later on
                               var jsonBookingParams = {
                                     bookingType: booking_type, // casual or regular
-                                    activityType: activity_type,
+                                    activityType: activity_type.split(" ").join("_"),
                                     courtType: court_type, // half court or full court
                                     startTime: startTime, // yes
                                     endTime: endTime, //yes
@@ -1493,7 +1493,7 @@ $(document).on('turbolinks:load', function ()  {
                                 request.onload = function(e) {
                                   var response = request.response;
                                   //var redirect_url = response["redirect_url"];
-                                  console.log(response);
+                                  console.log("This is the error response", response);
                                   var parsedResponse = JSON.parse(response);
                                   var redirect_url = parsedResponse["redirect_url"];
                                   window.location.href = redirect_url;
