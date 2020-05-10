@@ -409,6 +409,7 @@ private
               peakType = "off_peak"
               Rails.logger.info "#{bookingTime}, off_peak, #{bookingDay}"
           end
+          Rails.logger.info "#{activityType}"
           totalCost += ((prices[activityType]["casual"]["#{courtType[0..3]}_court"][peakType].to_d)/2)
           # divide by two so it accounts for each half-hour
       end
