@@ -350,7 +350,8 @@ document.addEventListener('DOMContentLoaded', function(){
         arrayOfRegularCourtIds = JSON.parse(arrayOfRegularCourtIds);
         //var daysInBetween = modal_body.attr("data-booking-interval");
         // passing info about the order for reference when transaction completed successfully to later create booking
-
+        // filter out all undefined elements from array all dates;
+        allDates = allDates.filter(Boolean); // will also remove false tho along with undefined.
 
         $.ajax({
            type: "POST",
