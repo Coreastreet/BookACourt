@@ -863,6 +863,7 @@ $(document).on('turbolinks:load', function ()  {
                           var plan_type = response["plan_type"];
                           // hide the courts tabs if the centreType is venue instead of sports.
                           var centreType = response["centreType"];
+                          $("#payment-confirmation").attr("data-venueType", centreType);
 
                           if (plan_type == 0) { // in free plan, so hide several buttons
                               //mainClockCard.find("#timeHolder").toggle();
@@ -879,6 +880,9 @@ $(document).on('turbolinks:load', function ()  {
                               mainClockCard.find("#halfCourtTab").text("Single Venue");
                               mainClockCard.find("#fullCourtTab").text("Combined Venue");
                           }
+
+                          var sportsCentreTitle = response["sports_centre_title"];
+                          $("#payment-confirmation #bw-centreTitle").text(sportsCentreTitle);
                           // copy and insert more image icons in the activity selection bar depending on the number of activities in prices.
                           //var jsonPrices = JSON.parse(response["prices"]);
                           var cloneIcon;
@@ -1786,13 +1790,25 @@ $(document).on('turbolinks:load', function ()  {
                         //var intervalBetweenBookings = parseInt($("#repeatBookingCard .frequency-in-days").text());
 
                         // assign half court or half court to item in modal
-                        if ($('#halfCourtTab').hasClass("active")) {
-                          courtType = "halfCourt"; // set item to half-court
-                          court_type_holder.text("Half Court");
-                        }
-                        if ($('#fullCourtTab').hasClass("active")) {
-                          courtType = "fullCourt"; // full-court
-                          court_type_holder.text("Full Court");
+                        // if centre is sports
+                        if (modal_body.attr("data-venueType") == "0") {
+                            if ($('#halfCourtTab').hasClass("active")) {
+                              courtType = "halfCourt"; // set item to half-court
+                              court_type_holder.text("Half Court");
+                            }
+                            if ($('#fullCourtTab').hasClass("active")) {
+                              courtType = "fullCourt"; // full-court
+                              court_type_holder.text("Full Court");
+                            }
+                        } else { // is venue type
+                            if ($('#halfCourtTab').hasClass("active")) {
+                              courtType = "halfCourt"; // set item to half-court
+                              court_type_holder.text("Single Venue");
+                            }
+                            if ($('#fullCourtTab').hasClass("active")) {
+                              courtType = "fullCourt"; // full-court
+                              court_type_holder.text("Combined Venue");
+                            }
                         }
 
                         modal_body.attr("data-activity-type", activityChosen)
