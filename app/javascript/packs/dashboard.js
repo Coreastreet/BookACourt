@@ -427,7 +427,7 @@ $(document).on('turbolinks:load', function () {
           var optionMatched = false;
           var optionSrc;
           var clone;
-          var iconHolder = $("#icon_photo");
+          //var iconHolder = $("#icon_photo");
           var imgInClone;
           var buttonsCourtsAllowed = $("#courtsAllowedButtons button.selected-button");
           var courtsAllowedString = "";
@@ -461,7 +461,7 @@ $(document).on('turbolinks:load', function () {
             clone.attr("data-activity", newActivityValue.split(" ").join("_"));
             clone.removeClass("selectedCard");
             if (optionMatched) {
-              clone.find("img").attr("src", iconHolder.attr("src"));
+              clone.find("img").attr("src", optionSrc);
             } else {
               imgInClone = clone.find("img");
               imgInClone.addClass("d-none");
