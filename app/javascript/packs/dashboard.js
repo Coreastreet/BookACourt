@@ -427,7 +427,7 @@ $(document).on('turbolinks:load', function () {
           var optionMatched = false;
           var optionSrc;
           var clone;
-          //var iconHolder = $("#icon_photo");
+          var iconHolder = $("#icon_photo");
           var imgInClone;
           var buttonsCourtsAllowed = $("#courtsAllowedButtons button.selected-button");
           var courtsAllowedString = "";
