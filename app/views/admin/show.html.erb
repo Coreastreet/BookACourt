@@ -215,8 +215,8 @@
                                   <% end %>
                               <% end %>
                       <% else %>
-                          <% @arrayCourtNames.each do |courtName| %>
-                              <th scope="col" class="equalTH"><%= courtName %></th>
+                          <% [*1..@sports_centre.numberOfCourts].each do |number| %>
+                              <th scope="col" class="equalTH"><%= @arrayCourtNames[number] %></th>
                           <% end %>
                       <% end %>
                     </tr>
@@ -362,9 +362,9 @@
                               <% end %>
                         <% end %>
                     <% else %>
-                        <% @arrayCourtNames.each_with_index do |courtName, index| %>
+                        <% [*1..@sports_centre.numberOfCourts].each do |number| %>
                             <button type="button" class="btn border-dark hover-selected rounded-0"
-                            data-courtId="<%= index+1 %>"><%= courtName %></button>
+                            data-courtId="<%= number %>"><%= @arrayCourtNames[number] %></button>
                         <% end %>
                     <% end %>
                   </div>
@@ -641,9 +641,9 @@
                             <% end %>
                       <% end %>
                   <% else %>
-                      <% @arrayCourtNames.each_with_index do |courtName, index| %>
+                      <% [*1..@sports_centre.numberOfCourts].each do |number| %>
                           <button type="button" class="btn border-dark hover-selected rounded-0"
-                          data-courtId="<%= index+1 %>"><%= courtName %></button>
+                          data-courtId="<%= number %>"><%= @arrayCourtNames[number] %></button>
                       <% end %>
                   <% end %>
                   <button type="button" class="btn border-dark hover-selected allCourts rounded-0"
