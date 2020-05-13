@@ -330,13 +330,10 @@
                 <button type="button" class="col-3 align-self-center max-h checkAdminPin">Check admin PIN</button>
               </div>
               <%= form_with model: @sports_centre, class: "col d-flex flex-column", id: 'editLogoForm', url: admin_update_logo_path(@sports_centre), method: "post" do |f| %>
-                <%= %>
                 <div class="row mx-0 mt-4">
                   <h5>Upload a logo:</h5>
                 </div>
-                <% if @sports_centre.logo.attached? %>
-                <img id="image" class="image-contain" src="<%= url_for(@sports_centre.logo) %>"></img>
-                <% end %>
+                <img id="image" class="image-contain mx-auto" src="<%= url_for(@sports_centre.logo) if @sports_centre.logo.attached? %>"></img>
                 <div class="custom-file row mx-0 mt-2">
                   <%= f.file_field :logo, class: "custom-file-input", id: "customFile" %>
                   <label class="custom-file-label" for="customFile">Choose file</label>
