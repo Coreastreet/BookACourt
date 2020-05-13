@@ -1365,7 +1365,6 @@ $(document).on('turbolinks:load', function ()  {
                               reviewDetailModal.find("#allDatesModal").css("min-height", heightModal);
                               reviewDetailModal.css("margin-top", `-${heightModal}px`);
 
-                              var customer_email = modal_body.find("input.bw-emailLine").val();
                               var booking_type = modal_body.attr("data-booking-type");
                               var activity_type = modal_body.attr("data-activity-type");
                               var court_type = modal_body.attr("data-court-type");
@@ -1413,7 +1412,7 @@ $(document).on('turbolinks:load', function ()  {
 
                               var jsonOrderParams = {
                                     totalAmount: total, //yes
-                                    customerEmail: customer_email, // yes
+                                    customerEmail: "", // yes
                                     bwAllDates: JSON.stringify(all_dates), // all regular bookings after the first day, if any are present
                                     bwFirstDayBookings: JSON.stringify(first_day_bookings), // yes
                                     daysInBetween: daysInBetween, // yes
@@ -1428,8 +1427,8 @@ $(document).on('turbolinks:load', function ()  {
                                     endTime: endTime, //yes
                                     bwCourtIdTimesArray: JSON.stringify(courtIdsTimesArray) // an array of all the courts/times for a casual one day booking.`
                               }  //(not necessarily continuous in one court throughout.)
-                              var paramsOrderText = addParams("order", jsonOrderParams);
-                              var paramsBookingText = addParams("booking", jsonBookingParams);
+                              var paramsOrderText;
+                              var paramsBookingText;
                               //console.log("all_dates", all_dates);
                               //console.log("first_day", first_day_bookings);
                               //debugger
@@ -1443,6 +1442,9 @@ $(document).on('turbolinks:load', function ()  {
                               //console.log(paramsText);
                               var sportsCentreId = document.querySelector("#weBallWidget").getAttribute("data-sportsCentreId");
                               modal_body.on("click", "#bw-reservation", function() {
+                                paramsOrderText = addParams("order", jsonOrderParams);
+                                paramsBookingText = addParams("booking", jsonBookingParams);
+
                                 var freeCourtIdsReview = checkAvailability(daysInBetween, startTime, endTime);
                                 console.log(freeCourtIdsReview, bookings_count);
                                 if (freeCourtIdsReview.length < parseInt(bookings_count)) {
@@ -1476,6 +1478,11 @@ $(document).on('turbolinks:load', function ()  {
                               })
 
                               modal_body.on("click", "#polipay", function() {
+                                // add the customerEmail to jsonOrderParams before sending json order.
+                                jsonOrderParams["customerEmail"] = modal_body.find(".bw-emailLine").text();
+                                paramsOrderText = addParams("order", jsonOrderParams);
+                                paramsBookingText = addParams("booking", jsonBookingParams);
+
                                 var freeCourtIdsReview = checkAvailability(daysInBetween, startTime, endTime);
                                 console.log(freeCourtIdsReview, bookings_count);
                                 var nowPayTime = Date.now(); // current time in milliseconds
