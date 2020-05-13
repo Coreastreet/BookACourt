@@ -10,6 +10,7 @@ body {
   height: fit-content;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
 }
 // adjust calender height and width in the admin dashboard
 .admin-panel .datepicker,.admin-panel .table-condensed {

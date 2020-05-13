@@ -8,19 +8,15 @@
       <% end %>
     </div>
   </div>
-  <div class="row justify-content-center">
-    <div class="col-10 mt-5">
-      <h2 class="text-center">Thank you for booking with <%= @sports_centre.title %>.</h2>
-    </div>
-  </div>
   <div class="row justify-content-center mt-3">
     <div class="col-3">
       <%= image_tag("email-sent-icon.png", class: "mx-auto d-block img-fluid") %>
     </div>
   </div>
-  <div class="row justify-content-center mt-4">
-    <div class="col-6">
-      <h4 class="text-center">A confirmation email will be sent to <span class="text-primary"><%= @customerEmail %></span> shortly.</<h4>
+  <div class="row justify-content-center">
+    <div class="col-10 mt-5">
+      <h2 class="text-center">Your booking with <%= @sports_centre.title %> was successful.</h2>
+      <h4 class="text-center text-primary">A confirmation email will be sent shortly.<h4>
     </div>
   </div>
   <div class="row">
