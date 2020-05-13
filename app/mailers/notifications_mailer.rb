@@ -50,12 +50,12 @@ class NotificationsMailer < ApplicationMailer
     #image.crop "100%x72%+0+25"
     # send an email to the booker with details of the booking and the barcode.
     # attachments.inline['qrCode.png'] = File.read('app/assets/images/qrCode.png')
-    attachments.inline['hurstvilleAquatic.png'] = File.read('app/assets/images/hurstvilleAquatic.png')
-    attachments.inline['calendar-icon.png'] = File.read('app/assets/images/calendar-icon.png')
-    attachments.inline['location-icon.png'] = File.read('app/assets/images/location-icon.png')
-    attachments.inline['card-icon.png'] = File.read('app/assets/images/card-icon.png')
-    attachments.inline['teaGreenIcon.png'] = File.read('app/assets/images/teaGreenIcon.png')
-    attachments.inline['greyBlueIcon.png'] = File.read('app/assets/images/greyBlueIcon.png')
+    attachments.inline['eppingLogo.png'] = File.read('app/assets/images/logos/eppingLogo.png')
+    attachments.inline['calendar-icon.png'] = File.read('app/assets/images/email_icons/calendar-icon.png')
+    attachments.inline['location-icon.png'] = File.read('app/assets/images/email_icons/location-icon.png')
+    attachments.inline['card-icon.png'] = File.read('app/assets/images/email_icons/card-icon.png')
+    attachments.inline['teaGreenIcon.png'] = File.read('app/assets/images/email_icons/teaGreenIcon.png')
+    attachments.inline['greyBlueIcon.png'] = File.read('app/assets/images/email_icons/greyBlueIcon.png')
 
     @logo_url = @sports_centre.logo.blob.key
     #attachments.inline['logo.png'] = File.read(logo_url)
