@@ -48,3 +48,5 @@
 22. Add the two right and left arrows; add click listener to change between sports.
 
 23. Add a button to toggle between venue and courts.
+
+24. Update prices to contain a list of all activities on new sports centre registration.
