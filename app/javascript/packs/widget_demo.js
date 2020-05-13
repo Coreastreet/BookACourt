@@ -1479,7 +1479,7 @@ $(document).on('turbolinks:load', function ()  {
 
                               modal_body.on("click", "#polipay", function() {
                                 // add the customerEmail to jsonOrderParams before sending json order.
-                                jsonOrderParams["customerEmail"] = modal_body.find(".bw-emailLine").text();
+                                jsonOrderParams["customerEmail"] = modal_body.find(".bw-emailLine").val();
                                 paramsOrderText = addParams("order", jsonOrderParams);
                                 paramsBookingText = addParams("booking", jsonBookingParams);
 
