@@ -333,7 +333,11 @@
                 <div class="row mx-0 mt-4">
                   <h5>Upload a logo:</h5>
                 </div>
-                <img id="image" class="image-contain mx-auto" src="<%= url_for(@sports_centre.logo) if @sports_centre.logo.attached? %>"></img>
+                <% if @sports_centre.logo.attached? %>
+                  <img id="image" class="image-contain mx-auto" src="<%= url_for(@sports_centre.logo) %>"></img>
+                <% else %>
+                  <img id="image" class="image-contain mx-auto d-none" src="<%= '#' %>"></img>
+                <% end %>
                 <div class="custom-file row mx-0 mt-2">
                   <%= f.file_field :logo, class: "custom-file-input", id: "customFile" %>
                   <label class="custom-file-label" for="customFile">Choose file</label>

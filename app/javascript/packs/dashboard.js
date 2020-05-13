@@ -625,9 +625,11 @@ $(document).on('turbolinks:load', function () {
         $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
 
         var reader = new FileReader();
+        var imageLogo = document.getElementById("image");
         // get loaded data and render thumbnail.
         reader.onload = function (e) {
-          document.getElementById("image").src = e.target.result;
+          imageLogo.src = e.target.result;
+          imageLogo.classList.remove("d-none");
         };
         reader.readAsDataURL(this.files[0]);
       });
