@@ -148,7 +148,7 @@ class SportsCentresController < ApplicationController
 
   def booking_success
     @sports_centre = SportsCentre.find(params[:sports_centre_id])
-    url = "https://poliapi.apac.paywithpoli.com/api/v2/Transaction/GetTransaction?token=" + booking_token_params[:token]
+    url = "https://poliapi.uat1.paywithpoli.com/api/v2/Transaction/GetTransaction?token=" + booking_token_params[:token]
     response = RestClient.get url, {Authorization: @sports_centre.combinedCode}
     parsed_response = JSON.parse(response)
 
