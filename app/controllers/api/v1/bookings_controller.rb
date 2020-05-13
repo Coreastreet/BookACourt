@@ -5,8 +5,8 @@ class Api::V1::BookingsController < Api::V1::ApiController
     require "json"
 
     sports_centre = SportsCentre.find(token_params[:sports_centre_id])
-
-    url = "https://poliapi.apac.paywithpoli.com/api/v2/Transaction/GetTransaction?token=" + token_params[:Token]
+    #replace apac with uat1
+    url = "https://poliapi.uat1.paywithpoli.com/api/v2/Transaction/GetTransaction?token=" + token_params[:Token]
     response = RestClient.get url, {Authorization: sports_centre.combinedCode}
     parsed_response = JSON.parse(response)
     # if the transaction is successful,
@@ -281,7 +281,7 @@ class Api::V1::BookingsController < Api::V1::ApiController
     totalAmountServer = calculateTotalPriceServer(sportsCentre, JSON.parse(order_params[:bwFirstDayBookings]), allDates,
     booking_params[:startTime], booking_params[:endTime], booking_params[:activityType], booking_params[:courtType])
 
-    response = RestClient.post "https://poliapi.apac.paywithpoli.com/api/v2/Transaction/Initiate",
+    response = RestClient.post "https://poliapi.uat1.paywithpoli.com/api/v2/Transaction/Initiate",
           {Amount: amount, CurrencyCode: "AUD", MerchantReference: orderReference,
             MerchantHomepageURL: sportsCentre_url, #sportsCentre_url,
             MerchantData: merchantDataString,
