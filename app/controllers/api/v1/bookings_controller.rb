@@ -160,7 +160,7 @@ class Api::V1::BookingsController < Api::V1::ApiController
       "\"startTime\": \"#{booking_params[:startTime]}\"," +
       "\"endTime\": \"#{booking_params[:endTime]}\"," +
       "\"bookingType\": \"#{booking_params[:bookingType]}\"," +
-      "\"activityType\": \"#{booking_params[:activityType].capitalize}\"," +
+      "\"activityType\": \"#{booking_params[:activityType]}\"," +
       "\"courtType\": \"#{booking_params[:courtType]}\"}}"
 
     data = JSON.parse(merchantDataString)
@@ -270,7 +270,7 @@ class Api::V1::BookingsController < Api::V1::ApiController
       "\"startTime\": \"#{booking_params[:startTime]}\"," +
       "\"endTime\": \"#{booking_params[:endTime]}\"," +
       "\"bookingType\": \"#{booking_params[:bookingType]}\"," +
-      "\"activityType\": \"#{booking_params[:activityType].capitalize}\"," +
+      "\"activityType\": \"#{booking_params[:activityType]}\"," +
       "\"courtType\": \"#{booking_params[:courtType]}\"}}"
       #{}"{\"startTime\": \"#{booking_params[:startTime]}\"," +
       #{}"\"endTime\": \"#{booking_params[:endTime]}\"," +
