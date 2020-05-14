@@ -1870,8 +1870,11 @@ $(document).on('turbolinks:load', function ()  {
 
                         // get the array of arrays for that date
                         var bookingMatrix = JSON.parse(localStorage.getItem("BookingsMatrix"));
-                        //console.log(bookingMatrix);
-                        var bookingCourtIds = (courtType == "halfCourt") ? calculateCourtIds(startTime, endTime, bookingMatrix) : calculateFullCourtIds(startTime, endTime, bookingMatrix);
+                        console.log("matrix before calculate court id", bookingMatrix);
+                        var venueCourtIds = bw.find("#activitySelector img.selectedIcon").attr("data-courtsAllowed").split(",").map(Number);
+                        var bookingCourtIds = (courtType == "halfCourt") ?
+                            calculateCourtIds(startTime, endTime, bookingMatrix, venueCourtIds) :
+                            calculateFullCourtIds(startTime, endTime, bookingMatrix);
                         if (bookingCourtIds == false) {
                             alert("Booking is invalid");
                             return false
@@ -1994,6 +1997,8 @@ $(document).on('turbolinks:load', function ()  {
 
                         } else if (number_of_bookings == 1){
                           // nothing
+                          // set dateHolder to the correct court id not 1
+                          //dateHolder.attr("")
                           modal_body.find("#subtotal-booking-text").text(`Subtotal (${number_of_bookings} booking)`);
                           booking_end_row.addClass("bw-none");
                           calendarDivider.addClass("bw-none");
@@ -2026,7 +2031,7 @@ $(document).on('turbolinks:load', function ()  {
                         return `${int}:${hours_and_minutes[1]}${am_or_pm}`
                       }
 
-                      function calculateCourtIds(startTime, endTime, courtArrays) {
+                      function calculateCourtIds(startTime, endTime, courtArrays, venueCourtIds) {
                         //var bookingMatrix = localStorage.getItem("BookingsMatrix");
                         var bookingIntervals = getIntervals(startTime, endTime);
                         var setBooking = new Set(bookingIntervals);
@@ -2035,6 +2040,7 @@ $(document).on('turbolinks:load', function ()  {
                         var courtFreeIds = [];
                         var timesToBeFilled;
                         var newSetBooking;
+                        var courtSpecificId;
                         //var intersectionMatrix = [];
                         var courtTimeDifference;
                         var hashSets = {};
@@ -2042,11 +2048,15 @@ $(document).on('turbolinks:load', function ()  {
                         var arrayBookedSets = [];
                         var finalHash = {};
                         var validBooking;
+                        //console.log("courtArrays", courtArrays);
+
                         for (var item in courtArrays) {
                           arrayBookedSets.push(new Set(courtArrays[item]));
                         }
-                        //console.log("ArrayBookedSets", arrayBookedSets);
+                        // console.log("arrayBookedSets", arrayBookedSets);
+
                         do {
+                            //console.log("arrayBookedSets", arrayBookedSets.length);
                             for (var courtTimes in arrayBookedSets) { // array of arrays
                               //setCourtBookings = new Set(courtArrays[courtTimes]);
                               intersection = new Set([...courtArrays[courtTimes]].filter(x => setBooking.has(x)));
@@ -2055,14 +2065,14 @@ $(document).on('turbolinks:load', function ()  {
                                 break
                               } */// if no overlapping times, then this court is available to be booked. return the court id.
                               //intersectionMatrix.push(intersection); use hash instead of array
-                              //console.log("Intersection", intersection);
+                              //console.log("court times", courtTimes);
                               hashSets[intersection.size] = [intersection, courtTimes];
                             }
-
+                            //console.log("hashSets", hashSets);
                             timesToBeFilled = Object.keys(hashSets).sort()[0];
-                            //console.log("hash sets", hashSets);
                             //console.log("times to be filled", timesToBeFilled);
                             courtFreeIds.push(hashSets[timesToBeFilled][1]); // store the courtId of the court that is free for most of the booking
+                            //console.log("new courtFreeId", hashSets[timesToBeFilled][1]);
                             newSetBooking = hashSets[timesToBeFilled][0]; // get the set which will contain the times which still need a courtId for.
                             courtTimeDifference = [...setBooking].filter(x => !newSetBooking.has(x)); // array
                             setBooking = newSetBooking;
@@ -2080,10 +2090,15 @@ $(document).on('turbolinks:load', function ()  {
                         console.log("Times that still need a court to accomodate", setBooking);
                         *///console.log("HashSets", hashSets);
                       } while(timesToBeFilled != 0);
-                        console.log("court free periods", courtFreePeriods)
                         for (var i in courtFreeIds) {
-                            finalHash[parseInt(courtFreeIds[i])+1] = courtFreePeriods[i];
+                          // treat court free ids as array of valid index for the list of available courts.
+                          // minus one to adjust for zero index
+                          courtSpecificId = venueCourtIds[parseInt(courtFreeIds[i])];
+                          finalHash[courtSpecificId] = courtFreePeriods[i];
+                          // number to indicate which court id it belongs to
+                          //finalHash[venueCourtId] = courtFreePeriods[i];
                         }
+                        //console.log("court free ids", courtFreeIds);
                         return finalHash;
                         //console.log("Court Ids", courtFreeIds);
                         //console.log("Respective Court Periods", courtFreePeriods);
