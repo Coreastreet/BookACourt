@@ -51,6 +51,7 @@ $(document).on('turbolinks:load', function () {
           var booked = false;
           var counter = 0;
           var sportsType = booking.sportsType.split("::")[0];
+          var backgroundColor;
           if (booking.courtType == "halfCourt") {
                 console.log(booking.courtType);
                 while (j < columnArray.length) {
@@ -62,6 +63,11 @@ $(document).on('turbolinks:load', function () {
                   }
                   if (booked) {
                     columnArray[j].classList.add(`table${sportsType}`, "booked");
+                    // find the corresponding data activity card and color.
+                    backgroundColor = document.querySelector(`#activityCardHolder .activityCard[data-activity=${sportsType}]`).getAttribute("data-color");
+                    if (backgroundColor != null) {
+                        columnArray[j].style.color = backgroundColor;
+                    }
                     columnArray[j].setAttribute("data-booking-id", `${booking.id}`);
                     columnArray[j].setAttribute("data-toggle", "tooltip");
                     columnArray[j].setAttribute("title", `${booking.name}\nType: ${sportsType}\nStart:`
@@ -87,6 +93,10 @@ $(document).on('turbolinks:load', function () {
                  }
                  if (booked) {
                    columnArray[j].classList.add(`table${sportsType}`, "booked");
+                   backgroundColor = document.querySelector(`#activityCardHolder .activityCard[data-activity=${sportsType}]`).getAttribute("data-color");
+                   if (backgroundColor != null) {
+                       columnArray[j].style.color = backgroundColor;
+                   }
                    columnArray[j].setAttribute("data-booking-id", `${booking.id}`);
                    columnArray[j].setAttribute("data-toggle", "tooltip");
                    columnArray[j].setAttribute("title", `${booking.name}\nType: ${sportsType}\nStart:`

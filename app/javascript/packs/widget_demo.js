@@ -1874,7 +1874,7 @@ $(document).on('turbolinks:load', function ()  {
                         var venueCourtIds = bw.find("#activitySelector img.selectedIcon").attr("data-courtsAllowed").split(",").map(Number);
                         var bookingCourtIds = (courtType == "halfCourt") ?
                             calculateCourtIds(startTime, endTime, bookingMatrix, venueCourtIds) :
-                            calculateFullCourtIds(startTime, endTime, bookingMatrix);
+                            calculateFullCourtIds(startTime, endTime, bookingMatrix, venueCourtIds);
                         if (bookingCourtIds == false) {
                             alert("Booking is invalid");
                             return false
@@ -2104,7 +2104,7 @@ $(document).on('turbolinks:load', function ()  {
                         //console.log("Respective Court Periods", courtFreePeriods);
                       }
 
-                      function calculateFullCourtIds(startTime, endTime, courtArrays) {
+                      function calculateFullCourtIds(startTime, endTime, courtArrays, venueCourtIds) {
                         //var bookingMatrix = localStorage.getItem("BookingsMatrix");
                         var bookingIntervals = getIntervals(startTime, endTime);
                         var setBooking = new Set(bookingIntervals);
@@ -2114,6 +2114,7 @@ $(document).on('turbolinks:load', function ()  {
                         var courtFreeIds = [];
                         var timesToBeFilled;
                         var newSetBooking;
+                        var courtSpecificId;
                         //var intersectionMatrix = [];
                         var courtTimeDifference;
                         var hashSets = {};
@@ -2167,10 +2168,11 @@ $(document).on('turbolinks:load', function ()  {
                         *///console.log("HashSets", hashSets);
                         //console.log(timesToBeFilled);
                       } while(timesToBeFilled != 0);
-                        for (var i in courtFreeIds) {
-                            finalHash[parseInt(courtFreeIds[i])+1] = courtFreePeriods[i];
-                        }
-                        return finalHash;
+                          for (var i in courtFreeIds) {
+                              courtSpecificId = venueCourtIds[parseInt(courtFreeIds[i])];
+                              finalHash[courtSpecificId] = courtFreePeriods[i];
+                          }
+                          return finalHash;
                         //console.log("Court Ids", courtFreeIds);
                         //console.log("Respective Court Periods", courtFreePeriods);
                       }

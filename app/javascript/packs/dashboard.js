@@ -1,5 +1,47 @@
 $.noConflict();
 $(document).on('turbolinks:load', function () {
+
+      Colors = {};
+      Colors.names = {
+          aqua: "#00ffff",
+          azure: "#f0ffff",
+          blue: "#0000ff",
+          brown: "#a52a2a",
+          darkblue: "#00008b",
+          darkcyan: "#008b8b",
+          darkgrey: "#a9a9a9",
+          darkgreen: "#006400",
+          darkkhaki: "#bdb76b",
+          darkmagenta: "#8b008b",
+          darkolivegreen: "#556b2f",
+          darkorange: "#ff8c00",
+          darkorchid: "#9932cc",
+          darkred: "#8b0000",
+          darksalmon: "#e9967a",
+          fuchsia: "#ff00ff",
+          gold: "#ffd700",
+          green: "#008000",
+          indigo: "#4b0082",
+          khaki: "#f0e68c",
+          lightgreen: "#90ee90",
+          lime: "#00ff00",
+          maroon: "#800000",
+          navy: "#000080",
+          olive: "#808000",
+          orange: "#ffa500",
+          purple: "#800080",
+          violet: "#800080",
+          red: "#ff0000",
+      };
+      // random color selector.
+      Colors.random = function() {
+          var result;
+          var count = 0;
+          for (var prop in this.names)
+              if (Math.random() < 1/++count)
+                 result = prop;
+          return result;
+      };
       //$("#NotificationModal").slideUp("fast", "swing");
       var idValue = $("#id-holder").attr("data-sports-centre-id");
 
@@ -427,6 +469,8 @@ $(document).on('turbolinks:load', function () {
           var optionMatched = false;
           var optionSrc;
           var clone;
+          var currentColors = [];
+          var randColor;
           //var iconHolder = $("#icon_photo");
           var imgInClone;
           var buttonsCourtsAllowed = $("#courtsAllowedButtons button.selected-button");
@@ -466,6 +510,15 @@ $(document).on('turbolinks:load', function () {
               imgInClone = clone.find("img");
               imgInClone.addClass("d-none");
               $(`<div class="display-1">${newActivityValue.charAt(0).toUpperCase()}</div>`).insertBefore(imgInClone);
+              // create a random color to associate with venue;
+              activityRow.find(".activityCard").each(function() {
+                currentColors.push($(this).attr("data-color"));
+              });
+              do {
+                randColor = Colors.random();
+              } while (currentColors.includes(randColor));
+              clone.attr("data-color", randColor);
+              clone.find(".display-1").css("color", randColor);
             }
             clone.insertBefore($("#addActivityCard"));
           } else {
@@ -603,6 +656,10 @@ $(document).on('turbolinks:load', function () {
         var int = (parsed_int % 12 == 0) ? 12 : parsed_int % 12;
         var am_or_pm = (hours_and_minutes[0] >= 12) ? "PM" : "AM";
         return `${int}:${hours_and_minutes[1]}${am_or_pm}`
+      }
+
+      function getRandomInt(max) {
+        return Math.floor(Math.random() * Math.floor(max));
       }
 
       // enable storing of the opening and closing hours of the weekdays new version

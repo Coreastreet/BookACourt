@@ -52,3 +52,5 @@
 24. Update prices to contain a list of all activities on new sports centre registration.
 
 25 edit customerEmail and court times array to suit the specific court number.
+
+26. Edit the calculateCourtIds and calculateFullCourtIds function by adding venueCortIds as array params so first template row shows right courtId.
