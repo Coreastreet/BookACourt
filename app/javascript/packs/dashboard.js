@@ -42,10 +42,18 @@ $(document).on('turbolinks:load', function () {
                  result = prop;
           return result;
       };
+      // converting hex to rgb
+      function hexToRgba(hex) {
+        var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+        return result ? `rgba(${parseInt(result[1], 16)}, ${parseInt(result[2], 16)}, ${parseInt(result[3], 16)}, 0.2)` : null;
+      }
 
       // set up nice and early the colors of venues and courts.
+      var opaqueColor;
       $("#activityCardHolder .activityCard[data-color]").each( function() {
-            $(this).find(".display-1").css("color", $(this).attr("data-color"));
+            opaqueColor = hexToRgba(Colors.names[$(this).attr("data-color")]);
+            console.log(opaqueColor);
+            $(this).find(".display-1").css("background-color", opaqueColor);
           }
       );
       //$("#NotificationModal").slideUp("fast", "swing");

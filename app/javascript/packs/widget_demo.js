@@ -1367,6 +1367,8 @@ $(document).on('turbolinks:load', function ()  {
 
                               var booking_type = modal_body.attr("data-booking-type");
                               var activity_type = modal_body.attr("data-activity-type");
+                              activity_type = activity_type.charAt(0).toUpperCase() + activityType.substr(1);
+                              activity_type = activity_type.split(" ").join("_");
                               var court_type = modal_body.attr("data-court-type");
                               var startTime = modal_body.attr("data-booking-startTime");
                               var endTime = modal_body.attr("data-booking-endTime");
@@ -1421,7 +1423,7 @@ $(document).on('turbolinks:load', function ()  {
                                   // decide how to assign the court number later on
                               var jsonBookingParams = {
                                     bookingType: booking_type, // casual or regular
-                                    activityType: activity_type.split(" ").join("_"),
+                                    activityType: activity_type,
                                     courtType: court_type, // half court or full court
                                     startTime: startTime, // yes
                                     endTime: endTime, //yes
