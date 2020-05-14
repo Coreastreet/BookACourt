@@ -526,7 +526,7 @@
                 <div class="col-2 d-flex flex-column align-items-center border rounded py-2 mr-2 activityCard" data-activity=<%=activity%>
                   data-hc-op="<%=prices["casual"]["half_court"]["off_peak"]%>" data-hc-p="<%=prices["casual"]["half_court"]["peak_hour"]%>" data-hc-we="<%=prices["casual"]["half_court"]["Weekend"]%>"
                    data-fc-op="<%=prices["casual"]["full_court"]["off_peak"]%>" data-fc-p="<%=prices["casual"]["full_court"]["peak_hour"]%>" data-fc-we="<%=prices["casual"]["full_court"]["Weekend"]%>"
-                   data-courtsAllowed=<%= @sports_centre.courtsAllowed[activity] %>>
+                   data-courtsAllowed="<%= @sports_centre.courtsAllowed[activity] %>" <%= "data-color=#{@sports_centre.venue_colors[activity]}" if @sports_centre.venue_colors.include?(activity) %>>
                   <div class="position-absolute deleteActivity">&times</div>
                   <% if File.exist?("#{Rails.root}/app/assets/images/sport_icons/#{activity}.png") %>
                     <img class="image-contain" src="<%= asset_path("sport_icons/#{activity}.png") %>">
@@ -544,6 +544,7 @@
               </div>
               <%= f.hidden_field :prices %>
               <%= f.hidden_field :courtsAllowed %>
+              <%= f.hidden_field :venue_colors %>
               <div id="activityModal" class="w3-modal">
                 <div class="w3-modal-content col-lg-6 py-4 top-15rem">
                   <div class="w3-container">

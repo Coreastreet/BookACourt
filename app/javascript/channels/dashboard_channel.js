@@ -94,6 +94,7 @@ $(document).on('turbolinks:load', function () {
                  if (booked) {
                    columnArray[j].classList.add(`table${sportsType}`, "booked");
                    backgroundColor = document.querySelector(`#activityCardHolder .activityCard[data-activity=${sportsType}]`).getAttribute("data-color");
+                   console.log(backgroundColor);
                    if (backgroundColor != null) {
                        columnArray[j].style.color = backgroundColor;
                    }

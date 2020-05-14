@@ -3,6 +3,7 @@ class SportsCentre < ApplicationRecord
   validates :email, presence: true, uniqueness: true
 
   serialize :prices, Hash
+  serialize :venue_colors, Hash
   serialize :opening_hours, Hash
   serialize :peak_hours, Hash
   serialize :courtsAllowed, Hash

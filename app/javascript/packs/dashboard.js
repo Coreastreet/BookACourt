@@ -42,6 +42,12 @@ $(document).on('turbolinks:load', function () {
                  result = prop;
           return result;
       };
+
+      // set up nice and early the colors of venues and courts.
+      $("#activityCardHolder .activityCard[data-color]").each( function() {
+            $(this).find(".display-1").css("color", $(this).attr("data-color"));
+          }
+      );
       //$("#NotificationModal").slideUp("fast", "swing");
       var idValue = $("#id-holder").attr("data-sports-centre-id");
 
@@ -325,6 +331,7 @@ $(document).on('turbolinks:load', function () {
             arrayCourtNames.push($(this).text());
         });
         $("#sports_centre_arrayCourtNames").val(arrayCourtNames);
+        // attach the value of the random colors to each activity/venue.
 
         var buttonRef = $(this).parent().attr("data-buttonRef");
         var input = $("<input>").attr("type", "hidden").attr("name", "buttonRef").val(buttonRef);
@@ -848,6 +855,15 @@ $(document).on('turbolinks:load', function () {
           var fc_op;
           var fc_p;
           var fc_we;
+
+          // first set value for the colors of Venues
+          var venue_colors = {};
+          $("#activityCardHolder .activityCard[data-color]").each( function() {
+                venue_colors[$(this).attr("data-activity")] = $(this).attr("data-color");
+              }
+          );
+          //console.log("venue colors", JSON.stringify(venue_colors);
+          $("#sports_centre_venue_colors").val(JSON.stringify(venue_colors));
 
           // add regular booking later on.
           $("#editPricesForm .activityCard").each(function(){

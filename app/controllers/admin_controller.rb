@@ -310,6 +310,7 @@ class AdminController < ApplicationController
 
         #allow update of the centre type to remove court Tabs in widget
         sports_centre.update!(centreType: sports_centre_params[:centreType])
+        sports_centre.update!(venue_colors: JSON.parse(sports_centre_params[:venue_colors]))
     end
   end
 
@@ -358,7 +359,7 @@ class AdminController < ApplicationController
   def sports_centre_params
       params.require(:sports_centre).permit(:title, :email, :password, :password_confirmation, :ABN,
          :phone, :description, :logo, :merchantCode, :authenticationCode, :numberOfCourts, :prices,
-          :courtsAllowed, :centreType)
+          :courtsAllowed, :centreType, :venue_colors)
   end
 
   def token_params
