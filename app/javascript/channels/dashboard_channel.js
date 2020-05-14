@@ -86,6 +86,8 @@ $(document).on('turbolinks:load', function () {
           var sportsType = booking.sportsType.split("::")[0];
           var backgroundColor;
           var opaqueColor;
+          var bookedIds;
+          var lastBox;
           if (booking.courtType == "halfCourt") {
                 console.log(booking.courtType);
                 while (j < columnArray.length) {
@@ -111,52 +113,58 @@ $(document).on('turbolinks:load', function () {
                     + ` ${convertToAMPM(booking_start)}\nEnd: ${convertToAMPM(booking_end)}`);
                     //columnArray[j].setAttribute("data-placement", "top");
                     if (counter == 0) {  // first selected td.
-                        columnArray[j].innerHTML = `<div>${booking.name}</div>` + "<div class='delete-booking'" + `data-booking-id=${booking.id} data-order-id=${booking.order_id}>&times</div>`
+                        columnArray[j].innerHTML = `<div>${booking.sportType.split("_").join(" ")}</div>` + "<div class='delete-booking'" + `data-booking-id=${booking.id} data-order-id=${booking.order_id}>&times</div>`
                         columnArray[j].classList.add("textHolder");
                         counter++;
                     }
                   }
                   j++;
                 }
-           } else if (booking.courtType == "fullCourt") {
-                console.log(booking.courtType)
-               nextColumnArray = document.querySelectorAll(`[data-court="${booking.court_no + 1}"]`);
-               while (j < columnArray.length) {
-                 if (columnArray[j].dataset.time == booking_start) {
-                   booked = true;
-                 }
-                 if (columnArray[j].dataset.time == booking_end) {
-                   booked = false;
-                 }
-                 if (booked) {
-                   columnArray[j].classList.add(`table${sportsType}`, "booked");
-                   backgroundColor = document.querySelector(`#activityCardHolder .activityCard[data-activity=${sportsType}]`).getAttribute("data-color");
-                   console.log(backgroundColor);
-                   // set up nice and early the colors of venues and courts.
-                   opaqueColor = hexToRgba(Colors.names[backgroundColor]);
-
-                   if (opaqueColor != null) {
-                       columnArray[j].style.backgroundColor = opaqueColor;
-                   }
-                   columnArray[j].setAttribute("data-booking-id", `${booking.id}`);
-                   columnArray[j].setAttribute("data-toggle", "tooltip");
-                   columnArray[j].setAttribute("title", `${booking.name}\nType: ${sportsType}\nStart:`
-                   + ` ${convertToAMPM(booking_start)}\nEnd: ${convertToAMPM(booking_end)}`);
-                   nextColumnArray[j].classList.add(`table${sportsType}`, "booked");
-                   nextColumnArray[j].setAttribute("data-booking-id", `${booking.id}`);
-                   nextColumnArray[j].setAttribute("data-toggle", "tooltip");
-                   nextColumnArray[j].setAttribute("title", `${booking.name}\nType: ${sportsType}\nStart:`
-                   + ` ${convertToAMPM(booking_start)}\nEnd: ${convertToAMPM(booking_end)}`);
-                   if (counter == 0) {  // first selected td.
-                       columnArray[j].innerHTML = `<div>${booking.name}</div>`;
-                       columnArray[j].classList.add("textHolder");
-                       nextColumnArray[j].innerHTML = "<div></div><div class='delete-booking'" + `data-booking-id=${booking.id} data-order-id=${booking.order_id}>&times</div>`;
-                       nextColumnArray[j].classList.add("textHolder");
-                       counter++;
-                   }
-                 }
-                 j++;
+              } else if (booking.courtType == "fullCourt") {
+              console.log(booking.courtType)
+             nextColumnArray = document.querySelectorAll(`[data-court="${booking.court_no + 1}"]`);
+             while (j < columnArray.length) {
+               if (columnArray[j].dataset.time == booking_start) {
+                 booked = true;
                }
+               if (columnArray[j].dataset.time == booking_end) {
+                 booked = false;
+               }
+               if (booked) {
+                 columnArray[j].classList.add(`table${sportsType}`, "booked");
+                 backgroundColor = document.querySelector(`#activityCardHolder .activityCard[data-activity=${sportsType}]`).getAttribute("data-color");
+                 console.log(backgroundColor);
+                 // set up nice and early the colors of venues and courts.
+                 opaqueColor = hexToRgba(Colors.names[backgroundColor]);
+
+                 if (opaqueColor != null) {
+                     columnArray[j].style.backgroundColor = opaqueColor;
+                 }
+                 columnArray[j].setAttribute("data-booking-id", `${booking.id}`);
+                 columnArray[j].setAttribute("data-toggle", "tooltip");
+                 columnArray[j].setAttribute("title", `${booking.name}\nType: ${sportsType}\nStart:`
+                 + ` ${convertToAMPM(booking_start)}\nEnd: ${convertToAMPM(booking_end)}`);
+                 nextColumnArray[j].classList.add(`table${sportsType}`, "booked");
+                 nextColumnArray[j].setAttribute("data-booking-id", `${booking.id}`);
+                 nextColumnArray[j].setAttribute("data-toggle", "tooltip");
+                 nextColumnArray[j].setAttribute("title", `${booking.name}\nType: ${sportsType}\nStart:`
+                 + ` ${convertToAMPM(booking_start)}\nEnd: ${convertToAMPM(booking_end)}`);
+                 if (counter == 0) {  // first selected td.
+                     columnArray[j].innerHTML = `<div>${booking.name}</div>`;
+                     columnArray[j].classList.add("textHolder");
+                     nextColumnArray[j].innerHTML = "<div></div><div class='delete-booking'" + `data-booking-id=${booking.id} data-order-id=${booking.order_id}>&times</div>`;
+                     nextColumnArray[j].classList.add("textHolder");
+                     counter++;
+                 }
+               }
+               j++;
+             }
+           }
+           bookedIds = document.querySelectorAll(`#dashBoardTable td[data-booking-id='${booking.id}']`);
+           if (bookedIds.length != 0) {
+               lastBox = bookedIds[bookedIds.length - 1];
+               lastBox.innerHTML = `<div class="ml-auto">${booking.name}</div>`;
+               lastBox.classList.add("textHolder");
            }
         }
 
