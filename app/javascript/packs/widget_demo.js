@@ -1367,7 +1367,7 @@ $(document).on('turbolinks:load', function ()  {
 
                               var booking_type = modal_body.attr("data-booking-type");
                               var activity_type = modal_body.attr("data-activity-type");
-                              activity_type = activity_type.charAt(0).toUpperCase() + activityType.substr(1);
+                              activity_type = activity_type.charAt(0).toUpperCase() + activity_type.substr(1);
                               activity_type = activity_type.split(" ").join("_");
                               var court_type = modal_body.attr("data-court-type");
                               var startTime = modal_body.attr("data-booking-startTime");
