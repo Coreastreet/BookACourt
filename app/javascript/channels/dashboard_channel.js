@@ -2,7 +2,7 @@ import consumer from "./consumer"
 
 $(document).on('turbolinks:load', function () {
 
-  Colors = {};
+  const Colors = {};
   Colors.names = {
       aqua: "#00ffff",
       azure: "#f0ffff",
