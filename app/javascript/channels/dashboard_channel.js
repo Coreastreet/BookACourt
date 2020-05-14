@@ -113,7 +113,7 @@ $(document).on('turbolinks:load', function () {
                     + ` ${convertToAMPM(booking_start)}\nEnd: ${convertToAMPM(booking_end)}`);
                     //columnArray[j].setAttribute("data-placement", "top");
                     if (counter == 0) {  // first selected td.
-                        columnArray[j].innerHTML = `<div>${booking.sportType.split("_").join(" ")}</div>` + "<div class='delete-booking'" + `data-booking-id=${booking.id} data-order-id=${booking.order_id}>&times</div>`
+                        columnArray[j].innerHTML = `<div>${booking.sportsType.split("_").join(" ")}</div>` + "<div class='delete-booking'" + `data-booking-id=${booking.id} data-order-id=${booking.order_id}>&times</div>`
                         columnArray[j].classList.add("textHolder");
                         counter++;
                     }
