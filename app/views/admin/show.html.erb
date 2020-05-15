@@ -8,8 +8,8 @@
       </div>
   </div>
 </section> -->
-<section class="container-fluid mt-3 h-88vh">
-  <div class="border border-dark rounded h-fillAvailable">
+<section class="container-fluid px-0 flex-grow-1">
+  <div class="border border-dark h-fillAvailable">
       <div class="row h-100 mx-0">
         <div class="col-3 mx-0 admin-panel bg-silver pt-3">
 
@@ -221,7 +221,7 @@
                       <% end %>
                     </tr>
                   </thead>
-                  <tbody class="dashBoardHeight">
+                  <tbody class="dashBoardHeight styleScroll">
                     <% (6.hours..23.5.hours).step(30.minutes).each_with_index do |hour, index| %>
                       <tr class="d-flex">
                         <th scope="row" class="px-0 mb-0 text-muted bookSpecial text-center h4 <%= 'border-top-0' if index.odd? %>"><sup class="<%= 'd-none' if index.odd? %>" data-timeRef="<%=  Time.at(hour).gmtime.strftime('%H:%M') %>">
@@ -529,16 +529,16 @@
                    data-courtsAllowed="<%= @sports_centre.courtsAllowed[activity] %>" <%= "data-color=#{@sports_centre.venue_colors[activity]}" if @sports_centre.venue_colors.include?(activity) %>>
                   <div class="position-absolute deleteActivity">&times</div>
                   <% if File.exist?("#{Rails.root}/app/assets/images/sport_icons/#{activity}.png") %>
-                    <img class="image-contain" src="<%= asset_path("sport_icons/#{activity}.png") %>">
+                    <img class="image-contain display-icon" src="<%= asset_path("sport_icons/#{activity}.png") %>">
                     <div class="pt-2 activityName text-capitalize"><%= activity %></div>
                   <% else %>
-                    <div class="display-1"><%= activity[0] %></div>
+                    <div class="display-icon"><%= activity[0] %></div>
                     <div class="pt-2 activityName text-capitalize"><%= activity.split("_").join(" ") %></div>
                   <% end %>
                 </div>
                 <% end %>
                 <div class="col-2 d-flex flex-column align-items-center border rounded py-2 mr-2" id="addActivityCard">
-                  <div class="bg-light w-100 h-100 d-flex justify-content-center align-items-center xx-large"><i class="fas fa-plus"></i></div>
+                  <div class="bg-light w-100 plusActivity-icon d-flex justify-content-center align-items-center xx-large"><i class="fas fa-plus"></i></div>
                   <div class="pt-2 activityName">Add activity</div>
                 </div>
               </div>
@@ -579,12 +579,12 @@
                 </div>
               </div>
               <div class="row mx-0">
-                <h5><%= (@centreType == 1) ? 'Set Venue Prices':'Set Booking Prices' %></h5>
+                <h5 class="mb-0"><%= (@centreType == 1) ? 'Set Venue Prices':'Set Booking Prices' %></h5>
               </div>
               <div class="row mx-0" id="priceSettings">
                 <div class="col-lg-7 px-0">
                   <div class="d-flex row mx-0 mt-2 rounded-edges">
-                    <div class="col-4 offset-3 px-0 d-flex align-items-center justify-content-center">
+                    <div class="col-4 offset-4 px-0 d-flex align-items-center justify-content-center">
                       Off Peak:
                     </div>
                     <div class="col-4 px-0 d-flex align-items-center justify-content-center">
@@ -595,7 +595,7 @@
                     </div>
                   </div>
                   <div class="d-flex row mx-0 mt-2 border rounded-edges priceHolder">
-                    <div class="col-3 px-0 pl-4 pricesRowHeight d-flex align-items-center">
+                    <div class="col-4 px-0 pl-4 pricesRowHeight d-flex align-items-center">
                       <%= (@centreType == 1) ? 'Single Venue' : 'Half Court:' %>
                     </div>
                     <div class="col-4 d-flex justify-content-center">
@@ -609,7 +609,7 @@
                     </div>
                   </div>
                   <div class="row mx-0 mt-4 border rounded-edges priceHolder">
-                    <div class="col-3 px-0 pl-4 pricesRowHeight d-flex align-items-center">
+                    <div class="col-4 px-0 pl-4 pricesRowHeight d-flex align-items-center">
                       <%= (@centreType == 1) ? 'Combined Venue':'Full Court:' %>
                     </div>
                     <div class="col-4 d-flex justify-content-center">
@@ -624,8 +624,8 @@
                   </div>
                 </div>
               </div>
-              <div class="row mx-0 mt-4 mb-3">
-                <h5>Set court allocation:</h5>
+              <div class="row mx-0 mt-5 mb-4">
+                <h5 class="mb-0">Set court allocation:</h5>
               </div>
               <div class = "form-row mx-0 justify-content-center mb-3">
                 <div class="btn-group bg-white form-control py-0 pl-0 mandatory" id="courtsAllowedButtonsReg" role="group" aria-label="Basic example">
@@ -669,90 +669,86 @@
             </div>
             <%= form_with model: @sports_centre, class: "row mx-0 h-contentFit w-100 h-100", id: "planForm", url: admin_update_plan_path(@sports_centre), method: "post" do |f| %>
             <div class="d-flex flex-column w-100">
-              <div class="row mx-0 h-contentFit">
-                <div class="col flex-grow-1 px-0 pt-4">
-                  <h5>Upgrade your plan:</h5>
-                </div>
-                <div class="col-3 max-plan">
-                  <div class="row mx-0 mt-2 d-flex max-plan justify-content-center">
-                    <label class="h3 font-weight-bold">Basic</label>
+                  <div class="row mx-0 mt-4 mb-2">
+                    <h5>Upgrade your plan</h5>
                   </div>
-                </div>
-                <div class="col-3 max-plan">
-                    <div class="row mx-0 mt-2 d-flex max-plan justify-content-center">
-                      <label class="h3 font-weight-bold">Standard</label>
-                    </div>
-                </div>
-                <div class="col-3 max-plan">
-                    <div class="row mx-0 mt-2 d-flex max-plan justify-content-center">
-                      <label class="h3 font-weight-bold">Premium</label>
-                    </div>
-                </div>
-              </div>
-              <div class="row mx-0 h-contentFit">
-                <div class="col flex-grow-1">
-                  <h5>- All plans offer unlimited use. </h5>
-                  <h5>- Cancel Anytime.</h5>
-                  <h5>- No hidden extra fees.</h5>
-                  <h5>- Lowest polipay transaction fee in Australia or we'll beat it by 15%.</h5>
-                </div>
-                <div class="col-3 max-plan">
-                  <%= image_tag asset_path("basicPlanImage.png") %>
-                </div>
-                <div class="col-3 max-plan">
-                  <%= image_tag asset_path("standardPlanImage.png") %>
-                </div>
-                <div class="col-3 max-plan">
-                  <%= image_tag asset_path("premiumPlanImage.png") %>
-                </div>
-              </div>
-              <div class="row mx-0 h-contentFit">
-                <div class="col flex-grow-1">
-                </div>
-                <div class="col-3 max-plan">
-                  <div class="row mx-0 mt-2 d-flex justify-content-center">
-                    <div class="row mx-0 align-self-end mb-3 w-100">
-                        <%= f.radio_button :plan, "Basic", class: "d-none" %>
-                        <button class="btn btn-primary btn-block rounded-0 orange-theme-color orange-theme-border planButton" type="button" data-planType="Basic" data-planFee="N/A">Select</button>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-3 max-plan">
-                    <div class="row mx-0 mt-2 d-flex justify-content-center">
-                      <div class="row mx-0 align-self-end mb-3 w-100">
-                        <%= f.radio_button :plan, "Standard", class: "d-none" %>
-                        <button class="btn btn-primary btn-block rounded-0 orange-theme-color orange-theme-border planButton"  type="button" data-planType="Standard" data-planFee="1.65%">Select</button>
+                  <div class="row mx-0">
+                        <div class="col flex-grow-1 mx-0">
+                          <div class="row mx-0 flex-grow-1 benefits-text">
+                            <div>- All plans offer unlimited use.
+                                - Cancel Anytime.
+                                - No hidden extra fees.
+                                - Lowest polipay transaction fee in Australia or we'll beat it by 15%.
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-3 mx-0 planCard">
+                          <div class="row mx-0 justify-content-center mt-2">
+                              <label class="h3 font-weight-bold">Basic</label>
+                          </div>
+                          <div class="row mx-0 justify-content-center">
+                            <%= image_tag asset_path("basicPlanImage.png") %>
+                          </div>
+                          <div class="row mx-0 mt-2 d-flex justify-content-center">
+                            <div class="row mx-0 align-self-end mb-3 w-100">
+                                <%= f.radio_button :plan, "Basic", class: "d-none" %>
+                                <button class="btn btn-primary btn-block rounded-0 orange-theme-color orange-theme-border planButton" type="button" data-planType="Basic" data-planFee="N/A">Select</button>
+                            </div>
+                          </div>
+                        </div>
+                      <div class="col-3 mx-0 planCard">
+                          <div class="row mx-0 justify-content-center mt-2">
+                              <label class="h3 font-weight-bold">Standard</label>
+                          </div>
+                        <div class="row mx-0 justify-content-center">
+                          <%= image_tag asset_path("standardPlanImage.png") %>
+                        </div>
+                        <div class="row mx-0 mt-2 d-flex justify-content-center">
+                          <div class="row mx-0 align-self-end mb-3 w-100">
+                            <%= f.radio_button :plan, "Standard", class: "d-none" %>
+                            <button class="btn btn-primary btn-block rounded-0 orange-theme-color orange-theme-border planButton"  type="button" data-planType="Standard" data-planFee="1.65%">Select</button>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-3 mx-0 planCard">
+                        <div class="col flex-grow-1">
+                        </div>
+                        <div class="row mx-0 justify-content-center mt-2">
+                            <label class="h3 font-weight-bold">Premium</label>
+                        </div>
+                        <div class="row mx-0 justify-content-center">
+                          <%= image_tag asset_path("premiumPlanImage.png") %>
+                        </div>
+                        <div class="row mx-0 mt-2 d-flex justify-content-center">
+                          <div class="row mx-0 align-self-end mb-3 w-100">
+                            <%= f.radio_button :plan, "Premium", class: "d-none" %>
+                            <button class="btn btn-primary btn-block rounded-0 orange-theme-color orange-theme-border planButton" type="button" data-planType="Premium" data-planFee="4%">Select</button>
+                          </div>
+                        </div>
                       </div>
                     </div>
-                </div>
-                <div class="col-3 max-plan">
-                    <div class="row mx-0 mt-2 d-flex justify-content-center">
-                      <div class="row mx-0 align-self-end mb-3 w-100">
-                        <%= f.radio_button :plan, "Premium", class: "d-none" %>
-                        <button class="btn btn-primary btn-block rounded-0 orange-theme-color orange-theme-border planButton" type="button" data-planType="Premium" data-planFee="4%">Select</button>
-                      </div>
-                    </div>
-                </div>
               </div>
+              <div class="d-flex flex-column w-100 styleScroll" id="scrollPlanBenefits">
+
               <div class="row mx-0 h-contentFit border-bottom pt-1 pb-2">
                 <div class="col flex-grow-1 d-flex align-items-center">
-                  <p>Fee per online booking</p>
+                  <div class="benefits-row">Fee per online booking</div>
                 </div>
-                <div class="col-3 py-1 max-plan">
+                <div class="col-3 py-1  ">
                   <div class="row mx-0 d-flex justify-content-center">
                     <div class="row mx-0 d-flex justify-content-center">
                       <h5 class="">N/A</h5>
                     </div>
                   </div>
                 </div>
-                <div class="col-3 py-1 max-plan">
+                <div class="col-3 py-1  ">
                     <div class="row mx-0 d-flex justify-content-center">
                       <div class="row mx-0 d-flex justify-content-center">
                         <h5 class="">1.65%</h5>
                       </div>
                     </div>
                 </div>
-                <div class="col-3 py-1 max-plan">
+                <div class="col-3 py-1  ">
                     <div class="row mx-0 d-flex justify-content-center">
                       <div class="row mx-0 d-flex justify-content-center">
                         <h5 class="">4%</h5>
@@ -762,23 +758,23 @@
               </div>
               <div class="row mx-0 h-contentFit border-bottom py-2">
                 <div class="col flex-grow-1 d-flex align-items-center">
-                  <p>One-time setup costs:</p>
+                  <div class="benefits-row">One-time setup costs:</div>
                 </div>
-                <div class="col-3 py-1 max-plan">
+                <div class="col-3 py-1  ">
                   <div class="row mx-0 d-flex justify-content-center">
                     <div class="row mx-0 d-flex justify-content-center">
                       <h5 class="">Free</h5>
                     </div>
                   </div>
                 </div>
-                <div class="col-3 py-1 max-plan">
+                <div class="col-3 py-1  ">
                     <div class="row mx-0 d-flex justify-content-center">
                       <div class="row mx-0 d-flex justify-content-center">
                         <h5 class="">$0</h5>
                       </div>
                     </div>
                 </div>
-                <div class="col-3 py-1 max-plan">
+                <div class="col-3 py-1  ">
                     <div class="row mx-0 d-flex justify-content-center">
                       <div class="row mx-0 d-flex justify-content-center">
                         <h5 class="">$399</h5>
@@ -788,23 +784,23 @@
               </div>
               <div class="row mx-0 h-contentFit border-bottom py-2">
                 <div class="col flex-grow-1">
-                  <p>Staff can make bookings:</p>
+                  <div class="benefits-row">Staff can make bookings:</div>
                 </div>
-                <div class="col-3 py-1 max-plan">
+                <div class="col-3 py-1  ">
                   <div class="row mx-0 d-flex justify-content-center">
                     <div class="row mx-0 d-flex justify-content-center">
                       <i class="fas fa-lg fa-check-circle color-orange"></i>
                     </div>
                   </div>
                 </div>
-                <div class="col-3 py-1 max-plan">
+                <div class="col-3 py-1  ">
                     <div class="row mx-0 d-flex justify-content-center">
                       <div class="row mx-0 d-flex justify-content-center">
                         <i class="fas fa-lg fa-check-circle color-orange"></i>
                       </div>
                     </div>
                 </div>
-                <div class="col-3 py-1 max-plan">
+                <div class="col-3 py-1  ">
                     <div class="row mx-0 d-flex justify-content-center">
                       <div class="row mx-0 d-flex justify-content-center">
                         <i class="fas fa-lg fa-check-circle color-orange"></i>
@@ -814,49 +810,23 @@
               </div>
               <div class="row mx-0 h-contentFit border-bottom py-2">
                 <div class="col flex-grow-1 pr-0">
-                  <p>Set prices and business hours:</p>
+                  <div class="benefits-row">Set prices and business hours:</div>
                 </div>
-                <div class="col-3 py-1 max-plan">
+                <div class="col-3 py-1  ">
                   <div class="row mx-0 d-flex justify-content-center">
                     <div class="row mx-0 d-flex justify-content-center">
                       <i class="fas fa-lg fa-check-circle color-orange"></i>
                     </div>
                   </div>
                 </div>
-                <div class="col-3 py-1 max-plan">
+                <div class="col-3 py-1  ">
                     <div class="row mx-0 d-flex justify-content-center">
                       <div class="row mx-0 d-flex justify-content-center">
                         <i class="fas fa-lg fa-check-circle color-orange"></i>
                       </div>
                     </div>
                 </div>
-                <div class="col-3 py-1 max-plan">
-                    <div class="row mx-0 d-flex justify-content-center">
-                      <div class="row mx-0 d-flex justify-content-center">
-                        <i class="fas fa-lg fa-check-circle color-orange"></i>
-                      </div>
-                    </div>
-                </div>
-              </div>
-              <div class="row mx-0 h-contentFit border-bottom py-2">
-                <div class="col flex-grow-1 pr-0">
-                  <p>Customers can book online:</p>
-                </div>
-                <div class="col-3 py-1 max-plan">
-                  <div class="row mx-0 d-flex justify-content-center">
-                    <div class="row mx-0 d-flex justify-content-center">
-                      <i class="fas fa-lg fa-times-circle"></i>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-3 py-1 max-plan">
-                    <div class="row mx-0 d-flex justify-content-center">
-                      <div class="row mx-0 d-flex justify-content-center">
-                        <i class="fas fa-lg fa-check-circle color-orange"></i>
-                      </div>
-                    </div>
-                </div>
-                <div class="col-3 py-1 max-plan">
+                <div class="col-3 py-1  ">
                     <div class="row mx-0 d-flex justify-content-center">
                       <div class="row mx-0 d-flex justify-content-center">
                         <i class="fas fa-lg fa-check-circle color-orange"></i>
@@ -866,23 +836,23 @@
               </div>
               <div class="row mx-0 h-contentFit border-bottom py-2">
                 <div class="col flex-grow-1 pr-0">
-                  <p>Email QR code confirmation:</p>
+                  <div class="benefits-row">Customers can book online:</div>
                 </div>
-                <div class="col-3 py-1 max-plan">
+                <div class="col-3 py-1  ">
                   <div class="row mx-0 d-flex justify-content-center">
                     <div class="row mx-0 d-flex justify-content-center">
                       <i class="fas fa-lg fa-times-circle"></i>
                     </div>
                   </div>
                 </div>
-                <div class="col-3 py-1 max-plan">
+                <div class="col-3 py-1  ">
                     <div class="row mx-0 d-flex justify-content-center">
                       <div class="row mx-0 d-flex justify-content-center">
                         <i class="fas fa-lg fa-check-circle color-orange"></i>
                       </div>
                     </div>
                 </div>
-                <div class="col-3 py-1 max-plan">
+                <div class="col-3 py-1  ">
                     <div class="row mx-0 d-flex justify-content-center">
                       <div class="row mx-0 d-flex justify-content-center">
                         <i class="fas fa-lg fa-check-circle color-orange"></i>
@@ -892,23 +862,49 @@
               </div>
               <div class="row mx-0 h-contentFit border-bottom py-2">
                 <div class="col flex-grow-1 pr-0">
-                  <p>Smart Lock Installation:</p>
+                  <div class="benefits-row">Email QR code confirmation:</div>
                 </div>
-                <div class="col-3 py-1 max-plan">
+                <div class="col-3 py-1  ">
                   <div class="row mx-0 d-flex justify-content-center">
                     <div class="row mx-0 d-flex justify-content-center">
                       <i class="fas fa-lg fa-times-circle"></i>
                     </div>
                   </div>
                 </div>
-                <div class="col-3 py-1 max-plan">
+                <div class="col-3 py-1  ">
+                    <div class="row mx-0 d-flex justify-content-center">
+                      <div class="row mx-0 d-flex justify-content-center">
+                        <i class="fas fa-lg fa-check-circle color-orange"></i>
+                      </div>
+                    </div>
+                </div>
+                <div class="col-3 py-1  ">
+                    <div class="row mx-0 d-flex justify-content-center">
+                      <div class="row mx-0 d-flex justify-content-center">
+                        <i class="fas fa-lg fa-check-circle color-orange"></i>
+                      </div>
+                    </div>
+                </div>
+              </div>
+              <div class="row mx-0 h-contentFit border-bottom py-2">
+                <div class="col flex-grow-1 pr-0">
+                  <div class="benefits-row">Smart Lock Installation:</div>
+                </div>
+                <div class="col-3 py-1  ">
+                  <div class="row mx-0 d-flex justify-content-center">
+                    <div class="row mx-0 d-flex justify-content-center">
+                      <i class="fas fa-lg fa-times-circle"></i>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-3 py-1  ">
                     <div class="row mx-0 d-flex justify-content-center">
                       <div class="row mx-0 d-flex justify-content-center">
                         <i class="fas fa-lg fa-times-circle"></i>
                       </div>
                     </div>
                 </div>
-                <div class="col-3 py-1 max-plan">
+                <div class="col-3 py-1  ">
                     <div class="row mx-0 d-flex justify-content-center">
                       <div class="row mx-0 d-flex justify-content-center">
                         <i class="fas fa-lg fa-check-circle color-orange"></i>
@@ -918,23 +914,23 @@
               </div>
               <div class="row mx-0 h-contentFit border-bottom py-2">
                 <div class="col flex-grow-1 pr-0">
-                  <p>Email one-time PIN for facility access:</p>
+                  <div class="benefits-row">Email one-time PIN for facility access:</div>
                 </div>
-                <div class="col-3 py-1 max-plan">
+                <div class="col-3 py-1  ">
                   <div class="row mx-0 d-flex justify-content-center">
                     <div class="row mx-0 d-flex justify-content-center">
                       <i class="fas fa-lg fa-times-circle"></i>
                     </div>
                   </div>
                 </div>
-                <div class="col-3 py-1 max-plan">
+                <div class="col-3 py-1  ">
                     <div class="row mx-0 d-flex justify-content-center">
                       <div class="row mx-0 d-flex justify-content-center">
                         <i class="fas fa-lg fa-times-circle"></i>
                       </div>
                     </div>
                 </div>
-                <div class="col-3 py-1 max-plan">
+                <div class="col-3 py-1  ">
                     <div class="row mx-0 d-flex justify-content-center">
                       <div class="row mx-0 d-flex justify-content-center">
                         <i class="fas fa-lg fa-check-circle color-orange"></i>
@@ -942,12 +938,12 @@
                     </div>
                 </div>
               </div>
-              <div class="row mx-0 align-self-end mt-auto mb-3">
-                <p class="alert alert-success mb-0 d-none py-2" id="plan-success">Plan updated successfully.</p>
-                <p class="alert alert-danger mb-0 d-none py-2" id="plan-failure">Plan update unsuccessful.</p>
-                <%= f.submit "Save", class: "btn btn-primary mr-2", id: "savePlanType" %>
-                <button type="button" name="button" class="lockPage btn btn-secondary">Lock</button>
-              </div>
+            </div>
+            <div class="row mx-0 align-self-end mt-auto mb-3 w-100 justify-content-end">
+              <p class="alert alert-success mb-0 d-none py-2" id="plan-success">Plan updated successfully.</p>
+              <p class="alert alert-danger mb-0 d-none py-2" id="plan-failure">Plan update unsuccessful.</p>
+              <%= f.submit "Save", class: "btn btn-primary mr-2", id: "savePlanType" %>
+              <button type="button" name="button" class="lockPage btn btn-secondary">Lock</button>
             </div>
             <% end %>
           </div>

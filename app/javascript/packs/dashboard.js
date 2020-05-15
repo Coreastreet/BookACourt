@@ -71,7 +71,7 @@ $(document).on('turbolinks:load', function () {
       var currentPlanButton = $('#upgradePlanBody button.planButton').filter(`[data-planType=${currentPlanType}]`)
       currentPlanButton.text("Current Plan");
       currentPlanButton.prev().click();
-      addBorders(currentPlanButton);
+      currentPlanButton.closest(".planCard").addClass("border border-dark");
 
       // max width css for the equalTH
       var headersEqualTH = $("#dashBoardTable thead th.equalTH");
@@ -80,31 +80,13 @@ $(document).on('turbolinks:load', function () {
       $("#upgradePlanBody").on("click", "button.planButton", function() {
           $(this).prev().click();
           //$(this).prev().prop("checked", true);
-          addBorders($(this));
-          $("#upgradePlanBody button.planButton").not($(this)).each( function() {
-              removeBorders($(this));
+          $("#upgradePlanBody button.planButton").each( function() {
+              $(this).closest(".planCard").removeClass("border border-dark");
+              $(this).text("Select");
           });
+          $(this).closest(".planCard").addClass("border border-dark");
+          $(this).text("Current Plan");
       });
-
-      function addBorders(planButton) {
-          var button = planButton.closest(".max-plan")
-          button.addClass("buttonBorder");
-          var imageAbove = button.parent().prev().children().eq(button.index());
-          //console.log(imageAbove);
-          imageAbove.addClass("leftRightBorder");
-          var planTitleAbove = imageAbove.parent().prev().children().eq(button.index());
-          planTitleAbove.addClass("leftRightBorder");
-      }
-
-      function removeBorders(planButton) {
-          var button = planButton.closest(".max-plan")
-          button.removeClass("buttonBorder");
-          var imageAbove = button.parent().prev().children().eq(button.index());
-          //console.log(imageAbove);
-          imageAbove.removeClass("leftRightBorder");
-          var planTitleAbove = imageAbove.parent().prev().children().eq(button.index());
-          planTitleAbove.removeClass("leftRightBorder");
-      }
 
       localStorage.setItem("preBookingsMade", 0);
       $('#datepicker').datepicker();

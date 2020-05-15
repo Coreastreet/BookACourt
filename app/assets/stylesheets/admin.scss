@@ -19,7 +19,7 @@
 }
 
 .dashBoardHeight {
-  height: 68vh;
+  height: 72vh;
 }
 
 .h-88vh {
@@ -197,7 +197,21 @@
 }
 
 #activityCardHolder .activityCard {
-  max-width: 10rem;
+  max-width: 9rem;
+}
+
+#activityCardHolder #addActivityCard {
+  max-width: 9rem;
+  .plusActivity-icon{
+    height: 5rem;
+  }
+}
+
+#activityCardHolder .display-icon {
+  height: 5rem;
+  font-size: 5rem;
+  line-height: 1;
+  font-weight: 300;
 }
 
 #activityModal #icon_photo {
@@ -331,14 +345,6 @@
   color: #ff5e0d;
 }
 
-.max-plan {
-  max-width: 13rem !important;
-}
-
-#upgradePlanBody .max-plan h5, #upgradePlanBody .flex-grow-1 p {
-  margin-bottom: 0rem;
-}
-
 .bronze {
   color: #cd7f32;
 }
@@ -379,4 +385,41 @@ div.position-relative.triangle-up {
 
 #editLogoBody #image.image-contain {
     max-width: 50vw;
+}
+
+#scrollPlanBenefits {
+    height: 45vh;
+    overflow: auto;
+    .h-contentFit .col-3 {
+        max-width: 13rem;
+    }
+}
+
+#upgradePlanBody .planCard {
+    max-width: 13rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+html {
+  width: -webkit-fill-available !important;
+  --scrollbarBG: #CFD8DC;
+  --thumbBG: #90A4AE;
+}
+// for styling a scrollbar
+.styleScroll::-webkit-scrollbar {
+  width: 1rem;
+}
+.styleScroll {
+  scrollbar-width: auto;
+  scrollbar-color: var(--thumbBG) var(--scrollbarBG);
+}
+.styleScroll::-webkit-scrollbar-track {
+  background: var(--scrollbarBG);
+}
+.styleScroll::-webkit-scrollbar-thumb {
+  background-color: var(--thumbBG) ;
+  border-radius: 6px;
+  border: 3px solid var(--scrollbarBG);
 }

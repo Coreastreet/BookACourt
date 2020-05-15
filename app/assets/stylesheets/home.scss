@@ -209,9 +209,42 @@ label.min-label {
   }
 }
 
+@media only screen and (max-width: 1200px) {
+  // for the upgrade fees benefits listed
+  #upgradePlanBody .benefits-text div {
+    display: none;
+  }
+
+  #upgradePlanBody .benefits-row {
+    font-size: 1rem;
+  }
+}
+
+@media only screen and (min-width: 1200px) {
+  // for the upgrade fees benefits listed
+  #upgradePlanBody .benefits-text div {
+    display: block;
+    font-size: large;
+  }
+
+  #upgradePlanBody .benefits-row {
+    font-size: 1.2rem;
+  }
+}
+
 @media only screen and (max-width: 768px) {
+  #upgradePlanBody .benefits-text div {
+    display: none;
+  }
+
+  #upgradePlanBody .benefits-row {
+    font-size: 1rem;
+  }
+
   html {
     width: -webkit-fill-available !important;
+    --scrollbarBG: #CFD8DC;
+    --thumbBG: #90A4AE;
   }
 
   .home-learnMore {
