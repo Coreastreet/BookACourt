@@ -3,12 +3,16 @@ import consumer from "./consumer"
 $(document).on('turbolinks:load', function () {
 
   const Colors = {};
-  Colors.names = {
-      // always available for default sports
+  const DefaultColors = {};
+  DefaultColors.names = {
+    // always available for default sports
       basketball: "#ffce80",
       badminton: "#99ccff",
       volleyball: "#bfff80",
       event: "#e7c7ae",
+  };
+
+  Colors.names = {
       // variable new colors
       aqua: "#00ffff",
       azure: "#f0ffff",
@@ -90,8 +94,8 @@ $(document).on('turbolinks:load', function () {
           var booked = false;
           var counter = 0;
           var sportsType = booking.sportsType.split("::")[0];
-          var backgroundColor;
-          var opaqueColor;
+          var backgroundColorCard = document.querySelector(`#activityCardHolder .activityCard[data-activity=${sportsType}]`);
+          var opaqueColor = backgroundColorCard == null ? hexToRgba(DefaultColors.names[sportsType]) : hexToRgba(Colors.names[backgroundColorCard.getAttribute("data-color")]);
           var bookedIds;
           var lastBox;
           if (booking.courtType == "halfCourt") {
@@ -106,9 +110,6 @@ $(document).on('turbolinks:load', function () {
                   if (booked) {
                     columnArray[j].classList.add(`table${sportsType}`, "booked");
                     // find the corresponding data activity card and color.
-                    backgroundColor = document.querySelector(`#activityCardHolder .activityCard[data-activity=${sportsType}]`).getAttribute("data-color");
-                    opaqueColor = hexToRgba(Colors.names[backgroundColor]);
-
                     if (opaqueColor != null) {
                         columnArray[j].style.backgroundColor = opaqueColor;
                     }
@@ -139,13 +140,10 @@ $(document).on('turbolinks:load', function () {
                }
                if (booked) {
                  columnArray[j].classList.add(`table${sportsType}`, "booked");
-                 backgroundColor = document.querySelector(`#activityCardHolder .activityCard[data-activity=${sportsType}]`).getAttribute("data-color");
-                 console.log(backgroundColor);
-                 // set up nice and early the colors of venues and courts.
-                 opaqueColor = hexToRgba(Colors.names[backgroundColor]);
 
                  if (opaqueColor != null) {
                      columnArray[j].style.backgroundColor = opaqueColor;
+                     nextColumnArray[j].style.backgroundColor = opaqueColor;
                  }
                  columnArray[j].setAttribute("data-booking-id", `${booking.id}`);
                  columnArray[j].setAttribute("data-toggle", "tooltip");

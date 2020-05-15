@@ -32,7 +32,6 @@ var firstIndex;
 
 // set up nice and early the colors of venues and courts.
 var backgroundColorCard;
-var backgroundColor;
 var opaqueColor;
 
 while (i < bookings.length) {
@@ -71,8 +70,7 @@ while (i < bookings.length) {
               columnArray[j].setAttribute("data-booking-id", `${booking.id}`);
 
               backgroundColorCard = document.querySelector(`#activityCardHolder .activityCard[data-activity=${sportsType}]`);
-              backgroundColor = (backgroundColorCard == null) ? sportsType.toLowerCase() : backgroundColorCard.getAttribute("data-color");
-              opaqueColor = hexToRgba(Colors.names[backgroundColor]);
+              opaqueColor = (backgroundColorCard == null) ? hexToRgba(DefaultColors.names[sportsType.toLowerCase()]) : hexToRgba(Colors.names[backgroundColorCard.getAttribute("data-color")]);
               if (opaqueColor != null) {
                   columnArray[j].style.backgroundColor = opaqueColor;
               }
@@ -132,10 +130,9 @@ while (i < bookings.length) {
              nextColumnArray[j].setAttribute("data-booking-id", `${booking.id}`);
 
              backgroundColorCard = document.querySelector(`#activityCardHolder .activityCard[data-activity=${sportsType}]`);
-             backgroundColor = (backgroundColorCard == null) ? sportsType.toLowerCase() : backgroundColorCard.getAttribute("data-color");
-             opaqueColor = hexToRgba(Colors.names[backgroundColor]);
+             opaqueColor = (backgroundColorCard == null) ? hexToRgba(DefaultColors.names[sportsType.toLowerCase()]) : hexToRgba(Colors.names[backgroundColorCard.getAttribute("data-color")]);
              if (opaqueColor != null) {
-                 columnArray[j].style.backgroundColor = opaqueColor
+                 columnArray[j].style.backgroundColor = opaqueColor;
                  nextColumnArray[j].style.backgroundColor = opaqueColor;
              }
              //nextColumnArray[j].setAttribute("data-toggle", "tooltip");
@@ -188,8 +185,7 @@ while (i < bookings.length) {
         var k = 1;
 
         backgroundColorCard = document.querySelector(`#activityCardHolder .activityCard[data-activity=${sportsType}]`);
-        backgroundColor = (backgroundColorCard == null) ? sportsType.toLowerCase() : backgroundColorCard.getAttribute("data-color");
-        opaqueColor = hexToRgba(Colors.names[backgroundColor]);
+        opaqueColor = (backgroundColorCard == null) ? hexToRgba(DefaultColors.names[sportsType.toLowerCase()]) : hexToRgba(Colors.names[backgroundColorCard.getAttribute("data-color")]);
         while (k <= totalLength) {
              j = 0;
              columnArray = document.querySelectorAll(`[data-court="${k}"]`);

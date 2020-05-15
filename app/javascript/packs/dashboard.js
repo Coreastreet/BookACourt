@@ -2,12 +2,15 @@ $.noConflict();
 $(document).on('turbolinks:load', function () {
 
       Colors = {};
-      Colors.names = {
-          // always available for default sports
+      DefaultColors = {};
+      DefaultColors.names = {
+        // always available for default sports
           basketball: "#ffce80",
           badminton: "#99ccff",
           volleyball: "#bfff80",
           event: "#e7c7ae",
+      };
+      Colors.names = {
           // variable new colors
           aqua: "#00ffff",
           azure: "#f0ffff",

@@ -175,7 +175,7 @@ ActiveRecord::Schema.define(version: 2020_05_14_061451) do
     t.text "courtsAllowed"
     t.integer "centreType", default: 0
     t.string "arrayCourtNames", default: [], array: true
-    t.text "venue_colors", default: "---\n:basketball: \"#ffce80\"\n:badminton: \"#99ccff\"\n:volleyball: \"#bfff80\"\n:event: \"#e7c7ae\"\n"
+    t.text "venue_colors"
   end
 
   create_table "users", force: :cascade do |t|

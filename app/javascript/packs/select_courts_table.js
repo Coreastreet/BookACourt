@@ -39,12 +39,15 @@ $(document).on('turbolinks:load', function() {
   });
 
   const Colors = {};
-  Colors.names = {
-      // always available for default sports
+  const DefaultColors = {};
+  DefaultColors.names = {
+    // always available for default sports
       basketball: "#ffce80",
       badminton: "#99ccff",
       volleyball: "#bfff80",
       event: "#e7c7ae",
+  };
+  Colors.names = {
       // variable new colors
       aqua: "#00ffff",
       azure: "#f0ffff",
@@ -391,8 +394,7 @@ $(document).on('turbolinks:load', function() {
       console.log(numberOfBookingsFilled);
       console.log("mainType", sportMainType);
       var backgroundColorCard = document.querySelector(`#activityCardHolder .activityCard[data-activity=${sportMainType}]`);
-      var backgroundColor = (backgroundColorCard == null) ? sportMainType.toLowerCase() : backgroundColorCard.getAttribute("data-color");
-      var opaqueColor = hexToRgba(Colors.names[backgroundColor]);
+      var opaqueColor = (backgroundColorCard == null) ? hexToRgba(DefaultColors.names[sportMainType.toLowerCase()]) : hexToRgba(Colors.names[backgroundColorCard.getAttribute("data-color")]);
       $("#dashBoardTable tbody td.border-darkBlue").removeClass("border-darkBlue");
       $("#dashBoardTable tbody td.table-active").each( function() {
           $(this).removeClass("unconfirmed table-active border-bottom-0 border-top-0 border-left-0 border-right-0 border-darkBlue");
@@ -653,8 +655,8 @@ $(document).on('turbolinks:load', function() {
       box.remove();
       // replace td selected with table-color
       var tdCounter = 0;
-      var backgroundColor = document.querySelector(`#activityCardHolder .activityCard[data-activity=${sportMainType}]`).getAttribute("data-color");
-      var opaqueColor = hexToRgba(Colors.names[backgroundColor]);
+      var backgroundColorCard = document.querySelector(`#activityCardHolder .activityCard[data-activity=${sportMainType}]`);
+      var opaqueColor = (backgroundColorCard == null) ? hexToRgba(DefaultColors.names[sportMainType.toLowerCase()]) : hexToRgba(Colors.names[backgroundColorCard.getAttribute("data-color")]);
       $("#dashBoardTable tbody td.table-active").each( function() {
 
           if (tdCounter == 0) {
