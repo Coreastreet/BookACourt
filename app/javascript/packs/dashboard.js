@@ -3,6 +3,12 @@ $(document).on('turbolinks:load', function () {
 
       Colors = {};
       Colors.names = {
+          // always available for default sports
+          basketball: "#ffce80",
+          badminton: "#99ccff",
+          volleyball: "#bfff80",
+          event: "#e7c7ae",
+          // variable new colors
           aqua: "#00ffff",
           azure: "#f0ffff",
           blue: "#0000ff",
@@ -485,10 +491,13 @@ $(document).on('turbolinks:load', function () {
           //var iconInput = $("#customIconFile");
           var defaultPrice = (newActivityValue == "event") ? "0" : "";
           if (newActivityValue.length > 0) {
+            clone = activityRow.children().first().clone();
+
             $("#activities option").each( function() {
                 if ($(this).val() == newActivityValue) {
                   optionMatched = true;
                   optionSrc = $(this).attr("data-assetPath");
+                  clone.attr("data-color", $(this).attr("data-color"));
                 }
             });
 
@@ -498,7 +507,6 @@ $(document).on('turbolinks:load', function () {
             });
             courtsAllowedString = courtsAllowedString.substring(0, courtsAllowedString.length - 1);
 
-            clone = activityRow.children().first().clone();
             clone.find(".activityName").text(newActivityValue);
             // clear data attributes
             clone.attr("data-courtsAllowed", courtsAllowedString);

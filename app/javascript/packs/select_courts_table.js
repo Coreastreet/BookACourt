@@ -38,6 +38,45 @@ $(document).on('turbolinks:load', function() {
       $("#col-9-admin datalist#sports").append($(`<option value=${capSportOffered}></option>`));
   });
 
+  const Colors = {};
+  Colors.names = {
+      // always available for default sports
+      basketball: "#ffce80",
+      badminton: "#99ccff",
+      volleyball: "#bfff80",
+      event: "#e7c7ae",
+      // variable new colors
+      aqua: "#00ffff",
+      azure: "#f0ffff",
+      blue: "#0000ff",
+      brown: "#a52a2a",
+      darkblue: "#00008b",
+      darkcyan: "#008b8b",
+      darkgrey: "#a9a9a9",
+      darkgreen: "#006400",
+      darkkhaki: "#bdb76b",
+      darkmagenta: "#8b008b",
+      darkolivegreen: "#556b2f",
+      darkorange: "#ff8c00",
+      darkorchid: "#9932cc",
+      darkred: "#8b0000",
+      darksalmon: "#e9967a",
+      fuchsia: "#ff00ff",
+      gold: "#ffd700",
+      green: "#008000",
+      indigo: "#4b0082",
+      khaki: "#f0e68c",
+      lightgreen: "#90ee90",
+      lime: "#00ff00",
+      maroon: "#800000",
+      navy: "#000080",
+      olive: "#808000",
+      orange: "#ffa500",
+      purple: "#800080",
+      violet: "#800080",
+      red: "#ff0000",
+  };
+
   $(document).on("click", ".courts-table td:not(.booked)", function() {
     var currentClick = parseInt(localStorage.getItem("clickCounter"));
     if ($("#addRemoveBookings").hasClass("bg-black") && (currentClick < 2) && $("#dashBoardTable tbody div.name-and-sport.clone").length == 0) {
@@ -350,10 +389,18 @@ $(document).on('turbolinks:load', function() {
       var courtWidthHash = { "halfCourt": 1, "fullCourt":2, "allCourt": (parseInt(localStorage.getItem("longest_activity_courts")) + 1) };
       var numberOfBookingsFilled = rowLength * courtWidthHash[`${courtType}`];
       console.log(numberOfBookingsFilled);
+      console.log("mainType", sportMainType);
+      var backgroundColorCard = document.querySelector(`#activityCardHolder .activityCard[data-activity=${sportMainType}]`);
+      var backgroundColor = (backgroundColorCard == null) ? sportMainType.toLowerCase() : backgroundColorCard.getAttribute("data-color");
+      var opaqueColor = hexToRgba(Colors.names[backgroundColor]);
       $("#dashBoardTable tbody td.border-darkBlue").removeClass("border-darkBlue");
       $("#dashBoardTable tbody td.table-active").each( function() {
           $(this).removeClass("unconfirmed table-active border-bottom-0 border-top-0 border-left-0 border-right-0 border-darkBlue");
           $(this).addClass(`table${sportMainType} booked`);
+
+          if (opaqueColor != null) {
+              $(this).css('background-color', opaqueColor);
+          }
           if (tdCounter == 0) {
             $(this).addClass("border-darkBlue");
             if (sportType.toLowerCase().startsWith("event")) {
@@ -401,6 +448,11 @@ $(document).on('turbolinks:load', function() {
             nextTimeHeader.addClass("text-muted");
       }
   });
+
+  function hexToRgba(hex) {
+    var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return result ? `rgba(${parseInt(result[1], 16)}, ${parseInt(result[2], 16)}, ${parseInt(result[3], 16)}, 0.2)` : null;
+  }
 
   function convertToAMPM(timeString) {
     var hours_and_minutes = timeString.split(":");
@@ -469,7 +521,7 @@ $(document).on('turbolinks:load', function() {
                     $(this).children().remove();
                   }
                   $(this).removeClass("booked textHolder");
-                  $(this).removeAttr("data-booking-id data-toggle title");
+                  $(this).removeAttr("data-booking-id data-toggle title style");
                   removeClassByPrefix($(this)[0], "table");
             });
         }
@@ -497,7 +549,7 @@ $(document).on('turbolinks:load', function() {
                     $(this).children().remove();
                   }
                   $(this).removeClass("booked textHolder");
-                  $(this).removeAttr("data-booking-id data-toggle title");
+                  $(this).removeAttr("data-booking-id data-toggle title style");
                   removeClassByPrefix($(this)[0], "table");
             });
         }
@@ -542,9 +594,9 @@ $(document).on('turbolinks:load', function() {
         // remove borders
         $(`#dashBoardTable td[data-preBookedId="${preBookingId}"]`).each( function() {
               $(this).removeClass("booked border-darkBlue border-left-0 border-right-0 border-top-0 border-bottom-0 border-x-darkBlue");
-              $(this).removeAttr("data-preBookedId");
-              $(this).removeAttr("data-toggle");
-              $(this).removeAttr("title");
+              $(this).removeAttr("data-preBookedId data-toggle title style");
+              //$(this).removeAttr("data-toggle");
+              //$(this).removeAttr("title");
               removeClassByPrefix($(this)[0], "table");
         });
         textHolder.first().addClass("border-darkBlue");
@@ -601,7 +653,10 @@ $(document).on('turbolinks:load', function() {
       box.remove();
       // replace td selected with table-color
       var tdCounter = 0;
+      var backgroundColor = document.querySelector(`#activityCardHolder .activityCard[data-activity=${sportMainType}]`).getAttribute("data-color");
+      var opaqueColor = hexToRgba(Colors.names[backgroundColor]);
       $("#dashBoardTable tbody td.table-active").each( function() {
+
           if (tdCounter == 0) {
             //$(this).addClass("border-darkBlue");
             if (sportType.toLowerCase().startsWith("event")) {
@@ -627,6 +682,9 @@ $(document).on('turbolinks:load', function() {
           $(this).removeClass("unconfirmed table-active");
           $(this).addClass(`table${sportMainType} booked`);
           $(this).attr("data-preBookedId", preBookedId);
+          if (opaqueColor != null) {
+              $(this).css('background-color', opaqueColor);
+          }
           tdCounter++;
       });
       $("#dashBoardTable tbody th.border-right-orange").removeClass("border-right-orange");
@@ -929,8 +987,13 @@ $(document).on('turbolinks:load', function() {
       $(clone).on("input", ".sportTypeInput, .nameInput", function() {
           var sportType = clone.find(".sportTypeInput").val();
           //console.log(sportType);
-          var weekDays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
-          var sportCard = $(`#activityCardHolder .activityCard[data-activity='${sportType.toLowerCase()}']`);
+          var weekDays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+          var match;
+          var sportCard = $('#activityCardHolder .activityCard').filter( function() {
+              match = $(this).attr('data-activity').toLowerCase() == sportType.toLowerCase();
+              return match;
+          });
+          console.log("sportcard", sportCard);
           if (sportCard.length) {
               //var parentClone = $(this).closest(".clone");
               var price_code;
@@ -971,6 +1034,7 @@ $(document).on('turbolinks:load', function() {
                 secondRow.find(".sportTypeInput").removeClass("col-12").addClass("col-6");
                 secondRow.find(".input-group-append").removeClass("d-none");
             } else {
+                //console.log("the total", total);
                 clone.find(".courtCost").text(`$${total.toFixed(2)}`);
                 clone.attr("data-totalCost", total.toFixed(2));
             }

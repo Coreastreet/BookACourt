@@ -4,6 +4,12 @@ $(document).on('turbolinks:load', function () {
 
   const Colors = {};
   Colors.names = {
+      // always available for default sports
+      basketball: "#ffce80",
+      badminton: "#99ccff",
+      volleyball: "#bfff80",
+      event: "#e7c7ae",
+      // variable new colors
       aqua: "#00ffff",
       azure: "#f0ffff",
       blue: "#0000ff",
@@ -113,7 +119,8 @@ $(document).on('turbolinks:load', function () {
                     + ` ${convertToAMPM(booking_start)}\nEnd: ${convertToAMPM(booking_end)}`);
                     //columnArray[j].setAttribute("data-placement", "top");
                     if (counter == 0) {  // first selected td.
-                        columnArray[j].innerHTML = `<div>${booking.sportsType.split("_").join(" ")}</div>` + "<div class='delete-booking'" + `data-booking-id=${booking.id} data-order-id=${booking.order_id}>&times</div>`
+                        columnArray[j].innerHTML = `<div class="text-break overflow-hidden">${booking.sportsType.split("_").join(" ")}</div>` +
+                        "<div class='delete-booking'" + `data-booking-id=${booking.id} data-order-id=${booking.order_id}>&times</div>`
                         columnArray[j].classList.add("textHolder");
                         counter++;
                     }
@@ -150,7 +157,7 @@ $(document).on('turbolinks:load', function () {
                  nextColumnArray[j].setAttribute("title", `${booking.name}\nType: ${sportsType}\nStart:`
                  + ` ${convertToAMPM(booking_start)}\nEnd: ${convertToAMPM(booking_end)}`);
                  if (counter == 0) {  // first selected td.
-                     columnArray[j].innerHTML = `<div>${booking.name}</div>`;
+                     columnArray[j].innerHTML = `<div class="text-break overflow-hidden">${booking.name}</div>`;
                      columnArray[j].classList.add("textHolder");
                      nextColumnArray[j].innerHTML = "<div></div><div class='delete-booking'" + `data-booking-id=${booking.id} data-order-id=${booking.order_id}>&times</div>`;
                      nextColumnArray[j].classList.add("textHolder");

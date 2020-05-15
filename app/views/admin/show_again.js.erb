@@ -30,6 +30,11 @@ var bookingsFilled;
 var arrayFromCol;
 var firstIndex;
 
+// set up nice and early the colors of venues and courts.
+var backgroundColorCard;
+var backgroundColor;
+var opaqueColor;
+
 while (i < bookings.length) {
   //console.log("fd", formattedDate);
   //console.log("bd", bookings[i].date);
@@ -64,10 +69,13 @@ while (i < bookings.length) {
             if (booked) {
               columnArray[j].classList.add(`table${sportsType}`, "booked");
               columnArray[j].setAttribute("data-booking-id", `${booking.id}`);
-              //columnArray[j].setAttribute("data-toggle", "tooltip");
-              //columnArray[j].setAttribute("title", `${booking.name}\nType: ${sportsType}\nStart:`
-              //+ ` ${convertToAMPM(booking_start)}\nEnd: ${convertToAMPM(booking_end)}`);
-              //columnArray[j].setAttribute("data-placement", "top");
+
+              backgroundColorCard = document.querySelector(`#activityCardHolder .activityCard[data-activity=${sportsType}]`);
+              backgroundColor = (backgroundColorCard == null) ? sportsType.toLowerCase() : backgroundColorCard.getAttribute("data-color");
+              opaqueColor = hexToRgba(Colors.names[backgroundColor]);
+              if (opaqueColor != null) {
+                  columnArray[j].style.backgroundColor = opaqueColor;
+              }
               if (counter == 0) {  // first selected td
                   if (sportsType.startsWith("Event")) {
                     console.log("hey!", eventType);
@@ -122,6 +130,14 @@ while (i < bookings.length) {
              //+ ` ${convertToAMPM(booking_start)}\nEnd: ${convertToAMPM(booking_end)}`);
              nextColumnArray[j].classList.add(`table${sportsType}`, "booked");
              nextColumnArray[j].setAttribute("data-booking-id", `${booking.id}`);
+
+             backgroundColorCard = document.querySelector(`#activityCardHolder .activityCard[data-activity=${sportsType}]`);
+             backgroundColor = (backgroundColorCard == null) ? sportsType.toLowerCase() : backgroundColorCard.getAttribute("data-color");
+             opaqueColor = hexToRgba(Colors.names[backgroundColor]);
+             if (opaqueColor != null) {
+                 columnArray[j].style.backgroundColor = opaqueColor
+                 nextColumnArray[j].style.backgroundColor = opaqueColor;
+             }
              //nextColumnArray[j].setAttribute("data-toggle", "tooltip");
              //nextColumnArray[j].setAttribute("title", `${booking.name}\nType: ${sportsType}\nStart:`
              //+ ` ${convertToAMPM(booking_start)}\nEnd: ${convertToAMPM(booking_end)}`);
@@ -170,6 +186,10 @@ while (i < bookings.length) {
         var totalLength = parseInt(localStorage.getItem("longest_activity_courts")) + 1;
         var totalFilledBookings = totalLength * rowDiff; // total bookings filled out.
         var k = 1;
+
+        backgroundColorCard = document.querySelector(`#activityCardHolder .activityCard[data-activity=${sportsType}]`);
+        backgroundColor = (backgroundColorCard == null) ? sportsType.toLowerCase() : backgroundColorCard.getAttribute("data-color");
+        opaqueColor = hexToRgba(Colors.names[backgroundColor]);
         while (k <= totalLength) {
              j = 0;
              columnArray = document.querySelectorAll(`[data-court="${k}"]`);
@@ -186,6 +206,10 @@ while (i < bookings.length) {
                    //columnArray[j].setAttribute("data-toggle", "tooltip");
                    //columnArray[j].setAttribute("title", `${booking.name}\nType: ${sportsType}\nStart:`
                    //+ ` ${convertToAMPM(booking_start)}\nEnd: ${convertToAMPM(booking_end)}`);
+
+                  if (opaqueColor != null) {
+                      columnArray[j].style.backgroundColor = opaqueColor
+                  }
                 //   nextColumnArray[j].classList.add(`table${sportsType}`, "booked");
                 //   nextColumnArray[j].setAttribute("data-booking-id", `${booking.id}`);
                 //   nextColumnArray[j].setAttribute("data-toggle", "tooltip");
@@ -222,9 +246,14 @@ function clearTable(table) {
   var textHolders = table.querySelectorAll('td.textHolder');
   var i = 0;
   var j = 0;
+  //var backgroundColor = document.querySelector(`#activityCardHolder .activityCard[data-activity=${sportsType}]`).getAttribute("data-color");
+  //var opaqueColor = hexToRgba(Colors.names[backgroundColor]);
   while (i < bookedTimes.length) {
     bookedTimes[i].setAttribute("class", "td-flex d-flex justify-content-between");
     bookedTimes[i].removeAttribute("data-booking-id");
+    if (opaqueColor != null) {
+       bookedTimes[i].removeAttribute("style");
+    }
     i++;
   }
   while (j < textHolders.length) {
@@ -277,4 +306,9 @@ function getIntervals(start, end) {
     startBookingTime += 0.5;
   }
   return arrayIntervals;
+}
+
+function hexToRgba(hex) {
+  var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+  return result ? `rgba(${parseInt(result[1], 16)}, ${parseInt(result[2], 16)}, ${parseInt(result[3], 16)}, 0.2)` : null;
 }
