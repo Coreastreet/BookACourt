@@ -73,6 +73,12 @@ $(document).on('turbolinks:load', function () {
       currentPlanButton.prev().click();
       currentPlanButton.closest(".planCard").addClass("border border-dark");
 
+      // attach color to each activity letter.
+      var activityColor;
+      $("#activityCardHolder .activityCard").each( function() {
+          $(this).find(".display-icon").css("color", $(this).attr("data-color"));
+      });
+
       // max width css for the equalTH
       var headersEqualTH = $("#dashBoardTable thead th.equalTH");
       headersEqualTH.css("max-width", `${100/headersEqualTH.length}%`);

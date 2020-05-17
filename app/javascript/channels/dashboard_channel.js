@@ -15,7 +15,6 @@ $(document).on('turbolinks:load', function () {
   Colors.names = {
       // variable new colors
       aqua: "#00ffff",
-      azure: "#f0ffff",
       blue: "#0000ff",
       brown: "#a52a2a",
       darkblue: "#00008b",
