@@ -423,3 +423,15 @@ html {
   border-radius: 6px;
   border: 3px solid var(--scrollbarBG);
 }
+
+// allow the flexbox to flow onto the next line.
+#editLogoForm #courtNamesButtonGroup {
+  flex-wrap: wrap;
+  height: fit-content;
+
+  button {
+    flex: 0 1 auto;
+    min-width: 10rem;
+    min-height: 2rem;
+  }
+}

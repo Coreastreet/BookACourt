@@ -192,21 +192,39 @@ label.min-label {
   height: 1rem;
 }
 
-@media only screen and (min-width: 768px) {
-  .bg-home-image-1 {
-    background-color: #ebf5f7;
-    background-size: 100% 25rem;
+.quickNav {
+  width: 30%;
+  display: flex;
+  flex-direction: column;
+  img {
+    object-fit: contain;
+    width: 7rem;
+    height: 7rem;
+    margin-top: auto;
+    margin-bottom: auto;
   }
+}
 
-  #home-reverseRow {
-    flex-direction: row-reverse !important;
-    margin-top: 10rem;
-    margin-bottom: 10rem;
-  }
+// home general buttons
+.cta-button {
+  background-color: #4BB543 !important;
+  color: white !important;
+  border-radius: 1rem !important;
+}
 
-  #home-compareFeesRow {
-    margin-bottom: 1.5rem;
-  }
+.cta-button:hover {
+  background-color: forestgreen !important;
+  color: white !important;
+}
+
+.generalButton {
+  background-color: royalBlue !important;
+  color: white !important;
+  font-weight: bold !important;
+}
+
+.generalButton:hover {
+  background-color: mediumBlue !important;
 }
 
 @media only screen and (max-width: 1200px) {
@@ -232,19 +250,160 @@ label.min-label {
   }
 }
 
+@media only screen and (min-width: 768px) {
+  .bg-home-image-1 {
+    background-color: #ebf5f7;
+    background-size: 100% 25rem;
+  }
+
+  .px-5percent {
+    padding: 0 5%;
+  }
+
+  .dashBoardTabsGrid {
+    display: grid;
+    height: auto;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+
+    .tab > img, .tab > div.row {
+      width: 85%;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .tab > .color-weball-orange {
+      color: #ff5e0d !important;
+    }
+
+    .tab > img {
+      height: 45vh;
+      object-fit: contain;
+      border: 2px solid #ff5e0d;
+    }
+
+    .bookings {
+      grid-row: 1 / 2;
+      grid-column: 1 / 2;
+    }
+
+    .prices {
+      grid-row: 1 / 2;
+      grid-column: 2 / 3;
+    }
+
+    .hours {
+      grid-row: 2 / 3;
+      grid-column: 1 / 2;
+    }
+
+    .logo {
+      grid-row: 2 / 3;
+      grid-column: 2 / 3;
+    }
+  }
+
+  .infoPageGrid1 {
+    display: grid;
+    height: 50vh;
+    grid-template-columns: 1fr 0.618fr 1fr;
+    grid-template-rows: 0.618fr auto 1fr;
+
+    .homePageText {
+      grid-row: 2 / 3;
+      grid-column: 1 / 2;
+      font-family: Helvetica, Arial, sans-serif;
+    }
+
+    .homePagePhoto1 {
+      grid-row: 2 / 4;
+      grid-column: 3 / 4;
+      max-height: 100%;
+      width: auto;
+      margin-left: auto;
+      margin-top: auto;
+      margin-bottom: 3rem;
+    }
+
+    .homePagePhoto2 {
+      grid-row: 2 / 4;
+      grid-column: 2 / 3;
+      max-height: 100%;
+      width: auto;
+      margin-left: auto;
+      padding-bottom: 3rem;
+      padding-right: 1rem;
+      padding-top: 0.75rem;
+    }
+
+    .homePageButton {
+      grid-row: 3 / 4;
+      grid-column: 1 / 2;
+      button {
+        height: fit-content;
+      }
+    }
+  }
+
+  .homePageGrid {
+    display: grid;
+    height: 50vh;
+    grid-template-columns: 1fr 0.618fr 1fr;
+    grid-template-rows: 0.618fr 1fr 1fr;
+
+    .homePageText {
+      grid-row: 2 / 3;
+      grid-column: 1 / 2;
+      font-family: Helvetica, Arial, sans-serif;
+    }
+
+    .homePagePhoto1 {
+      grid-row: 1 / 4;
+      grid-column: 2 / 4;
+      max-height: 100%;
+      width: auto;
+      margin-left: auto;
+    }
+
+    .homePagePhoto2 {
+      grid-row: 2 / 4;
+      grid-column: 2 / 3;
+      max-height: 100%;
+      width: auto;
+      margin-left: auto;
+    }
+
+    .homePageButton {
+      grid-row: 3 / 4;
+      grid-column: 1 / 2;
+      button {
+        height: fit-content;
+      }
+    }
+  }
+
+  #home-reverseRow {
+    flex-direction: row-reverse !important;
+    margin-top: 10rem;
+    margin-bottom: 10rem;
+  }
+
+  #home-compareFeesRow {
+    margin-bottom: 1.5rem;
+  }
+}
+
 @media only screen and (max-width: 768px) {
   #upgradePlanBody .benefits-text div {
     display: none;
   }
 
-  #upgradePlanBody .benefits-row {
-    font-size: 1rem;
+  .px-5percent {
+    padding: 0;
   }
 
-  html {
-    width: -webkit-fill-available !important;
-    --scrollbarBG: #CFD8DC;
-    --thumbBG: #90A4AE;
+  #upgradePlanBody .benefits-row {
+    font-size: 1rem;
   }
 
   .home-learnMore {

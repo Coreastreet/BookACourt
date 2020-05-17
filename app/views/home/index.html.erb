@@ -1,106 +1,46 @@
 <section class="container-fluid bg-home-image-1 py-3">
-    <div class="container h-contentFit d-flex flex-column justify-content-between">
-      <div class="row">
-        <div class="col-12 d-flex align-items-start justify-content-center"><%= image_tag asset_path("mobileTopImage.png"), class: "max-logo" %></div>
-      </div>
-    </div>
-    <div class="row bg-aliceBlue pt-3">
-      <div class="col-12 h2 text-center font-weight-bold">
-        Online Booking for Sports Centres
-      </div>
-    </div>
-    <div class="row bg-aliceBlue">
-      <div class="col-12 h2 mt-2 text-center">
-        <a href="<%= home_demo_path %>">
-          <button type="button" class="btn btn-success btn-lg font-weight-bold text-white">
-            Try Demo
-          </button>
-        </a>
-      </div>
-    </div>
-</section>
-<section class="container-fluid bg-white px-0">
-  <div class="row pt-4 px-5">
-      <div class="col-md-2 offset-md-1 px-0">
-      <div class="wistia_responsive_padding" style="padding:166.56% 0 0 0;position:relative;">
-        <div class="wistia_responsive_wrapper" style="height:100%;left:0;position:absolute;top:0;width:100%;">
-          <div class="wistia_embed wistia_async_by9e2m5uzk videoFoam=true" style="height:100%;position:relative;width:100%">&nbsp;
+    <div class="container homePageGrid">
+      <div class="homePageText d-flex flex-column">
+          <div class="h1">
+            Simplify your venue booking system.
           </div>
-        </div>
+        <!--  <span>Let customers</span>
+          <span class="text-uppercase mb-0 font-weight-bold text-center mb-0">book venues faster</span>
+          <span class="text-right">on your site.</span> -->
+          <div class="h5">
+            WeBall is a
+            <span class="font-weight-bold">free </span>
+            online booking management tool, designed for Australian venues.
+          </div>
       </div>
+      <%= image_tag(asset_path("tabletWeBall.png"), class: "homePagePhoto1") %>
+      <div class="homePageButton d-flex justify-content-end">
+        <button class="btn btn-small cta-button h4 font-weight-bold">
+            Create a free account<i class="fas fa-lg ml-2 fa-angle-right"></i>
+        </button>
       </div>
-      <div class="px-0 pt-3 h4 font-weight-bold col-md-6 d-flex flex-column offset-md-1 justify-content-center">
-        <p class="h3 font-weight-bold border-left-orange">Get more customers</p>
-        <p class="h5 ideal-line-height mt-1">
-          Convert your website's visitors into
-          customers in under 60 seconds with our unique booking widget,
-          custom designed for Australian sports centres.</p>
-          <%= link_to "#", class:"home-learnMore ideal-line-spacing text-right" do %>
-            <span>Learn more &#10132;</span>
-          <% end %>
-      </div>
-  </div>
-  <div class="row px-5 pt-4 my-3" id="home-reverseRow">
-    <div class="col-md-4 offset-md-1 pl-0">
-      <%= image_tag asset_path("laptopHalf.png") %>
+      <!-- grid -->
     </div>
-    <div class="px-0 pt-3 h4 font-weight-bold col-md-6 offset-md-1 d-flex flex-column justify-content-center">
-      <p class="h3 border-left-orange font-weight-bold">Get Paid Real-Time</p>
-      <p class="h5 mt-1 ideal-line-height">Money paid for bookings through your
-        website is transferred immediately into
-        your Bank Account.</p>
-      <%= link_to "#", class:"home-learnMore ideal-line-spacing text-right" do %>
-        <span>Learn more &#10132;</span>
-      <% end %>
-    </div>
-  </div>
-  <div class="row px-5 pt-4 mt-3" id="home-compareFeesRow">
-    <div class="col-md-5 offset-md-1 px-0">
-      <%= image_tag asset_path("compareFees.png") %>
-    </div>
-    <div class="px-0 pt-3 col-md-5 offset-md-1 h4 d-flex flex-column justify-content-center">
-      <p class="h3 border-left-orange font-weight-bold">Get Lower Transaction Fees</p>
-      <p class="h5 mt-1 ideal-line-height">We charge 1.65% + 30c per each online transaction
-        for NGOs. Our pricing involves no additional fees.
-      </p>
-      <%= link_to "#", class:"home-learnMore ideal-line-spacing text-right" do %>
-        <span>Learn more &#10132;</span>
-      <% end %>
-    </div>
-  </div>
 </section>
-<section class="container-fluid bg-aliceBlue">
-  <div class="row top-section-margin">
-    <div class="col-12 text-center mt-3 h3 mb-0">
-      Ready to install?
+<section class="container-fluid py-3">
+    <div class="container row justify-content-center mx-auto">
+        <div class="px-3 justify-content-center quickNav">
+          <%= image_tag(asset_path("handShakeIcon.png"), class: "mx-auto") %>
+          <a role="button" class="btn generalButton quickNavText h5 text-center" href="<%= home_how_weball_works_path %>">
+              Learn how WeBall works<i class="fas fa-lg ml-2 fa-angle-right"></i>
+          </a>
+        </div>
+        <div class="px-3 justify-content-center quickNav">
+          <%= image_tag(asset_path("weBallPlans.png"), class: "mx-auto pr-2 pl-3") %>
+          <a role="button" class="btn generalButton quickNavText h5 text-center" href="<%= home_pricing_plans_path %>">
+            Choose a plan<i class="fas fa-lg ml-2 fa-angle-right"></i>
+          </a>
+        </div>
+        <div class="px-3 justify-content-center quickNav">
+          <%= image_tag(asset_path("laptopLightning.png"), class: "mx-auto") %>
+          <a role="button" class="btn generalButton quickNavText h5 text-center" href="<%= home_setup_weball_guide_path %>">
+            Setup WeBall<i class="fas fa-lg ml-2 fa-angle-right"></i>
+          </a>
+        </div>
     </div>
-  </div>
-  <div class="row">
-    <div class="col-md-4 mx-0 full-width mt-4 d-flex justify-content-between">
-      <div class="mx-auto">
-        <div class="display-3 text-center text-muted-opaque">1</div>
-        <div class="text-center h5">Sign Up</div>
-      </div>
-      <%= image_tag asset_path("signUp1.png"), class: "img-fluid col-8 offset-1 rounded border-orange px-0" %>
-    </div>
-    <div class="col-md-4 mx-0 full-width mt-4 d-flex justify-content-between">
-      <div class="mx-auto">
-        <div class="display-3 text-center text-muted-opaque">2</div>
-        <div class="text-center h5">Insert Code</div>
-      </div>
-      <%= image_tag asset_path("step2Install.png"), class: "img-fluid col-8 offset-1 rounded border-orange px-0" %>
-    </div>
-    <div class="col-md-4 mx-0 full-width mt-4 d-flex justify-content-between">
-      <div class="mx-auto">
-        <div class="display-3 text-center text-muted-opaque">3</div>
-        <div class="text-center h5">Use</div>
-      </div>
-      <%= image_tag asset_path("step3Use.png"), class: "img-fluid col-8 offset-1 rounded border-orange px-0" %>
-    </div>
-  </div>
-  <div class="row d-flex justify-content-center py-4">
-    <a href="<%= new_sports_centre_path %>">
-      <button type="button" class="btn btn-success btn-lg font-weight-bold">Sign Up</button>
-    </a>
-  </div>
 </section>

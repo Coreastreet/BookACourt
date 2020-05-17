@@ -1,0 +1,276 @@
+<section class="container-fluid bg-home-image-1 py-3">
+    <div class="container infoPageGrid1">
+      <div class="homePageText d-flex flex-column">
+          <div class="h1">
+            How WeBall works
+          </div>
+        <!--  <span>Let customers</span>
+          <span class="text-uppercase mb-0 font-weight-bold text-center mb-0">book venues faster</span>
+          <span class="text-right">on your site.</span> -->
+          <div class="h5 mb-0">
+            In this page, we will explore how the WeBall booking system works.
+          </div>
+          <div class="d-flex justify-content-end pt-4">
+            <a role="button" class="btn btn-small generalButton h4 font-weight-bold" href="#infoDashBoard">
+                Learn about the WeBall dashboard.<i class="fas fa-lg ml-2 fa-angle-right"></i>
+            </a>
+          </div>
+          <div class="d-flex justify-content-end">
+            <a role="button" class="btn btn-small generalButton h4 font-weight-bold" href="#infoWidget">
+                Learn about the WeBall widget.<i class="fas fa-lg ml-2 fa-angle-right"></i>
+            </a>
+          </div>
+      </div>
+      <%= image_tag(asset_path("tabletWeBall.png"), class: "homePagePhoto1") %>
+      <%= image_tag(asset_path("demoPhoneWeBall.png"), class: "homePagePhoto2") %>
+      <!-- grid -->
+    </div>
+</section>
+<section class="container-fluid bg-white px-0" id="infoDashBoard">
+    <div class="container">
+      <div class="h1 my-5">
+        The WeBall administrator dashboard:
+      </div>
+      <div class="h3 font-weight-bold">
+        Action tabs:
+      </div>
+      <div class="h5 mb-0">
+        Four action tabs in the middle of the left sidebar controls what appears in the dashboard.
+      </div>
+      <div class="h5 mb-0">
+        Each tab will enable you to perform a different set of tasks.
+      </div>
+      <div class="h5 mb-0">
+        Read the cards below to learn about the action tabs.
+      </div>
+    </div>
+    <div class="container dashBoardTabsGrid mt-4">
+      <div class="bookings tab">
+          <%= image_tag(asset_path("dashBoardTable.png"), class: "img-fluid my-3") %>
+          <div class="row">
+              <i class="fas fa-th fa-2x" aria-hidden="true"></i>
+              <div class="h3 pl-2 mb-3">Bookings:</div>
+          </div>
+          <div class="row">
+              <div class="h5 align-left">
+                <li>Display all current and new bookings.</li>
+                <li>Create new casual or regular bookings.</li>
+                <li>Create single or double venue bookings or full facility bookings.</li>
+                <li>Create a custom event when a booking does not fit into an activity category.</li>
+                <li>Delete bookings.</li>
+              </div>
+          </div>
+      </div>
+      <div class="prices tab">
+        <%= image_tag(asset_path("prices_plans.png"), class: "img-fluid my-3") %>
+        <div class="row">
+            <i class="fas fa-dollar-sign fa-2x" aria-hidden="true"></i>
+            <div class="h3 pl-2 mb-3">Prices:</div>
+        </div>
+        <div class="row">
+            <div class="h5">
+              <li>Add a new activity.</li>
+              <li>Set the prices for an activity.</li>
+              <li>Match activities with their venues.</li>
+              <li>Delete an activity.</li>
+            </div>
+        </div>
+      </div>
+      <div class="hours tab">
+        <%= image_tag(asset_path("hours_plan.png"), class: "img-fluid my-3") %>
+        <div class="row">
+            <i class="far fa-clock fa-2x" aria-hidden="true"></i>
+            <div class="h3 pl-2 mb-3">Hours:</div>
+        </div>
+        <div class="row">
+            <div class="h5">
+              <li>Set the opening hours of your business.</li>
+              <li>Set the peak hours of your business.</li>
+            </div>
+        </div>
+      </div>
+      <div class="logo tab">
+        <%= image_tag(asset_path("logo_tab.png"), class: "img-fluid my-3") %>
+        <div class="row">
+            <i class="far fa-image fa-2x" aria-hidden="true"></i>
+            <div class="h3 pl-2 mb-3">Logos:</div>
+        </div>
+        <div class="row">
+            <div class="h5">
+              <li>Upload your business's logo.</li>
+              <li>Edit the names of your venues.</li>
+            </div>
+        </div>
+      </div>
+    </div>
+</section>
+<section class="container-fluid bg-white px-0" id="infoWidget">
+    <div class="container">
+      <div class="h1 my-5">
+        The WeBall widget:
+      </div>
+      <div class="h3 font-weight-bold">
+        What is it?
+      </div>
+      <div class="h5 mb-0">
+        The WeBall widget is a stand-alone venue booking application that can be embedded into third-party websites.
+      </div>
+      <div class="h3 font-weight-bold">
+        Why add the WeBall widget to your site?:
+      </div>
+    </div>
+    <div class="container dashBoardTabsGrid mt-4">
+      <div class="bookings tab">
+        <%= image_tag(asset_path("logo_tab.png"), class: "img-fluid my-3") %>
+        <div class="row">
+            <i class="far fa-image fa-2x" aria-hidden="true"></i>
+            <div class="h3 pl-2 mb-3">Mobile friendly booking.</div>
+        </div>
+        <div class="row">
+            <div class="h5">
+              <li>Most booking widgets are boring grid layouts that take up all the space on a website.</li>
+              <li>This makes it difficult for customers to book on their phones.</li>
+              <li>WeBall widget has been designed to take up minimal space and be mobile-friendly.</li>
+              <li>This booking on your website easy and attractive.</li>
+            </div>
+        </div>
+      </div>
+      <div class="prices tab">
+        <%= image_tag(asset_path("prices_plans.png"), class: "img-fluid my-3") %>
+        <div class="row">
+            <i class="fas fa-dollar-sign fa-2x" aria-hidden="true"></i>
+            <div class="h3 pl-2 mb-3">More time for your staff</div>
+        </div>
+        <div class="row">
+            <div class="h5">
+              <li>Answering calls on venue availability is time-consuming.</li>
+              <li>WeBall widget displays venue availability in real-time online.</li>
+              <li>New bookings also appear in real-time on your adminstrator's dashboard</li>
+              <li>Reduce time spent on administration with WeBall and save money.</li>
+            </div>
+        </div>
+      </div>
+      <div class="logo tab">
+        <%= image_tag(asset_path("hours_plan.png"), class: "img-fluid my-3") %>
+        <div class="row">
+            <i class="far fa-clock fa-2x" aria-hidden="true"></i>
+            <div class="h3 pl-2 mb-3">Very affordable for small business owners:</div>
+        </div>
+        <div class="row">
+            <div class="h5">
+              <li>Optional upgrade to accept payments through the WeBall widget.</li>
+              <li>Most booking software companies use expensive credit card processors</li>
+              <li>WeBall Widget avoids fees by paying through direct bank transfer.</li>
+              <li>We offer specialty rates for Not-for-profits.</li>
+            </div>
+        </div>
+      </div>
+      <div class="hours tab">
+          <%= image_tag(asset_path("dashBoardTable.png"), class: "img-fluid my-3") %>
+          <div class="row">
+              <i class="fas fa-th fa-2x" aria-hidden="true"></i>
+              <div class="h3 pl-2 mb-3">Faster bookings for your customers.</div>
+          </div>
+          <div class="row">
+              <div class="h5 align-left">
+                <li>Nobody likes filling out long forms online.</li>
+                <li>Average online form abandomment rate is 68%.</li>
+                <!-- https://wpforms.com/how-to-combat-order-form-abandonment-and-increase-your-sales/ -->
+                <li>WeBall widget removes the need for long forms or account sign-up.</li>
+                <li>Shorter booking times mean less abandonment; less abandonment means more revenue.</li>
+              </div>
+          </div>
+      </div>
+    </div>
+</section>
+<section class="container-fluid bg-aliceBlue">
+  <div class="row top-section-margin">
+    <div class="col-12 text-center mt-3 h3 mb-0">
+      Ready to install?
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-4 mx-0 full-width mt-4 d-flex justify-content-between">
+      <div class="mx-auto">
+        <div class="display-3 text-center text-muted-opaque">1</div>
+        <div class="text-center h5">Sign Up</div>
+      </div>
+      <%= image_tag asset_path("signUp1.png"), class: "img-fluid col-8 offset-1 rounded border-orange px-0" %>
+    </div>
+    <div class="col-md-4 mx-0 full-width mt-4 d-flex justify-content-between">
+      <div class="mx-auto">
+        <div class="display-3 text-center text-muted-opaque">2</div>
+        <div class="text-center h5">Insert Code</div>
+      </div>
+      <%= image_tag asset_path("step2Install.png"), class: "img-fluid col-8 offset-1 rounded border-orange px-0" %>
+    </div>
+    <div class="col-md-4 mx-0 full-width mt-4 d-flex justify-content-between">
+      <div class="mx-auto">
+        <div class="display-3 text-center text-muted-opaque">3</div>
+        <div class="text-center h5">Use</div>
+      </div>
+      <%= image_tag asset_path("step3Use.png"), class: "img-fluid col-8 offset-1 rounded border-orange px-0" %>
+    </div>
+  </div>
+  <div class="row d-flex justify-content-center py-4">
+    <a href="<%= new_sports_centre_path %>">
+      <button type="button" class="btn btn-success btn-lg font-weight-bold">Sign Up</button>
+    </a>
+  </div>
+</section>
+<!-- <div class="row pt-4 px-5">
+    <div class="col-md-2 offset-md-1 px-0">
+    <div class="wistia_responsive_padding" style="padding:166.56% 0 0 0;position:relative;">
+      <div class="wistia_responsive_wrapper" style="height:100%;left:0;position:absolute;top:0;width:100%;">
+        <div class="wistia_embed wistia_async_by9e2m5uzk videoFoam=true" style="height:100%;position:relative;width:100%">&nbsp;
+        </div>
+      </div>
+    </div>
+    </div>
+    <div class="px-0 pt-3 h4 font-weight-bold col-md-6 d-flex flex-column offset-md-1 justify-content-center">
+      <p class="h3 font-weight-bold border-left-orange">Get more customers</p>
+      <p class="h5 ideal-line-height mt-1">
+        Convert your website's visitors into
+        customers in under 60 seconds with our unique booking widget,
+        custom designed for Australian sports centres.</p>
+        <%= link_to "#", class:"home-learnMore ideal-line-spacing text-right" do %>
+          <span>Learn more &#10132;</span>
+        <% end %>
+    </div>
+</div>
+<div class="row px-5 pt-4 my-3" id="home-reverseRow">
+  <div class="col-md-4 offset-md-1 pl-0">
+    <%= image_tag asset_path("laptopHalf.png") %>
+  </div>
+  <div class="px-0 pt-3 h4 font-weight-bold col-md-6 offset-md-1 d-flex flex-column justify-content-center">
+    <p class="h3 border-left-orange font-weight-bold">Get Paid Real-Time</p>
+    <p class="h5 mt-1 ideal-line-height">Money paid for bookings through your
+      website is transferred immediately into
+      your Bank Account.</p>
+    <%= link_to "#", class:"home-learnMore ideal-line-spacing text-right" do %>
+      <span>Learn more &#10132;</span>
+    <% end %>
+  </div>
+</div>
+<div class="row px-5 pt-4 mt-3" id="home-compareFeesRow">
+  <div class="col-md-5 offset-md-1 px-0">
+    <%= image_tag asset_path("compareFees.png") %>
+  </div>
+  <div class="px-0 pt-3 col-md-5 offset-md-1 h4 d-flex flex-column justify-content-center">
+    <p class="h3 border-left-orange font-weight-bold">Get Lower Transaction Fees</p>
+    <p class="h5 mt-1 ideal-line-height">We charge 1.65% + 30c per each online transaction
+      for NGOs. Our pricing involves no additional fees.
+    </p>
+    <%= link_to "#", class:"home-learnMore ideal-line-spacing text-right" do %>
+      <span>Learn more &#10132;</span>
+    <% end %>
+  </div>
+</div>
+The WeBall dashboard is divided into two main sections
+- the dark blue side bar on the left side and the large white content on the right.
+At the top of the left hand side bar is a reference calendar, at the bottom are two
+account management tabs while in between are four main action tabs.
+The four tabs located in the middle - Bookings, Prices, Business Hours and Logo -
+are called action tabs because they control what appears in the larger white section on the right-hand side.
+Here below is an explanation of what you can do with each action tab:
+-->

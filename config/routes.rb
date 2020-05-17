@@ -11,6 +11,10 @@ Rails.application.routes.draw do
   end
 
   get '/demo', to: 'home#demo', as: "home_demo"
+  # links from home page
+  get '/how_weball_works', to: 'home#how_weball_works', as: "home_how_weball_works"
+  get '/pricing_plans', to: 'home#pricing_plans', as: "home_pricing_plans"
+  get '/setup_weball_guide', to: 'home#setup_weball_guide', as: "home_setup_weball_guide"
 
   # for polygot status_callback
   post '/polygot/status_callback', to: 'home#status_callback', as: "polygot_status_callback"
