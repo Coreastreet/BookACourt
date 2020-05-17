@@ -431,7 +431,7 @@ html {
 // allow the flexbox to flow onto the next line.
 .flexWrapVenueNames, #activityModal .flexWrapVenueNames {
   flex-wrap: wrap;
-  height: fit-content;
+  height: fit-content !important;
 
     button {
       flex: 0 1 auto;

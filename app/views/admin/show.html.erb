@@ -553,12 +553,26 @@
                           <label for="exampleFormControlSelect2">Select which courts can hold this activity.</label>
                           <div class = "form-row mx-0 justify-content-center mb-3">
                             <div class="btn-group bg-white form-control py-0 pl-0 mandatory flexWrapVenueNames" id="courtsAllowedButtons" role="group" aria-label="Basic example">
-                              <% [*1..@sports_centre.numberOfCourts].each do |number| %>
-                                  <button type="button" class="btn border-dark hover-selected rounded-0"
-                                  data-courtId="<%= number %>"><%= number.ordinalize + " Court" %></button>
-                              <% end %>
-                              <button type="button" class="btn border-dark hover-selected allCourts rounded-0"
-                              data-courtId=<%= [*1..@sports_centre.numberOfCourts].join(",") %>>All courts</button>
+                                  <% if @arrayCourtNames.empty? %>
+                                     <% if @centreType == 0 %>
+                                           <% [*1..@sports_centre.numberOfCourts].each do |number| %>
+                                               <button type="button" class="btn border-dark hover-selected rounded-0"
+                                               data-courtId="<%= number %>"><%= number.ordinalize + " Court" %></button>
+                                           <% end %>
+                                     <% else %>
+                                           <% [*1..@sports_centre.numberOfCourts].each do |number| %>
+                                               <button type="button" class="btn border-dark hover-selected rounded-0"
+                                               data-courtId="<%= number %>"><%= number.ordinalize + " Venue" %></button>
+                                           <% end %>
+                                     <% end %>
+                                 <% else %>
+                                     <% [*1..@sports_centre.numberOfCourts].each do |number| %>
+                                         <button type="button" class="btn border-dark hover-selected rounded-0"
+                                         data-courtId="<%= number %>"><%= @arrayCourtNames[number-1] %></button>
+                                     <% end %>
+                                 <% end %>
+                                 <button type="button" class="btn border-dark hover-selected allCourts rounded-0"
+                                 data-courtId=<%= [*1..@sports_centre.numberOfCourts].join(",") %>><%= @centreType == 0 ? "All Courts" : "All Venues" %></button>
                             </div>
                             <div class="invalid-feedback row"><span class="col">Please select the number of half courts to accomadate.</span></div>
                           </div>
