@@ -348,7 +348,7 @@
                   <h5>Set the names of your <%= (@centreType == 1) ? 'Venues:':'Courts:' %></h5>
                 </div>
                 <div class = "form-row mx-0 justify-content-center mb-4">
-                  <div class="btn-group bg-white form-control py-0 pl-0" id="courtNamesButtonGroup" role="group" aria-label="Basic example2">
+                  <div class="btn-group bg-white form-control py-0 pl-0 flexWrapVenueNames" id="courtNamesButtonGroup" role="group" aria-label="Basic example2">
                     <% if @arrayCourtNames.empty? %>
                         <% if @centreType == 0 %>
                               <% [*1..@sports_centre.numberOfCourts].each do |number| %>
@@ -546,13 +546,13 @@
               <%= f.hidden_field :courtsAllowed %>
               <%= f.hidden_field :venue_colors %>
               <div id="activityModal" class="w3-modal">
-                <div class="w3-modal-content col-lg-6 py-4 top-15rem">
+                <div class="w3-modal-content col-lg-6 py-4">
                   <div class="w3-container">
                     <span id="closeActivityModal" class="w3-button w3-display-topright">&times;</span>
                     <div class="form-group">
                           <label for="exampleFormControlSelect2">Select which courts can hold this activity.</label>
                           <div class = "form-row mx-0 justify-content-center mb-3">
-                            <div class="btn-group bg-white form-control py-0 pl-0 mandatory" id="courtsAllowedButtons" role="group" aria-label="Basic example">
+                            <div class="btn-group bg-white form-control py-0 pl-0 mandatory flexWrapVenueNames" id="courtsAllowedButtons" role="group" aria-label="Basic example">
                               <% [*1..@sports_centre.numberOfCourts].each do |number| %>
                                   <button type="button" class="btn border-dark hover-selected rounded-0"
                                   data-courtId="<%= number %>"><%= number.ordinalize + " Court" %></button>
@@ -628,7 +628,7 @@
                 <h5 class="mb-0">Set court allocation:</h5>
               </div>
               <div class = "form-row mx-0 justify-content-center mb-3">
-                <div class="btn-group bg-white form-control py-0 pl-0 mandatory" id="courtsAllowedButtonsReg" role="group" aria-label="Basic example">
+                <div class="btn-group bg-white form-control py-0 pl-0 mandatory flexWrapVenueNames" id="courtsAllowedButtonsReg" role="group" aria-label="Basic example">
                    <% if @arrayCourtNames.empty? %>
                       <% if @centreType == 0 %>
                             <% [*1..@sports_centre.numberOfCourts].each do |number| %>

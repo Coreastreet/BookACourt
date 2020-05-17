@@ -214,6 +214,10 @@
   font-weight: 300;
 }
 
+#activityModal {
+  padding-top: 25vh !important;
+}
+
 #activityModal #icon_photo {
   max-width: 25vw;
 }
@@ -425,13 +429,13 @@ html {
 }
 
 // allow the flexbox to flow onto the next line.
-#editLogoForm #courtNamesButtonGroup {
+.flexWrapVenueNames, #activityModal .flexWrapVenueNames {
   flex-wrap: wrap;
   height: fit-content;
 
-  button {
-    flex: 0 1 auto;
-    min-width: 10rem;
-    min-height: 2rem;
-  }
+    button {
+      flex: 0 1 auto;
+      min-width: 10rem;
+      min-height: 2rem;
+    }
 }
