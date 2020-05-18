@@ -447,7 +447,7 @@ html {
 @media only screen and (min-width: 768px) {
   #dashBoardGrid {
     display: grid;
-    grid-template-columns: 15rem 1fr;
+    grid-template-columns: 15rem calc(100vw - 15rem);
     grid-template-rows: 1fr;
     .admin-panel {
       grid-column: 1/2;
