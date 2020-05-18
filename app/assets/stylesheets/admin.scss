@@ -200,11 +200,15 @@
   max-width: 9rem;
 }
 
-#activityCardHolder #addActivityCard {
-  max-width: 9rem;
-  .plusActivity-icon{
-    height: 5rem;
-  }
+#addActivityCard {
+  //max-width: 9rem;
+  height: 4rem;
+  width: 4rem;
+  background-color: #4BB543;
+  color: white;
+  border-radius: 50%;
+  position: relative;
+  bottom: 1rem;
 }
 
 #activityCardHolder .display-icon {
@@ -388,7 +392,7 @@ div.position-relative.triangle-up {
 }
 
 #editLogoBody #image.image-contain {
-    max-width: 50vw;
+    max-width: 20rem;
 }
 
 #scrollPlanBenefits {
@@ -434,8 +438,25 @@ html {
   height: fit-content !important;
 
     button {
-      flex: 0 1 auto;
+      flex: 0 1 auto !important;
       min-width: 10rem;
       min-height: 2rem;
     }
+}
+
+@media only screen and (min-width: 768px) {
+  #dashBoardGrid {
+    display: grid;
+    grid-template-columns: 15rem 1fr;
+    grid-template-rows: 1fr;
+    .admin-panel {
+      grid-column: 1/2;
+      grid-row: 1;
+    }
+
+    #col-9-admin {
+      grid-column: 2/3;
+      grid-row: 1;
+    }
+  }
 }

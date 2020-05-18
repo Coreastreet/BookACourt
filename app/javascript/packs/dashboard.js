@@ -482,7 +482,7 @@ $(document).on('turbolinks:load', function () {
           //var iconInput = $("#customIconFile");
           var defaultPrice = (newActivityValue == "event") ? "0" : "";
           if (newActivityValue.length > 0) {
-            clone = activityRow.children().first().clone();
+            clone = activityRow.children().last().clone();
 
             $("#activities option").each( function() {
                 if ($(this).val() == newActivityValue) {
@@ -515,7 +515,7 @@ $(document).on('turbolinks:load', function () {
             } else {
               imgInClone = clone.find("img");
               imgInClone.addClass("d-none");
-              $(`<div class="display-1">${newActivityValue.charAt(0).toUpperCase()}</div>`).insertBefore(imgInClone);
+              //$(`<div class="display-1">${}</div>`).insertBefore(imgInClone);
               // create a random color to associate with venue;
               activityRow.find(".activityCard").each(function() {
                 currentColors.push($(this).attr("data-color"));
@@ -524,9 +524,9 @@ $(document).on('turbolinks:load', function () {
                 randColor = Colors.random();
               } while (currentColors.includes(randColor));
               clone.attr("data-color", randColor);
-              clone.find(".display-1").css("color", randColor);
+              clone.find(".display-icon").removeClass("d-none").css("color", randColor).text(newActivityValue.charAt(0).toUpperCase());
             }
-            clone.insertBefore($("#addActivityCard"));
+            clone.prependTo($("#activityCardHolder"));
           } else {
             newActivity.addClass("is-invalid");
           }
@@ -605,7 +605,7 @@ $(document).on('turbolinks:load', function () {
           if ($(this).attr("data-activity") == "event") {
               $("#editPricesForm #priceSettings").css("display", "none");
           } else {
-              $("#editPricesForm #priceSettings").css("display", "block");
+              $("#editPricesForm #priceSettings").css("display", "flex");
           }
           $(this).siblings().each( function() {
               $(this).removeClass("selectedCard");

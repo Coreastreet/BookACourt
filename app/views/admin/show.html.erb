@@ -10,9 +10,8 @@
 </section> -->
 <section class="container-fluid px-0 flex-grow-1">
   <div class="border border-dark h-fillAvailable">
-      <div class="row h-100 mx-0">
-        <div class="col-3 mx-0 admin-panel bg-silver pt-3">
-
+      <div class="h-100 mx-0" id="dashBoardGrid">
+        <div class="col-md-3 d-md-flex d-none mx-0 admin-panel bg-silver pt-3">
             <div class="row datepicker-holder-row h-100">
               <div class="col px-1 mx-2 h-0rem">
                   <div id="datepicker"></div>
@@ -69,7 +68,7 @@
               </div>
             </div>
         </div>
-        <div class="col px-0 overflow-y" id="col-9-admin">
+        <div class="mx-0 w-100 px-0 overflow-y" id="col-9-admin">
           <!-- timetable for sports_centre -->
           <div class='row mx-0 name-and-sport d-none ' data-bookingType="halfCourt" data-courtNo="" data-startTime="" data-endTime=""
           data-totalCost="" data-reg-interval-days="" data-reg-totalCost="" data-reg-dates="">
@@ -334,9 +333,9 @@
                   <h5>Upload a logo:</h5>
                 </div>
                 <% if @sports_centre.logo.attached? %>
-                  <img id="image" class="image-contain mx-auto" src="<%= url_for(@sports_centre.logo) %>"></img>
+                  <img id="image" class="image-contain mx-auto my-3" src="<%= url_for(@sports_centre.logo) %>"></img>
                 <% else %>
-                  <img id="image" class="image-contain mx-auto d-none" src="<%= '#' %>"></img>
+                  <img id="image" class="image-contain mx-auto my-3 d-none" src="<%= '#' %>"></img>
                 <% end %>
                 <div class="custom-file row mx-0 mt-2">
                   <%= f.file_field :logo, class: "custom-file-input", id: "customFile" %>
@@ -513,7 +512,7 @@
                       <button type="button" class="btn btn-admin border-dark py-0 hover-selected <%= 'btn-clickedHR' if @sports_centre.centreType_before_type_cast == 1 %>" data-control="venue">Venue</button>
                     </div>
               </div>
-              <div class="row mx-0 my-4" id="activityCardHolder">
+              <div class="row flex-nowrap overflow-auto mx-0 my-4" id="activityCardHolder">
                 <% if @sports_centre.prices.empty? %>
                 <div class="col-2 d-flex flex-column align-items-center border rounded py-2 mr-2 activityCard" data-activity="basketball"
                   data-hc-op="" data-hc-p="" data-hc-we="" data-fc-op="" data-fc-p="" data-fc-we="">
@@ -530,6 +529,7 @@
                   <div class="position-absolute deleteActivity">&times</div>
                   <% if File.exist?("#{Rails.root}/app/assets/images/sport_icons/#{activity}.png") %>
                     <img class="image-contain display-icon" src="<%= asset_path("sport_icons/#{activity}.png") %>">
+                    <div class="display-icon d-none"></div>
                     <div class="pt-2 activityName text-capitalize"><%= activity %></div>
                   <% else %>
                     <div class="display-icon"><%= activity[0] %></div>
@@ -537,10 +537,6 @@
                   <% end %>
                 </div>
                 <% end %>
-                <div class="col-2 d-flex flex-column align-items-center border rounded py-2 mr-2" id="addActivityCard">
-                  <div class="bg-light w-100 plusActivity-icon d-flex justify-content-center align-items-center xx-large"><i class="fas fa-plus"></i></div>
-                  <div class="pt-2 activityName">Add activity</div>
-                </div>
               </div>
               <%= f.hidden_field :prices %>
               <%= f.hidden_field :courtsAllowed %>
@@ -593,10 +589,18 @@
                 </div>
               </div>
               <div class="row mx-0">
-                <h5 class="mb-0"><%= (@centreType == 1) ? 'Set Venue Prices':'Set Booking Prices' %></h5>
+                  <div class="col-12 d-flex justify-content-end px-0">
+                            <h5 class="mb-0">Add a new Activity</h5>
+                            <div class="plusActivity-icon d-flex justify-content-center align-items-center xx-large ml-3" id="addActivityCard"><i class="fas fa-plus" aria-hidden="true"></i></div>
+                  </div>
+              </div>
+              <div class="row mx-0">
+                  <div class="col-12 px-0">
+                        <h5 class="mb-0">Set Venue Prices</h5>
+                  </div>
               </div>
               <div class="row mx-0" id="priceSettings">
-                <div class="col-lg-7 px-0">
+                <div class="col-lg-7 col-md-9 col-11 px-0">
                   <div class="d-flex row mx-0 mt-2 rounded-edges">
                     <div class="col-4 offset-4 px-0 d-flex align-items-center justify-content-center">
                       Off Peak:
@@ -674,7 +678,7 @@
               </div>
             <% end %>
           </div>
-          <div class="row mx-0 d-none h-100 px-3 lockdown" id="upgradePlanBody" data-buttonRef="#upgrade_plan">
+          <div class="row mx-0 d-none h-100 px-3 lockdown position-relative" id="upgradePlanBody" data-buttonRef="#upgrade_plan">
             <div class="overlay">
               <i class="fas fa-lock fa-10x align-self-center"></i>
               <h5 class="text-center text-white mt-3">Admin access only</h5>
