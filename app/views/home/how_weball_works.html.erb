@@ -43,15 +43,18 @@
       <div class="h5 mb-0">
         Read the cards below to learn about the action tabs.
       </div>
+      <div class="btn-group bg-white form-control py-0 pl-0 mandatory mt-3" id="infoCardSelection1" role="group" aria-label="Basic example">
+        <% ["Bookings", "Prices", "Hours", "Logos"].each do |buttonID| %>
+            <button type="button" class="btn border-dark hover-selected rounded-0"
+            data-idRef=<%= "#{buttonID}InfoCard" %>><%= buttonID %></button>
+        <% end %>
+      </div>
     </div>
-    <div class="container dashBoardTabsGrid mt-4">
-      <div class="bookings tab">
-          <%= image_tag(asset_path("dashBoardTable.png"), class: "img-fluid my-3") %>
-          <div class="row">
-              <i class="fas fa-th fa-2x" aria-hidden="true"></i>
-              <div class="h3 pl-2 mb-3">Bookings:</div>
-          </div>
-          <div class="row">
+    <div class="container mt-4">
+      <div class="bookings tab" id="BookingsInfoCard">
+          <%= image_tag(asset_path("dashBoardTable.png"), class: "img-fluid p-4 col-5") %>
+          <div class="col-6 offset-1 indentInfo">
+              <div class="h3 mb-3"><i class="fas fa-th pr-2" aria-hidden="true"></i>Bookings:</div>
               <div class="h5 align-left">
                 <li>Display all current and new bookings.</li>
                 <li>Create new casual or regular bookings.</li>
@@ -61,13 +64,10 @@
               </div>
           </div>
       </div>
-      <div class="prices tab">
-        <%= image_tag(asset_path("prices_plans.png"), class: "img-fluid my-3") %>
-        <div class="row">
-            <i class="fas fa-dollar-sign fa-2x" aria-hidden="true"></i>
-            <div class="h3 pl-2 mb-3">Prices:</div>
-        </div>
-        <div class="row">
+      <div class="prices tab d-none" id="PricesInfoCard">
+        <%= image_tag(asset_path("prices_plans.png"), class: "img-fluid my-3 p-4 col-5") %>
+        <div class="col-6 pt-3 offset-1 indentInfo">
+            <div class="h3 mb-3"><i class="fas fa-dollar-sign pr-2" aria-hidden="true"></i>Prices:</div>
             <div class="h5">
               <li>Add a new activity.</li>
               <li>Set the prices for an activity.</li>
@@ -76,26 +76,20 @@
             </div>
         </div>
       </div>
-      <div class="hours tab">
-        <%= image_tag(asset_path("hours_plan.png"), class: "img-fluid my-3") %>
-        <div class="row">
-            <i class="far fa-clock fa-2x" aria-hidden="true"></i>
-            <div class="h3 pl-2 mb-3">Hours:</div>
-        </div>
-        <div class="row">
+      <div class="hours tab d-none" id="HoursInfoCard">
+        <%= image_tag(asset_path("hours_plan.png"), class: "img-fluid my-3 p-4 col-5") %>
+        <div class="col-6 offset-1 pt-3 indentInfo">
+            <div class="h3 mb-3"><i class="far fa-clock pr-2" aria-hidden="true"></i>Hours:</div>
             <div class="h5">
               <li>Set the opening hours of your business.</li>
               <li>Set the peak hours of your business.</li>
             </div>
         </div>
       </div>
-      <div class="logo tab">
-        <%= image_tag(asset_path("logo_tab.png"), class: "img-fluid my-3") %>
-        <div class="row">
-            <i class="far fa-image fa-2x" aria-hidden="true"></i>
-            <div class="h3 pl-2 mb-3">Logos:</div>
-        </div>
-        <div class="row">
+      <div class="logo tab d-none" id="LogosInfoCard">
+        <%= image_tag(asset_path("logo_tab.png"), class: "img-fluid my-3 p-4 col-5") %>
+        <div class="col-6 offset-1 pt-3 indentInfo">
+            <div class="h3 mb-3"><i class="far fa-image pr-2" aria-hidden="true"></i>Logos:</div>
             <div class="h5">
               <li>Upload your business's logo.</li>
               <li>Edit the names of your venues.</li>
@@ -104,7 +98,7 @@
       </div>
     </div>
 </section>
-<section class="container-fluid bg-white px-0" id="infoWidget">
+<section class="container-fluid bg-white px-0 mb-5" id="infoWidget">
     <div class="container">
       <div class="h1 my-5">
         The WeBall widget:
@@ -115,74 +109,66 @@
       <div class="h5 mb-0">
         The WeBall widget is a stand-alone venue booking application that can be embedded into third-party websites.
       </div>
-      <div class="h3 font-weight-bold">
+      <div class="h3 font-weight-bold mt-4">
         Why add the WeBall widget to your site?:
       </div>
+      <div class="btn-group bg-white form-control py-0 pl-0 mandatory mt-3" id="infoCardSelection2" role="group" aria-label="Basic example">
+        <% ["No commissions", "Faster bookings", "Keep visitors on your website", "Lower administration expenses"].each do |buttonID| %>
+            <button type="button" class="btn border-dark hover-selected rounded-0"
+            data-idRef=<%= "#{buttonID.split(' ').join('_')}" %>><%= buttonID %></button>
+        <% end %>
+      </div>
     </div>
-    <div class="container dashBoardTabsGrid mt-4">
-      <div class="bookings tab">
-        <%= image_tag(asset_path("logo_tab.png"), class: "img-fluid my-3") %>
-        <div class="row">
-            <i class="far fa-image fa-2x" aria-hidden="true"></i>
-            <div class="h3 pl-2 mb-3">Mobile friendly booking.</div>
-        </div>
-        <div class="row">
+    <div class="container mt-4">
+      <div class="tab" id="No_commissions">
+          <%= image_tag(asset_path("comparison_rates.png"), class: "img-fluid p-4 col-5") %>
+          <div class="col-6 offset-1 indentInfo">
+              <div class="h3 mb-3">No commissions:</div>
+              <div class="h5 align-left">
+                <li>WeBall is built on POLipay, an online payment service run by Australia Post.</li>
+                <li>POLipay charges one of the lowest commissions on online payments in Australia.</li>
+                <li>WeBall does not charge any additional commission on top of POLipay, only a flat monthly fee.</li>
+              </div>
+          </div>
+      </div>
+      <div class="tab d-none" id="Faster_bookings">
+        <%= image_tag(asset_path("review_page.png"), class: "img-fluid my-3 p-4 col-5 max-w-20") %>
+        <div class="col-6 pt-3 offset-1 indentInfo">
+            <div class="h3 mb-3">Faster bookings:</div>
             <div class="h5">
-              <li>Most booking widgets are boring grid layouts that take up all the space on a website.</li>
-              <li>This makes it difficult for customers to book on their phones.</li>
-              <li>WeBall widget has been designed to take up minimal space and be mobile-friendly.</li>
-              <li>This booking on your website easy and attractive.</li>
+              <li>Average online form abandomment rate is 68%.</li>
+              <li>The WeBall widget lets customers book faster without account registration.</li>
+              <li>Shorter booking times mean less abandonment; less abandonment means more bookings.</li>
             </div>
         </div>
       </div>
-      <div class="prices tab">
-        <%= image_tag(asset_path("prices_plans.png"), class: "img-fluid my-3") %>
-        <div class="row">
-            <i class="fas fa-dollar-sign fa-2x" aria-hidden="true"></i>
-            <div class="h3 pl-2 mb-3">More time for your staff</div>
-        </div>
-        <div class="row">
+      <div class="tab d-none" id="Keep_visitors_on_your_website">
+        <%= image_tag(asset_path("compareSkedda.png"), class: "img-fluid my-3 p-4 col-5") %>
+        <div class="col-6 offset-1 pt-3 indentInfo">
+            <div class="h3 mb-3">Keep visitors on your website:</div>
             <div class="h5">
-              <li>Answering calls on venue availability is time-consuming.</li>
-              <li>WeBall widget displays venue availability in real-time online.</li>
-              <li>New bookings also appear in real-time on your adminstrator's dashboard</li>
+              <li>Most booking platforms redirect your internet traffic to their own website.</li>
+              <li>This prevents visitors from browsing your other services or products and reduces their exposure to your special offers.</li>
+              <li>By embedding the WeBall widget directly into your own website, customers can stay on your website when they book.</li>
+              <li>This gives greater exposure to your brand, your other services or products because customers can review product information and special offers while booking.</li>
+            </div>
+        </div>
+      </div>
+      <div class="tab d-none" id="Lower_administration_expenses">
+        <%= image_tag(asset_path("repeatSpeechLg.png"), class: "img-fluid my-3 p-4 col-5") %>
+        <div class="col-6 offset-1 pt-3 indentInfo">
+            <div class="h3 mb-3">Lower administration expenses:</div>
+            <div class="h5">
+              <li>Answering calls on office availability is an inefficient use of staff time.</li>
+              <li>WeBall widget lets your customers check office availability in real-time online without the need for staff.</li>
+              <li>New bookings appear in real-time on your dashboard</li>
               <li>Reduce time spent on administration with WeBall and save money.</li>
             </div>
         </div>
       </div>
-      <div class="logo tab">
-        <%= image_tag(asset_path("hours_plan.png"), class: "img-fluid my-3") %>
-        <div class="row">
-            <i class="far fa-clock fa-2x" aria-hidden="true"></i>
-            <div class="h3 pl-2 mb-3">Very affordable for small business owners:</div>
-        </div>
-        <div class="row">
-            <div class="h5">
-              <li>Optional upgrade to accept payments through the WeBall widget.</li>
-              <li>Most booking software companies use expensive credit card processors</li>
-              <li>WeBall Widget avoids fees by paying through direct bank transfer.</li>
-              <li>We offer specialty rates for Not-for-profits.</li>
-            </div>
-        </div>
-      </div>
-      <div class="hours tab">
-          <%= image_tag(asset_path("dashBoardTable.png"), class: "img-fluid my-3") %>
-          <div class="row">
-              <i class="fas fa-th fa-2x" aria-hidden="true"></i>
-              <div class="h3 pl-2 mb-3">Faster bookings for your customers.</div>
-          </div>
-          <div class="row">
-              <div class="h5 align-left">
-                <li>Nobody likes filling out long forms online.</li>
-                <li>Average online form abandomment rate is 68%.</li>
-                <!-- https://wpforms.com/how-to-combat-order-form-abandonment-and-increase-your-sales/ -->
-                <li>WeBall widget removes the need for long forms or account sign-up.</li>
-                <li>Shorter booking times mean less abandonment; less abandonment means more revenue.</li>
-              </div>
-          </div>
-      </div>
     </div>
 </section>
+<!--
 <section class="container-fluid bg-aliceBlue">
   <div class="row top-section-margin">
     <div class="col-12 text-center mt-3 h3 mb-0">
@@ -218,6 +204,7 @@
     </a>
   </div>
 </section>
+-->
 <!-- <div class="row pt-4 px-5">
     <div class="col-md-2 offset-md-1 px-0">
     <div class="wistia_responsive_padding" style="padding:166.56% 0 0 0;position:relative;">

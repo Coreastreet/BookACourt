@@ -1,11 +1,11 @@
 
 Your Administration PIN.
 ============================================================================================================================
-Dear <%= @new_rep.name %>,
+To <%= @sports_centre.title %>,
   Thank you for creating an account with WeBall.
-  As the representative of <%= @sports_centre.title %>, you will be provided with the adminstrator PIN.
+  As an administrator, you will be provided with the adminstrator PIN.
 
-  PIN: <%= @admin_password %>
+  PIN: <%= @sports_centre.pin %>
 
   After logging into your company account, use this PIN will provide you with the sole ability to:
 

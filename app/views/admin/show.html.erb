@@ -153,12 +153,15 @@
                   <%= image_tag(asset_path("orangeWeballLogo.png"), class: "max-text-logo mx-auto py-5") %>
                   <div id="instructions">
                       <h5>In order to complete your registration, you must complete the following steps.</h5>
-                      <h5>1. Enter and save your opening and peak hours.</h5>
-                      <h5>2. Enter and save your prices.</h5>
-                      <h5>3. Enter bookings into the dashboard.</h5>
+                      <h5>1. Enter and save the opening and peak hours of your business.</h5>
+                      <h5>2. Choose the name of your venues.</h5>
+                      <h5>3. Add as many booking activities as required.</h5>
+                      <h5>4. Set the prices of each booking activity.</h5>
+                      <h5>5. Allocate each booking activity to the appropriate venues.</h5>
+                      <h5>6. Enter bookings into your dashboard.</h5>
                       <!-- class='%= 'd-none' if @sports_centre.plan == "Basic" %'> -->
-                      <h5>4. Upload and save your logo.</h5>
-                      <h5>5. Copy and insert the following code into your sports center website.</h5>
+                      <h5>7. Upload and save your logo.</h5>
+                      <h5>8. Copy and insert the following code into your sports center website.</h5>
                   </div>
                   <div id='wrapperCode' class="pt-4">
                     <div class="row mx-0 d-flex justify-content-between"><p class="mb-0 h-contentFit align-self-end">Place this line of code in the head section</p>
@@ -204,15 +207,9 @@
                     <tr class="border-bottom pr-3 d-flex">
                       <th scope="col" class="moreEqualTH"></th>
                       <% if @arrayCourtNames.empty? %>
-                              <% if @centreType == 0 %>
-                                  <% [*1..@sports_centre.numberOfCourts].each do |number| %>
-                                    <th scope="col" class="equalTH" style="width: calc(100%/<%= @sports_centre.numberOfCourts %>);">Court no.<%= number %></th>
-                                  <% end %>
-                              <% else %>
-                                  <% [*1..@sports_centre.numberOfCourts].each do |number| %>
-                                    <th scope="col" class="equalTH">Venue no.<%= number %></th>
-                                  <% end %>
-                              <% end %>
+                            <% [*1..@sports_centre.numberOfCourts].each do |number| %>
+                              <th scope="col" class="equalTH"><%= number.ordinalize + " Office" %></th>
+                            <% end %>
                       <% else %>
                           <% [*1..@sports_centre.numberOfCourts].each do |number| %>
                               <th scope="col" class="equalTH"><%= @arrayCourtNames[number-1] %></th>
@@ -344,7 +341,7 @@
                 <!-- add new row allowing user to update the names of their courts or venues -->
                 <%= f.hidden_field :arrayCourtNames %>
                 <div class="row mx-0 mt-4 pb-3">
-                  <h5>Set the names of your <%= (@centreType == 1) ? 'Venues:':'Courts:' %></h5>
+                  <h5>Set the names of your <%= (@centreType == 1) ? 'venues:':'Courts:' %></h5>
                 </div>
                 <div class = "form-row mx-0 justify-content-center mb-4">
                   <div class="btn-group bg-white form-control py-0 pl-0 flexWrapVenueNames" id="courtNamesButtonGroup" role="group" aria-label="Basic example2">
@@ -357,7 +354,7 @@
                         <% else %>
                               <% [*1..@sports_centre.numberOfCourts].each do |number| %>
                                   <button type="button" class="btn border-dark hover-selected rounded-0"
-                                  data-courtId="<%= number %>"><%= number.ordinalize + " Venue" %></button>
+                                  data-courtId="<%= number %>"><%= number.ordinalize + " Office" %></button>
                               <% end %>
                         <% end %>
                     <% else %>
@@ -372,6 +369,35 @@
                    <div class="pl-0 pr-3 align-self-center"><%= (@centreType == 1) ? 'Venue name:':'Court name:' %></div>
                    <input type="text" class="form-control col-6" id="newCourtNameInput">
                 </div>
+                <div class= "form-row contact-heading mx-0">
+                  <div class="col-6 px-0 mt-4">
+                    <h5 class="pb-3">Payment details:</h5>
+                    <p class="mb-0">
+                      In order to receive online payments from your customers, BookACourt requires that you
+                      <%= link_to "sign up with Polipay", "https://signup.apac.paywithpoli.com/", target: "_blank" %>
+                      and provide us with the Merchant Code and Authentication Code associated with your new account.
+                    </p>
+                  </div>
+                  <div class="col-6 mx-0">
+                    <a href="http://www.polipayments.com/consumer" target="_blank" class="col-md-6 px-0 rounded"><img src="<%= asset_path('polipayLogo.png') %>"/></a>
+                  </div>
+                </div>
+                <div class="form-row nested mx-0 mt-4">
+                  <div class="col-md-12">
+                    <div class="row pr-2 mb-2 rounded-top">
+                      <%= f.label :merchantCode,"Merchant Code", class: 'pl-0 col-4 min-label align-self-center ' %>
+                      <%= f.text_field :merchantCode, class: 'col-md-6 col-8 form-control white-box ml-md', required: true %>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-row nested mx-0">
+                  <div class="col-md-12">
+                    <div class="row pr-2 my-2 rounded-top">
+                      <%= f.label :authenticationCode,"Authentication Code", class: 'pl-0 col-4 min-label align-self-center ' %>
+                      <%= f.text_field :authenticationCode, class: 'col-md-6 col-8 form-control white-box ml-md', required: true %>
+                    </div>
+                  </div>
+                </div>
                 <div class="row mx-0 align-self-end mt-auto mb-3">
                   <%= f.submit "Save", class: "btn btn-primary mr-2" %>
                   <button type="button" name="button" class="lockPage btn btn-secondary">Lock</button>
@@ -383,7 +409,7 @@
                   <div class="row d-flex justify-content-between mx-0">
                     <h5>Pay Fees</h5>
                     <div class="">
-                      <p class="alert alert-success py-1 <%= 'd-none' unless @sports_centre.lastPayDate == Date.current %>" id="lastPayDateHolder" data-lastPayDate="<%= @sports_centre.lastPayDate %>">Paid</p>
+                      <p class="alert alert-success py-1 <%= 'd-none' unless @sports_centre.nextPaymentDue == Date.current %>" id="nextPaymentDueHolder" data-nextPaymentDue="<%= @sports_centre.nextPaymentDue %>">Paid</p>
                       <div id="recordDateBox" class="d-inline h5 mb-0 px-2"><%= (Date.today - 1.day).strftime("%d %B %Y") %></div>
                     </div>
                   </div>
@@ -483,11 +509,11 @@
                         </span>
                       </p>
                       <span class="align-self-center ml-auto width-fit-content text-right" id="totalOwed_label">
-                        <p class="h5 align-self-center text-muted">Last Payment Made: </p>
+                        <p class="h5 align-self-center text-muted">Next payment due: </p>
                         <span class="align-self-center">Current amount due: </span>
                       </span>
                       <span id="totalOwed_price" class="align-self-center justify-content-center mr-2 mb-0 pl-5">
-                        <p class="h5 mr-2 mb-0 align-self-center ml-3 pl-1 text-muted"><%= @sports_centre.lastPayDate.strftime("%d %B %Y") %></p>
+                        <p class="h5 mr-2 mb-0 align-self-center ml-3 pl-1 text-muted"><%= @sports_centre.nextPaymentDue.strftime("%d %B %Y") %></p>
                         <span class="h3 mr-2 mb-0 align-self-center ml-3 pl-1">$<%= '%.2f' % @sports_centre.yesterdayMoneyOwed %></span>
                       </span>
                       <a href="http://www.polipayments.com/consumer" id="polipayLogo" class="d-flex"><%= image_tag(asset_path("polipayLogo.png"), class: "mb-auto", alt:"POLi Logo") %></a>
@@ -505,19 +531,20 @@
             <%= form_with model: @sports_centre, class: "col d-flex flex-column", id: 'editPricesForm', url: admin_update_prices_path(@sports_centre), method: "post" do |f| %>
               <%= f.hidden_field :centreType %>
               <div class="row mx-0 mt-4 mb-2" id="centreTypeTopBar">
-                    <h5>Select an Activity</h5>
-                    <h5 class="ml-auto mr-2">Centre Type:</h5>
-                    <div class="btn-group pb-2" id="centreTypeControl">
+                    <h5>Select a booking activity:</h5>
+                    <h5 class="ml-auto mr-2 d-none">Centre Type:</h5>
+                    <div class="btn-group pb-2 d-none" id="centreTypeControl">
                       <button type="button" class="btn btn-admin border-dark py-0 hover-selected <%= 'btn-clickedHR' if @sports_centre.centreType_before_type_cast == 0 %>" data-control="sports">Sports</button>
                       <button type="button" class="btn btn-admin border-dark py-0 hover-selected <%= 'btn-clickedHR' if @sports_centre.centreType_before_type_cast == 1 %>" data-control="venue">Venue</button>
                     </div>
               </div>
               <div class="row flex-nowrap overflow-auto mx-0 my-4" id="activityCardHolder">
                 <% if @sports_centre.prices.empty? %>
-                <div class="col-2 d-flex flex-column align-items-center border rounded py-2 mr-2 activityCard" data-activity="basketball"
+                <div class="col-2 d-none flex-column align-items-center border rounded py-2 mr-2 activityCard" data-activity="basketball"
                   data-hc-op="" data-hc-p="" data-hc-we="" data-fc-op="" data-fc-p="" data-fc-we="">
                   <div class="position-absolute deleteActivity">&times</div>
-                  <img class="image-contain" src="<%= asset_path("basketball.png") %>">
+                  <img class="image-contain" src="<%= asset_path("sport_icons/basketball.png") %>">
+                  <div class="display-icon d-none"></div>
                   <div class="pt-2 activityName">basketball</div>
                 </div>
                 <% end %>
@@ -546,7 +573,7 @@
                   <div class="w3-container">
                     <span id="closeActivityModal" class="w3-button w3-display-topright">&times;</span>
                     <div class="form-group">
-                          <label for="exampleFormControlSelect2">Select which courts can hold this activity.</label>
+                          <label for="exampleFormControlSelect2">Select which venues can hold this booking activity.</label>
                           <div class = "form-row mx-0 justify-content-center mb-3">
                             <div class="btn-group bg-white form-control py-0 pl-0 mandatory flexWrapVenueNames" id="courtsAllowedButtons" role="group" aria-label="Basic example">
                                   <% if @arrayCourtNames.empty? %>
@@ -575,7 +602,7 @@
                         <label for="exampleFormControlSelect1">Enter the name of the Activity</label>
                           <div class="input-group mb-3">
                             <input type="text" class="form-control" list="activities" name="activity" id="newActivityInput">
-                               <datalist id="activities">
+                               <datalist class="d-none" id="activities">
                                  <% ["basketball", "badminton", "netball", "volleyball", "indoor_soccer", "event"].each do |activity| %>
                                   <option value="<%= activity %>", data-assetPath="<%= asset_path("sport_icons/#{activity}.png")%>">
                                  <% end %>
@@ -590,13 +617,13 @@
               </div>
               <div class="row mx-0">
                   <div class="col-12 d-flex justify-content-end px-0">
-                            <h5 class="mb-0">Add a new Activity</h5>
+                            <h5 class="mb-0">Add a new booking activity</h5>
                             <div class="plusActivity-icon d-flex justify-content-center align-items-center xx-large ml-3" id="addActivityCard"><i class="fas fa-plus" aria-hidden="true"></i></div>
                   </div>
               </div>
               <div class="row mx-0">
                   <div class="col-12 px-0">
-                        <h5 class="mb-0">Set Venue Prices</h5>
+                        <h5 class="mb-0">Set booking activity prices</h5>
                   </div>
               </div>
               <div class="row mx-0" id="priceSettings">
@@ -643,21 +670,14 @@
                 </div>
               </div>
               <div class="row mx-0 mt-5 mb-4">
-                <h5 class="mb-0">Set court allocation:</h5>
+                <h5 class="mb-0">Set venue allocation:</h5>
               </div>
               <div class = "form-row mx-0 justify-content-center mb-3">
                 <div class="btn-group bg-white form-control py-0 pl-0 mandatory flexWrapVenueNames" id="courtsAllowedButtonsReg" role="group" aria-label="Basic example">
                    <% if @arrayCourtNames.empty? %>
-                      <% if @centreType == 0 %>
-                            <% [*1..@sports_centre.numberOfCourts].each do |number| %>
-                                <button type="button" class="btn border-dark hover-selected rounded-0"
-                                data-courtId="<%= number %>"><%= number.ordinalize + " Court" %></button>
-                            <% end %>
-                      <% else %>
-                            <% [*1..@sports_centre.numberOfCourts].each do |number| %>
-                                <button type="button" class="btn border-dark hover-selected rounded-0"
-                                data-courtId="<%= number %>"><%= number.ordinalize + " Venue" %></button>
-                            <% end %>
+                      <% [*1..@sports_centre.numberOfCourts].each do |number| %>
+                          <button type="button" class="btn border-dark hover-selected rounded-0"
+                          data-courtId="<%= number %>"><%= number.ordinalize + " Office" %></button>
                       <% end %>
                   <% else %>
                       <% [*1..@sports_centre.numberOfCourts].each do |number| %>
@@ -666,13 +686,13 @@
                       <% end %>
                   <% end %>
                   <button type="button" class="btn border-dark hover-selected allCourts rounded-0"
-                  data-courtId=<%= [*1..@sports_centre.numberOfCourts].join(",") %>><%= @centreType == 0 ? "All Courts" : "All Venues" %></button>
+                  data-courtId=<%= [*1..@sports_centre.numberOfCourts].join(",") %>><%= @centreType == 0 ? "All Courts" : "All Offices" %></button>
                 </div>
               </div>
              <!-- add regular prices here later on -->
               <div class="row mx-0 align-self-end mt-auto mb-3">
-                <p class="alert alert-success mb-0 d-none py-2" id="prices-success">Court Hire rates saved successfully.</p>
-                <p class="alert alert-danger mb-0 d-none py-2" id="prices-failure">Court Hire rates saving unsuccessful.</p>
+                <p class="alert alert-success mb-0 d-none py-2" id="prices-success">Office Hire rates saved successfully.</p>
+                <p class="alert alert-danger mb-0 d-none py-2" id="prices-failure">Office Hire rates saving unsuccessful.</p>
                 <%= f.submit "Save", class: "btn btn-primary mr-2", id: "savePrices" %>
                 <button type="button" name="button" class="lockPage btn btn-secondary">Lock</button>
               </div>
@@ -702,10 +722,10 @@
                         </div>
                         <div class="col-3 mx-0 planCard">
                           <div class="row mx-0 justify-content-center mt-2">
-                              <label class="h3 font-weight-bold">Basic</label>
+                              <label class="h3 font-weight-bold">Small</label>
                           </div>
                           <div class="row mx-0 justify-content-center">
-                            <%= image_tag asset_path("basicPlanImage.png") %>
+                            <%= image_tag asset_path("smallOffice.png") %>
                           </div>
                           <div class="row mx-0 mt-2 d-flex justify-content-center">
                             <div class="row mx-0 align-self-end mb-3 w-100">
@@ -716,10 +736,10 @@
                         </div>
                       <div class="col-3 mx-0 planCard">
                           <div class="row mx-0 justify-content-center mt-2">
-                              <label class="h3 font-weight-bold">Standard</label>
+                              <label class="h3 font-weight-bold">Medium</label>
                           </div>
                         <div class="row mx-0 justify-content-center">
-                          <%= image_tag asset_path("standardPlanImage.png") %>
+                          <%= image_tag asset_path("mediumOffice.png") %>
                         </div>
                         <div class="row mx-0 mt-2 d-flex justify-content-center">
                           <div class="row mx-0 align-self-end mb-3 w-100">
@@ -732,10 +752,10 @@
                         <div class="col flex-grow-1">
                         </div>
                         <div class="row mx-0 justify-content-center mt-2">
-                            <label class="h3 font-weight-bold">Premium</label>
+                            <label class="h3 font-weight-bold">Large</label>
                         </div>
                         <div class="row mx-0 justify-content-center">
-                          <%= image_tag asset_path("premiumPlanImage.png") %>
+                          <%= image_tag asset_path("largerOffice.png") %>
                         </div>
                         <div class="row mx-0 mt-2 d-flex justify-content-center">
                           <div class="row mx-0 align-self-end mb-3 w-100">
@@ -747,55 +767,54 @@
                     </div>
               </div>
               <div class="d-flex flex-column w-100 styleScroll" id="scrollPlanBenefits">
-
               <div class="row mx-0 h-contentFit border-bottom pt-1 pb-2">
                 <div class="col flex-grow-1 d-flex align-items-center">
-                  <div class="benefits-row">Fee per online booking</div>
+                  <div class="benefits-row">Number of spaces:</div>
                 </div>
                 <div class="col-3 py-1  ">
                   <div class="row mx-0 d-flex justify-content-center">
                     <div class="row mx-0 d-flex justify-content-center">
-                      <h5 class="">N/A</h5>
+                      <h5 class="">&#8804; 10</h5>
                     </div>
                   </div>
                 </div>
                 <div class="col-3 py-1  ">
                     <div class="row mx-0 d-flex justify-content-center">
                       <div class="row mx-0 d-flex justify-content-center">
-                        <h5 class="">1.65%</h5>
+                        <h5 class="">> 10 and &#8804; 30</h5>
                       </div>
                     </div>
                 </div>
                 <div class="col-3 py-1  ">
                     <div class="row mx-0 d-flex justify-content-center">
                       <div class="row mx-0 d-flex justify-content-center">
-                        <h5 class="">4%</h5>
+                        <h5 class="">> 30</h5>
                       </div>
                     </div>
                 </div>
               </div>
               <div class="row mx-0 h-contentFit border-bottom py-2">
                 <div class="col flex-grow-1 d-flex align-items-center">
-                  <div class="benefits-row">One-time setup costs:</div>
+                  <div class="benefits-row">Monthly Fee:</div>
                 </div>
                 <div class="col-3 py-1  ">
                   <div class="row mx-0 d-flex justify-content-center">
                     <div class="row mx-0 d-flex justify-content-center">
-                      <h5 class="">Free</h5>
+                      <h5 class="">$50</h5>
                     </div>
                   </div>
                 </div>
                 <div class="col-3 py-1  ">
                     <div class="row mx-0 d-flex justify-content-center">
                       <div class="row mx-0 d-flex justify-content-center">
-                        <h5 class="">$0</h5>
+                        <h5 class="">$100</h5>
                       </div>
                     </div>
                 </div>
                 <div class="col-3 py-1  ">
                     <div class="row mx-0 d-flex justify-content-center">
                       <div class="row mx-0 d-flex justify-content-center">
-                        <h5 class="">$399</h5>
+                        <h5 class="">$300</h5>
                       </div>
                     </div>
                 </div>
@@ -859,7 +878,7 @@
                 <div class="col-3 py-1  ">
                   <div class="row mx-0 d-flex justify-content-center">
                     <div class="row mx-0 d-flex justify-content-center">
-                      <i class="fas fa-lg fa-times-circle"></i>
+                      <i class="fas fa-lg fa-check-circle color-orange"></i>
                     </div>
                   </div>
                 </div>
@@ -867,84 +886,6 @@
                     <div class="row mx-0 d-flex justify-content-center">
                       <div class="row mx-0 d-flex justify-content-center">
                         <i class="fas fa-lg fa-check-circle color-orange"></i>
-                      </div>
-                    </div>
-                </div>
-                <div class="col-3 py-1  ">
-                    <div class="row mx-0 d-flex justify-content-center">
-                      <div class="row mx-0 d-flex justify-content-center">
-                        <i class="fas fa-lg fa-check-circle color-orange"></i>
-                      </div>
-                    </div>
-                </div>
-              </div>
-              <div class="row mx-0 h-contentFit border-bottom py-2">
-                <div class="col flex-grow-1 pr-0">
-                  <div class="benefits-row">Email QR code confirmation:</div>
-                </div>
-                <div class="col-3 py-1  ">
-                  <div class="row mx-0 d-flex justify-content-center">
-                    <div class="row mx-0 d-flex justify-content-center">
-                      <i class="fas fa-lg fa-times-circle"></i>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-3 py-1  ">
-                    <div class="row mx-0 d-flex justify-content-center">
-                      <div class="row mx-0 d-flex justify-content-center">
-                        <i class="fas fa-lg fa-check-circle color-orange"></i>
-                      </div>
-                    </div>
-                </div>
-                <div class="col-3 py-1  ">
-                    <div class="row mx-0 d-flex justify-content-center">
-                      <div class="row mx-0 d-flex justify-content-center">
-                        <i class="fas fa-lg fa-check-circle color-orange"></i>
-                      </div>
-                    </div>
-                </div>
-              </div>
-              <div class="row mx-0 h-contentFit border-bottom py-2">
-                <div class="col flex-grow-1 pr-0">
-                  <div class="benefits-row">Smart Lock Installation:</div>
-                </div>
-                <div class="col-3 py-1  ">
-                  <div class="row mx-0 d-flex justify-content-center">
-                    <div class="row mx-0 d-flex justify-content-center">
-                      <i class="fas fa-lg fa-times-circle"></i>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-3 py-1  ">
-                    <div class="row mx-0 d-flex justify-content-center">
-                      <div class="row mx-0 d-flex justify-content-center">
-                        <i class="fas fa-lg fa-times-circle"></i>
-                      </div>
-                    </div>
-                </div>
-                <div class="col-3 py-1  ">
-                    <div class="row mx-0 d-flex justify-content-center">
-                      <div class="row mx-0 d-flex justify-content-center">
-                        <i class="fas fa-lg fa-check-circle color-orange"></i>
-                      </div>
-                    </div>
-                </div>
-              </div>
-              <div class="row mx-0 h-contentFit border-bottom py-2">
-                <div class="col flex-grow-1 pr-0">
-                  <div class="benefits-row">Email one-time PIN for facility access:</div>
-                </div>
-                <div class="col-3 py-1  ">
-                  <div class="row mx-0 d-flex justify-content-center">
-                    <div class="row mx-0 d-flex justify-content-center">
-                      <i class="fas fa-lg fa-times-circle"></i>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-3 py-1  ">
-                    <div class="row mx-0 d-flex justify-content-center">
-                      <div class="row mx-0 d-flex justify-content-center">
-                        <i class="fas fa-lg fa-times-circle"></i>
                       </div>
                     </div>
                 </div>

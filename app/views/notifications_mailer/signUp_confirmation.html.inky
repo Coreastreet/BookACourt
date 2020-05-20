@@ -7,14 +7,27 @@
   </row>
   <row>
     <columns small="9" class="first">
-      <p>Before you can start accepting bookings through WeBall, you first need to confirm your company's email address.</p>
+      <p>Thank you for creating an account with WeBall.</p>
+      <p>As an administrator, you will be provided with the adminstrator PIN. You will need this to unlock parts of your dashboard.</p>
+    </columns>
+  </row>
+  <row>
+    <columns small="9" class="first last">
+        <center>
+          <h5 class="email-padding-md">Your Admin PIN: <%= @pin %></h5>
+        </center>
+    </columns>
+  </row>
+  <row>
+    <columns small="9" class="first">
+      <p>Before you can sign in, you first need to confirm your company's email address.</p>
     </columns>
   <row>
   <row>
     <columns small="9" class="first">
       <button class="expanded rounded" href="<%= @confirmation_url %>">Confirm email address</button>
     </columns>
-  <row>
+  </row>
   <row>
     <columns small="9" class="first">
       <p>Once verified, you will be able to login to an administrator dashboard and be able to manage your bookings.</p>
@@ -27,5 +40,4 @@
       <p>WeBall team</p>
     </columns>
   </row>
-
 </container>

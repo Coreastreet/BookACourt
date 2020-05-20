@@ -1,0 +1,107 @@
+<section class="container-fluid bg-home-image-1 py-5">
+    <div class="container">
+      <div class="homePageText d-flex flex-column">
+          <div class="h1">
+            Pricing & Fees:
+          </div>
+          <div class="h5 mb-0">
+            WeBall charges a single flat monthly fee.
+            That's it.
+          </div>
+      </div>
+    </div>
+</section>
+<section class="container-fluid">
+          <div class="container d-flex flex-column w-100">
+                <div class="row mx-0 justify-content-center mt-4">
+                      <div class="col-3 mx-0 planCard">
+                        <div class="row mx-0 justify-content-center mt-2">
+                            <label class="h3 font-weight-bold">Small</label>
+                        </div>
+                        <div class="row mx-0 justify-content-center">
+                          <%= image_tag(asset_path("smallOffice.png"), class: "max-w-10") %>
+                        </div>
+                        <div class="row mx-0 mt-2 d-flex justify-content-center">
+                          <div class="row mx-0 align-self-end mb-3 w-100">
+                              <div class="h4 text-center w-100">
+                                  $ <span class="h1 font-weight-bold">50</span> / month
+                              </div>
+                              <div class="h5 text-center w-100">
+                                  &#8804; 10 spaces
+                              </div>
+                              <button class="btn btn-primary btn-block rounded-0 generalButton" type="button" data-planType="Basic" data-planFee="N/A">Select</button>
+                          </div>
+                        </div>
+                      </div>
+                    <div class="col-3 mx-0 planCard">
+                        <div class="row mx-0 justify-content-center mt-2">
+                            <label class="h3 font-weight-bold">Medium</label>
+                        </div>
+                      <div class="row mx-0 justify-content-center">
+                        <%= image_tag(asset_path("mediumOffice.png"), class: "max-w-10") %>
+                      </div>
+                      <div class="row mx-0 mt-2 d-flex justify-content-center">
+                        <div class="row mx-0 align-self-end mb-3 w-100">
+                          <div class="h5 text-center w-100">
+                              $ <span class="h1 font-weight-bold">100</span> / month
+                          </div>
+                          <div class="h5 text-center w-100">
+                              &#8804; 30 spaces
+                          </div>
+                          <button class="btn btn-primary btn-block rounded-0 generalButton"  type="button" data-planType="Standard" data-planFee="1.65%">Select</button>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-3 mx-0 planCard">
+                      <div class="col flex-grow-1">
+                      </div>
+                      <div class="row mx-0 justify-content-center mt-2">
+                          <label class="h3 font-weight-bold">Large</label>
+                      </div>
+                      <div class="row mx-0 justify-content-center">
+                        <%= image_tag(asset_path("largerOffice.png"), class: "max-w-10") %>
+                      </div>
+                      <div class="row mx-0 mt-2 d-flex justify-content-center">
+                        <div class="row mx-0 align-self-end mb-3 w-100">
+                          <div class="h5 text-center w-100">
+                              $ <span class="h1 font-weight-bold">300</span> / month
+                          </div>
+                          <div class="h5 text-center w-100">
+                              > 30 spaces
+                          </div>
+                          <button class="btn btn-primary btn-block rounded-0 generalButton" type="button" data-planType="Premium" data-planFee="4%">Select</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+            </div>
+</section>
+<section class="container-fluid mt-4">
+  <div class="container d-flex">
+    <div class="col-6 px-3 d-flex flex-column">
+        <div class="h2">
+          All subscriptions include:
+        </div>
+        <ul class="h5 pl-4 mt-3">
+          <li>The WeBall dashboard.</li>
+          <li>The WeBall widget</li>
+          <li>Mon-fri 9am-9pm customer support.</li>
+        </ul>
+        <a role="button" class="btn generalButton h5 mt-2 ml-auto text-center mr-4" href="<%= home_how_weball_works_path %>">
+            Learn how WeBall works<i class="fas fa-lg ml-2 fa-angle-right"></i>
+        </a>
+    </div>
+    <div class="col-6 px-3 d-flex flex-column">
+        <div class="h2">
+          No extra transaction fees:
+        </div>
+        <div class="h5 mt-3">
+          WeBall does not charge transaction fees; however, POLipay,
+          the online payment service used by WeBall, charges businesses 1%.
+        </div>
+        <a role="button" class="btn generalButton ml-auto h5 mt-2 text-center ml-auto" href="https://www.polipayments.com/" target="_blank">
+            Visit POLipay home page<i class="fas fa-lg ml-2 fa-angle-right"></i>
+        </a>
+    </div>
+  </div>
+</section>

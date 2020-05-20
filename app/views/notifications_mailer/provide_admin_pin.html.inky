@@ -9,15 +9,15 @@
   <row>
     <columns small="9" class="first">
       <h5>Your Administration PIN.</h5>
-        <p>Dear <%= @new_rep.name %>,</p>
+        <p>To <%= @sports_centre.title %>,</p>
         <div>Thank you for creating an account with WeBall.</div>
-        <div>As the representative of <%= @sports_centre.title %>, you will be provided with an adminstrator PIN.</div>
+        <div>As the administrator, you will be provided with an adminstrator PIN.</div>
     </columns>
   </row>
   <row>
     <columns small="9" class="first last">
         <center>
-          <h5 class="email-padding-md">Your Admin PIN: <%= @admin_password %></h5>
+          <h5 class="email-padding-md">Your Admin PIN: <%= @sports_centre.pin %></h5>
         </center>
     </columns>
   </row>

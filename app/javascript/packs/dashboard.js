@@ -509,7 +509,7 @@ $(document).on('turbolinks:load', function () {
             clone.attr("data-fc-we", defaultPrice);
 
             clone.attr("data-activity", newActivityValue.split(" ").join("_"));
-            clone.removeClass("selectedCard");
+            clone.removeClass("selectedCard, d-none");
             if (optionMatched) {
               clone.find("img").attr("src", optionSrc);
             } else {

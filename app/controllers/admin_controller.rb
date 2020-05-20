@@ -106,8 +106,8 @@ class AdminController < ApplicationController
   def check_admin_pin
     @buttonId = admin_pin_params[:buttonId]
     pin = admin_pin_params[:adminPin]
-    rep = current_sports_centre.representative
-    if (rep && rep.authenticate(pin))
+    #rep = current_sports_centre.representative
+    if (current_sports_centre && current_sports_centre.pin == pin.to_i)
       @isAdmin = true
       buttonRef = @buttonId[1..].to_sym
       session[buttonRef] = true
@@ -285,13 +285,21 @@ class AdminController < ApplicationController
           id = id_params[:id]
           sports_centre = SportsCentre.find(id)
           sports_centre.update!(sports_centre_params)
-          sports_centre.logo.blob.open do |image|
-            File.open("#{Rails.root}/public/system/sports_centre_logo_#{id}", "wb") do |f|
-                f.write(image.read)
-            end
+          if sports_centre.logo.attached?
+              sports_centre.logo.blob.open do |image|
+                File.open("#{Rails.root}/public/system/sports_centre_logo_#{id}", "wb") do |f|
+                    f.write(image.read)
+                end
+              end
           end
           splitCourtNames = arrayCourtNames_params[:arrayCourtNames].split(",")
           sports_centre.update!(arrayCourtNames: splitCourtNames)
+
+          #update the auth and merchant code.
+          combinedCode = "#{sports_centre_params[:merchantCode]}:#{sports_centre_params[:authenticationCode]}"
+          encoded = Base64.encode64(combinedCode).chomp
+          finalAuthCode = "Basic #{encoded}"
+          sports_centre.update!(combinedCode: finalAuthCode)
     end
   end
 

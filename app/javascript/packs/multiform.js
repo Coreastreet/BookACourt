@@ -162,12 +162,22 @@ document.addEventListener("turbolinks:load", function () {
       $("#hiddenCourtsNo input")[index].checked = true;
   });
 
+  $("body").on("click", "#infoCardSelection1 button, #infoCardSelection2 button", function() {
+      $(this).siblings().removeClass("selected-button");
+      $(this).addClass("selected-button");
+      $(this).parent().removeClass("is-invalid");
+      var selectedCard = $(this).attr("data-idRef");
+      console.log(selectedCard);
+      $(`#${selectedCard}`).siblings().addClass("d-none");
+      $(`#${selectedCard}`).removeClass("d-none");
+  });
+
   $('body').on('click', 'button.next', function(e) {
     // if current card is a contact card that requires both owner and executive details, do not move to next card.
     var outerCard = $(this).closest(".card");
     var contactCard = $("fieldset.contact");
-    var directorChecked = contactCard.attr("data-director-form");
-    var ownerChecked = contactCard.attr("data-owner-form");
+    //var directorChecked = contactCard.attr("data-director-form");
+    //var ownerChecked = contactCard.attr("data-owner-form");
     if (currentCard == 1) {
       var buttons = $("#courtSelection");
       if (buttons.find("button.selected-button").length == 0) { // if a button, indicating number of courts, is not selected
@@ -184,7 +194,9 @@ document.addEventListener("turbolinks:load", function () {
         });
         e.preventDefault();
         return false;
-    }
+    } else {
+        nextPrev(1);
+    }/*
     if (currentCard == 2) {
       var companyName = document.querySelector("input#autocomplete").value.split(",")[0];
       $("fieldset span.companyName").text(companyName);
@@ -234,16 +246,15 @@ document.addEventListener("turbolinks:load", function () {
           outerCard.addClass('director');
       } else {
           nextPrev(1);
-      }
-    } else {
-        nextPrev(1);
-    }
+      } */
   });
   $('body').on('click', 'button.previous', function() {
     var outerCard = this.closest(".card");
     var contact_details = document.querySelectorAll(".new-contact-details");
     var counter = 1;
     var holder;
+    nextPrev(-1);
+    /*
     if (outerCard.matches('.contact.director')) {
       // do not move to next card
       //alert("next disabled!");
@@ -252,7 +263,7 @@ document.addEventListener("turbolinks:load", function () {
           outerCard.classList.remove('director');
           outerCard.classList.add('owner');
       } else {
-          nextPrev(-1);
+        nextPrev(-1);
       }
 
     } else if (outerCard.matches(".summary")) {
@@ -283,7 +294,7 @@ document.addEventListener("turbolinks:load", function () {
       }
     } else {
       nextPrev(-1);
-    }
+    } */
   });
 
 

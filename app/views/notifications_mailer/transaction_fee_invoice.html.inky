@@ -26,7 +26,7 @@
   </row>
   <row>
     <columns small="2" class="">
-      <div><%= @sports_centre.lastPayDate.strftime("%d/%m/%y") %></div>
+      <div><%= @sports_centre.nextPaymentDue.strftime("%d/%m/%y") %></div>
     </columns>
     <columns small="4" class="">
       <div><%= @sports_centre.title %></div>

@@ -205,6 +205,27 @@ label.min-label {
   }
 }
 
+// limit size of image size on info pages
+.max-w-20 {
+  max-width: 20rem !important;
+}
+
+.max-w-10 {
+  max-width: 10rem !important;
+}
+
+.commission-circle {
+  width: 10rem;
+  height: 10rem;
+  border-radius: 50%;
+  background-color: #ff5e0d;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+  color: white;
+}
+
 // home general buttons
 .cta-button {
   background-color: #4BB543 !important;
@@ -260,46 +281,22 @@ label.min-label {
     padding: 0 5%;
   }
 
-  .dashBoardTabsGrid {
-    display: grid;
-    height: auto;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 1fr;
+  #infoDashBoard .tab, #infoWidget .tab {
+    display: flex;
+  }
 
-    .tab > img, .tab > div.row {
-      width: 85%;
-      margin-left: auto;
-      margin-right: auto;
+  #infoDashBoard .tab > img, #infoWidget .tab > img {
+    padding: 1rem;
+    object-fit: contain;
+    border: 2px solid #ff5e0d;
+  }
+
+  #infoDashBoard .tab .indentInfo, #infoWidget .tab .indentInfo {
+    .h5 {
+      text-indent: -1.8rem;
     }
-
-    .tab > .color-weball-orange {
-      color: #ff5e0d !important;
-    }
-
-    .tab > img {
-      height: 45vh;
-      object-fit: contain;
-      border: 2px solid #ff5e0d;
-    }
-
-    .bookings {
-      grid-row: 1 / 2;
-      grid-column: 1 / 2;
-    }
-
-    .prices {
-      grid-row: 1 / 2;
-      grid-column: 2 / 3;
-    }
-
-    .hours {
-      grid-row: 2 / 3;
-      grid-column: 1 / 2;
-    }
-
-    .logo {
-      grid-row: 2 / 3;
-      grid-column: 2 / 3;
+    .h3 {
+      text-indent: -1rem;
     }
   }
 

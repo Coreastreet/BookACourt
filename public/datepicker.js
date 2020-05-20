@@ -344,7 +344,7 @@ function makeCORSRequest(url, method) {
 
 // insert function to calculate availability based on bookings and the date given.
 // date in "YYYY-MM-DD" format string
-function createBookingMatrix(bookedArray, date, numberOfCourts) {
+function createBookingMatrix(bookedArray, date, numberOfCourts, selectedIconCourts) {
   // cut down the array of bookings to contain only those bookings that match the selected date.
   // no distinction made between fullCourt and halfCourt bookings
   //var bookingsByDate = bookedArray.filter(booking => booking.date == date);

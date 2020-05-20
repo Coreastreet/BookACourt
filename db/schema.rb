@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_14_061451) do
+ActiveRecord::Schema.define(version: 2020_05_20_005141) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -170,12 +170,13 @@ ActiveRecord::Schema.define(version: 2020_05_14_061451) do
     t.decimal "transactionRate", precision: 10, scale: 4, default: "0.0"
     t.decimal "moneyPaid", default: "0.0"
     t.decimal "yesterdayMoneyOwed", default: "0.0"
-    t.date "lastPayDate"
+    t.date "nextPaymentDue"
     t.integer "plan", default: 0
     t.text "courtsAllowed"
-    t.integer "centreType", default: 0
+    t.integer "centreType", default: 1
     t.string "arrayCourtNames", default: [], array: true
     t.text "venue_colors"
+    t.integer "pin"
   end
 
   create_table "users", force: :cascade do |t|

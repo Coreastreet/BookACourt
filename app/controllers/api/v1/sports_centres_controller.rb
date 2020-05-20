@@ -7,7 +7,7 @@ class Api::V1::SportsCentresController < Api::V1::ApiController
     require "base64"
     decodedKey = Base64.decode64(key_params[:key])
     sports_centre = SportsCentre.find(params[:id])
-    if (sports_centre.combinedCode == decodedKey && sports_centre.confirmed == false)
+    if (sports_centre.pin == decodedKey.to_i && sports_centre.confirmed == false)
         # confirm the email address and set confirmed to true
         sports_centre.update!(confirmed: true)
         session[:centre_id] = sports_centre.id#$redis.set("centre_id", sports_centre.id)
@@ -36,11 +36,11 @@ class Api::V1::SportsCentresController < Api::V1::ApiController
         yesterdayMoneyOwed = current_sports_centre.yesterdayMoneyOwed
         amountPaid = parsed_response["AmountPaid"].to_d
 
-        numberOfBookingFeesPaid = current_sports_centre.bookings.where(created_at: (current_sports_centre.lastPayDate)...(Date.current)).count
+        numberOfBookingFeesPaid = current_sports_centre.bookings.where(created_at: (current_sports_centre.nextPaymentDue)...(Date.current)).count
         current_sports_centre.update!(yesterdayMoneyOwed: yesterdayMoneyOwed - amountPaid,
           moneyPaid: moneyPaid + amountPaid,
           moneyOwed: moneyOwed - amountPaid,
-          lastPayDate: Date.current) # all fees paid up to but not inclusive of this date
+          nextPaymentDue: Date.current) # all fees paid up to but not inclusive of this date
         # reset the money owed up to yesterday to Zero;
         # increase the money paid by the amount paid;
         # decrease the amount of money owed by the amount paid.

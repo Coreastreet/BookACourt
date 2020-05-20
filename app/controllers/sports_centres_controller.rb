@@ -27,10 +27,10 @@ class SportsCentresController < ApplicationController
     #puts(token_params)
     #new_sports_centre.email.downcase!
     # create the final auth key
-    combinedCode = "#{sports_centre_params[:merchantCode]}:#{sports_centre_params[:authenticationCode]}"
-    encoded = Base64.encode64(combinedCode).chomp
-    finalAuthCode = "Basic #{encoded}"
-    new_sports_centre.update(combinedCode: finalAuthCode, lastPayDate: Date.current)
+
+    # -------------------------------- Use the code below to generate the auth for polipay
+
+    new_sports_centre.update(nextPaymentDue: Date.current + 30.days)
 
     #new_sports_centre.update(address: new_address)
     empty_opening_hours = {
@@ -65,29 +65,33 @@ class SportsCentresController < ApplicationController
     # new_sports_centre.update(opening_hours: jsonAddress)
     #new_sports_centre.update(numberOfCourts: 6) # add form row for user to select number of courts
     # format the full_address from street_address, suburb, state and postcode
-    new_rep = Representative.new(rep_params)
-    new_rep_address = Address.create(rep_address_params)
-    new_rep.update(address: new_rep_address)
+
+    # ---- remove the details of representative
+    # new_rep = Representative.new(rep_params)
+    # new_rep_address = Address.create(rep_address_params)
+    # new_rep.update(address: new_rep_address)
     admin_password = pin4_generate.to_s
-    new_rep.update!(password: admin_password)
+    new_sports_centre.update!(pin: admin_password)
+    # new_rep.update!(password: admin_password)
 
-    new_sports_centre.representative = new_rep
-    if contact_params
-      contact_params.each do |contact|
-         new_sports_centre.contacts << Contact.create!(contact)
-      end
-    end
+    # new_sports_centre.representative = new_rep
+    # if contact_params
+    #  contact_params.each do |contact|
+    #     new_sports_centre.contacts << Contact.create!(contact)
+    #  end
+    # end
 
-    if new_address.full_address.blank?
-      full_address = "#{new_address.street_address}, #{new_address.suburb} #{new_address.state} #{new_address.postcode}"
-      new_address.full_address = full_address;
-    end
+    # as long the field of company name is filled it will not be blank.
+    # if new_address.full_address.blank?
+    #  full_address = "#{new_address.street_address}, #{new_address.suburb} #{new_address.state} #{new_address.postcode}"
+    #  new_address.full_address = full_address;
+    # end
     # new_sports_centre.images.attach(params[:sports_centre][:images])
     if new_sports_centre.save! && new_address.save
       redirect_to login_path, notice: "An account activation link has been sent to your company email."# admin_sports_centre_path(new_sports_centre) show for sports_centre
       # send mail containing first time access password
       matchdata = request.url.match(/^(http|https):\/\/[^\/]*/)
-      NotificationsMailer.with(sports_centre: new_sports_centre, new_rep: new_rep, adminPin: admin_password).provide_admin_pin.deliver_later
+      # NotificationsMailer.with(sports_centre: new_sports_centre).provide_admin_pin.deliver_later
 
       NotificationsMailer.with(sports_centre: new_sports_centre, origin_url: matchdata[0]).signUp_confirmation.deliver_later
     else

@@ -198,6 +198,7 @@
 
 #activityCardHolder .activityCard {
   max-width: 9rem;
+  display: flex;
 }
 
 #addActivityCard {
@@ -209,6 +210,11 @@
   border-radius: 50%;
   position: relative;
   bottom: 1rem;
+}
+
+#addActivityCard:hover {
+  background-color: forestgreen !important;
+  color: white !important;
 }
 
 #activityCardHolder .display-icon {
