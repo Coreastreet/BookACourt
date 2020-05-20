@@ -982,6 +982,7 @@ request.onload = function(e) {
       mainClockCard.find("#tabHolder").attr("data-courtType", "fullCourt");
       //console.log(mainClockCard.find("#tabHolder")[0]);
       bookingSchedule = check_availability("fullCourt", bookingMatrix);
+      console.log("full court", bookingSchedule);
       localStorage.setItem("currentBookings", JSON.stringify(bookingSchedule));
 
       if (canvas.attr('data-ampm') == 'AM') {
