@@ -33,6 +33,19 @@
   margin-left: 0.25rem;
   filter: opacity(0.5);
 }
+
+#BookingWidget #activitySelector #nextIcon {
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+  border-left: 1px solid black;
+}
+
+#BookingWidget #activitySelector #prevIcon {
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+  border-right: 1px solid black;
+}
+
 #BookingWidget #activitySelector .activityIcon:hover {
   filter: opacity(1);
 }

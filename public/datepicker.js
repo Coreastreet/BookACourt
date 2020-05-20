@@ -858,9 +858,10 @@ request.onload = function(e) {
             cloneIcon = activitySelector.find("img.activityIcon").eq(0).clone();
             cloneIcon.attr("src", `https://weball.com.au/sport_icons/${activity}.png`);
             cloneIcon.removeClass("bw-none");
+            cloneIcon.on("error", function() { $(this).hide(); });
             cloneIcon.attr("data-activity", activity);
             //cloneIcon.attr("data-prices", jsonPrices[activity]);
-            cloneIcon.appendTo(activitySelector);
+            cloneIcon.insertAfter(activitySelector.find("#activityHolder"));
         }
     }
 
@@ -886,7 +887,7 @@ request.onload = function(e) {
 
         activityHolder = activitySelector.find("#activityHolder");
         activityType = BookingWidget.$(this).attr("data-activity");
-        spaceActivity = BookingWidget.$(this).attr("data-spaceActivity");
+        //spaceActivity = BookingWidget.$(this).attr("data-spaceActivity");
         spaceActivity = activityType.replace(/_/g, " ");
 
 

@@ -926,7 +926,7 @@ $(document).on('turbolinks:load', function ()  {
 
                               activityHolder = activitySelector.find("#activityHolder");
                               activityType = $(this).attr("data-activity");
-                              spaceActivity = $(this).attr("data-spaceActivity");
+                              //spaceActivity = $(this).attr("data-spaceActivity");
                               spaceActivity = activityType.replace(/_/g, " ");
                               $(this).siblings().each( function() {
                                   $(this).removeClass("selectedIcon");

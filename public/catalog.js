@@ -15,7 +15,7 @@ BookingWidget.html = (function() {
     var html;
     html = '<div id="BookingWidget">' +
               '<div id="clockHolderCard" data-buttonsAttached="false">' +
-              '<div class="row mb-2 pb-2 mx-0" id="bw-brandRow">' +
+              '<div class="row mx-0" id="bw-brandRow">' +
               '<img src="https://weball.com.au/orangeWeballCropped.png" id="bw-weBallBrand"></img>' +
               '<div class="vl-border"></div>' +
               '<div class="h5 bw-none bw-sportsCentreTitle"></div>' +
