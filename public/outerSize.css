@@ -3,7 +3,10 @@
   padding: 1rem;
   border-radius: 0.25rem;
   width: fit-content;
-  width: -moz-fit-content;
+  height: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: white !important;
 }
 
 #BookingWidget {
