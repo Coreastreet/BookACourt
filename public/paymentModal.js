@@ -545,11 +545,11 @@ function fillInPaymentModal() {
   // assign half court or half court to item in modal
   if (BookingWidget.$('#halfCourtTab').hasClass("active")) {
     courtType = "halfCourt"; // set item to half-court
-    court_type_holder.text("Half Court");
+    court_type_holder.text("Single Venue");
   }
   if (BookingWidget.$('#fullCourtTab').hasClass("active")) {
     courtType = "fullCourt"; // full-court
-    court_type_holder.text("Full Court");
+    court_type_holder.text("Combined Venue");
   }
 
   modal_body.attr("data-activity-type", activityChosen)
@@ -603,7 +603,10 @@ function fillInPaymentModal() {
   // get the array of arrays for that date
   var bookingMatrix = JSON.parse(localStorage.getItem("BookingsMatrix"));
   //console.log(bookingMatrix);
-  var bookingCourtIds = (courtType == "halfCourt") ? calculateCourtIds(startTime, endTime, bookingMatrix) : calculateFullCourtIds(startTime, endTime, bookingMatrix);
+  var venueCourtIds = bw.find("#activitySelector img.selectedIcon").attr("data-courtsAllowed").split(",").map(Number);
+  var bookingCourtIds = (courtType == "halfCourt") ?
+      calculateCourtIds(startTime, endTime, bookingMatrix, venueCourtIds) :
+      calculateFullCourtIds(startTime, endTime, bookingMatrix, venueCourtIds);
 
   if (bookingCourtIds == false) {
       alert("Booking is invalid");
@@ -633,6 +636,8 @@ function fillInPaymentModal() {
   if (number_of_bookings > 1) { //** DO NOT DELETE
     // This part of the code deals with court ids for future bookings; ignore for now
     // if a regular booking, we want to add more rows to the court id body using the array stored
+    modal_body.find("#subtotal-booking-text").text(`Subtotal (${number_of_bookings} bookings)`);
+
     var arrayOfFreeCourtIds = bw.find("#maxBookingsWarning").attr("data-arrayOfFreeCourtIds");
     arrayOfFreeCourtIds = JSON.parse(arrayOfFreeCourtIds);
     var shortenedFreeCourtArray = arrayOfFreeCourtIds.slice(0,number_of_bookings-1);
@@ -960,7 +965,8 @@ function checkAvailability(daysInterval, startTime, endTime) {
     var date = bw.find("#dateHolder").val();
 
     var courtType = bw.find("#tabHolder").attr("data-courtType"); // set courtType later on click
-    var numberOfCourts = parseInt(localStorage.getItem("numberOfCourts"));
+    var numberOfCourts = bw.find("#activitySelector img.selectedIcon").attr("data-courtsAllowed").split(",").map(Number);
+    //var numberOfCourts = parseInt(localStorage.getItem("numberOfCourts"));
     var arrayOfFreeCourtIds = [];
 
     var arrayOfArrays = extract_relevant_days(allBookings, date, daysInterval, startTime, endTime);

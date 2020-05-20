@@ -74,6 +74,8 @@ var sportsCentreId = document.querySelector("#weBallWidget").getAttribute("data-
 // assign the src url of the sportsCentre logo.
 mainClockCard.find("#bw-brand").attr("src", `https://weball.com.au/system/sports_centre_logo_${sportsCentreId}`);
     //alert("hey!");
+var chosenIconCourtsAllowed;
+
 BookingWidget.$('[data-provide="datepicker"]').datepicker({
    format: "DD, d MM yyyy",
    todayHighlight: true,
@@ -104,8 +106,11 @@ BookingWidget.$('[data-provide="datepicker"]').datepicker({
    stringFormattedDate = formattedDate.toLocaleString('en-us', {year: 'numeric', month: '2-digit', day: '2-digit'}).
    replace(/(\d+)\/(\d+)\/(\d+)/, '$3-$1-$2');
 
+   bookings_array = JSON.parse(localStorage.getItem("bookings_array"));
+
    //console.log(stringFormattedDate);
-   bookingMatrix = createBookingMatrix(bookings_array, stringFormattedDate, numberOfCourts);
+   chosenIconCourtsAllowed = mainClockCard.find("#activitySelector img.selectedIcon").attr("data-courtsAllowed");
+   bookingMatrix = createBookingMatrix(bookings_array, stringFormattedDate, numberOfCourts, chosenIconCourtsAllowed);
    //console.log("matrix", bookingMatrix);
    //console.log("date", stringFormattedDate);
    //console.log("Half-Court schedule", bookingSchedule);
@@ -124,6 +129,7 @@ BookingWidget.$('[data-provide="datepicker"]').datepicker({
 
    halfCourtTab.addEventListener("click", function() {
      //drawClock(ctx, radius);
+     bookingMatrix = JSON.parse(localStorage.getItem("BookingsMatrix"));
      mainClockCard.find("#tabHolder").attr("data-courtType", "halfCourt");
      bookingSchedule = check_availability("halfCourt", bookingMatrix);
      localStorage.setItem("currentBookings", JSON.stringify(bookingSchedule));
@@ -148,6 +154,8 @@ BookingWidget.$('[data-provide="datepicker"]').datepicker({
 
    //console.log("full-Court schedule", bookingS);
    fullCourtTab.addEventListener("click", function() {
+     // refer to local storage booking matrix each time.
+     bookingMatrix = JSON.parse(localStorage.getItem("BookingsMatrix"));
      mainClockCard.find("#tabHolder").attr("data-courtType", "fullCourt");
      bookingSchedule = check_availability("fullCourt", bookingMatrix);
      //console.log("bookingSchedule", bookingSchedule);
@@ -386,9 +394,41 @@ function createBookingMatrix(bookedArray, date, numberOfCourts, selectedIconCour
     fullCourtBooking = bookingsByFullCourt[index];
     outerArray[fullCourtBooking.court_no] = outerArray[fullCourtBooking.court_no].concat(calculateTimes(fullCourtBooking));
   }
-  //console.log("This is the outerArray", outerArray);
+  // account for allCourt courtType bookings by adding the same times to all the rest of the courts.
+  var bookingsByAllCourt = bookingsByDate.filter(function(booking) {return booking.courtType == "allCourt"});
+  var allCourtBooking;
+  var allCourtCounter;
+  var allCourtTimes;
+  var firstActivityIconCourts = mainClockCard.find("#activitySelector img.activityIcon:not(.bw-none)").first().attr("data-courtsAllowed").split(",");
+  for (var index2 in bookingsByAllCourt) {
+    allCourtCounter = 1;
+    allCourtBooking = bookingsByAllCourt[index2];
+    allCourtTimes = calculateTimes(allCourtBooking);
+    while (allCourtCounter < firstActivityIconCourts.length) { // from 2 to equal to the number of courts.
+      outerArray[allCourtCounter] = outerArray[allCourtCounter].concat(allCourtTimes);
+      allCourtCounter++;
+    }
+  }
+
+  console.log("This is the outerArray", outerArray);
   var arrayBooked = outerArray;
   //localStorage.setItem("BookingsMatrix", JSON.stringify(arrayBooked));
+  // first we will filter the bookedArray by the current sport chosen.
+   // array of integers
+
+  // remove the subarrays that don't match the court numbers
+  var selectedIconCourtsArray;
+  var courtFacilityAllowed;
+  if (typeof selectedIconCourts !== "undefined") {
+    selectedIconCourtsArray = selectedIconCourts.split(",").map(Number);
+    arrayBooked = outerArray.filter(function(courtFacility) {
+        courtFacilityAllowed = selectedIconCourtsArray.includes(outerArray.indexOf(courtFacility)+1); // plus one to account for the zero index counter.
+        console.log("check", courtFacilityAllowed);
+        return courtFacilityAllowed;
+    });
+    console.log("by selection", selectedIconCourts, arrayBooked);
+  }
+
   return arrayBooked;
 }
 
@@ -666,12 +706,14 @@ function convertAMPMToString(ampmTime) {
 function bookings_live_update(sports_centre_id) {
   var source = new EventSource(`https://weball.com.au/sub/${sports_centre_id}`);
   var updated_bookings_array;
+  var clean_bookings_array;
   var no_courts;
   var currentDate;
   var currentFormattedDate;
   var activeTab;
   var decodedData;
-  var clean_bookings_array;
+
+  var activeIconCourtsAllowed;
 
   source.onopen = function() {
      activeTab = document.querySelector("#tabHolder .tab.active");
@@ -684,7 +726,9 @@ function bookings_live_update(sports_centre_id) {
 
      clean_bookings_array = JSON.parse(localStorage.getItem("bookings_array"));
 
-     bookingMatrix = createBookingMatrix(clean_bookings_array, currentFormattedDate, no_courts);
+     activeIconCourtsAllowed = mainClockCard.find("#activitySelector img.selectedIcon").attr("data-courtsAllowed");
+
+     bookingMatrix = createBookingMatrix(clean_bookings_array, currentFormattedDate, no_courts, activeIconCourtsAllowed);
      localStorage.setItem("BookingsMatrix", JSON.stringify(bookingMatrix));
 
      activeTab.click();
@@ -701,6 +745,7 @@ function bookings_live_update(sports_centre_id) {
     currentFormattedDate = currentDate.toLocaleString('en-us', {year: 'numeric', month: '2-digit', day: '2-digit'}).
     replace(/(\d+)\/(\d+)\/(\d+)/, '$3-$1-$2');
     activeTab = document.querySelector("#tabHolder .tab.active");
+    activeIconCourtsAllowed = mainClockCard.find("#activitySelector img.selectedIcon").attr("data-courtsAllowed");
     var reserved_bookings;
     var current_bookings;
     var isExpiredReservation;
@@ -713,7 +758,7 @@ function bookings_live_update(sports_centre_id) {
     if (decodedData.event == "live_update") {
       updated_bookings_array = decodedData.bookings;
       localStorage.setItem("bookings_array", updated_bookings_array);
-      bookingMatrix = createBookingMatrix(JSON.parse(updated_bookings_array), currentFormattedDate, no_courts);
+      bookingMatrix = createBookingMatrix(JSON.parse(updated_bookings_array), currentFormattedDate, no_courts, activeIconCourtsAllowed);
       localStorage.setItem("BookingsMatrix", JSON.stringify(bookingMatrix));
       console.log("updated EventSource");
 
@@ -725,7 +770,7 @@ function bookings_live_update(sports_centre_id) {
        });
        //console.log(    "removed reservation!", current_bookings);
        localStorage.setItem("bookings_array", JSON.stringify(current_bookings));
-       bookingMatrix = createBookingMatrix(current_bookings, currentFormattedDate, no_courts);
+       bookingMatrix = createBookingMatrix(current_bookings, currentFormattedDate, no_courts, activeIconCourtsAllowed);
        localStorage.setItem("BookingsMatrix", JSON.stringify(bookingMatrix));
       //currentDate = new Date(document.querySelector("#dateHolder").value);
     } else if (decodedData.event == "live_reservation_update") {
@@ -757,7 +802,7 @@ function bookings_live_update(sports_centre_id) {
 
           localStorage.setItem("bookings_array", JSON.stringify(current_bookings));
 
-          bookingMatrix = createBookingMatrix(current_bookings, currentFormattedDate, no_courts);
+          bookingMatrix = createBookingMatrix(current_bookings, currentFormattedDate, no_courts, activeIconCourtsAllowed);
           localStorage.setItem("BookingsMatrix", JSON.stringify(bookingMatrix));
     } else {
     }
@@ -819,23 +864,52 @@ request.onload = function(e) {
         }
     }
 
+    var jsonCourtsAllowed = response["courtsAllowed"];
+    for (var courtIcon in jsonCourtsAllowed) {
+        activitySelector.find(`img[data-activity='${courtIcon}']`).attr("data-courtsAllowed", jsonCourtsAllowed[courtIcon]);
+    }
+
+    numberOfCourts = response["number_of_courts"];
+    bookings_array = JSON.parse(response["json_bookings"]);
+
     // add click listener on icons
     var activityHolder;
     var activityType;
+    var iconCourtsAllowed;
+    var nowTime;
+    var newFormattedDate;
+    var spaceActivity;
     activitySelector.on("click", "img.activityIcon", function(){
+        nowTime = new Date(mainClockCard.find("#dateHolder").val());
+        newFormattedDate = nowTime.toLocaleString('en-us', {year: 'numeric', month: '2-digit', day: '2-digit'}).
+        replace(/(\d+)\/(\d+)\/(\d+)/, '$3-$1-$2');
+
         activityHolder = activitySelector.find("#activityHolder");
         activityType = BookingWidget.$(this).attr("data-activity");
+        spaceActivity = BookingWidget.$(this).attr("data-spaceActivity");
+        spaceActivity = activityType.replace(/_/g, " ");
+
+
         BookingWidget.$(this).siblings().each( function() {
             BookingWidget.$(this).removeClass("selectedIcon");
+            if (BookingWidget.$(this).hasClass("activityIcon")) {
+                BookingWidget.$(this).addClass("bw-none");
+            }
         });
         BookingWidget.$(this).addClass("selectedIcon");
         activityHolder.text(activityType);
         console.log("jsonPrices", jsonPrices[activityType]);
         mainClockCard.find("#real-price-holder").attr("data-prices", JSON.stringify(jsonPrices[activityType]));
-    });
-    activitySelector.find("img[data-activity='basketball']").click();
 
-    numberOfCourts = response["number_of_courts"];
+        // on click get the data courtsAllowed info and store the matrix in localStorage
+        iconCourtsAllowed = BookingWidget.$(this).attr("data-courtsAllowed");
+        console.log("newDate", newFormattedDate);
+        bookingMatrix = createBookingMatrix(bookings_array, newFormattedDate, numberOfCourts, iconCourtsAllowed);
+        localStorage.setItem("BookingsMatrix", JSON.stringify(bookingMatrix));
+        mainClockCard.find("#tabHolder div.active").click();
+    });
+    activitySelector.find(".activityIcon:not(.bw-none)").first().click();
+
     localStorage.setItem("numberOfCourts", numberOfCourts);
     localStorage.setItem("bookings_array", response["json_bookings"]);
 
@@ -858,13 +932,12 @@ request.onload = function(e) {
 
     // retrieve the opening and closing hour for the selected date
     // generate the bookings availability for todays date when page first loads.
-    bookings_array = JSON.parse(response["json_bookings"]);
     bookingMatrix = createBookingMatrix(bookings_array, nowFormattedDate, numberOfCourts);
     //var bookingSchedule;
     //console.log("matrix", bookingMatrix);
     // set up the half court tab - am and pm buttons
     //console.log("halfCourt", bookingSchedule);
-    localStorage.setItem("BookingsMatrix", JSON.stringify(bookingMatrix));
+    //localStorage.setItem("BookingsMatrix", JSON.stringify(bookingMatrix));
 
     bookings_live_update(sportsCentreId);
 
@@ -877,6 +950,7 @@ request.onload = function(e) {
     halfCourtTab.addEventListener( "click", function() {
       //drawClock(ctx, radius);
       //console.log("halfCourt", bookingSchedule);
+      bookingMatrix = JSON.parse(localStorage.getItem("BookingsMatrix"));
       mainClockCard.find("#tabHolder").attr("data-courtType", "halfCourt");
       bookingSchedule = check_availability("halfCourt", bookingMatrix);
       localStorage.setItem("currentBookings", JSON.stringify(bookingSchedule));
@@ -902,6 +976,8 @@ request.onload = function(e) {
     // set up the full court tab - am and pm buttons
     // right now, booking schedule only returns the array hash for half court availability.
     fullCourtTab.addEventListener( "click", function() {
+
+      bookingMatrix = JSON.parse(localStorage.getItem("BookingsMatrix"));
       mainClockCard.find("#tabHolder").attr("data-courtType", "fullCourt");
       //console.log(mainClockCard.find("#tabHolder")[0]);
       bookingSchedule = check_availability("fullCourt", bookingMatrix);
@@ -955,4 +1031,28 @@ clearTimeButton.addEventListener("click", function(event) {
     drawBookedTimes(ctx, radius, formattedCurrentDate, bookingSchedule, 'PM');
   };
 
+});
+
+var activityIcons;
+var selectedIcon;
+mainClockCard.on("click", "#nextIcon", function() {
+    activityIcons = mainClockCard.find(".activityIcon:not(:first)");
+    selectedIcon = mainClockCard.find(".selectedIcon");
+    if (activityIcons.index(selectedIcon) == activityIcons.length - 1) {
+        activityIcons.first().removeClass("bw-none").click();
+    } else {
+        selectedIcon.next().removeClass("bw-none").click()
+        mainClockCard.find("#prevIcon").removeClass("bw-none");
+        mainClockCard.find("#activityHolder").removeClass("max-preLeftArrow").addClass("max-postLeftArrow");
+    }
+});
+
+mainClockCard.on("click", "#prevIcon", function() {
+    activityIcons = mainClockCard.find(".activityIcon:not(:first)");
+    selectedIcon = mainClockCard.find(".selectedIcon");
+    if (activityIcons.index(selectedIcon) == 0) {
+        activityIcons.last().removeClass("bw-none").click();
+    } else {
+        selectedIcon.prev().removeClass("bw-none").click()
+    }
 });

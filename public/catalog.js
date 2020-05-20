@@ -15,7 +15,7 @@ BookingWidget.html = (function() {
     var html;
     html = '<div id="BookingWidget">' +
               '<div id="clockHolderCard" data-buttonsAttached="false">' +
-              '<div class="row mb-3 mx-0" id="bw-brandRow">' +
+              '<div class="row mb-2 pb-2 mx-0" id="bw-brandRow">' +
               '<img src="https://weball.com.au/orangeWeballCropped.png" id="bw-weBallBrand"></img>' +
               '<div class="vl-border"></div>' +
               '<div class="h5 bw-none bw-sportsCentreTitle"></div>' +
@@ -30,8 +30,10 @@ BookingWidget.html = (function() {
               '<div class="card-body py-1">' +
               '<nav>' +
               '<div id="activitySelector" class="">' +
-              '<div id="activityHolder">Basketball</div>' +
-              '<img class="activityIcon bw-none" width="1rem" data-activity="" data-prices="" src="https://weball.com.au/sport_icons/basketball.png"></img>' +
+              '<i class="fas fa-angle-left fa-2x bw-none bw-iconArrow" id="prevIcon"></i>' +
+              '<img class="activityIcon bw-none" width="1rem" data-activity="" data-prices="" data-courtsAllowed="" src="#"></img>' +
+              '<div id="activityHolder" class=""></div>' +
+              '<i class="fas fa-angle-right fa-2x" id="nextIcon"></i>' +
               '</div>' +
               '</nav>' +
               '<nav>' +
