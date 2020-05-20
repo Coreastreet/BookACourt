@@ -80,7 +80,7 @@ BookingWidget.html = (function() {
               '<input class="col-auto form-control" id="startDate" placeHolder = "Wednesday, 18 December"></input>' +
               '</div>' +
               '<div class="form-row white-box rounded mt-2" id="frequencyRow">' +
-              '<div class="d-flex col-4" id="frequencyHeader">' +
+              '<div class="d-flex" id="frequencyHeader">' +
               '<label class="bw-label" id="frequencyLabel">Frequency</label>' +
               '<div class="days-and-weeks" id="frequencyButtons" role="group">' +
               '<button type="button" class="daysWeeks blackText" data-frequency-type="Days" id="daysButton">Days</button>' +
