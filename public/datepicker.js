@@ -159,6 +159,7 @@ BookingWidget.$('[data-provide="datepicker"]').datepicker({
      mainClockCard.find("#tabHolder").attr("data-courtType", "fullCourt");
      bookingSchedule = check_availability("fullCourt", bookingMatrix);
      //console.log("bookingSchedule", bookingSchedule);
+     console.log("full court", bookingSchedule);
      localStorage.setItem("currentBookings", JSON.stringify(bookingSchedule));
      if (canvas.attr('data-ampm') == 'AM') {
          //console.log("AM now", now);
