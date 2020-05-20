@@ -73,7 +73,7 @@ BookingWidget.html = (function() {
               '<div class="card-body py-1" id="miniContainer">' +
               '<div class= "form-row mt-2" id="repeatHeader">' +
               '<i class="fas fa-arrow-left back-arrow-booking" id="repeatArrow"></i>' +
-              '<p class="bold heading mb-2" id="repeatTitle">Regular Booking</p>' +
+              '<div class="h5 heading mb-2" id="repeatTitle">Regular Booking</div>' +
               '</div>' +
               '<div class="form-row white-box rounded" id="startRow">' +
               '<label class="bw-label" id="startLabel">Start Date</label>' +

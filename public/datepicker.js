@@ -898,7 +898,7 @@ request.onload = function(e) {
             }
         });
         BookingWidget.$(this).addClass("selectedIcon");
-        activityHolder.text(activityType);
+        activityHolder.text(spaceActivity);
         console.log("jsonPrices", jsonPrices[activityType]);
         mainClockCard.find("#real-price-holder").attr("data-prices", JSON.stringify(jsonPrices[activityType]));
 

@@ -19,7 +19,7 @@
   height: 2rem;
   display: flex;
   margin: 0.5rem 0;
-  padding: 0 0.5rem;
+  padding: 0;
   border: 1px solid black;
 }
 
@@ -207,6 +207,7 @@
   margin: 0 0 0 1rem;
   font-weight: 600;
 }
+
 #BookingWidget #repeatBookingCard #maxBookingRow {
   background-color: white;
   margin: 0.25rem 1rem;
@@ -279,6 +280,7 @@
 #BookingWidget #repeatBookingCard #frequencyRow #frequencyHeader #frequencyButtons {
   display: flex;
   flex: 1 0 40%;
+  margin-left: 1rem;
 }
 
 #BookingWidget #repeatBookingCard #frequencyRow #frequencyHeader #frequencyButtons button {
