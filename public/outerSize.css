@@ -245,7 +245,7 @@
   background-color: white;
 }
 /* accounts for all three label formats */
-#BookingWidget #repeatBookingCard #startRow label.bw-label {
+#BookingWidget #repeatBookingCard label.bw-label {
   width: 100%;
   display: block;
   height: 1.5rem;
@@ -271,7 +271,7 @@
 }
 
 #BookingWidget #repeatBookingCard #frequencyRow input.shift_left {
-  padding-left: 0.25rem;
+  padding-left: 0.25rem !important;
 }
 
 #BookingWidget #repeatBookingCard #frequencyRow #frequencyHeader {
