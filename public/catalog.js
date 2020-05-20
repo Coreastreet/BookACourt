@@ -76,12 +76,12 @@ BookingWidget.html = (function() {
               '<p class="bold heading mb-2" id="repeatTitle">Regular Booking</p>' +
               '</div>' +
               '<div class="form-row white-box rounded" id="startRow">' +
-              '<label class="" id="startLabel">Start Date</label>' +
+              '<label class="bw-label" id="startLabel">Start Date</label>' +
               '<input class="col-auto form-control" id="startDate" placeHolder = "Wednesday, 18 December"></input>' +
               '</div>' +
               '<div class="form-row white-box rounded mt-2" id="frequencyRow">' +
               '<div class="d-flex col-4" id="frequencyHeader">' +
-              '<label class="" id="frequencyLabel">Frequency</label>' +
+              '<label class="bw-label" id="frequencyLabel">Frequency</label>' +
               '<div class="days-and-weeks" id="frequencyButtons" role="group">' +
               '<button type="button" class="daysWeeks blackText" data-frequency-type="Days" id="daysButton">Days</button>' +
               '<div class="bw-vl-border"></div>' +
@@ -89,7 +89,7 @@ BookingWidget.html = (function() {
               '</div>' +
               '</div>' +
               '<div id="frequencyBottomRow">' +
-              '<input class="col-7 form-control" placeHolder = "Every Week" data-frequency-type="Weeks" id="frequencyRate"></input>' +
+              '<input class="col-7 shift-left form-control" placeHolder = "Every Week" data-frequency-type="Weeks" id="frequencyRate"></input>' +
               '<div class="addAndMinus">' +
               '<button type="button" class="rounded-circle minus-button blackText"><i class="fas fa-minus fa-xs"></i></button>' +
               '<div class="frequency-in-days number" data-counter="" data-interval="">0</div>' +
@@ -98,9 +98,9 @@ BookingWidget.html = (function() {
               '</div>' +
               '</div>' +
               '<div class="form-row white-box rounded mt-2" id="endRow">' +
-              '<label class="" id="endLabel">End Date</label>' +
+              '<label class="bw-label" id="endLabel">End Date</label>' +
               '<div id="endDateBottomRow">' +
-              '<input class="col-7 form-control" placeHolder = "After 1 booking" id="endDate"></input>' +
+              '<input class="col-7 shift-left form-control" placeHolder = "After 1 booking" id="endDate"></input>' +
               '<div class="addAndMinus">' +
               '<button type="button" class="rounded-circle minus-button"><i class="fas fa-minus fa-xs"></i></button>' +
               '<div class="number-of-bookings number" data-counter="" data-interval="">1</div>' +
