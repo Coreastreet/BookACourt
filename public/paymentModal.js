@@ -763,7 +763,7 @@ function convertToAMPM(timeString) {
   return `${int}:${hours_and_minutes[1]}${am_or_pm}`
 }
 
-function calculateCourtIds(startTime, endTime, courtArrays) {
+function calculateCourtIds(startTime, endTime, courtArrays, venueCourtIds) {
   //var bookingMatrix = localStorage.getItem("BookingsMatrix");
   var bookingIntervals = getIntervals(startTime, endTime);
   var setBooking = new Set(bookingIntervals);
@@ -772,6 +772,7 @@ function calculateCourtIds(startTime, endTime, courtArrays) {
   var courtFreeIds = [];
   var timesToBeFilled;
   var newSetBooking;
+  var courtSpecificId;
   //var intersectionMatrix = [];
   var courtTimeDifference;
   var hashSets = {};
@@ -814,14 +815,15 @@ function calculateCourtIds(startTime, endTime, courtArrays) {
       //    courtFreePeriods.push(getLargestSubArray(courtTimeDifference));
 } while(timesToBeFilled != 0);
   for (var i in courtFreeIds) {
-      finalHash[parseInt(courtFreeIds[i])+1] = courtFreePeriods[i];
+      courtSpecificId = venueCourtIds[parseInt(courtFreeIds[i])];
+      finalHash[courtSpecificId] = courtFreePeriods[i];
   }
   return finalHash;
   //console.log("Court Ids", courtFreeIds);
   //console.log("Respective Court Periods", courtFreePeriods);
 }
 
-function calculateFullCourtIds(startTime, endTime, courtArrays) {
+function calculateFullCourtIds(startTime, endTime, courtArrays, venueCourtIds) {
   //var bookingMatrix = localStorage.getItem("BookingsMatrix");
   var bookingIntervals = getIntervals(startTime, endTime);
   var setBooking = new Set(bookingIntervals);
@@ -831,6 +833,7 @@ function calculateFullCourtIds(startTime, endTime, courtArrays) {
   var courtFreeIds = [];
   var timesToBeFilled;
   var newSetBooking;
+  var courtSpecificId;
   //var intersectionMatrix = [];
   var courtTimeDifference;
   var hashSets = {};
@@ -870,7 +873,8 @@ function calculateFullCourtIds(startTime, endTime, courtArrays) {
 
 } while(timesToBeFilled != 0);
   for (var i in courtFreeIds) {
-      finalHash[parseInt(courtFreeIds[i])+1] = courtFreePeriods[i];
+      courtSpecificId = venueCourtIds[parseInt(courtFreeIds[i])];
+      finalHash[courtSpecificId] = courtFreePeriods[i];
   }
   return finalHash;
   //console.log("Court Ids", courtFreeIds);
