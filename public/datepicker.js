@@ -858,7 +858,7 @@ request.onload = function(e) {
             cloneIcon = activitySelector.find("img.activityIcon").eq(0).clone();
             cloneIcon.attr("src", `https://weball.com.au/sport_icons/${activity}.png`);
             cloneIcon.removeClass("bw-none");
-            cloneIcon.on("error", function() { $(this).hide(); });
+            cloneIcon.on("error", function() { BookingWidget.$(this).hide(); });
             cloneIcon.attr("data-activity", activity);
             //cloneIcon.attr("data-prices", jsonPrices[activity]);
             cloneIcon.insertAfter(activitySelector.find("#activityHolder"));

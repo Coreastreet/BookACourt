@@ -39,10 +39,10 @@ BookingWidget.html = (function() {
               '<nav>' +
               '<div class="nav nav-tabs court-types" data-courtType = "" id="tabHolder">' +
               '<div class="tab" id="halfCourtTab">' +
-              '<a>Half Court</a>' +
+              '<a>Single Venue</a>' +
               '</div>' +
               '<div class="tab" id="fullCourtTab">' +
-              '<a>Full Court</a>' +
+              '<a>Combined Venue</a>' +
               '</div>' +
               '</div>' +
               '</nav>' +
@@ -72,16 +72,16 @@ BookingWidget.html = (function() {
               '<div class="card repeat-card-body border-bottom-0 slideHolderModal w-100" id="repeatBookingCard" data-availabilityChecked="true" data-regularBooking="false">' +
               '<div class="card-body py-1" id="miniContainer">' +
               '<div class= "form-row mt-2" id="repeatHeader">' +
-              '<i class="fas fa-arrow-left back-arrow hover-grey mr-2 p-2 align-self-center back-arrow-booking rounded" id="repeatArrow"></i>' +
+              '<i class="fas fa-arrow-left back-arrow-booking" id="repeatArrow"></i>' +
               '<p class="bold heading mb-2" id="repeatTitle">Regular Booking</p>' +
               '</div>' +
               '<div class="form-row white-box rounded" id="startRow">' +
-              '<label class="col-4 text-left font-weight-normal" id="startLabel">Start Date</label>' +
+              '<label class="" id="startLabel">Start Date</label>' +
               '<input class="col-auto form-control" id="startDate" placeHolder = "Wednesday, 18 December"></input>' +
               '</div>' +
               '<div class="form-row white-box rounded mt-2" id="frequencyRow">' +
               '<div class="d-flex col-4" id="frequencyHeader">' +
-              '<label class="text-left font-weight-normal mb-2" id="frequencyLabel">Frequency</label>' +
+              '<label class="" id="frequencyLabel">Frequency</label>' +
               '<div class="days-and-weeks" id="frequencyButtons" role="group">' +
               '<button type="button" class="daysWeeks blackText" data-frequency-type="Days" id="daysButton">Days</button>' +
               '<div class="bw-vl-border"></div>' +
@@ -98,7 +98,7 @@ BookingWidget.html = (function() {
               '</div>' +
               '</div>' +
               '<div class="form-row white-box rounded mt-2" id="endRow">' +
-              '<label class="col-4 text-left font-weight-normal" id="endLabel">End Date</label>' +
+              '<label class="" id="endLabel">End Date</label>' +
               '<div id="endDateBottomRow">' +
               '<input class="col-7 form-control" placeHolder = "After 1 booking" id="endDate"></input>' +
               '<div class="addAndMinus">' +

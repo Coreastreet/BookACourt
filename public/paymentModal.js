@@ -543,6 +543,8 @@ function fillInPaymentModal() {
   //var intervalBetweenBookings = parseInt(BookingWidget.$("#repeatBookingCard .frequency-in-days").text());
 
   // assign half court or half court to item in modal
+  // replace txt with single and combined venue
+  /*
   if (BookingWidget.$('#halfCourtTab').hasClass("active")) {
     courtType = "halfCourt"; // set item to half-court
     court_type_holder.text("Single Venue");
@@ -550,7 +552,7 @@ function fillInPaymentModal() {
   if (BookingWidget.$('#fullCourtTab').hasClass("active")) {
     courtType = "fullCourt"; // full-court
     court_type_holder.text("Combined Venue");
-  }
+  } */
 
   modal_body.attr("data-activity-type", activityChosen)
   modal_body.find("#activityType").text(activityChosen + " ")

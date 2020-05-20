@@ -22,11 +22,14 @@
   padding: 0 0.5rem;
   border: 1px solid black;
 }
+
 #BookingWidget #activitySelector #activityHolder {
   flex: 1 0 25%;
   align-self: center;
   text-transform: capitalize;
+  padding-left: 0.5rem;
 }
+
 #BookingWidget #activitySelector .activityIcon {
   flex: 0 1 10%;
   object-fit: contain;
@@ -188,9 +191,21 @@
   display: flex;
   padding: 1rem;
 }
+
+#BookingWidget #repeatBookingCard #repeatHeader #repeatArrow {
+  padding: 0.5rem;
+  margin-top: -0.5rem;
+  align-self: center;
+}
+
+#BookingWidget #repeatBookingCard #repeatHeader #repeatArrow:hover {
+  color: white;
+  background-color: #868e96;
+}
+
 #BookingWidget #repeatBookingCard #repeatHeader #repeatTitle {
   margin: 0 0 0 1rem;
-  width: 100%;
+  font-weight: 600;
 }
 #BookingWidget #repeatBookingCard #maxBookingRow {
   background-color: white;

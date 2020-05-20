@@ -1801,6 +1801,8 @@ $(document).on('turbolinks:load', function ()  {
                         // assign half court or half court to item in modal
                         // if centre is sports
                         //  only one venue type
+                        // replace text with single and combined venue
+                        /*
                         if ($('#halfCourtTab').hasClass("active")) {
                           courtType = "halfCourt"; // set item to half-court
                           court_type_holder.text("Single Venue");
@@ -1808,7 +1810,7 @@ $(document).on('turbolinks:load', function ()  {
                         if ($('#fullCourtTab').hasClass("active")) {
                           courtType = "fullCourt"; // full-court
                           court_type_holder.text("Combined Venue");
-                        }
+                        } */
 
                         modal_body.attr("data-activity-type", activityChosen)
                         modal_body.find("#activityType").text(activityChosen + " ")
