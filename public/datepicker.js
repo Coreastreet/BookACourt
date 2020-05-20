@@ -450,9 +450,9 @@ function check_availability(courtType, bookingMatrix) {
         fullCourtArray.push(Array.from(union));
         oddCounter += 2;
       }
-      if ((length % 2) != 0) { // if the number of courts is odd and has an extra half court
+      /* if ((length % 2) != 0) { // if the number of courts is odd and has an extra half court
         fullCourtArray.push(outerBookingsArray[length - 1]);
-      }
+      } */
       outerBookingsArray = fullCourtArray;
     }
     //console.log("fullCourtArray", outerBookingsArray);
