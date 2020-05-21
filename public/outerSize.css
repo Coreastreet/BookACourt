@@ -239,6 +239,7 @@
   max-width: 64%;
   word-break: break-word;
   max-height: 3rem;
+  overflow: hidden;
 }
 
 #BookingWidget #repeatBookingCard #startRow {

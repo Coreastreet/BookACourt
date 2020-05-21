@@ -482,7 +482,7 @@ $(document).on('turbolinks:load', function () {
           //var iconInput = $("#customIconFile");
           var defaultPrice = (newActivityValue == "event") ? "0" : "";
           if (newActivityValue.length > 0) {
-            clone = activityRow.children().last().clone();
+            clone = $("#templateActivityCard").clone();
 
             $("#activities option").each( function() {
                 if ($(this).val() == newActivityValue) {

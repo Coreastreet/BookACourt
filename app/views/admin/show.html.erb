@@ -538,16 +538,14 @@
                       <button type="button" class="btn btn-admin border-dark py-0 hover-selected <%= 'btn-clickedHR' if @sports_centre.centreType_before_type_cast == 1 %>" data-control="venue">Venue</button>
                     </div>
               </div>
+              <div class="col-2 d-none flex-column align-items-center border rounded py-2 mr-2 activityCard" data-activity="basketball" id="templateActivityCard"
+                data-hc-op="" data-hc-p="" data-hc-we="" data-fc-op="" data-fc-p="" data-fc-we="">
+                <div class="position-absolute deleteActivity">&times</div>
+                <img class="image-contain" src="<%= asset_path("sport_icons/basketball.png") %>">
+                <div class="display-icon d-none"></div>
+                <div class="pt-2 activityName">basketball</div>
+              </div>
               <div class="row flex-nowrap overflow-auto mx-0 my-4" id="activityCardHolder">
-                <% if @sports_centre.prices.empty? %>
-                <div class="col-2 d-none flex-column align-items-center border rounded py-2 mr-2 activityCard" data-activity="basketball"
-                  data-hc-op="" data-hc-p="" data-hc-we="" data-fc-op="" data-fc-p="" data-fc-we="">
-                  <div class="position-absolute deleteActivity">&times</div>
-                  <img class="image-contain" src="<%= asset_path("sport_icons/basketball.png") %>">
-                  <div class="display-icon d-none"></div>
-                  <div class="pt-2 activityName">basketball</div>
-                </div>
-                <% end %>
                 <% @sports_centre.prices.each do |activity, prices| %>
                 <div class="col-2 d-flex flex-column align-items-center border rounded py-2 mr-2 activityCard" data-activity=<%=activity%>
                   data-hc-op="<%=prices["casual"]["half_court"]["off_peak"]%>" data-hc-p="<%=prices["casual"]["half_court"]["peak_hour"]%>" data-hc-we="<%=prices["casual"]["half_court"]["Weekend"]%>"
