@@ -865,7 +865,7 @@ $(document).on('turbolinks:load', function () {
           $("#sports_centre_venue_colors").val(JSON.stringify(venue_colors));
 
           // add regular booking later on.
-          $("#editPricesForm .activityCard").each(function(){
+          $("#editPricesForm #activityCardHolder .activityCard").each(function(){
               //pricesHash = {};
               activity = $(this).attr("data-activity");
 
