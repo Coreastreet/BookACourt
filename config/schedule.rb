@@ -13,7 +13,7 @@ job_type :rbenv_rake, %Q{export PATH=/home/#{ENV["USER"]}/.rbenv/shims:/home/#{E
 #
 
 
-every 1.day, at: "10:55PM" do
+every 1.day, at: "11:55PM" do
   # rbenv_rake "sports_centre:updateYesterdayMoneyOwed"
   rbenv_rake "sports_centre:updateYesterdayMoneyOwedProduction"
 end

@@ -836,8 +836,8 @@ request.onload = function(e) {
     // store the prices in a div for reference in the widget sinces its easier.
     //var real_price_holder = mainClockCard.find("#real-price-holder");
     //real_price_holder.attr("data-prices", JSON.stringify(response["prices"]));
-    var plan_type = response["plan_type"];
-    if (plan_type == 0) { // free plan
+    var poli_activated = response["poli_activated"];
+    if (poliActivated == false) { // free plan
         //mainClockCard.find("#timeHolder").toggle();
         mainClockCard.find("#bookNowButton").toggle();
         mainClockCard.find("#clearButton").toggle();

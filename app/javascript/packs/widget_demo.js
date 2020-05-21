@@ -859,13 +859,13 @@ $(document).on('turbolinks:load', function ()  {
 
                           //var real_price_holder = mainClockCard.find("#real-price-holder");
                           //real_price_holder.attr("data-prices", JSON.stringify(response["prices"]));
-                          console.log("This is the plan type", response["plan_type"]);
-                          var plan_type = response["plan_type"];
+                          //console.log("This is the plan type", response["plan_type"]);
+                          var poli_activated = response["poli_activated"];
                           // hide the courts tabs if the centreType is venue instead of sports.
                           var centreType = response["centreType"];
                           $("#payment-confirmation").attr("data-venueType", centreType);
 
-                          if (plan_type == 0) { // in free plan, so hide several buttons
+                          if (poli_activated == false) { // in free plan, so hide several buttons
                               //mainClockCard.find("#timeHolder").toggle();
                               mainClockCard.find("#bookNowButton").toggle();
                               mainClockCard.find("#clearButton").toggle();
@@ -1788,9 +1788,9 @@ $(document).on('turbolinks:load', function ()  {
 
                       function fillInPaymentModal() {
                         // to store the courtype for later use
-                        var courtType;
+                        var courtType = mainClockCard.find("#tabHolder").attr("data-courtType");
                         // get the court Type div in the modal (should be empty initially or default to half-court).
-                        var court_type_holder = modal_body.find(".courtType");
+                        //var court_type_holder = modal_body.find(".courtType");
                         // get the frequency of booking (not checking whether days or weeks yet).
                         var frequency = parseInt(bw.find(".frequency-in-days").text());
 

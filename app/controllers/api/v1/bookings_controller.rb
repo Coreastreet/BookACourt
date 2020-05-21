@@ -79,40 +79,44 @@ class Api::V1::BookingsController < Api::V1::ApiController
 
   def check_availability
     sportsCentre = SportsCentre.find(params[:sports_centre_id])
-    interval_in_days = interval_params[:dayInterval]
-    date = interval_params[:date]
-    temp_reservations = $redis.get("booking_reservations_#{params[:sports_centre_id]}")
-    if !temp_reservations.nil?
-        temp_reservations_array = JSON.parse(temp_reservations)
-        temp_reservations_array.select!{ |booking| Time.now - Time.parse(booking["created_at"]) < 15.minutes } # remove those reservations stored longer than 2mins to prevent clogging up redis.
-        $redis.set("booking_reservations_#{params[:sports_centre_id]}", temp_reservations_array.to_json)
-        @json_bookings = (sportsCentre.bookings + temp_reservations_array).to_json
-    else
-        @json_bookings = sportsCentre.bookings.to_json
-    end
-    @numberOfCourts = sportsCentre.numberOfCourts
-    @prices = sportsCentre.prices
-    @peak_hours = sportsCentre.peak_hours
-    @opening_hours = sportsCentre.opening_hours.to_json
-    # send an int in the response to signal which plan the sportsCentre is on.
-    @planInt = sportsCentre.plan_before_type_cast
+    if valid_account(sportsCentre) # account is legit; do normal stuff return booking data
+          interval_in_days = interval_params[:dayInterval]
+          date = interval_params[:date]
+          temp_reservations = $redis.get("booking_reservations_#{params[:sports_centre_id]}")
+          if !temp_reservations.nil?
+              temp_reservations_array = JSON.parse(temp_reservations)
+              temp_reservations_array.select!{ |booking| Time.now - Time.parse(booking["created_at"]) < 15.minutes } # remove those reservations stored longer than 2mins to prevent clogging up redis.
+              $redis.set("booking_reservations_#{params[:sports_centre_id]}", temp_reservations_array.to_json)
+              @json_bookings = (sportsCentre.bookings + temp_reservations_array).to_json
+          else
+              @json_bookings = sportsCentre.bookings.to_json
+          end
+          @numberOfCourts = sportsCentre.numberOfCourts
+          @prices = sportsCentre.prices
+          @peak_hours = sportsCentre.peak_hours
+          @opening_hours = sportsCentre.opening_hours.to_json
+          # send an int in the response to signal which plan the sportsCentre is on.
+          @poliActivated = sportsCentre.polipayActivated
 
-    @logo_attached = (sportsCentre.logo.attached?) ? true : false
+          @logo_attached = (sportsCentre.logo.attached?) ? true : false
 
-    @sportsCentreTitle = sportsCentre.title
+          @sportsCentreTitle = sportsCentre.title
 
-    @courtsAllowed = sportsCentre.courtsAllowed
+          @courtsAllowed = sportsCentre.courtsAllowed
 
-    @centreType = sportsCentre.centreType_before_type_cast
+          @centreType = sportsCentre.centreType_before_type_cast
 
-    if @json_bookings
-      render :json => {json_bookings: @json_bookings, number_of_courts: @numberOfCourts, opening_hours: @opening_hours,
-      prices: @prices, peak_hours: @peak_hours, plan_type: @planInt, logo_attached: @logo_attached,
-      sports_centre_title: @sportsCentreTitle, courtsAllowed: @courtsAllowed, centreType: @centreType,
-      success: true, content_type: 'application/json'}.to_json, status: 200
-    else
-      render :json => {:error => "not-found", success: false, content_type: 'application/json'}.to_json, :status => 404
-    end
+          if @json_bookings
+            render :json => {json_bookings: @json_bookings, number_of_courts: @numberOfCourts, opening_hours: @opening_hours,
+            prices: @prices, peak_hours: @peak_hours, poli_activated: @poliActivated, logo_attached: @logo_attached,
+            sports_centre_title: @sportsCentreTitle, courtsAllowed: @courtsAllowed, centreType: @centreType,
+            success: true, content_type: 'application/json'}.to_json, status: 200
+          else
+            render :json => {:error => "sports centre not-found", success: false, content_type: 'application/json'}.to_json, :status => 404
+          end
+     else # account must not be valid unpaid or expired after free trial
+          render :json => {:error => "Account is no longer valid", success: false, content_type: 'application/json'}.to_json, :status => 404
+     end
   end
 
   def reserve
@@ -120,98 +124,102 @@ class Api::V1::BookingsController < Api::V1::ApiController
     require "json"
 
     sportsCentre = SportsCentre.find(params[:sports_centre_id])
-    sportsCentre_url = sportsCentre.URL
+    if valid_account(sportsCentre) && sportsCentre.polipayActivated # check that account is valid and polipay account is registered
 
-    amount = order_params[:totalAmount].to_f
-    # get the amount, merchant id and customer email in the params
-    # look up the authorisation code for the related merchant.
-    # get the relevant url for transaction and send back.
-    # create a new string for later conversion into booking and order conversion
-    # store the string in merchantData
-    # calculate the start and end Date later
-    # if guest transaction, leave user_id as nil
-    isBWrequest = !order_params[:bwFirstDayBookings].nil?
-    # account for possibility that request is sent by third party widget
-    if (order_params[:allDates].nil?)
-        allDates = (isBWrequest) ? JSON.parse(order_params[:bwAllDates]) : []
-    else
-        allDates = order_params[:allDates]
-    end
-    if (order_params[:allDates].nil?)
-        arrayOfRegularCourtIds = (isBWrequest) ? JSON.parse(order_params[:bwArrayOfRegularCourtIds]) : []
-    else
-        arrayOfRegularCourtIds = order_params[:arrayOfRegularCourtIds]
-    end
-    # arrayOfRegularCourtIds = (order_params[:allDates].nil?) ? [] :
+        sportsCentre_url = sportsCentre.URL
+        amount = order_params[:totalAmount].to_f
+        # get the amount, merchant id and customer email in the params
+        # look up the authorisation code for the related merchant.
+        # get the relevant url for transaction and send back.
+        # create a new string for later conversion into booking and order conversion
+        # store the string in merchantData
+        # calculate the start and end Date later
+        # if guest transaction, leave user_id as nil
+        isBWrequest = !order_params[:bwFirstDayBookings].nil?
+        # account for possibility that request is sent by third party widget
+        if (order_params[:allDates].nil?)
+            allDates = (isBWrequest) ? JSON.parse(order_params[:bwAllDates]) : []
+        else
+            allDates = order_params[:allDates]
+        end
+        if (order_params[:allDates].nil?)
+            arrayOfRegularCourtIds = (isBWrequest) ? JSON.parse(order_params[:bwArrayOfRegularCourtIds]) : []
+        else
+            arrayOfRegularCourtIds = order_params[:arrayOfRegularCourtIds]
+        end
+        # arrayOfRegularCourtIds = (order_params[:allDates].nil?) ? [] :
 
-    courtIdTimesArray = (booking_params[:courtIdTimesArray].nil?) ? JSON.parse(booking_params[:bwCourtIdTimesArray]) : booking_params[:courtIdTimesArray]
-    #binding.pry
-    merchantDataString = '{"order":' +
-      "{\"allDates\": #{allDates.compact}," +
-      "\"totalAmount\": \"#{order_params[:totalAmount]}\"," +
-      "\"plan\": \"#{sportsCentre.plan}\"," +
-      "\"totalCommission\": \"#{order_params[:totalAmount].to_i * sportsCentre.transactionRate}\"," +
-      "\"daysInBetween\": \"#{order_params[:daysInBetween]}\"," +
-      "\"firstDayBookings\": #{order_params[:bwFirstDayBookings]}," +
-      "\"arrayOfRegularCourtIds\": #{arrayOfRegularCourtIds}," +
-      "\"customerEmail\": \"#{order_params[:customerEmail]}\"}" +
-      ",\"booking\":" +
-      "{\"courtIdTimesArray\": #{courtIdTimesArray}," +
-      "\"startTime\": \"#{booking_params[:startTime]}\"," +
-      "\"endTime\": \"#{booking_params[:endTime]}\"," +
-      "\"bookingType\": \"#{booking_params[:bookingType]}\"," +
-      "\"activityType\": \"#{booking_params[:activityType]}\"," +
-      "\"courtType\": \"#{booking_params[:courtType]}\"}}"
+        courtIdTimesArray = (booking_params[:courtIdTimesArray].nil?) ? JSON.parse(booking_params[:bwCourtIdTimesArray]) : booking_params[:courtIdTimesArray]
+        #binding.pry
+        merchantDataString = '{"order":' +
+          "{\"allDates\": #{allDates.compact}," +
+          "\"totalAmount\": \"#{order_params[:totalAmount]}\"," +
+          "\"plan\": \"#{sportsCentre.plan}\"," +
+          "\"totalCommission\": \"#{order_params[:totalAmount].to_i * sportsCentre.transactionRate}\"," +
+          "\"daysInBetween\": \"#{order_params[:daysInBetween]}\"," +
+          "\"firstDayBookings\": #{order_params[:bwFirstDayBookings]}," +
+          "\"arrayOfRegularCourtIds\": #{arrayOfRegularCourtIds}," +
+          "\"customerEmail\": \"#{order_params[:customerEmail]}\"}" +
+          ",\"booking\":" +
+          "{\"courtIdTimesArray\": #{courtIdTimesArray}," +
+          "\"startTime\": \"#{booking_params[:startTime]}\"," +
+          "\"endTime\": \"#{booking_params[:endTime]}\"," +
+          "\"bookingType\": \"#{booking_params[:bookingType]}\"," +
+          "\"activityType\": \"#{booking_params[:activityType]}\"," +
+          "\"courtType\": \"#{booking_params[:courtType]}\"}}"
 
-    data = JSON.parse(merchantDataString)
+        data = JSON.parse(merchantDataString)
 
-    bookingType = data["booking"]["bookingType"]
-    id = params[:sports_centre_id]
-    bookingArray = []
-    t = Time.now
-    # get the time of reservation click time and store in updated_at, proxy for when clicked
-    reservationTime = Time.strptime(myIdentity_params[:reservation_time], "%Q")
+        bookingType = data["booking"]["bookingType"]
+        id = params[:sports_centre_id]
+        bookingArray = []
+        t = Time.now
+        # get the time of reservation click time and store in updated_at, proxy for when clicked
+        reservationTime = Time.strptime(myIdentity_params[:reservation_time], "%Q")
 
-    data["booking"]["courtIdTimesArray"].each do |booking|
-      idTimesArray = booking.split("-")
-      booking1 = Booking.new(startTime: idTimesArray[1], endTime: idTimesArray[2],
-        courtType: data["booking"]["courtType"], sports_centre_id: params[:sports_centre_id],
-        date: data["order"]["firstDayBookings"][0], bookingType: bookingType, created_at: t,
-        updated_at: reservationTime, court_no: idTimesArray[0], sportsType: data["booking"]["activityType"] ) # later calculate the courtNumber
-      bookingArray << booking1
-    end
-
-    start = data["booking"]["startTime"]
-    endTime = data["booking"]["endTime"]
-    regularIds = data["order"]["arrayOfRegularCourtIds"]
-
-    if (!(data["order"]["allDates"].empty?)) # if the extra regular dates are not empty?
-      data["order"]["allDates"].each_with_index do |date, index|
-          regBooking = Booking.new(startTime: start, endTime: endTime,
+        data["booking"]["courtIdTimesArray"].each do |booking|
+          idTimesArray = booking.split("-")
+          booking1 = Booking.new(startTime: idTimesArray[1], endTime: idTimesArray[2],
             courtType: data["booking"]["courtType"], sports_centre_id: params[:sports_centre_id],
-            date: date, bookingType: bookingType, created_at: t, updated_at: reservationTime,
-            court_no: regularIds[index], sportsType: data["booking"]["activityType"])
-          bookingArray << regBooking
-      end
-    end
-    # store the reservation temporariliy in redis. Check all that are older than 10 minutes and remove them.
-    temp_reservations = $redis.get("booking_reservations_#{id}")
-    if !temp_reservations.nil? # then set to the current array of reservations
-        bookingArray.map!(&:as_json)
-        newTempBookingArray = JSON.parse(temp_reservations) + bookingArray # current reservation array.
-        # remove all reservations where time.now is greater than created_at time  by 10 mins
-        newTempBookingArray.select!{ |booking| (Time.now - Time.parse(booking["created_at"])) < 15.minutes }
-        $redis.set("booking_reservations_#{id}", newTempBookingArray.to_json.html_safe)
-    else # if an array is already set i.e. reservations already exist.
-        $redis.set("booking_reservations_#{id}", bookingArray.to_json.html_safe)
-        newTempBookingArray = bookingArray
-    end
+            date: data["order"]["firstDayBookings"][0], bookingType: bookingType, created_at: t,
+            updated_at: reservationTime, court_no: idTimesArray[0], sportsType: data["booking"]["activityType"] ) # later calculate the courtNumber
+          bookingArray << booking1
+        end
 
-    RestClient.post "https://weball.com.au/pub/#{id}",  {event: "live_reservation_update", bookings: newTempBookingArray.to_json.html_safe}.to_json, {content_type: :json, accept: :json}
-    if bookingArray.any?
-      render :json => {success: true, content_type: 'application/json'}.to_json, :status => 200
+        start = data["booking"]["startTime"]
+        endTime = data["booking"]["endTime"]
+        regularIds = data["order"]["arrayOfRegularCourtIds"]
+
+        if (!(data["order"]["allDates"].empty?)) # if the extra regular dates are not empty?
+          data["order"]["allDates"].each_with_index do |date, index|
+              regBooking = Booking.new(startTime: start, endTime: endTime,
+                courtType: data["booking"]["courtType"], sports_centre_id: params[:sports_centre_id],
+                date: date, bookingType: bookingType, created_at: t, updated_at: reservationTime,
+                court_no: regularIds[index], sportsType: data["booking"]["activityType"])
+              bookingArray << regBooking
+          end
+        end
+        # store the reservation temporariliy in redis. Check all that are older than 10 minutes and remove them.
+        temp_reservations = $redis.get("booking_reservations_#{id}")
+        if !temp_reservations.nil? # then set to the current array of reservations
+            bookingArray.map!(&:as_json)
+            newTempBookingArray = JSON.parse(temp_reservations) + bookingArray # current reservation array.
+            # remove all reservations where time.now is greater than created_at time  by 10 mins
+            newTempBookingArray.select!{ |booking| (Time.now - Time.parse(booking["created_at"])) < 15.minutes }
+            $redis.set("booking_reservations_#{id}", newTempBookingArray.to_json.html_safe)
+        else # if an array is already set i.e. reservations already exist.
+            $redis.set("booking_reservations_#{id}", bookingArray.to_json.html_safe)
+            newTempBookingArray = bookingArray
+        end
+
+        RestClient.post "https://weball.com.au/pub/#{id}",  {event: "live_reservation_update", bookings: newTempBookingArray.to_json.html_safe}.to_json, {content_type: :json, accept: :json}
+        if bookingArray.any?
+          render :json => {success: true, content_type: 'application/json'}.to_json, :status => 200
+        else
+          render :json => {:error => "not-found", success: false, content_type: 'application/json'}.to_json, :status => 404
+        end
     else
-      render :json => {:error => "not-found", success: false, content_type: 'application/json'}.to_json, :status => 404
+        render :json => {:error => "Cannot reserve booking. Polipay not activated or account expired", success: false, content_type: 'application/json'}.to_json, :status => 404
     end
   end
 
@@ -221,85 +229,89 @@ class Api::V1::BookingsController < Api::V1::ApiController
     require "json"
 
     sportsCentre = SportsCentre.find(params[:sports_centre_id])
-    sportsCentre_url = sportsCentre.URL
+    if valid_account(sportsCentre) && sportsCentre.polipayActivated
+        sportsCentre_url = sportsCentre.URL
 
-    attemptedBookings = sportsCentre.attemptedBookings
-    orderReference = "#{params[:sports_centre_id]}_Order_#{attemptedBookings}" # dummy reference; not useful
-    attemptedBookings += 1;
-    sportsCentre.update!(attemptedBookings: attemptedBookings)
-    amount = order_params[:totalAmount].to_f
-    # get the amount, merchant id and customer email in the params
-    # look up the authorisation code for the related merchant.
-    # get the relevant url for transaction and send back.
-    # create a new string for later conversion into booking and order conversion
-    # store the string in merchantData
-    # calculate the start and end Date later
-    # if guest transaction, leave user_id as nil
-    isBWrequest = !order_params[:bwFirstDayBookings].nil?
-    # account for possibility that request is sent by third party widget
-    if (order_params[:allDates].nil?)
-        allDates = (isBWrequest) ? JSON.parse(order_params[:bwAllDates]) : []
+        attemptedBookings = sportsCentre.attemptedBookings
+        orderReference = "#{params[:sports_centre_id]}_Order_#{attemptedBookings}" # dummy reference; not useful
+        attemptedBookings += 1;
+        sportsCentre.update!(attemptedBookings: attemptedBookings)
+        amount = order_params[:totalAmount].to_f
+        # get the amount, merchant id and customer email in the params
+        # look up the authorisation code for the related merchant.
+        # get the relevant url for transaction and send back.
+        # create a new string for later conversion into booking and order conversion
+        # store the string in merchantData
+        # calculate the start and end Date later
+        # if guest transaction, leave user_id as nil
+        isBWrequest = !order_params[:bwFirstDayBookings].nil?
+        # account for possibility that request is sent by third party widget
+        if (order_params[:allDates].nil?)
+            allDates = (isBWrequest) ? JSON.parse(order_params[:bwAllDates]) : []
+        else
+            allDates = order_params[:allDates]
+        end
+        if (order_params[:allDates].nil?)
+            arrayOfRegularCourtIds = (isBWrequest) ? JSON.parse(order_params[:bwArrayOfRegularCourtIds]) : []
+        else
+            arrayOfRegularCourtIds = order_params[:arrayOfRegularCourtIds]
+        end
+        # arrayOfRegularCourtIds = (order_params[:allDates].nil?) ? [] :
+
+        courtIdTimesArray = (booking_params[:courtIdTimesArray].nil?) ? JSON.parse(booking_params[:bwCourtIdTimesArray]) : booking_params[:courtIdTimesArray]
+        #binding.pry
+
+        # ensure the time created is sent with merchant data.
+        # "\"myIdentity\":" +
+        # "{\"reservationTime\": \"#{myIdentity_params[:reservation_time]}\"}," +
+
+        merchantDataString = '{"order":' +
+          "{\"allDates\": #{allDates}," +
+          "\"totalAmount\": \"#{order_params[:totalAmount]}\"," +
+          "\"plan\": \"#{sportsCentre.plan}\"," +
+          "\"totalCommission\": \"#{order_params[:totalAmount].to_i * sportsCentre.transactionRate}\"," +
+          "\"daysInBetween\": \"#{order_params[:daysInBetween]}\"," +
+          "\"firstDayBookings\": #{order_params[:bwFirstDayBookings]}," +
+          "\"arrayOfRegularCourtIds\": #{arrayOfRegularCourtIds}," +
+          "\"customerEmail\": \"#{order_params[:customerEmail]}\"}," +
+          "\"booking\":" +
+          "{\"courtIdTimesArray\": #{courtIdTimesArray}," +
+          "\"startTime\": \"#{booking_params[:startTime]}\"," +
+          "\"endTime\": \"#{booking_params[:endTime]}\"," +
+          "\"bookingType\": \"#{booking_params[:bookingType]}\"," +
+          "\"activityType\": \"#{booking_params[:activityType]}\"," +
+          "\"courtType\": \"#{booking_params[:courtType]}\"}}"
+          #{}"{\"startTime\": \"#{booking_params[:startTime]}\"," +
+          #{}"\"endTime\": \"#{booking_params[:endTime]}\"," +
+        #binding.pry
+        # calculate the total amount again on the server side to ensure the total amount is not tampered with on client-side form
+        # use the sports centre object to reference opening hours, peak hours and prices.
+        # array of booked days; the start and endtime; the specific court ids used each week is irrelevant.
+        totalAmountServer = calculateTotalPriceServer(sportsCentre, JSON.parse(order_params[:bwFirstDayBookings]), allDates,
+        booking_params[:startTime], booking_params[:endTime], booking_params[:activityType], booking_params[:courtType])
+
+        response = RestClient.post "https://poliapi.uat1.paywithpoli.com/api/v2/Transaction/Initiate",
+              {Amount: amount, CurrencyCode: "AUD", MerchantReference: orderReference,
+                MerchantHomepageURL: sportsCentre_url, #sportsCentre_url,
+                MerchantData: merchantDataString,
+                SuccessURL: "https://weball.com.au/sports_centres/#{params[:sports_centre_id]}/booking_success",
+                FailureURL: sportsCentre_url, # redirect to page with failure message later on
+                CancellationURL: sportsCentre_url,
+                NotificationURL: "https://weball.com.au/api/v1/sports_centres/#{params[:sports_centre_id]}/bookings"},
+                {Authorization: "#{sportsCentre.combinedCode}"}
+
+        parsedResponse = JSON.parse(response.body)
+        if (response.code == 200 && parsedResponse["Success"])
+          if (isBWrequest)
+            render :json => {success: true, content_type: 'application/json', redirect_url: parsedResponse["NavigateURL"]}.to_json, :status => 200
+          else
+            redirect_to parsedResponse["NavigateURL"]
+          end
+        else
+          logger.info "initiate transaction action has failed"
+        end
     else
-        allDates = order_params[:allDates]
-    end
-    if (order_params[:allDates].nil?)
-        arrayOfRegularCourtIds = (isBWrequest) ? JSON.parse(order_params[:bwArrayOfRegularCourtIds]) : []
-    else
-        arrayOfRegularCourtIds = order_params[:arrayOfRegularCourtIds]
-    end
-    # arrayOfRegularCourtIds = (order_params[:allDates].nil?) ? [] :
-
-    courtIdTimesArray = (booking_params[:courtIdTimesArray].nil?) ? JSON.parse(booking_params[:bwCourtIdTimesArray]) : booking_params[:courtIdTimesArray]
-    #binding.pry
-
-    # ensure the time created is sent with merchant data.
-    # "\"myIdentity\":" +
-    # "{\"reservationTime\": \"#{myIdentity_params[:reservation_time]}\"}," +
-
-    merchantDataString = '{"order":' +
-      "{\"allDates\": #{allDates}," +
-      "\"totalAmount\": \"#{order_params[:totalAmount]}\"," +
-      "\"plan\": \"#{sportsCentre.plan}\"," +
-      "\"totalCommission\": \"#{order_params[:totalAmount].to_i * sportsCentre.transactionRate}\"," +
-      "\"daysInBetween\": \"#{order_params[:daysInBetween]}\"," +
-      "\"firstDayBookings\": #{order_params[:bwFirstDayBookings]}," +
-      "\"arrayOfRegularCourtIds\": #{arrayOfRegularCourtIds}," +
-      "\"customerEmail\": \"#{order_params[:customerEmail]}\"}," +
-      "\"booking\":" +
-      "{\"courtIdTimesArray\": #{courtIdTimesArray}," +
-      "\"startTime\": \"#{booking_params[:startTime]}\"," +
-      "\"endTime\": \"#{booking_params[:endTime]}\"," +
-      "\"bookingType\": \"#{booking_params[:bookingType]}\"," +
-      "\"activityType\": \"#{booking_params[:activityType]}\"," +
-      "\"courtType\": \"#{booking_params[:courtType]}\"}}"
-      #{}"{\"startTime\": \"#{booking_params[:startTime]}\"," +
-      #{}"\"endTime\": \"#{booking_params[:endTime]}\"," +
-    #binding.pry
-    # calculate the total amount again on the server side to ensure the total amount is not tampered with on client-side form
-    # use the sports centre object to reference opening hours, peak hours and prices.
-    # array of booked days; the start and endtime; the specific court ids used each week is irrelevant.
-    totalAmountServer = calculateTotalPriceServer(sportsCentre, JSON.parse(order_params[:bwFirstDayBookings]), allDates,
-    booking_params[:startTime], booking_params[:endTime], booking_params[:activityType], booking_params[:courtType])
-
-    response = RestClient.post "https://poliapi.uat1.paywithpoli.com/api/v2/Transaction/Initiate",
-          {Amount: amount, CurrencyCode: "AUD", MerchantReference: orderReference,
-            MerchantHomepageURL: sportsCentre_url, #sportsCentre_url,
-            MerchantData: merchantDataString,
-            SuccessURL: "https://weball.com.au/sports_centres/#{params[:sports_centre_id]}/booking_success",
-            FailureURL: sportsCentre_url, # redirect to page with failure message later on
-            CancellationURL: sportsCentre_url,
-            NotificationURL: "https://weball.com.au/api/v1/sports_centres/#{params[:sports_centre_id]}/bookings"},
-            {Authorization: "#{sportsCentre.combinedCode}"}
-
-    parsedResponse = JSON.parse(response.body)
-    if (response.code == 200 && parsedResponse["Success"])
-      if (isBWrequest)
-        render :json => {success: true, content_type: 'application/json', redirect_url: parsedResponse["NavigateURL"]}.to_json, :status => 200
-      else
-        redirect_to parsedResponse["NavigateURL"]
-      end
-    else
-      logger.info "initiate transaction action has failed"
+        render :json => {:error => "Cannot initiate transaction. Polipay not activated or account expired", success: false, content_type: 'application/json'}.to_json, :status => 404
     end
   end
 
@@ -331,47 +343,6 @@ class Api::V1::BookingsController < Api::V1::ApiController
     #respond_to do |format|
     render :json => msg
     #end
-  end
-
-  # qr-code not needed
-  def check_qrCode
-    #binding.pry
-    sportsCentre = SportsCentre.find(params[:sports_centre_id])
-    matchingBookings = sportsCentre.bookings.where(pin: pin_params[:pin])
-    details = ""
-    error = ""
-    date = ""
-    result = false
-    if (matchingBookings.any?) # exists
-      matchingBooking = matchingBookings.find_by(date: Date.today)
-      if (matchingBooking)      # matching booking for todays date specifically
-          if (matchingBooking.claimed == false) # booking not claims yet
-            if (Time.now.strftime("%H:%M") < matchingBooking.endTime.strftime("%H:%M"))
-              result = true # Booking Valid!
-              matchingBooking.update!(claimed: true)
-              name = matchingBooking.name
-              startTime = matchingBooking.startTime.strftime("%l:%M%p").gsub(/\s+/, "")
-              endTime = matchingBooking.endTime.strftime("%l:%M%p").gsub(/\s+/, "")
-              details = {topMessage: "Hi #{name}", bottomMessage: "#{startTime}-#{endTime}", success_code: 0}
-            else # time for booking has elapsed
-              error = "Booking period over"
-              details = {error: error, error_code: 0}
-            end
-          else # claimed is true i.e. the customer scanned in for entry already
-            result = true
-            name = matchingBooking.name
-            details = {topMessage: "Bye #{name}", bottomMessage: "See you next time!", success_code: 1}
-          end
-      else
-        error = "No Booking Today"
-        details = {error: error, error_code: 2}
-      end
-    else
-        error = "No Bookings made!"
-        details = {error: error, error_code: 3}
-    end
-    render :json => {result: result, details: details}.to_json, status: 200
-    #sportsCentre.
   end
 
 private

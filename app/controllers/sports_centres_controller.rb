@@ -29,8 +29,10 @@ class SportsCentresController < ApplicationController
     # create the final auth key
 
     # -------------------------------- Use the code below to generate the auth for polipay
-
-    new_sports_centre.update(nextPaymentDue: Date.current + 30.days)
+    freeTrialEnd = Date.current + 30.days
+    new_sports_centre.update(nextPaymentDue: freeTrialEnd, freeTrialEndDate: freeTrialEnd)
+    # update the next payment due everytime a payment is made but leave the free trial end date.
+    # leave polipay acoount activated to false.
 
     #new_sports_centre.update(address: new_address)
     empty_opening_hours = {
