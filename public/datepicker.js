@@ -837,7 +837,7 @@ request.onload = function(e) {
     //var real_price_holder = mainClockCard.find("#real-price-holder");
     //real_price_holder.attr("data-prices", JSON.stringify(response["prices"]));
     var poli_activated = response["poli_activated"];
-    if (poliActivated == false) { // free plan
+    if (poli_activated == false) { // free plan
         //mainClockCard.find("#timeHolder").toggle();
         mainClockCard.find("#bookNowButton").toggle();
         mainClockCard.find("#clearButton").toggle();
