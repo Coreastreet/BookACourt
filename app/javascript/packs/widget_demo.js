@@ -832,7 +832,7 @@ $(document).on('turbolinks:load', function ()  {
                       //request.timeout = 2000;
                       request.onload = function(e) {
                           var response = request.response;
-                          //console.log("response", response);
+                          console.log("response", response);
                           var nowFormattedDate = now.toLocaleString('en-us', {year: 'numeric', month: '2-digit', day: '2-digit'}).
                           replace(/(\d+)\/(\d+)\/(\d+)/, '$3-$1-$2');
 
