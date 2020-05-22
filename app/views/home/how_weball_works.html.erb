@@ -1,23 +1,23 @@
-<section class="container-fluid bg-home-image-1 py-3">
+<section class="container-fluid bg-home-image-1 pb-3">
     <div class="container infoPageGrid1">
       <div class="homePageText d-flex flex-column">
-          <div class="h1">
+          <div class="dynamicFont">
             How WeBall works
           </div>
         <!--  <span>Let customers</span>
           <span class="text-uppercase mb-0 font-weight-bold text-center mb-0">book venues faster</span>
           <span class="text-right">on your site.</span> -->
           <div class="h5 mb-0">
-            In this page, we will explore how the WeBall booking system works.
+            In this page, we explore how the WeBall booking system works. Select the part you would like to learn more about.
           </div>
           <div class="d-flex justify-content-end pt-4">
             <a role="button" class="btn btn-small generalButton h4 font-weight-bold" href="#infoDashBoard">
-                Learn about the WeBall dashboard.<i class="fas fa-lg ml-2 fa-angle-right"></i>
+                The WeBall dashboard<i class="fas fa-lg ml-2 fa-angle-right"></i>
             </a>
           </div>
           <div class="d-flex justify-content-end">
             <a role="button" class="btn btn-small generalButton h4 font-weight-bold" href="#infoWidget">
-                Learn about the WeBall widget.<i class="fas fa-lg ml-2 fa-angle-right"></i>
+                The WeBall widget<i class="fas fa-lg ml-2 fa-angle-right"></i>
             </a>
           </div>
       </div>
@@ -28,7 +28,7 @@
 </section>
 <section class="container-fluid bg-white px-0" id="infoDashBoard">
     <div class="container">
-      <div class="h1 my-5">
+      <div class="dynamicFont mt-5 mb-3 mb-md-5">
         The WeBall administrator dashboard:
       </div>
       <div class="h3 font-weight-bold">
@@ -41,9 +41,9 @@
         Each tab will enable you to perform a different set of tasks.
       </div>
       <div class="h5 mb-0">
-        Read the cards below to learn about the action tabs.
+        Read the cards below to learn about each action tab.
       </div>
-      <div class="btn-group bg-white form-control py-0 pl-0 mandatory mt-3" id="infoCardSelection1" role="group" aria-label="Basic example">
+      <div class="btn-group bg-white form-control p-0 flexWrapButtons mt-3" id="infoCardSelection1" role="group" aria-label="Basic example">
         <% ["Bookings", "Prices", "Hours", "Logos"].each do |buttonID| %>
             <button type="button" class="btn border-dark hover-selected rounded-0"
             data-idRef=<%= "#{buttonID}InfoCard" %>><%= buttonID %></button>
@@ -52,55 +52,55 @@
     </div>
     <div class="container mt-4">
       <div class="bookings tab" id="BookingsInfoCard">
-          <%= image_tag(asset_path("dashBoardTable.png"), class: "img-fluid p-4 col-5") %>
-          <div class="col-6 offset-1 indentInfo">
-              <div class="h3 mb-3"><i class="fas fa-th pr-2" aria-hidden="true"></i>Bookings:</div>
-              <div class="h5 align-left">
+          <%= image_tag(asset_path("dashBoardTable.png"), class: "img-fluid p-0 p-md-4 col-12 col-md-5") %>
+          <div class="col-md-6 col-12 offset-md-1">
+              <div class="h3 my-3"><i class="fas fa-th pr-2" aria-hidden="true"></i>Bookings:</div>
+              <ul class="h5 align-left list-dots-mb-3">
                 <li>Display all current and new bookings.</li>
                 <li>Create new casual or regular bookings.</li>
                 <li>Create single or double venue bookings or full facility bookings.</li>
                 <li>Create a custom event when a booking does not fit into an activity category.</li>
                 <li>Delete bookings.</li>
-              </div>
+              </ul>
           </div>
       </div>
       <div class="prices tab d-none" id="PricesInfoCard">
-        <%= image_tag(asset_path("prices_plans.png"), class: "img-fluid my-3 p-4 col-5") %>
-        <div class="col-6 pt-3 offset-1 indentInfo">
-            <div class="h3 mb-3"><i class="fas fa-dollar-sign pr-2" aria-hidden="true"></i>Prices:</div>
-            <div class="h5">
+        <%= image_tag(asset_path("prices_plans.png"), class: "img-fluid p-0 p-md-4 col-12 col-md-5") %>
+        <div class="col-md-6 col-12 offset-md-1">
+            <div class="h3 my-3"><i class="fas fa-dollar-sign pr-2" aria-hidden="true"></i>Prices:</div>
+            <ul class="h5 align-left list-dots-mb-3">
               <li>Add a new activity.</li>
               <li>Set the prices for an activity.</li>
               <li>Match activities with their venues.</li>
               <li>Delete an activity.</li>
-            </div>
+            </ul>
         </div>
       </div>
       <div class="hours tab d-none" id="HoursInfoCard">
-        <%= image_tag(asset_path("hours_plan.png"), class: "img-fluid my-3 p-4 col-5") %>
-        <div class="col-6 offset-1 pt-3 indentInfo">
-            <div class="h3 mb-3"><i class="far fa-clock pr-2" aria-hidden="true"></i>Hours:</div>
-            <div class="h5">
+        <%= image_tag(asset_path("hours_plan.png"), class: "img-fluid p-0 p-md-4 col-12 col-md-5") %>
+        <div class="col-md-6 col-12 offset-md-1">
+            <div class="h3 my-3"><i class="far fa-clock pr-2" aria-hidden="true"></i>Hours:</div>
+            <ul class="h5 align-left list-dots-mb-3">
               <li>Set the opening hours of your business.</li>
               <li>Set the peak hours of your business.</li>
-            </div>
+            </ul>
         </div>
       </div>
       <div class="logo tab d-none" id="LogosInfoCard">
-        <%= image_tag(asset_path("logo_tab.png"), class: "img-fluid my-3 p-4 col-5") %>
-        <div class="col-6 offset-1 pt-3 indentInfo">
-            <div class="h3 mb-3"><i class="far fa-image pr-2" aria-hidden="true"></i>Logos:</div>
-            <div class="h5">
+        <%= image_tag(asset_path("logo_tab.png"), class: "img-fluid p-0 p-md-4 col-12 col-md-5") %>
+        <div class="col-md-6 col-12 offset-md-1">
+            <div class="h3 my-3"><i class="far fa-image pr-2" aria-hidden="true"></i>Logos:</div>
+            <ul class="h5 align-left list-dots-mb-3">
               <li>Upload your business's logo.</li>
               <li>Edit the names of your venues.</li>
-            </div>
+            </ul>
         </div>
       </div>
     </div>
 </section>
 <section class="container-fluid bg-white px-0 mb-5" id="infoWidget">
     <div class="container">
-      <div class="h1 my-5">
+      <div class="dynamicFont mt-5 mb-3 mb-md-5">
         The WeBall widget:
       </div>
       <div class="h3 font-weight-bold">
@@ -112,7 +112,7 @@
       <div class="h3 font-weight-bold mt-4">
         Why add the WeBall widget to your site?:
       </div>
-      <div class="btn-group bg-white form-control py-0 pl-0 mandatory mt-3" id="infoCardSelection2" role="group" aria-label="Basic example">
+      <div class="btn-group bg-white form-control p-0 flexWrapButtons mt-3" id="infoCardSelection2" role="group" aria-label="Basic example">
         <% ["No commissions", "Faster bookings", "Keep visitors on your website", "Lower administration expenses"].each do |buttonID| %>
             <button type="button" class="btn border-dark hover-selected rounded-0"
             data-idRef=<%= "#{buttonID.split(' ').join('_')}" %>><%= buttonID %></button>
@@ -121,52 +121,60 @@
     </div>
     <div class="container mt-4">
       <div class="tab" id="No_commissions">
-          <%= image_tag(asset_path("comparison_rates.png"), class: "img-fluid p-4 col-5") %>
-          <div class="col-6 offset-1 indentInfo">
-              <div class="h3 mb-3">No commissions:</div>
-              <div class="h5 align-left">
+          <%= image_tag(asset_path("comparison_rates.png"), class: "img-fluid p-0 p-md-4 col-md-5") %>
+          <div class="col-md-6 offset-md-1   px-1">
+              <div class="h3 my-3">No commissions:</div>
+              <ul class="h5 align-left list-dots-mb-3">
                 <li>WeBall is built on POLipay, an online payment service run by Australia Post.</li>
                 <li>POLipay charges one of the lowest commissions on online payments in Australia.</li>
                 <li>WeBall does not charge any additional commission on top of POLipay, only a flat monthly fee.</li>
-              </div>
+              </ul>
           </div>
       </div>
       <div class="tab d-none" id="Faster_bookings">
-        <%= image_tag(asset_path("review_page.png"), class: "img-fluid my-3 p-4 col-5 max-w-20") %>
-        <div class="col-6 pt-3 offset-1 indentInfo">
-            <div class="h3 mb-3">Faster bookings:</div>
-            <div class="h5">
+        <%= image_tag(asset_path("review_page.png"), class: "img-fluid p-0 p-md-4 col-md-5") %>
+        <div class="col-md-6 offset-md-1   px-1">
+            <div class="h3 my-3">Faster bookings:</div>
+            <ul class="h5 align-left list-dots-mb-3">
               <li>Average online form abandomment rate is 68%.</li>
               <li>The WeBall widget lets customers book faster without account registration.</li>
               <li>Shorter booking times mean less abandonment; less abandonment means more bookings.</li>
-            </div>
+            </ul>
         </div>
       </div>
       <div class="tab d-none" id="Keep_visitors_on_your_website">
-        <%= image_tag(asset_path("compareSkedda.png"), class: "img-fluid my-3 p-4 col-5") %>
-        <div class="col-6 offset-1 pt-3 indentInfo">
-            <div class="h3 mb-3">Keep visitors on your website:</div>
-            <div class="h5">
+        <%= image_tag(asset_path("compareSkedda.png"), class: "img-fluid p-0 p-md-4 col-md-5") %>
+        <div class="col-md-6 offset-md-1   px-1">
+            <div class="h3 my-3">Keep visitors on your website:</div>
+            <ul class="h5 align-left list-dots-mb-3">
               <li>Most booking platforms redirect your internet traffic to their own website.</li>
               <li>This prevents visitors from browsing your other services or products and reduces their exposure to your special offers.</li>
               <li>By embedding the WeBall widget directly into your own website, customers can stay on your website when they book.</li>
-              <li>This gives greater exposure to your brand, your other services or products because customers can review product information and special offers while booking.</li>
-            </div>
+            </ul>
         </div>
       </div>
       <div class="tab d-none" id="Lower_administration_expenses">
-        <%= image_tag(asset_path("repeatSpeechLg.png"), class: "img-fluid my-3 p-4 col-5") %>
-        <div class="col-6 offset-1 pt-3 indentInfo">
-            <div class="h3 mb-3">Lower administration expenses:</div>
-            <div class="h5">
+        <%= image_tag(asset_path("repeatSpeechLg.png"), class: "img-fluid p-0 p-md-4 col-md-5") %>
+        <div class="col-md-6 offset-md-1   px-1">
+            <div class="h3 my-3">Lower administration expenses:</div>
+            <ul class="h5 align-left list-dots-mb-3">
               <li>Answering calls on office availability is an inefficient use of staff time.</li>
               <li>WeBall widget lets your customers check office availability in real-time online without the need for staff.</li>
               <li>New bookings appear in real-time on your dashboard</li>
               <li>Reduce time spent on administration with WeBall and save money.</li>
-            </div>
+            </ul>
         </div>
       </div>
     </div>
+</section>
+<section class="container-fluid bg-aliceBlue">
+  <div class="row mx-0">
+    <div class="col-12 d-flex justify-content-center px-0 py-4">
+      <a role="button" class="btn btn-lg cta-button h4 font-weight-bold h-contentFit mb-0" href="<%= new_sports_centre_path %>">
+          Start your free trial<i class="fas fa-lg ml-2 fa-angle-right"></i>
+      </a>
+    </div>
+  </div>
 </section>
 <!--
 <section class="container-fluid bg-aliceBlue">

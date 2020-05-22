@@ -1,7 +1,8 @@
 <section class="container-fluid bg-home-image-1 py-3">
     <div class="container homePageGrid">
+      <%= image_tag(asset_path("tabletWeBall.png"), class: "homePagePhoto1") %>
       <div class="homePageText d-flex flex-column">
-          <div class="h1">
+          <div class="dynamicFont">
             Reduce the costs of booking online.
           </div>
         <!--  <span>Let customers</span>
@@ -11,11 +12,10 @@
             WeBall is an online booking system that reduces online transaction fees for business owners.
           </div>
       </div>
-      <%= image_tag(asset_path("tabletWeBall.png"), class: "homePagePhoto1") %>
       <div class="homePageButton d-flex justify-content-end">
-        <button class="btn btn-small cta-button h4 font-weight-bold">
+        <a role="button" class="btn btn-small cta-button h4 font-weight-bold h-contentFit" id="startFreeTrial" href="<%= new_sports_centre_path %>">
             Start your free trial<i class="fas fa-lg ml-2 fa-angle-right"></i>
-        </button>
+        </a>
       </div>
       <!-- grid -->
     </div>

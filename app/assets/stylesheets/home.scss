@@ -128,7 +128,6 @@
 }
 
 .tab-content {
-
 }
 
 li.btn-custom {
@@ -248,6 +247,41 @@ label.min-label {
   background-color: mediumBlue !important;
 }
 
+img.homePagePhoto1 {
+  margin: auto 0 auto auto;
+  width: 80%;
+  object-fit: contain;
+  max-height: 100%;
+  padding: 1rem 0;
+}
+
+.dynamicFont { // h1, change to h2 on mobile.
+  display: block;
+  font-size: 2.5rem;
+  margin-bottom: 0.5em;
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+// allow the flex wrap for button group
+.flexWrapButtons, .flexWrapButtons2 {
+  flex-wrap: wrap;
+  height: fit-content !important;
+
+    button {
+      min-width: 25%;
+      min-height: 2rem;
+    }
+}
+
+.list-dots-mb-3 {
+  margin-left: 1.5rem;
+  list-style-position: outside;
+  li {
+    margin-bottom: 0.5rem;
+  }
+}
+
 @media only screen and (max-width: 1200px) {
   // for the upgrade fees benefits listed
   #upgradePlanBody .benefits-text div {
@@ -256,6 +290,10 @@ label.min-label {
 
   #upgradePlanBody .benefits-row {
     font-size: 1rem;
+  }
+
+  .flexWrapButtons button {
+    flex: 1 1 50% !important;
   }
 }
 
@@ -269,16 +307,17 @@ label.min-label {
   #upgradePlanBody .benefits-row {
     font-size: 1.2rem;
   }
+
+  #startFreeTrial {
+    margin-right: 1rem;
+    margin-top: 0.5rem;
+  }
 }
 
 @media only screen and (min-width: 768px) {
   .bg-home-image-1 {
     background-color: #ebf5f7;
     background-size: 100% 25rem;
-  }
-
-  .px-5percent {
-    padding: 0 5%;
   }
 
   #infoDashBoard .tab, #infoWidget .tab {
@@ -289,15 +328,6 @@ label.min-label {
     padding: 1rem;
     object-fit: contain;
     border: 2px solid #ff5e0d;
-  }
-
-  #infoDashBoard .tab .indentInfo, #infoWidget .tab .indentInfo {
-    .h5 {
-      text-indent: -1.8rem;
-    }
-    .h3 {
-      text-indent: -1rem;
-    }
   }
 
   .infoPageGrid1 {
@@ -313,24 +343,18 @@ label.min-label {
     }
 
     .homePagePhoto1 {
-      grid-row: 2 / 4;
+      grid-row: 1 / 4;
       grid-column: 3 / 4;
-      max-height: 100%;
-      width: auto;
-      margin-left: auto;
-      margin-top: auto;
-      margin-bottom: 3rem;
     }
 
     .homePagePhoto2 {
-      grid-row: 2 / 4;
+      grid-row: 1 / 4;
       grid-column: 2 / 3;
-      max-height: 100%;
-      width: auto;
-      margin-left: auto;
-      padding-bottom: 3rem;
-      padding-right: 1rem;
-      padding-top: 0.75rem;
+      height: auto;
+      max-height: 80%;
+      object-fit: contain;
+      width: 80%;
+      margin: auto 0 auto auto;
     }
 
     .homePageButton {
@@ -357,9 +381,6 @@ label.min-label {
     .homePagePhoto1 {
       grid-row: 1 / 4;
       grid-column: 2 / 4;
-      max-height: 100%;
-      width: auto;
-      margin-left: auto;
     }
 
     .homePagePhoto2 {
@@ -395,8 +416,63 @@ label.min-label {
     display: none;
   }
 
-  .px-5percent {
-    padding: 0;
+  .flex-column-md {
+    flex-direction: column;
+  }
+
+  // for button group
+
+  .flexWrapButtons button {
+    flex: 1 1 50% !important;
+  }
+
+  .dynamicFont { // change to h2
+     font-size: 2em;
+  }
+
+  // home page for adapting button options for mobile as column
+
+  .quickNav {
+    width: auto;
+    margin: 1rem 0;
+  }
+
+  // home page for adapting the margin of the free trial button
+
+  #startFreeTrial {
+    margin-bottom: 1.5rem;
+    margin-top: 0.5rem;
+    margin-right: 1rem;
+  }
+
+  // for the info page
+  .infoPageGrid1 {
+      display: flex;
+
+      .homePageText {
+        padding-right: 2rem;
+        margin: auto 0;
+        height: fit-content;
+      }
+
+      .homePagePhoto1 {
+        display: none;
+      }
+
+      .homePagePhoto2 {
+        max-height: 50vh;
+        width: 30%;
+        margin-left: auto;
+        object-fit: contain;
+        min-height: 15rem;
+        min-width: 35%
+      }
+  }
+
+  // allow dashboard image to be full width on mobile
+
+  img.homePagePhoto1 {
+    width: 100%;
   }
 
   #upgradePlanBody .benefits-row {
@@ -431,4 +507,14 @@ label.min-label {
     padding-right: 0rem;
     margin-left: -0.5rem;
   }
+}
+
+@media only screen and (max-width: 480px) {
+   .infoPageGrid1 {
+     flex-direction: column-reverse;
+
+     .homePagePhoto2 {
+        margin-right: auto;
+     }
+   }
 }
