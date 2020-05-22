@@ -532,9 +532,10 @@ function checkArray(arrayTimes) {
 
 function fillInPaymentModal() {
   // to store the courtype for later use
-  var courtType;
+  //var courtType;
+  var courtType = mainClockCard.find("#tabHolder").attr("data-courtType");
   // get the court Type div in the modal (should be empty initially or default to half-court).
-  var court_type_holder = modal_body.find(".courtType");
+  //var court_type_holder = modal_body.find(".courtType");
   // get the frequency of booking (not checking whether days or weeks yet).
   var frequency = parseInt(bw.find(".frequency-in-days").text());
 
