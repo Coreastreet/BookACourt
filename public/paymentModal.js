@@ -1,4 +1,4 @@
-
+// paymentModal.js
 
 var modal_body = BookingWidget.$('#payment-confirmation');
 var reviewDetailModal = BookingWidget.$('#secondModalCard');

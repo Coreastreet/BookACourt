@@ -1,3 +1,5 @@
+// datepicker.js
+
 //set the width and height of the canvas to match the parent
 var mainClockCard = BookingWidget.$("#BookingWidget #clockHolderCard");
 var repeatCard = BookingWidget.$("#BookingWidget #repeatBookingCard");

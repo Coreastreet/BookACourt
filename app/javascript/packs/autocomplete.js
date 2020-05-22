@@ -1,3 +1,5 @@
+// autocomplete.js
+
 $(document).on('turbolinks:load', function() {
   var input = document.querySelector('#autocomplete');
 

@@ -1,3 +1,5 @@
+// map.js
+
 document.addEventListener('DOMContentLoaded', function(){
 
   if (document.querySelector("#mapid") != null) {

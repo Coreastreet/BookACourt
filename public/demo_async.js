@@ -78,15 +78,15 @@ var BookingWidget = (function(window, undefined) {
                 });
                   //var greeting = BookingWidget.$("#p1").text();
                   //alert(greeting);
-                loadScript("https://weball.com.au/datepicker.js", function(){
+                loadScript("https://weball.com.au/datepicker.min.js", function(){
                   //alert("date format loaded!");
                 });
 
-                loadScript("https://weball.com.au/repeatCard.js", function(){
+                loadScript("https://weball.com.au/repeatCard.min.js", function(){
                   //alert("date format loaded!");
                 });
 
-                loadScript("https://weball.com.au/paymentModal.js", function(){
+                loadScript("https://weball.com.au/paymentModal.min.js", function(){
                   //alert("date format loaded!");
                 });
             });

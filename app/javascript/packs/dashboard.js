@@ -1,3 +1,14 @@
+// dashboard.js
+/* custom.js
+
+$(function() {
+  $('[data-toggle="tooltip"]').tooltip();
+});
+
+$(function() {
+  $('[data-toggle="popover"]').popover();
+}); */
+
 $.noConflict();
 $(document).on('turbolinks:load', function () {
 

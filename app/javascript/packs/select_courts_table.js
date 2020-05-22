@@ -1,3 +1,5 @@
+// select_courts_table.js
+
 $(document).on('turbolinks:load', function() {
   //var $td = document.getElementsByTagName("td");
   /* l = td.length;

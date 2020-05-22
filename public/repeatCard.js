@@ -1,3 +1,4 @@
+// repeatCard.js
 
 var bw = BookingWidget.$('#BookingWidget');
 var mainClockCard = BookingWidget.$("#BookingWidget #clockHolderCard");

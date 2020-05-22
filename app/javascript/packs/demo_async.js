@@ -1,3 +1,5 @@
+// demo_async.js
+
 document.addEventListener('DOMContentLoaded', function(){
 
     var BookingWidget  = (function(window, undefined) {

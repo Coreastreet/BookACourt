@@ -1,4 +1,6 @@
 
+// widget_demo.js
+
 $(document).on('turbolinks:load', function ()  {
 
   if ($("#weBallWidget").length >= 1) {
