@@ -9,7 +9,7 @@
     integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
     crossorigin=""/> remove leaflet till needed later-->
     <link rel="icon" href=<%= asset_path('weballFavicon.png') %>>
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <!-- <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"> -->
     <%= stylesheet_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
     <%= stylesheet_link_tag "application", media: "all", "data-turbolinks-track" => "reload" %>
     <link href="https://unpkg.com/leaflet-geosearch@latest/assets/css/leaflet.css" rel="stylesheet" />
@@ -22,8 +22,8 @@
      <script src="https://fast.wistia.com/assets/external/E-v1.js" async></script>
      <!-- allow stripe elements integration -->
      <!-- <script src="https://unpkg.com/leaflet-geosearch@latest/dist/bundle.min.js"></script> remove leaflet till needed later- -->
-    <script src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyAZKKyF8A71mmTOstHUgz4KHErK799gm1o"></script>
     <!-- font-awesome -->
+    <script src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyAZKKyF8A71mmTOstHUgz4KHErK799gm1o&callback=initMap" async defer></script>
     <script src="https://kit.fontawesome.com/b7ac405f9f.js" crossorigin="anonymous"></script>
     <link href='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css' rel='stylesheet' type='text/css'>
   </head>
