@@ -354,7 +354,8 @@ $(document).on('turbolinks:load', function() {
       localStorage.setItem("clickCounter", "0");
       Mousetrap.unbind('ctrl+right');
       Mousetrap.unbind('ctrl+left');
-
+      // hide the full screen overlay
+      $("#fullScreenOverlay").addClass("d-none");
       // remove all traees of borders
       $("#dashBoardTable tbody td.border-darkBlue").removeClass("border-darkBlue border-bottom-0 border-top-0 border-left-0 border-right-0");
       $("#dashBoardTable tbody td.border-x-darkBlue").removeClass("border-x-darkBlue");
@@ -881,8 +882,12 @@ $(document).on('turbolinks:load', function() {
 
   function fillInOriginalPopup(courtType, start, realEnd, startColumn, endColumn) {
       var popUp = $("#col-9-admin .half-court-new-booking");
-      var popUpText = (endColumn !== undefined) // check if end column present.
-        ? `Court ${startColumn} - ${endColumn}:` : `Court ${startColumn}:`
+      var courtId = (endColumn !== undefined) // check if end column present.
+        ? `${courtId}:` : 1;
+
+      if (courtId == 1) { // then must be a half court / single venue booking.
+          popUpText = $(`#courtsAllowedButtonsReg button[data-courtId="${courtId}"]`).text();
+      }
 
       popUp.find(".courtNumber").text(popUpText);
       popUp.find(".courtTime").text(`${start}-${realEnd}`);
@@ -929,6 +934,9 @@ $(document).on('turbolinks:load', function() {
   };
 
   function insertAbsoluteDiv(topTD, bottomTD, courtType) {
+    // revise for later change from position to offset
+    // set clone to absolute and then set offset to topTD.left + admin panel outerwidth.
+    //  clone.offset({top: cloneTopHeight, left: (topPosition.left + $(".admin-panel").outerWidth())});
       console.log("top", topTD);
       console.log("bottomTd", bottomTD);
       var topPosition = topTD.position();
@@ -944,19 +952,19 @@ $(document).on('turbolinks:load', function() {
         clone.children().first().addClass("triangle-up");
         down = true;
       }
-      var cloneTopHeight = (down) ? (bottomPosition.top + dashBoardPosition + 52) : (topPosition.top - dashBoardPosition - 115);
+      var cloneTopHeight = (down) ? (bottomPosition.top + 52) : (topPosition.top - dashBoardPosition - 115);
       clone.removeClass("d-none");
       if (courtType == "half_court") {
           if (topPosition.left == bottomPosition.left) {
             //non adjacent courts blocked here
             if (topTD.is(":last-child")) {
-              $("#dashBoardTable tbody").append(clone.css({top: cloneTopHeight, right: 10, position: "absolute"}));
+              $("#dashBoardTable tbody").append(clone.css({top: cloneTopHeight, right: 10, position: "absolute", zIndex:99}));
               var cloneWidth = clone.outerWidth()/2;
               var cloneHeight = (down) ? -20 : clone.outerHeight();
               $("#col-9-admin .triangle").eq(1).css({top: cloneHeight, left: cloneWidth + 100});
             } else {
               var admin_panel_width = $(".admin-panel").width()/2;
-              $("#dashBoardTable tbody").append(clone.css({top: cloneTopHeight, left: (topPosition.left - admin_panel_width), position: "absolute"}));
+              $("#dashBoardTable tbody").append(clone.css({top: cloneTopHeight, left: (topPosition.left - admin_panel_width), position: "absolute", zIndex:99}));
               var cloneWidth = clone.outerWidth()/2;
               var cloneHeight = (down) ? -20 : clone.outerHeight();
               $("#col-9-admin .triangle").eq(1).css({left: cloneWidth, top: cloneHeight});
@@ -966,13 +974,13 @@ $(document).on('turbolinks:load', function() {
           }
       } else { // fult court two courts adjacent; has been checked already. // also includes the special event case.
           if (topTD.is(":last-child")) {
-            $("#dashBoardTable tbody").append(clone.css({top: cloneTopHeight, right: 10, position: "absolute"}));
+            $("#dashBoardTable tbody").append(clone.css({top: cloneTopHeight, right: 10, position: "absolute", zIndex:99}));
             var cloneWidth = clone.outerWidth()/2;
             var cloneHeight = (down) ? -20 : clone.outerHeight();
             $("#col-9-admin .triangle").eq(1).css({top: cloneHeight, left: cloneWidth + 100});
           } else {
             var admin_panel_width = $(".admin-panel").width()/2;
-            $("#dashBoardTable tbody").append(clone.css({top: cloneTopHeight, left: (topPosition.left - admin_panel_width), position: "absolute"}));
+            $("#dashBoardTable tbody").append(clone.css({top: cloneTopHeight, left: (topPosition.left - admin_panel_width), position: "absolute", zIndex:99}));
             var cloneWidth = clone.outerWidth()/2;
             var cloneHeight = (down) ? -20 : clone.outerHeight();
             $("#col-9-admin .triangle").eq(1).css({left: cloneWidth, top: cloneHeight});
@@ -980,6 +988,7 @@ $(document).on('turbolinks:load', function() {
           //clone.attr("data-courtNo", topTD.attr("data-court"));
           clone.find(".nameInput").trigger("focus");
       }
+      $("#fullScreenOverlay").removeClass("d-none");
       // add the repeat detail slider for admin
       var popUpBox = clone.find(".popUpBox");
       popUpBox.width(popUpBox.width());
@@ -1047,7 +1056,7 @@ $(document).on('turbolinks:load', function() {
             Mousetrap.bind('ctrl+right', function() {
               var currentDate = $('#datepicker').datepicker('getFormattedDate');
               var currentDateObj = new Date(currentDate);
-              repeatDetailClone.css("left", "-6%");
+              repeatDetailClone.css("left", "-5.5%");
               repeatDetailClone.find(".nb-startDate").attr("data-startDate-Reg", currentDate);
               repeatDetailClone.find(".nb-startDate").text(currentDateObj.toLocaleDateString("en-AU", {weekday: "short", day:"numeric", month:"short"}));
             });

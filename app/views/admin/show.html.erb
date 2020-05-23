@@ -74,7 +74,7 @@
           data-totalCost="" data-reg-interval-days="" data-reg-totalCost="" data-reg-dates="">
             <div class="triangle position-relative">
             </div>
-            <div class="mx-0 border rounded p-3 bg-azure overflow-hidden popUpBox">
+            <div class="mx-0 border rounded p-3 bg-azure popUpBox shadow">
               <div class="d-flex row mx-0 mt-2 border rounded-edges times mb-2 half-court-new-booking p-2">
                 <div class="col-6 pr-0">
                   <div class="row mx-0 courtNumber text-muted">Court X & Y:</div>
@@ -112,7 +112,7 @@
                 <button type="button" class="btn btn-primary addNewBooking">Add Booking</button>
                 <button type="button" class="btn btn-secondary ml-2 cancelNewBooking">Cancel</button>
               </div>
-              <div class="mx-0 border rounded p-3 bg-azure overflow-hidden d-none repeatDetail">
+              <div class="mx-0 border rounded p-3 bg-azure d-none repeatDetail shadow">
               <div class="d-flex row mx-0 mt-2 border rounded-edges times mb-2 half-court-new-booking p-2">
                 <div class="col-6 pr-0">
                   <div class="row mx-0 text-muted">Start Date:</div>
@@ -202,7 +202,7 @@
                         <button type="button" class="btn btn-admin border-dark py-0" data-control="off">OFF</button>
                       </div>
                 </div>
-                <table class="table-fixed table-sm courts-table parentWidth w-100" id="dashBoardTable">
+                <table class="table-fixed table-sm courts-table parentWidth w-100 position-relative" id="dashBoardTable">
                   <thead>
                     <tr class="border-bottom pr-3 d-flex">
                       <th scope="col" class="moreEqualTH"></th>
@@ -367,33 +367,22 @@
                 </div>
                 <div class="form-group d-flex">
                    <div class="pl-0 pr-3 align-self-center"><%= (@centreType == 1) ? 'Venue name:':'Court name:' %></div>
-                   <input type="text" class="form-control col-6" id="newCourtNameInput">
+                   <input type="text" class="form-control col-6 white-box" id="newCourtNameInput">
                 </div>
                 <div class= "form-row contact-heading mx-0">
-                  <div class="col-6 px-0 mt-4">
-                    <h5 class="pb-3">Payment details:</h5>
-                    <p class="mb-0">
-                      In order to receive online payments from your customers, BookACourt requires that you
-                      <%= link_to "sign up with Polipay", "https://signup.apac.paywithpoli.com/", target: "_blank" %>
-                      and provide us with the Merchant Code and Authentication Code associated with your new account.
-                    </p>
-                  </div>
-                  <div class="col-6 mx-0">
-                    <a href="http://www.polipayments.com/consumer" target="_blank" class="col-md-6 px-0 rounded"><img src="<%= asset_path('polipayLogo.png') %>"/></a>
+                  <div class="col-6 px-0 mt-2 d-flex align-items-center">
+                    <div class="h5 mb-0">Payment details:</div>
+                    <i class="fas fa-question-circle fa-2x ml-2" id="showPdInfoModal"></i>
                   </div>
                 </div>
                 <div class="form-row nested mx-0 mt-4">
                   <div class="col-md-12">
                     <div class="row pr-2 mb-2 rounded-top">
-                      <%= f.label :merchantCode,"Merchant Code", class: 'pl-0 col-4 min-label align-self-center ' %>
+                      <%= f.label :merchantCode,"Merchant Code:", class: 'col-2 mb-0 text-left align-self-center ' %>
                       <%= f.text_field :merchantCode, class: 'col-md-6 col-8 form-control white-box ml-md', required: true %>
                     </div>
-                  </div>
-                </div>
-                <div class="form-row nested mx-0">
-                  <div class="col-md-12">
                     <div class="row pr-2 my-2 rounded-top">
-                      <%= f.label :authenticationCode,"Authentication Code", class: 'pl-0 col-4 min-label align-self-center ' %>
+                      <%= f.label :authenticationCode,"Authentication Code:", class: 'col-2 mb-0 text-left align-self-center ' %>
                       <%= f.text_field :authenticationCode, class: 'col-md-6 col-8 form-control white-box ml-md', required: true %>
                     </div>
                   </div>
@@ -403,6 +392,21 @@
                   <button type="button" name="button" class="lockPage btn btn-secondary">Lock</button>
                 </div>
               <% end %>
+              <div id="pdInfoModal" class="w3-modal">
+                <div class="w3-modal-content col-lg-6 py-4">
+                  <div class="w3-container">
+                    <span id="closePdInfoModal" class="w3-button w3-display-topright h3">&times;</span>
+                        <div class="col-12 mx-0">
+                          <a href="http://www.polipayments.com/consumer" target="_blank" class="col-md-6 px-0 rounded"><img src="<%= asset_path('polipayLogo.png') %>"/></a>
+                          <p class="mb-0">
+                            In order to receive online payments from your customers, WeBall requires that you
+                            <%= link_to "sign up with Polipay", "https://signup.apac.paywithpoli.com/", target: "_blank" %>
+                            and provide us with the Merchant Code and Authentication Code associated with your new account.
+                          </p>
+                        </div>
+                  </div>
+                </div>
+              </div>
           </div>
           <div class="row mx-0 d-none h-100 px-3" id="payFeesBody">
                 <div class="row mx-0 mt-4 w-100 d-flex flex-column">
@@ -545,23 +549,31 @@
                 <div class="display-icon d-none"></div>
                 <div class="pt-2 activityName">basketball</div>
               </div>
-              <div class="row flex-nowrap overflow-auto mx-0 my-4" id="activityCardHolder">
-                <% @sports_centre.prices.each do |activity, prices| %>
-                <div class="col-2 d-flex flex-column align-items-center border rounded py-2 mr-2 activityCard" data-activity=<%=activity%>
-                  data-hc-op="<%=prices["casual"]["half_court"]["off_peak"]%>" data-hc-p="<%=prices["casual"]["half_court"]["peak_hour"]%>" data-hc-we="<%=prices["casual"]["half_court"]["Weekend"]%>"
-                   data-fc-op="<%=prices["casual"]["full_court"]["off_peak"]%>" data-fc-p="<%=prices["casual"]["full_court"]["peak_hour"]%>" data-fc-we="<%=prices["casual"]["full_court"]["Weekend"]%>"
-                   data-courtsAllowed="<%= @sports_centre.courtsAllowed[activity] %>" <%= "data-color=#{@sports_centre.venue_colors[activity]}" if @sports_centre.venue_colors.include?(activity) %>>
-                  <div class="position-absolute deleteActivity">&times</div>
-                  <% if File.exist?("#{Rails.root}/app/assets/images/sport_icons/#{activity}.png") %>
-                    <img class="image-contain display-icon" src="<%= asset_path("sport_icons/#{activity}.png") %>">
-                    <div class="display-icon d-none"></div>
-                    <div class="pt-2 activityName text-capitalize"><%= activity %></div>
-                  <% else %>
-                    <div class="display-icon"><%= activity[0] %></div>
-                    <div class="pt-2 activityName text-capitalize"><%= activity.split("_").join(" ") %></div>
-                  <% end %>
-                </div>
-                <% end %>
+              <div class="row mx-0 py-4 position-relative">
+                    <div class="position-absolute arrowContainerLeft arrowContainer">
+                      <i class="fas fa-angle-left fa-2x"></i>
+                    </div>
+                    <div class="row flex-nowrap overflow-auto" id="activityCardHolder">
+                      <% @sports_centre.prices.each do |activity, prices| %>
+                      <div class="col-2 d-flex flex-column align-items-center border rounded py-2 mr-2 activityCard" data-activity=<%=activity%>
+                        data-hc-op="<%=prices["casual"]["half_court"]["off_peak"]%>" data-hc-p="<%=prices["casual"]["half_court"]["peak_hour"]%>" data-hc-we="<%=prices["casual"]["half_court"]["Weekend"]%>"
+                         data-fc-op="<%=prices["casual"]["full_court"]["off_peak"]%>" data-fc-p="<%=prices["casual"]["full_court"]["peak_hour"]%>" data-fc-we="<%=prices["casual"]["full_court"]["Weekend"]%>"
+                         data-courtsAllowed="<%= @sports_centre.courtsAllowed[activity] %>" <%= "data-color=#{@sports_centre.venue_colors[activity]}" if @sports_centre.venue_colors.include?(activity) %>>
+                        <div class="position-absolute deleteActivity">&times</div>
+                        <% if File.exist?("#{Rails.root}/app/assets/images/sport_icons/#{activity}.png") %>
+                          <img class="image-contain display-icon" src="<%= asset_path("sport_icons/#{activity}.png") %>">
+                          <div class="display-icon d-none"></div>
+                          <div class="pt-2 activityName text-capitalize"><%= activity %></div>
+                        <% else %>
+                          <div class="display-icon"><%= activity[0] %></div>
+                          <div class="pt-2 activityName text-capitalize"><%= activity.split("_").join(" ") %></div>
+                        <% end %>
+                      </div>
+                      <% end %>
+                    </div>
+                    <div class="position-absolute arrowContainerRight arrowContainer">
+                      <i class="fas fa-angle-right fa-2x"></i>
+                    </div>
               </div>
               <%= f.hidden_field :prices %>
               <%= f.hidden_field :courtsAllowed %>
@@ -696,13 +708,13 @@
               </div>
             <% end %>
           </div>
-          <div class="row mx-0 d-none h-100 px-3 lockdown position-relative" id="upgradePlanBody" data-buttonRef="#upgrade_plan">
-            <div class="overlay">
-              <i class="fas fa-lock fa-10x align-self-center"></i>
-              <h5 class="text-center text-white mt-3">Admin access only</h5>
-              <input type="password" value="" class="col-3 align-self-center text-center max-h form-control"></input>
-              <button type="button" class="col-3 align-self-center max-h checkAdminPin">Check admin PIN</button>
-            </div>
+            <div class="row mx-0 d-none h-100 px-3 lockdown position-relative" id="upgradePlanBody" data-buttonRef="#upgrade_plan">
+              <div class="overlay">
+                <i class="fas fa-lock fa-10x align-self-center"></i>
+                <h5 class="text-center text-white mt-3">Admin access only</h5>
+                <input type="password" value="" class="col-3 align-self-center text-center max-h form-control"></input>
+                <button type="button" class="col-3 align-self-center max-h checkAdminPin">Check admin PIN</button>
+              </div>
             <%= form_with model: @sports_centre, class: "row mx-0 h-contentFit w-100 h-100", id: "planForm", url: admin_update_plan_path(@sports_centre), method: "post" do |f| %>
             <div class="d-flex flex-column w-100">
                   <div class="row mx-0 mt-4">

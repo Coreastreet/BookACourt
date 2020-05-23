@@ -1,0 +1,23 @@
+
+.arrowContainerLeft {
+  left: 0;
+}
+
+.arrowContainerRight {
+  right: 0;
+}
+
+.arrowContainer {
+  padding: 3rem 1rem;
+  background-color: rgba(0, 0, 0, 0.25);
+  color: white;
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.75);
+  }
+}
+
+#activityCardHolder {
+  width: 100%;
+  margin: 0 3rem;
+}
