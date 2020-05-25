@@ -284,11 +284,32 @@
 }
 
 #dashBoardTable .booked div:first-child {
-  word-break: break-all;
+  word-break: break-word;
 }
 
 #dashBoardTable td.border-xy {
 
+}
+
+.dropdown {
+  .w-auto {
+    width: auto !important;
+  }
+
+  .dropdown-item {
+      a {
+        color: darkSlategray;
+      }
+  }
+
+  .dropdown-item:hover {
+      i {
+          color: #e96b1e;
+      }
+      a {
+          color: black;
+      }
+  }
 }
 
 #dashBoardTable {

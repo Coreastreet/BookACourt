@@ -37,7 +37,8 @@ $(document).on('turbolinks:load', function() {
   $("#activityCardHolder .activityCard").each( function() {
       var sportOffered = $(this).attr("data-activity");
       var capSportOffered = sportOffered.charAt(0).toUpperCase() + sportOffered.substr(1);
-      $("#col-9-admin datalist#sports").append($(`<option value=${capSportOffered}></option>`));
+      var option = $(`<option></option>`).attr("value", capSportOffered.replace(/_/g, " "));
+      $("#col-9-admin datalist#sports").append(option);
   });
 
   const Colors = {};
@@ -372,8 +373,8 @@ $(document).on('turbolinks:load', function() {
       var box = $(this).closest(".name-and-sport");
       var name = box.find(".nameInput").val();
       var sportType = box.find(".sportTypeInput").val() + "::" + box.find(".eventTypeInput").val();
-      var sportMainType = sportType.split("::")[0];
-      sportMainType = sportMainType.charAt(0).toUpperCase() + sportMainType.substr(1);
+      var sportMainType = sportType.split("::")[0].replace(/\s/g, "_");
+      sportMainType = sportMainType.charAt(0).toUpperCase() + sportMainType.substr(1).toLowerCase();
       var totalCost = box.attr("data-totalCost");
       var courtType = box.attr("data-bookingType");
 
@@ -412,7 +413,7 @@ $(document).on('turbolinks:load', function() {
                 var sportInfoType = sportType.split("::")[1];
                 $(this).html(`<div>${sportInfoType}</div>`);
             } else {
-                $(this).html(`<div>${sportMainType}</div>`);
+                $(this).html(`<div>${sportMainType.replace(/_/g, " ")}</div>`);
             }
             $(this).addClass("textHolder");
           }
@@ -452,6 +453,8 @@ $(document).on('turbolinks:load', function() {
             nextTimeHeader.removeClass("border-right-orange");
             nextTimeHeader.addClass("text-muted");
       }
+      // hide the overlay
+      $("#fullScreenOverlay").addClass("d-none");
   });
 
   function hexToRgba(hex) {
@@ -633,7 +636,7 @@ $(document).on('turbolinks:load', function() {
       //var sportType = box.find(".sportTypeInput").val();
       var sportType = box.find(".sportTypeInput").val() + "::" + box.find(".eventTypeInput").val();
       var sportMainType = sportType.split("::")[0];
-      sportMainType = sportMainType.charAt(0).toUpperCase() + sportMainType.substr(1);
+      sportMainType = sportMainType.charAt(0).toUpperCase() + sportMainType.substr(1).toLowerCase().replace(/\s/g, " ");
 
       var courtType = box.attr("data-bookingType");
       var startTime = box.attr("data-startTime");
@@ -658,12 +661,16 @@ $(document).on('turbolinks:load', function() {
       box.remove();
       // replace td selected with table-color
       var tdCounter = 0;
-      var backgroundColorCard = document.querySelector(`#activityCardHolder .activityCard[data-activity=${sportMainType}]`);
+      var backgroundColorCard = document.querySelector(`#activityCardHolder .activityCard[data-activity="${sportMainType.replace(/\s/g, "_")}"]`);
       var opaqueColor = (backgroundColorCard == null) ? hexToRgba(DefaultColors.names[sportMainType.toLowerCase()]) : hexToRgba(Colors.names[backgroundColorCard.getAttribute("data-color")]);
+      //console.log(opaqueColor);
       $("#dashBoardTable tbody td.table-active").each( function() {
+
+          $(this).removeClass("unconfirmed table-active border-bottom-0 border-top-0 border-left-0 border-right-0 border-darkBlue");
 
           if (tdCounter == 0) {
             //$(this).addClass("border-darkBlue");
+            $(this).addClass("border-darkBlue");
             if (sportType.toLowerCase().startsWith("event")) {
                 var sportInfoType = sportType.split("::")[1];
                 $(this).html(`<div><i class="fas fa-redo pr-2"></i>${sportInfoType}</div>`);
@@ -695,6 +702,8 @@ $(document).on('turbolinks:load', function() {
       $("#dashBoardTable tbody th.border-right-orange").removeClass("border-right-orange");
       localStorage.setItem("clickCounter", "0");
       localStorage.setItem("preBookingsMade", preBookedId+1)
+      // hide overlay
+      $("#fullScreenOverlay").addClass("d-none");
   });
 
 
@@ -729,8 +738,10 @@ $(document).on('turbolinks:load', function() {
           no_of_bookings--;
       }
       var totalCost = total.toFixed(2);
-      repeatDetailCard.find(".courtRegularCost").text(`$${totalCost}`);
-      popUp.attr("data-reg-totalCost", totalCost);
+      if (typeof(totalCost) == 'number') {
+        repeatDetailCard.find(".courtRegularCost").text(`$${totalCost}`);
+        popUp.attr("data-reg-totalCost", totalCost);
+      }
       popUp.attr("data-reg-dates", JSON.stringify(arrayDates));
   });
 
@@ -890,7 +901,7 @@ $(document).on('turbolinks:load', function() {
       }
 
       popUp.find(".courtNumber").text(popUpText);
-      popUp.find(".courtTime").text(`${start}-${realEnd}`);
+      popUp.find(".courtTime").text(`${convertToAMPM(start)}-${convertToAMPM(realEnd)}`);
 
       var original = $("#col-9-admin .name-and-sport");
       original.attr("data-bookingType", courtType);
@@ -999,16 +1010,23 @@ $(document).on('turbolinks:load', function() {
       // edit the repeat detail to show different inputs
       $(clone).on("input", ".sportTypeInput, .nameInput", function() {
           var sportType = clone.find(".sportTypeInput").val();
+          var sportFormattedType = sportType.charAt(0).toUpperCase() + sportType.substr(1).toLowerCase();
+
+          //sportType = sportType.charAt(0).toUpperCase() + sportType.substr(1);
           //console.log(sportType);
           var weekDays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
           var match;
           var sportCard = $('#activityCardHolder .activityCard').filter( function() {
-              match = $(this).attr('data-activity').toLowerCase() == sportType.toLowerCase();
+              match = $(this).attr('data-activity').toLowerCase() == sportType.toLowerCase().replace(/\s/g, "_");
+              //console.log(match, $(this).attr('data-activity').toLowerCase(), sportType.toLowerCase().replace(/\s/g, "_"));
               return match;
           });
-          console.log("sportcard", sportCard);
+          //console.log("sportcard", sportCard);
           if (sportCard.length) {
               //var parentClone = $(this).closest(".clone");
+              // lose focus
+              //console.log("click me!", $(`datalist#sports option[value="${sportFormattedType}"]`)[0]);
+
               var price_code;
               var fullArr = getIntervals(clone.attr("data-startTime"), clone.attr("data-endTime"));
               var weekDay = new Date(parseInt($("#datepicker td.active.day").attr("data-date")));
@@ -1041,15 +1059,16 @@ $(document).on('turbolinks:load', function() {
           var secondRow = clone.find(".nb-second-row");
           var eventRow = clone.find(".nb-event-row");
           //console.log("sports Array", arrSports);
-          var sportType = sportType.charAt(0).toUpperCase() + sportType.substr(1);
-          if (arrSports.includes(sportType) && (clone.find("input.nameInput").val().length > 0)) {
-            if (sportType.toLowerCase() == "event" && secondRow.css("display") != "none") { // not an allCourt booking
+          //var sportType = sportType.charAt(0).toUpperCase() + sportType.substr(1).toLowerCase();
+          if (arrSports.includes(sportFormattedType) && (clone.find("input.nameInput").val().length > 0)) {
+            if (sportFormattedType.toLowerCase() == "event" && secondRow.css("display") != "none") { // not an allCourt booking
                 secondRow.find(".sportTypeInput").removeClass("col-12").addClass("col-6");
                 secondRow.find(".input-group-append").removeClass("d-none");
             } else {
-                //console.log("the total", total);
-                clone.find(".courtCost").text(`$${total.toFixed(2)}`);
-                clone.attr("data-totalCost", total.toFixed(2));
+                if (typeof(total.toFixed(2)) == "number") {
+                  clone.find(".courtCost").text(`$${total.toFixed(2)}`);
+                  clone.attr("data-totalCost", total.toFixed(2));
+                }
             }
             console.log("arr Sports", arrSports);
             $(this).addClass("mousetrap");

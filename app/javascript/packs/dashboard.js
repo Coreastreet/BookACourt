@@ -519,6 +519,8 @@ $(document).on('turbolinks:load', function () {
             clone.attr("data-fc-p", defaultPrice);
             clone.attr("data-fc-we", defaultPrice);
 
+            newActivityValue = newActivityValue.charAt(0).toUpperCase() + newActivityValue.substr(1).toLowerCase();
+            //console.log( newActivityValue.charAt(0).toUpperCase(), newActivityValue.substr(1).toLowerCase());
             clone.attr("data-activity", newActivityValue.split(" ").join("_"));
             clone.removeClass("selectedCard, d-none");
             if (optionMatched) {

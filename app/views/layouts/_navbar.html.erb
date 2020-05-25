@@ -18,31 +18,34 @@
                   <% end %>
                 </button>
                 <div class="dropdown-menu dropdown-menu-right">
-                  <div class="row mx-0 my-3">
-                    <%= image_tag("cameraIcon.png", size: "72x72", class: "col-4") %>
-                    <div class="col-8 pl-0">
-                      <div class="row align-self-center mx-0">
-                        <h5 class="col font-weight-bold px-0 mb-0 dropdown-margin-top" href="#">
+                  <div class="row justify-content-center mx-0 my-3">
+                    <div class="col-9 px-0">
+                        <% if current_sports_centre.logo.attached? %>
+                          <img class="image-contain mx-auto" src="<%= url_for(@sports_centre.logo) %>"></img>
+                        <% else %>
+                          <img class="image-contain mx-auto my-3 d-none" src="<%= '#' %>"></img>
+                        <% end %>
+                    </div>
+                  </div>
+                  <div class="row align-self-center justify-content-center mx-0">
+                    <div class="col-9 px-0">
+                        <h5 class="col font-weight-bold px-0 mb-0">
                           <%= current_user.email if logged_in_as_user? %>
                           <%= current_sports_centre.title if logged_in_as_sports_centre? %>
                         </h5>
-                      </div>
-                      <div class="row align-self-bottom mx-0">
-                        <a class="col px-0" href="#">
-                          Add a profile picture
-                        </a>
-                      </div>
                     </div>
                   </div>
-                  <div class="dropdown-divider row"></div>
-                  <div class="row mx-0 dropdown-item">
-                    <%= link_to "Manage Bookings", admin_sports_centre_path(current_sports_centre), class: "dropdown-item" if logged_in_as_sports_centre? %>
+                  <div class="dropdown-divider row mt-3"></div>
+                  <div class="row mx-0 dropdown-item d-flex align-items-center">
+                    <i class="fas fa-th w-1point5"></i>
+                    <%= link_to "Manage Bookings", admin_sports_centre_path(current_sports_centre), class: "dropdown-item w-auto pl-3" if logged_in_as_sports_centre? %>
                   </div>
-                  <div class="row mx-0 dropdown-item">
+                  <!-- <div class="row mx-0 dropdown-item">
                     <a class="dropdown-item" href="#">Messages</a>
-                  </div>
-                  <div class="row mx-0 dropdown-item">
-                    <%= link_to "Sign out", logout_path, method: "delete", class: "dropdown-item" %>
+                  </div> -->
+                  <div class="row mx-0 dropdown-item d-flex align-items-center">
+                    <i class="fas fa-sign-out-alt w-1point5"></i>
+                    <%= link_to "Sign out", logout_path, method: "delete", class: "dropdown-item w-auto pl-3" %>
                   </div>
                 </div>
               </li>

@@ -58,7 +58,7 @@
                       Pay fees
                     </div>
                   </div>
-                  <div class="row" data-connectedRow="#upgradePlanBody" id="upgrade_plan" data-plan=<%= @sports_centre.plan %>>
+                  <div class="row d-none" data-connectedRow="#upgradePlanBody" id="upgrade_plan" data-plan=<%= @sports_centre.plan %>>
                     <div class="col d-flex text-white hover-black edit_profile rounded p-2">
                       <i class="fas fa-arrow-circle-up w-1point5 mr-1 align-self-center"></i>
                       Upgrade plan
@@ -74,13 +74,13 @@
           data-totalCost="" data-reg-interval-days="" data-reg-totalCost="" data-reg-dates="">
             <div class="triangle position-relative">
             </div>
-            <div class="mx-0 border rounded p-3 bg-azure popUpBox shadow">
+            <div class="mx-0 border rounded p-3 bg-azure popUpBox shadow overflow-hidden">
               <div class="d-flex row mx-0 mt-2 border rounded-edges times mb-2 half-court-new-booking p-2">
-                <div class="col-6 pr-0">
+                <div class="col-8 pr-0">
                   <div class="row mx-0 courtNumber text-muted">Court X & Y:</div>
                   <div class="row mx-0 courtTime h5 mb-0">XX:00 - YY:00</div>
                 </div>
-                <div class="mx-0 col-6 courtCost h3 align-self-center mb-0 text-right"></div>
+                <div class="mx-0 col-4 courtCost h3 align-self-center mb-0 text-right"></div>
               </div>
               <div class="row mx-0 justify-content-between px-3 nb-first-row">
                   <div class="px-0 h-2rem d-flex align-items-center">
@@ -91,10 +91,10 @@
 
               <div class="row mx-0 justify-content-between px-3 nb-second-row">
                   <div class="px-0 h-2rem d-flex align-items-center">
-                    Sport:
+                    Event:
                   </div>
                   <div class="input-group col-9 px-0">
-                      <input type="text" class="inline-block nb-end-time px-0 text-center bookingRate sportTypeInput mousetrap col-12 text-capitalize" list="sports" data-type="data-hc-p">
+                      <input type="text" class="inline-block nb-end-time px-0 text-center bookingRate sportTypeInput mousetrap col-12" list="sports" data-type="data-hc-p">
                       <div class="input-group-append col-6 px-0 d-none">
                         <button type="button" class="nb-event-info w-100" name="button">Add Title:</button>
                       </div>
@@ -553,7 +553,7 @@
                     <div class="position-absolute arrowContainerLeft arrowContainer">
                       <i class="fas fa-angle-left fa-2x"></i>
                     </div>
-                    <div class="row flex-nowrap overflow-auto" id="activityCardHolder">
+                    <div class="row flex-nowrap overflow-hidden" id="activityCardHolder">
                       <% @sports_centre.prices.each do |activity, prices| %>
                       <div class="col-2 d-flex flex-column align-items-center border rounded py-2 mr-2 activityCard" data-activity=<%=activity%>
                         data-hc-op="<%=prices["casual"]["half_court"]["off_peak"]%>" data-hc-p="<%=prices["casual"]["half_court"]["peak_hour"]%>" data-hc-we="<%=prices["casual"]["half_court"]["Weekend"]%>"
