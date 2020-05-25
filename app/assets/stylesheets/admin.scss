@@ -314,6 +314,7 @@
 
 #dashBoardTable {
   width: 100%;
+  max-width: 100%;
   border: 1px solid rgb(222, 226, 230);
 
   th, td {
@@ -331,16 +332,26 @@
     border-right: 0.5rem solid #ff5e0d;
   }
 
+  tbody {
+    td {
+      min-width: 8rem;
+    }
+  }
+
   thead {
     th {
       vertical-align: bottom;
     }
     th.equalTH {
+      min-width: 8rem;
       flex: 1 1 0;
       overflow-x: hidden;
     }
     th.moreEqualTH {
       min-width: 4.5rem;
+      position: sticky;
+      left: 0;
+      background-color: white;
     }
   }
 }
@@ -444,6 +455,7 @@ html {
   --thumbBG: #90A4AE;
 }
 // for styling a scrollbar
+
 .styleScroll::-webkit-scrollbar {
   width: 1rem;
 }

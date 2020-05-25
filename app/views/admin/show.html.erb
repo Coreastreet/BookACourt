@@ -202,9 +202,9 @@
                         <button type="button" class="btn btn-admin border-dark py-0" data-control="off">OFF</button>
                       </div>
                 </div>
-                <table class="table-fixed table-sm courts-table parentWidth w-100 position-relative" id="dashBoardTable">
-                  <thead>
-                    <tr class="border-bottom pr-3 d-flex">
+                <table class="table-fixed table-sm courts-table position-relative" id="dashBoardTable">
+                  <thead class="mx-auto">
+                    <tr class="border-bottom d-flex styleScroll">
                       <th scope="col" class="moreEqualTH"></th>
                       <% if @arrayCourtNames.empty? %>
                             <% [*1..@sports_centre.numberOfCourts].each do |number| %>
@@ -217,7 +217,7 @@
                       <% end %>
                     </tr>
                   </thead>
-                  <tbody class="dashBoardHeight styleScroll">
+                  <tbody class="dashBoardHeight styleScroll mx-auto">
                     <% (6.hours..23.5.hours).step(30.minutes).each_with_index do |hour, index| %>
                       <tr class="d-flex">
                         <th scope="row" class="px-0 mb-0 text-muted bookSpecial text-center h4 <%= 'border-top-0' if index.odd? %>"><sup class="<%= 'd-none' if index.odd? %>" data-timeRef="<%=  Time.at(hour).gmtime.strftime('%H:%M') %>">
@@ -810,14 +810,14 @@
                 <div class="col-3 py-1  ">
                   <div class="row mx-0 d-flex justify-content-center">
                     <div class="row mx-0 d-flex justify-content-center">
-                      <h5 class="">$10</h5>
+                      <h5 class="">$20</h5>
                     </div>
                   </div>
                 </div>
                 <div class="col-3 py-1  ">
                     <div class="row mx-0 d-flex justify-content-center">
                       <div class="row mx-0 d-flex justify-content-center">
-                        <h5 class="">$30</h5>
+                        <h5 class="">$50</h5>
                       </div>
                     </div>
                 </div>

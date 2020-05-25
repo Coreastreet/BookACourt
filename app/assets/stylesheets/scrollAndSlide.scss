@@ -98,13 +98,19 @@ button.btn-selected {
 // allow scroll and sliding for table-sm
 .courts-table, .days-table {
   //display: table;
-  table-layout: fixed;
-  width: 100%;
+  //table-layout: fixed;
+  //width: 100%;
+  max-width: 80vw;
   border-collapse: collapse;
   thead {
       display: table;
       width: 100%;
+      max-width: 80vw;
+
       tr{
+        max-width: 80vw;
+        overflow-x: hidden;
+        overflow-y: scroll;
         display: table;
         //position: relative;
         width: 100%;
@@ -114,6 +120,7 @@ button.btn-selected {
      }
   }
   tbody {
+    max-width: 80vw;
     display: block;
     overflow-y: auto;
     //height: 70vh;
@@ -123,6 +130,9 @@ button.btn-selected {
       width: 100%;
       th.bookSpecial {
         min-width: 4.5rem;
+        position: sticky;
+        left: 0;
+        background-color: white;
       }
     }
   }

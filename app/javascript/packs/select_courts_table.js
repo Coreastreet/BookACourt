@@ -564,6 +564,12 @@ $(document).on('turbolinks:load', function() {
     }
   });
 
+  // on scroll move the thead row too to match scroll.
+  $("#dashBoardTable tbody.dashBoardHeight").scroll( function() {
+      var positionLeft = $(this).scrollLeft();
+      $("#dashBoardTable thead tr").scrollLeft(positionLeft);
+  } );
+
   $("#col-9-admin").on('click', "#pinNameHolder", function() {
       var matchedBooking = $(this).attr("data-booking-id");
       var chosenBooking = $(`#dashBoardTable td.textHolder[data-booking-id=${matchedBooking}]:first`);
